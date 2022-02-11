@@ -9,8 +9,8 @@ Bracnh used for any completed or functional work by the Combat team for the game
 Combat Team  
 **Combat Team Members:**
 - Cole P
-- Ju-Chieh
-- Sargis
+- Ju-Chieh Liao
+- Sargis Nahapetyan
 - Tristan James
 
 ### Push Permissions
