@@ -7,7 +7,7 @@ Bracnh used for any completed or functional work by the Combat team for the game
 ### Team Info
 **Team assigned to branch:** 
 Combat Team  
-**Combat Team Members:**
+**Team Members:**
 - Cole P
 - Ju-Chieh Liao
 - Sargis Nahapetyan
