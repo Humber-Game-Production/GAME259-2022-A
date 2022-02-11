@@ -6,8 +6,8 @@ Bracnh used for any completed or functional work by the Game Mode/Level team for
 
 ### Team Info
 **Team assigned to branch:** 
-Game Mode/Level Interaction
-**Combat Team Members:**
+Game Mode/Level Interaction  
+**Team Members:**
 - Jake Ulbikas
 - Garen Johnstone
 - Joseph Yuen
