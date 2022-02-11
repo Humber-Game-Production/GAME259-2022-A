@@ -1,7 +1,7 @@
 # GAME259-2022-A | Main Branch
 Humber Collage | Game Production 2 | GAME-259-RNA
 
-##Branch Info
+## Branch Info
 Main bracnh for the  game project of Humber's Game Production 2 (RNA) class.
 
 ## Push Permission
