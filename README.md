@@ -14,7 +14,7 @@ Combat Team
 - Tristan James
 
 ## Push Permissions
-**Who have has access to approve pushs to this branch:**
+**Who have has access to approve push requests to this branch:**
 - Source Control Team
 - Ju-Chieh (Team Lead)
 
