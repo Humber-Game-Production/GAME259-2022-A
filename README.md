@@ -6,7 +6,7 @@ Bracnh used for any completed or functional work by the Combat Team for the game
 
 ## Team Info
 **Team assigned to branch:** 
-Combat Team,
+Combat Team__
 **Combat Team Members:**
 - Cole P
 - Ju-Chieh
