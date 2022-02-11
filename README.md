@@ -1,4 +1,4 @@
-# GAME259-2022-A | NetworkingTest1 Branch
+# GAME259-2022-A | NetworkingTest2 Branch
 Humber Collage | Game Production 2 | GAME-259-RNA
 
 ## Branch Info
