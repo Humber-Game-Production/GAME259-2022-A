@@ -6,17 +6,17 @@ Bracnh used for any completed or functional work by the Combat Team for the game
 
 ## Team Info
 **Team assigned to branch:** 
-Combat Team
+Combat Team,
 **Combat Team Members:**
-Cole P
-Ju-Chieh
-Sargis
-Tristan James
+- Cole P
+- Ju-Chieh
+- Sargis
+- Tristan James
 
 ## Push Permission
 **Who have has access to approve pushs to this branch:**
 - Source Control Team
-- Team Lead Ju-Chieh
+- Ju-Chieh (Team Lead)
 
 ## Issues
 Any issues please contact Managment or the Source Control team via the GameProd A - 2022 discord channel
