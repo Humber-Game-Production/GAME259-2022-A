@@ -10,4 +10,4 @@ Who have has access to approve pushs to this branch:
 - Managment
 
 ## Issues
-Any issues please contact Managment or the Source Control team via the GameProd A - 2022 on discord channel
+Any issues please contact Managment or the Source Control team via the GameProd A - 2022 discord channel
