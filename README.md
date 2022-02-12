@@ -1,22 +1,15 @@
-# GAME259-2022-A | Level Branch
+# GAME259-2022-A | LevelTest2 Branch
 Humber Collage | Game Production 2 | GAME-259-RNA
 
 ## Branch Info
-Bracnh used for any completed or functional work by the Game Mode/Level team for the game project of Humber's Game Production 2 (RNA) class.
-
-### Team Info
-**Team assigned to branch:** 
-Game Mode/Level Interaction  
-**Team Members:**
-- Jake Ulbikas
-- Garen Johnstone
-- Joseph Yuen
-- Russell Fenton
+Bracnh used for any devleoping or testing work by the Game Mode/Level team for the game project of Humber's Game Production 2 (RNA) class.
 
 ## Push Permissions
-**Who have has access to approve push requests to this branch:**
+This branch does not require push requests  
+
+**Who have has access to push to this branch:**
 - Source Control Team
-- Joseph Yuen (Team Lead)
+- Game Mode/Level Team
 
 ### Issues
 Any issues please contact Managment or the Source Control team via the GameProd A - 2022 discord channel
