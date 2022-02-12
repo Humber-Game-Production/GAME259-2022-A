@@ -4,7 +4,7 @@ Humber Collage | Game Production 2 | GAME-259-RNA
 ## Branch Info
 Main bracnh for the  game project of Humber's Game Production 2 (RNA) class.
 
-## Push Permissions
+## Push Permission
 **Who have has access to approve push requests to this branch:**
 - Source Control Team
 - Managment
