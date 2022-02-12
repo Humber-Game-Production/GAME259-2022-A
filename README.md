@@ -11,7 +11,7 @@ Repo used for the game project of Humber's Game Production 2 (RNA) class.
 
 | Team       | Team Lead     | Members                                                                      | Branch     | Test Branches                      |
 |------------|---------------|------------------------------------------------------------------------------|------------|------------------------------------|
-| Combat     | Ju-Chieh Liao | Cole P - Ju-Chieh Liao - Sargis Nahapetyan - Tristan James                   | Combat     | CombatTest1 \| CCombatTest2        |
+| Combat     | Ju-Chieh Liao | Cole P - Ju-Chieh Liao - Sargis Nahapetyan - Tristan James                   | Combat     | CombatTest1 \| CombatTest2        |
 | UI         | Usees         | Usees - Trevor Gray - Ethan de Lange - Connor G - Lucas Myshrall             | UI         | UITest1 \| UITest2                 |
 | Level      | Joseph Yuen   | Jake Ulbikas - Garen Johnstone - Joseph Yuen - Russell Fenton                | Level      | LevelTest1 \| LevelTest2           |
 | Movement   | Chloe         | Tanner Olsen - Chloe - Paul Rubio - Daniel Menicucci Teixeira - Kyle Gabiane | Movement   | MovementTest1 \| MovementTest2     |
