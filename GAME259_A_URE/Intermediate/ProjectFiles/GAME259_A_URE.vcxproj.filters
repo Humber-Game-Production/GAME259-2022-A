@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\GAME259_A_URE.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{054396F3-8643-40DF-865C-3BAD76851BD8}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\GAME259_A_URE.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\GAME259_A_UREEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{CDE09415-41DB-43D8-9187-66DB35EE58F0}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\GAME259_A_URE">
+      <UniqueIdentifier>{6C1FE1D9-3F37-4DFE-B65E-24FD16E3693D}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\GAME259_A_URE\GAME259_A_URE.Build.cs">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\GAME259_A_URE\GAME259_A_URE.cpp">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GAME259_A_URE\GAME259_A_URE.h">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\GAME259_A_URE\GAME259_A_URECharacter.cpp">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GAME259_A_URE\GAME259_A_URECharacter.h">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\GAME259_A_URE\GAME259_A_UREGameMode.cpp">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GAME259_A_URE\GAME259_A_UREGameMode.h">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
