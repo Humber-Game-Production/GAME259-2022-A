@@ -1,5 +1,6 @@
 # GAME259-2022-A
-Humber Collage | Game Production 2 | GAME-259-RNA  
+
+Humber Collage | Game Production 2 | GAME-259-RNA  n 2 | GAME-259-RNA  
 Repo used for the game project of Humber's Game Production 2 (RNA) class.
 
 ## Push Permissions
