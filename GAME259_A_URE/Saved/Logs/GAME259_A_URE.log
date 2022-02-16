@@ -936,3 +936,19 @@ LogConfig: Setting CVar [[r.setres:1280x720]]
 [2022.02.16-01.11.16:690][275]LogSlate: Only BGRA pngs, bmps or icos are supported in by External Image Picker
 [2022.02.16-01.11.22:438][864]LogSlate: Took 0.021189 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Light.ttf' (167K)
 [2022.02.16-01.11.22:463][864]LogEditorClassViewer: Warning: Class /Engine/Tutorial/InWorldBlueprintEditing/TutorialAssets/IWBE_Blutility.IWBE_Blutility_C has parent /Script/Blutility.PlacedEditorUtilityBase, but this parent is not found. The Class will not be shown in ClassViewer.
+[2022.02.16-01.21.31:505][244]LogSlate: Took 0.021726 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-BoldCondensed.ttf' (158K)
+[2022.02.16-01.23.54:797][707]LogSlate: Window 'Add C++ Class' being destroyed
+[2022.02.16-01.32.10:634][227]LogEditorViewport: Clicking on Actor (LMB): StaticMeshActor (Floor)
+[2022.02.16-01.32.11:343][292]LogEditorViewport: Clicking on Actor (LMB): ThirdPersonCharacter_C (ThirdPersonCharacter)
+[2022.02.16-01.32.16:506][785]LogEditorViewport: Clicking on Actor (LMB): StaticMeshActor (Floor)
+[2022.02.16-01.32.17:749][914]LogEditorViewport: Clicking on Actor (LMB): StaticMeshActor (Floor)
+[2022.02.16-01.32.18:377][987]LogEditorViewport: Clicking on Actor (LMB): ThirdPersonCharacter_C (ThirdPersonCharacter)
+[2022.02.16-01.33.57:848][555]LogEditorViewport: Clicking on Actor (LMB): StaticMeshActor (Floor)
+[2022.02.16-01.33.58:438][621]LogEditorViewport: Clicking on Actor (LMB): StaticMeshActor (Floor)
+[2022.02.16-01.33.59:036][691]LogEditorViewport: Clicking on Actor (LMB): ThirdPersonCharacter_C (ThirdPersonCharacter)
+[2022.02.16-01.34.03:883][241]LogAssetEditorSubsystem: Opening Asset editor for Blueprint /Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.ThirdPersonCharacter
+[2022.02.16-01.34.04:737][241]LogNativeClassHierarchy: Verbose: Native class hierarchy updated for 'BlueprintGraph' in 0.0005 seconds. Added 126 classes and 0 folders.
+[2022.02.16-01.34.09:474][562]LogSlate: Window 'ThirdPersonCharacter' being destroyed
+[2022.02.16-01.35.45:796][ 90]LogWorld: UWorld::CleanupWorld for World_4, bSessionEnded=true, bCleanupResources=true
+[2022.02.16-01.35.45:796][ 90]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2022.02.16-01.35.47:012][223]LogEditorViewport: Clicking on Actor (LMB): StaticMeshActor (Floor)
