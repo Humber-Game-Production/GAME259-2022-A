@@ -50,6 +50,8 @@
 "D:\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Development\CoreUObject\UE4Editor-CoreUObject.lib"
 "D:\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Development\InputCore\UE4Editor-InputCore.lib"
 "D:\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Development\HeadMountedDisplay\UE4Editor-HeadMountedDisplay.lib"
+"D:\UE_4.27\Engine\Plugins\Online\OnlineSubsystem\Intermediate\Build\Win64\UE4Editor\Development\OnlineSubsystem\UE4Editor-OnlineSubsystem.lib"
+"D:\UE_4.27\Engine\Plugins\Online\OnlineSubsystemSteam\Intermediate\Build\Win64\UE4Editor\Development\OnlineSubsystemSteam\UE4Editor-OnlineSubsystemSteam.lib"
 "delayimp.lib"
 "wininet.lib"
 "rpcrt4.lib"
