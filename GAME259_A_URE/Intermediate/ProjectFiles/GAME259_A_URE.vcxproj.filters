@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\GAME259_A_URE.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{733A246E-9C34-457B-9F3D-F8329C6A3B65}</UniqueIdentifier>
+      <UniqueIdentifier>{EC950BEE-8FED-425A-A6F0-CBB2020EA1C4}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\GAME259_A_URE.Target.cs">
       <Filter>Source</Filter>
@@ -12,7 +12,7 @@
       <Filter>Source</Filter>
     </None>
     <Filter Include="Config">
-      <UniqueIdentifier>{904A7694-3CAB-405B-A80B-B98DFFCDA65E}</UniqueIdentifier>
+      <UniqueIdentifier>{636526C5-C866-4A9B-8FCC-C0C927E24CE4}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -30,7 +30,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\GAME259_A_URE">
-      <UniqueIdentifier>{9F337AA8-2F31-47D8-BB21-C05FEC38D717}</UniqueIdentifier>
+      <UniqueIdentifier>{6D953E1D-5B35-4EF9-9DBA-A20B3BC9C25C}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\GAME259_A_URE\GAME259_A_URE.Build.cs">
       <Filter>Source\GAME259_A_URE</Filter>

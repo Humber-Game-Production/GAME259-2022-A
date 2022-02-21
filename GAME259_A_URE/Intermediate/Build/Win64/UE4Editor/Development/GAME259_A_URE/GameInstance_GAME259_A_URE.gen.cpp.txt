@@ -1,5 +1,5 @@
-C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Development\GAME259_A_URE\Definitions.GAME259_A_URE.h
+C:\Users\trist\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Development\GAME259_A_URE\Definitions.GAME259_A_URE.h
 C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\CoreUObject\Public\UObject/GeneratedCppIncludes.h
 C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\CoreUObject\Public\UObject/MetaData.h
-C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Source\GAME259_A_URE/GameInstance_GAME259_A_URE.h
-C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Inc\GAME259_A_URE\GameInstance_GAME259_A_URE.generated.h
+C:\Users\trist\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Source\GAME259_A_URE/GameInstance_GAME259_A_URE.h
+C:\Users\trist\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Inc\GAME259_A_URE\GameInstance_GAME259_A_URE.generated.h
