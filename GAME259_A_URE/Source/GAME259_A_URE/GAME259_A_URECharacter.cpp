@@ -8,9 +8,6 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Net/UnrealNetwork.h"
-#include "Engine/Engine.h"
-//#include "ThirdPersonMPProjectile.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -48,14 +45,11 @@ AGAME259_A_URECharacter::AGAME259_A_URECharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-//Initialize the player's Health
+	
+	//Initialize the player's Health
 	MaxHealth = 100.0f;
 	CurrentHealth = MaxHealth;
-	//Initialize projectile class
-	ProjectileClass = AGAME259_A_URECharacter::StaticClass();
-	//Initialize fire rate
-	FireRate = 0.25f;
-	bIsFiringWeapon = false;
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -86,8 +80,6 @@ void AGAME259_A_URECharacter::SetupPlayerInputComponent(class UInputComponent* P
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AGAME259_A_URECharacter::OnResetVR);
 
-	// Handle firing projectiles
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AGAME259_A_URECharacter::StartFire);
 }
 
 
@@ -154,56 +146,28 @@ void AGAME259_A_URECharacter::MoveRight(float Value)
 }
 
 //////////////////////////////////////////////////////////////////////////
-// Replicated Properties
-
-void AGAME259_A_URECharacter::GetLifetimeReplicatedProps(TArray <FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	//Replicate current health.
-	DOREPLIFETIME(AGAME259_A_URECharacter, CurrentHealth);
-}
 
 void AGAME259_A_URECharacter::OnHealthUpdate()
-{
-	//Client-specific functionality
-	if (IsLocallyControlled())
-	{
+{	
+		//Display message to show current health
 		FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
 
+		//Display dying message when health reaches 0
 		if (CurrentHealth <= 0)
 		{
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
 		}
-	}
 
-	//Server-specific functionality
-	if (GetLocalRole() == ROLE_Authority)
-	{
-		FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining."), *GetFName().ToString(), CurrentHealth);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
-	}
-
-	//Functions that occur on all machines. 
-	/*
-		Any special functionality that should occur as a result of damage or death should be placed here.
-	*/
-}
-
-void AGAME259_A_URECharacter::OnRep_CurrentHealth()
-{
-	OnHealthUpdate();
 }
 
 void AGAME259_A_URECharacter::SetCurrentHealth(float healthValue)
 {
-	if (GetLocalRole() == ROLE_Authority)
-	{
-		CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
-		OnHealthUpdate();
-	}
+	//Prevent current health to go above max health
+	CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
+	OnHealthUpdate();
+	
 }
 
 float AGAME259_A_URECharacter::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -212,35 +176,3 @@ float AGAME259_A_URECharacter::TakeDamage(float DamageTaken, struct FDamageEvent
 	SetCurrentHealth(damageApplied);
 	return damageApplied;
 }
-
-void AGAME259_A_URECharacter::StartFire()
-{
-	if (!bIsFiringWeapon)
-	{
-		bIsFiringWeapon = true;
-		UWorld* World = GetWorld();
-		World->GetTimerManager().SetTimer(FiringTimer, this, &AGAME259_A_URECharacter::StopFire, FireRate, false);
-		HandleFire();
-	}
-}
-
-void AGAME259_A_URECharacter::StopFire()
-{
-	bIsFiringWeapon = false;
-}
-
-//Firing a projectile for later-Tristan James
-//void AGAME259_A_URECharacter::HandleFire_Implementation()
-//{
-//	FVector spawnLocation = GetActorLocation() + (GetControlRotation().Vector() * 100.0f) + (GetActorUpVector() * 50.0f);
-//	FRotator spawnRotation = GetControlRotation();
-//
-//	FActorSpawnParameters spawnParameters;
-//	if (HasAuthority())
-//		spawnParameters.Owner = this;
-//	spawnParameters.Owner = this;
-//	spawnParameters.Instigator = GetInstigator();
-//	spawnParameters.Owner = this;
-//
-//	AThirdPersonMPProjectile* spawnedProjectile = GetWorld()->SpawnActor<AThirdPersonMPProjectile>(spawnLocation, spawnRotation, spawnParameters);
-//}

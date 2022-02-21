@@ -2,12 +2,12 @@
 	"Targets": [
 		{
 			"Name": "GAME259_A_URE",
-			"Path": "C:\\Users\\trist\\Documents\\GitHub\\GAME259-2022-A\\GAME259_A_URE\\Source\\GAME259_A_URE.Target.cs",
+			"Path": "D:\\Documents\\Documents\\GitHub\\GAME259-2022-A\\GAME259_A_URE\\Source\\GAME259_A_URE.Target.cs",
 			"Type": "Game"
 		},
 		{
 			"Name": "GAME259_A_UREEditor",
-			"Path": "C:\\Users\\trist\\Documents\\GitHub\\GAME259-2022-A\\GAME259_A_URE\\Source\\GAME259_A_UREEditor.Target.cs",
+			"Path": "D:\\Documents\\Documents\\GitHub\\GAME259-2022-A\\GAME259_A_URE\\Source\\GAME259_A_UREEditor.Target.cs",
 			"Type": "Editor"
 		}
 	]

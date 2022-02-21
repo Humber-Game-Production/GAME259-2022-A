@@ -8,14 +8,31 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+struct FDamageEvent;
+class AController;
+class AActor;
 #ifdef GAME259_A_URE_GAME259_A_URECharacter_generated_h
 #error "GAME259_A_URECharacter.generated.h already included, missing '#pragma once' in GAME259_A_URECharacter.h"
 #endif
 #define GAME259_A_URE_GAME259_A_URECharacter_generated_h
 
 #define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_URECharacter_h_12_SPARSE_DATA
-#define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_URECharacter_h_12_RPC_WRAPPERS
-#define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_URECharacter_h_12_RPC_WRAPPERS_NO_PURE_DECLS
+#define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_URECharacter_h_12_RPC_WRAPPERS \
+ \
+	DECLARE_FUNCTION(execTakeDamage); \
+	DECLARE_FUNCTION(execSetCurrentHealth); \
+	DECLARE_FUNCTION(execGetCurrentHealth); \
+	DECLARE_FUNCTION(execGetMaxHealth);
+
+
+#define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_URECharacter_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execTakeDamage); \
+	DECLARE_FUNCTION(execSetCurrentHealth); \
+	DECLARE_FUNCTION(execGetCurrentHealth); \
+	DECLARE_FUNCTION(execGetMaxHealth);
+
+
 #define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_URECharacter_h_12_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAGAME259_A_URECharacter(); \
@@ -60,7 +77,9 @@ public: \
 
 #define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_URECharacter_h_12_PRIVATE_PROPERTY_OFFSET \
 	FORCEINLINE static uint32 __PPO__CameraBoom() { return STRUCT_OFFSET(AGAME259_A_URECharacter, CameraBoom); } \
-	FORCEINLINE static uint32 __PPO__FollowCamera() { return STRUCT_OFFSET(AGAME259_A_URECharacter, FollowCamera); }
+	FORCEINLINE static uint32 __PPO__FollowCamera() { return STRUCT_OFFSET(AGAME259_A_URECharacter, FollowCamera); } \
+	FORCEINLINE static uint32 __PPO__MaxHealth() { return STRUCT_OFFSET(AGAME259_A_URECharacter, MaxHealth); } \
+	FORCEINLINE static uint32 __PPO__CurrentHealth() { return STRUCT_OFFSET(AGAME259_A_URECharacter, CurrentHealth); }
 
 
 #define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_URECharacter_h_9_PROLOG

@@ -29,9 +29,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
-	/** Property replication */
-	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
 protected:
 
 
@@ -68,46 +65,17 @@ protected:
 		float MaxHealth;
 
 	/** The player's current health. When reduced to 0, they are considered dead.*/
-	UPROPERTY(ReplicatedUsing = OnRep_CurrentHealth)
+	UPROPERTY(EditDefaultsOnly)
 		float CurrentHealth;
 
-	/** RepNotify for changes made to current health.*/
-	UFUNCTION()
-		void OnRep_CurrentHealth();
-
-	/** Response to health being updated. Called on the server immediately after modification, and on clients in response to a RepNotify*/
+	/** Update Health */
 	void OnHealthUpdate();
 
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	UPROPERTY(EditDefaultsOnly, Category = "Gameplay|Projectile")
-		TSubclassOf<class AThirdPersonMPProjectile> ProjectileClass;
 
-	/** Delay between shots in seconds. Used to control fire rate for our test projectile, but also to prevent an overflow of server functions from binding SpawnProjectile directly to input.*/
-	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
-		float FireRate;
-
-	/** If true, we are in the process of firing projectiles. */
-	bool bIsFiringWeapon;
-
-	/** Function for beginning weapon fire.*/
-	UFUNCTION(BlueprintCallable, Category = "Gameplay")
-		void StartFire();
-
-	/** Function for ending weapon fire. Once this is called, the player can use StartFire again.*/
-	UFUNCTION(BlueprintCallable, Category = "Gameplay")
-		void StopFire();
-
-	/** Server function for spawning projectiles.*/
-	UFUNCTION(Server, Reliable)
-		void HandleFire();
-
-	/** A timer handle used for providing the fire rate delay in-between spawns.*/
-	FTimerHandle FiringTimer;
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
