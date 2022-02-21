@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include="..\..\GAME259_A_URE.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{3544C9DA-F5C1-4173-98DF-FB987F1DA37C}</UniqueIdentifier>
+      <UniqueIdentifier>{5CC902C6-4464-48F6-A0C6-778ECC521A78}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\GAME259_A_URE.Target.cs">
       <Filter>Source</Filter>
@@ -12,7 +12,7 @@
       <Filter>Source</Filter>
     </None>
     <Filter Include="Config">
-      <UniqueIdentifier>{FA1C8AB8-172E-4130-A2FD-99C637C1AB85}</UniqueIdentifier>
+      <UniqueIdentifier>{D59188FE-167D-4EED-96AE-238B9F5F99A9}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -30,7 +30,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\GAME259_A_URE">
-      <UniqueIdentifier>{305DA05B-8430-456F-A8FF-1C5112DC939F}</UniqueIdentifier>
+      <UniqueIdentifier>{3F884814-DCB4-444C-92CB-7F413895F966}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\GAME259_A_URE\GAME259_A_URE.Build.cs">
       <Filter>Source\GAME259_A_URE</Filter>
