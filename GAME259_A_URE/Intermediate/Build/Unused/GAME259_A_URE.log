@@ -1,0 +1,19 @@
+﻿  Using 'git status' to determine working set for adaptive non-unity build (D:\Documents\Documents\GitHub\GAME259-2022-A).
+  Parsing headers for GAME259_A_UREEditor
+    Running UnrealHeaderTool "D:\Documents\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\GAME259_A_URE.uproject" "D:\Documents\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\GAME259_A_UREEditor\Development\GAME259_A_UREEditor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -abslog="C:\Users\Jade\AppData\Local\UnrealBuildTool\Log_UHT.txt" -installed
+  LogInit: Display: Loading text-based GConfig....
+  Reflection code generated for GAME259_A_UREEditor in 3.3766733 seconds
+  Building GAME259_A_UREEditor...
+  Using Visual Studio 2019 14.29.30136 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133) and Windows 10.0.18362.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+  Building 7 actions with 6 processes...
+    [1/7] GAME259_A_URE.init.gen.cpp
+    [2/7] GAME259_A_UREGameMode.cpp
+    [3/7] GAME259_A_URECharacter.gen.cpp
+    [4/7] GAME259_A_URECharacter.cpp
+    [5/7] UE4Editor-GAME259_A_URE-0002.lib
+       Creating library D:\Documents\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Development\GAME259_A_URE\UE4Editor-GAME259_A_URE-0002.lib and object D:\Documents\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Development\GAME259_A_URE\UE4Editor-GAME259_A_URE-0002.exp
+    [6/7] UE4Editor-GAME259_A_URE-0002.dll
+       Creating library D:\Documents\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Development\GAME259_A_URE\UE4Editor-GAME259_A_URE-0002.suppressed.lib and object D:\Documents\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Development\GAME259_A_URE\UE4Editor-GAME259_A_URE-0002.suppressed.exp
+    [7/7] GAME259_A_UREEditor.target
+  Total time in Parallel executor: 1.79 seconds
+  Total execution time: 5.77 seconds
