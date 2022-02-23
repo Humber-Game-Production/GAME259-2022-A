@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\GAME259_A_URE.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{733A246E-9C34-457B-9F3D-F8329C6A3B65}</UniqueIdentifier>
+      <UniqueIdentifier>{DF8E6FED-C762-41FE-847F-F1F7616A7D2C}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\GAME259_A_URE.Target.cs">
       <Filter>Source</Filter>
@@ -12,7 +12,7 @@
       <Filter>Source</Filter>
     </None>
     <Filter Include="Config">
-      <UniqueIdentifier>{904A7694-3CAB-405B-A80B-B98DFFCDA65E}</UniqueIdentifier>
+      <UniqueIdentifier>{0C71975E-F45E-404B-8F36-9B465AF6BCBE}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -30,7 +30,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\GAME259_A_URE">
-      <UniqueIdentifier>{9F337AA8-2F31-47D8-BB21-C05FEC38D717}</UniqueIdentifier>
+      <UniqueIdentifier>{228BD83A-7AF5-4DE7-8A2E-61988FF7C84A}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\GAME259_A_URE\GAME259_A_URE.Build.cs">
       <Filter>Source\GAME259_A_URE</Filter>
@@ -53,16 +53,46 @@
     <ClInclude Include="..\..\Source\GAME259_A_URE\GAME259_A_UREGameMode.h">
       <Filter>Source\GAME259_A_URE</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\GAME259_A_URE\GAME259_Flag.cpp">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GAME259_A_URE\GAME259_Flag.h">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\GAME259_A_URE\GAME259_GameState.cpp">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GAME259_A_URE\GAME259_GameState.h">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\GAME259_A_URE\GAME259_PlayerController.cpp">
       <Filter>Source\GAME259_A_URE</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\GAME259_A_URE\GAME259_PlayerController.h">
       <Filter>Source\GAME259_A_URE</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\GAME259_A_URE\GAME259_PlayerSpawnPoint.cpp">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GAME259_A_URE\GAME259_PlayerSpawnPoint.h">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\GAME259_A_URE\GameInstance_GAME259_A_URE.cpp">
       <Filter>Source\GAME259_A_URE</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\GAME259_A_URE\GameInstance_GAME259_A_URE.h">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\GAME259_A_URE\LineTrace.cpp">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GAME259_A_URE\LineTrace.h">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\GAME259_A_URE\PlayerStats.cpp">
+      <Filter>Source\GAME259_A_URE</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\GAME259_A_URE\PlayerStats.h">
       <Filter>Source\GAME259_A_URE</Filter>
     </ClInclude>
   </ItemGroup>

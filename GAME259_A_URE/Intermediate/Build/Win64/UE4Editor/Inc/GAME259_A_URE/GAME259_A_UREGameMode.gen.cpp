@@ -17,9 +17,55 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_UREGameMode() {}
 	GAME259_A_URE_API UClass* Z_Construct_UClass_AGAME259_A_UREGameMode();
 	ENGINE_API UClass* Z_Construct_UClass_AGameModeBase();
 	UPackage* Z_Construct_UPackage__Script_GAME259_A_URE();
+	ENGINE_API UClass* Z_Construct_UClass_AController_NoRegister();
 // End Cross Module References
+	DEFINE_FUNCTION(AGAME259_A_UREGameMode::execSpawn)
+	{
+		P_GET_OBJECT(AController,Z_Param_Controller);
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->Spawn(Z_Param_Controller);
+		P_NATIVE_END;
+	}
 	void AGAME259_A_UREGameMode::StaticRegisterNativesAGAME259_A_UREGameMode()
 	{
+		UClass* Class = AGAME259_A_UREGameMode::StaticClass();
+		static const FNameNativePtrPair Funcs[] = {
+			{ "Spawn", &AGAME259_A_UREGameMode::execSpawn },
+		};
+		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
+	}
+	struct Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn_Statics
+	{
+		struct GAME259_A_UREGameMode_eventSpawn_Parms
+		{
+			AController* Controller;
+		};
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_Controller;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn_Statics::NewProp_Controller = { "Controller", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(GAME259_A_UREGameMode_eventSpawn_Parms, Controller), Z_Construct_UClass_AController_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn_Statics::NewProp_Controller,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "GAME259_A_UREGameMode.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AGAME259_A_UREGameMode, nullptr, "Spawn", nullptr, nullptr, sizeof(GAME259_A_UREGameMode_eventSpawn_Parms), Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	UClass* Z_Construct_UClass_AGAME259_A_UREGameMode_NoRegister()
 	{
@@ -28,6 +74,7 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_UREGameMode() {}
 	struct Z_Construct_UClass_AGAME259_A_UREGameMode_Statics
 	{
 		static UObject* (*const DependentSingletons[])();
+		static const FClassFunctionLinkInfo FuncInfo[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Class_MetaDataParams[];
 #endif
@@ -37,6 +84,9 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_UREGameMode() {}
 	UObject* (*const Z_Construct_UClass_AGAME259_A_UREGameMode_Statics::DependentSingletons[])() = {
 		(UObject* (*)())Z_Construct_UClass_AGameModeBase,
 		(UObject* (*)())Z_Construct_UPackage__Script_GAME259_A_URE,
+	};
+	const FClassFunctionLinkInfo Z_Construct_UClass_AGAME259_A_UREGameMode_Statics::FuncInfo[] = {
+		{ &Z_Construct_UFunction_AGAME259_A_UREGameMode_Spawn, "Spawn" }, // 1722630813
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AGAME259_A_UREGameMode_Statics::Class_MetaDataParams[] = {
@@ -54,11 +104,11 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_UREGameMode() {}
 		"Game",
 		&StaticCppClassTypeInfo,
 		DependentSingletons,
-		nullptr,
+		FuncInfo,
 		nullptr,
 		nullptr,
 		UE_ARRAY_COUNT(DependentSingletons),
-		0,
+		UE_ARRAY_COUNT(FuncInfo),
 		0,
 		0,
 		0x008802ACu,
@@ -73,7 +123,7 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_UREGameMode() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AGAME259_A_UREGameMode, 2060001692);
+	IMPLEMENT_CLASS(AGAME259_A_UREGameMode, 3537653089);
 	template<> GAME259_A_URE_API UClass* StaticClass<AGAME259_A_UREGameMode>()
 	{
 		return AGAME259_A_UREGameMode::StaticClass();

@@ -8,14 +8,23 @@
 #include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+class AController;
 #ifdef GAME259_A_URE_GAME259_A_UREGameMode_generated_h
 #error "GAME259_A_UREGameMode.generated.h already included, missing '#pragma once' in GAME259_A_UREGameMode.h"
 #endif
 #define GAME259_A_URE_GAME259_A_UREGameMode_generated_h
 
 #define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_UREGameMode_h_12_SPARSE_DATA
-#define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_UREGameMode_h_12_RPC_WRAPPERS
-#define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_UREGameMode_h_12_RPC_WRAPPERS_NO_PURE_DECLS
+#define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_UREGameMode_h_12_RPC_WRAPPERS \
+ \
+	DECLARE_FUNCTION(execSpawn);
+
+
+#define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_UREGameMode_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execSpawn);
+
+
 #define GAME259_A_URE_Source_GAME259_A_URE_GAME259_A_UREGameMode_h_12_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAGAME259_A_UREGameMode(); \

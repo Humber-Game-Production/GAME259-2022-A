@@ -20,8 +20,92 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URECharacter() {}
 	ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 // End Cross Module References
+	DEFINE_FUNCTION(AGAME259_A_URECharacter::execMultiDie)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		if (!P_THIS->MultiDie_Validate())
+		{
+			RPC_ValidateFailed(TEXT("MultiDie_Validate"));
+			return;
+		}
+		P_THIS->MultiDie_Implementation();
+		P_NATIVE_END;
+	}
+	DEFINE_FUNCTION(AGAME259_A_URECharacter::execServerAttack)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		if (!P_THIS->ServerAttack_Validate())
+		{
+			RPC_ValidateFailed(TEXT("ServerAttack_Validate"));
+			return;
+		}
+		P_THIS->ServerAttack_Implementation();
+		P_NATIVE_END;
+	}
+	static FName NAME_AGAME259_A_URECharacter_MultiDie = FName(TEXT("MultiDie"));
+	void AGAME259_A_URECharacter::MultiDie()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_AGAME259_A_URECharacter_MultiDie),NULL);
+	}
+	static FName NAME_AGAME259_A_URECharacter_ServerAttack = FName(TEXT("ServerAttack"));
+	void AGAME259_A_URECharacter::ServerAttack()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_AGAME259_A_URECharacter_ServerAttack),NULL);
+	}
 	void AGAME259_A_URECharacter::StaticRegisterNativesAGAME259_A_URECharacter()
 	{
+		UClass* Class = AGAME259_A_URECharacter::StaticClass();
+		static const FNameNativePtrPair Funcs[] = {
+			{ "MultiDie", &AGAME259_A_URECharacter::execMultiDie },
+			{ "ServerAttack", &AGAME259_A_URECharacter::execServerAttack },
+		};
+		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
+	}
+	struct Z_Construct_UFunction_AGAME259_A_URECharacter_MultiDie_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AGAME259_A_URECharacter_MultiDie_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "GAME259_A_URECharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AGAME259_A_URECharacter_MultiDie_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AGAME259_A_URECharacter, nullptr, "MultiDie", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x80084CC0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AGAME259_A_URECharacter_MultiDie_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AGAME259_A_URECharacter_MultiDie_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AGAME259_A_URECharacter_MultiDie()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AGAME259_A_URECharacter_MultiDie_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AGAME259_A_URECharacter_ServerAttack_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AGAME259_A_URECharacter_ServerAttack_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "GAME259_A_URECharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AGAME259_A_URECharacter_ServerAttack_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AGAME259_A_URECharacter, nullptr, "ServerAttack", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x80280CC0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AGAME259_A_URECharacter_ServerAttack_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_AGAME259_A_URECharacter_ServerAttack_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AGAME259_A_URECharacter_ServerAttack()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AGAME259_A_URECharacter_ServerAttack_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	UClass* Z_Construct_UClass_AGAME259_A_URECharacter_NoRegister()
 	{
@@ -30,6 +114,7 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URECharacter() {}
 	struct Z_Construct_UClass_AGAME259_A_URECharacter_Statics
 	{
 		static UObject* (*const DependentSingletons[])();
+		static const FClassFunctionLinkInfo FuncInfo[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Class_MetaDataParams[];
 #endif
@@ -56,6 +141,10 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URECharacter() {}
 	UObject* (*const Z_Construct_UClass_AGAME259_A_URECharacter_Statics::DependentSingletons[])() = {
 		(UObject* (*)())Z_Construct_UClass_ACharacter,
 		(UObject* (*)())Z_Construct_UPackage__Script_GAME259_A_URE,
+	};
+	const FClassFunctionLinkInfo Z_Construct_UClass_AGAME259_A_URECharacter_Statics::FuncInfo[] = {
+		{ &Z_Construct_UFunction_AGAME259_A_URECharacter_MultiDie, "MultiDie" }, // 3240249142
+		{ &Z_Construct_UFunction_AGAME259_A_URECharacter_ServerAttack, "ServerAttack" }, // 196449011
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AGAME259_A_URECharacter_Statics::Class_MetaDataParams[] = {
@@ -118,11 +207,11 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URECharacter() {}
 		"Game",
 		&StaticCppClassTypeInfo,
 		DependentSingletons,
-		nullptr,
+		FuncInfo,
 		Z_Construct_UClass_AGAME259_A_URECharacter_Statics::PropPointers,
 		nullptr,
 		UE_ARRAY_COUNT(DependentSingletons),
-		0,
+		UE_ARRAY_COUNT(FuncInfo),
 		UE_ARRAY_COUNT(Z_Construct_UClass_AGAME259_A_URECharacter_Statics::PropPointers),
 		0,
 		0x008000A4u,
@@ -137,7 +226,7 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URECharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AGAME259_A_URECharacter, 3470075943);
+	IMPLEMENT_CLASS(AGAME259_A_URECharacter, 3769020353);
 	template<> GAME259_A_URE_API UClass* StaticClass<AGAME259_A_URECharacter>()
 	{
 		return AGAME259_A_URECharacter::StaticClass();

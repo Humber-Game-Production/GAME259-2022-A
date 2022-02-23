@@ -1,6 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "GAME259_A_URECharacter.h"
+#include "GAME259_A_UREGameMode.h"
+#include "LineTrace.h"
+#include "PlayerStats.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -43,6 +46,9 @@ AGAME259_A_URECharacter::AGAME259_A_URECharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
+	LineTraceComp = CreateDefaultSubobject<ULineTrace>("LineTrace");
+
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
@@ -68,34 +74,12 @@ void AGAME259_A_URECharacter::SetupPlayerInputComponent(class UInputComponent* P
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AGAME259_A_URECharacter::LookUpAtRate);
 
-	// handle touch devices
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &AGAME259_A_URECharacter::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &AGAME259_A_URECharacter::TouchStopped);
-
-	// VR headset functionality
-	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AGAME259_A_URECharacter::OnResetVR);
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AGAME259_A_URECharacter::Attack);
 }
 
-
-void AGAME259_A_URECharacter::OnResetVR()
+void  AGAME259_A_URECharacter::BeginPlay()
 {
-	// If GAME259_A_URE is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in GAME259_A_URE.Build.cs is not automatically propagated
-	// and a linker error will result.
-	// You will need to either:
-	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
-	// or:
-	//		Comment or delete the call to ResetOrientationAndPosition below (appropriate if not supporting VR)
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-}
-
-void AGAME259_A_URECharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
-{
-		Jump();
-}
-
-void AGAME259_A_URECharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
-{
-		StopJumping();
+	Super::BeginPlay();
 }
 
 void AGAME259_A_URECharacter::TurnAtRate(float Rate)
@@ -137,4 +121,104 @@ void AGAME259_A_URECharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void AGAME259_A_URECharacter::Attack()
+{
+	TakeDamage(100.0f, FDamageEvent(), GetController(), this);
+	
+	/*
+	FVector Start = GetMesh()->GetBoneLocation(FName("head"));
+	FVector End = Start + FollowCamera->GetForwardVector() * 1500.0f;
+	FHitResult HitResult = LineTraceComp->LineTraceSingle(Start, End, true);
+	if (AActor* Actor = HitResult.GetActor())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("HIT ACTOR: %s"), *Actor->GetName());
+		if (AGAME259_A_URECharacter* Player = Cast<AGAME259_A_URECharacter>(Actor))
+		{
+			ServerAttack();
+		}
+	}*/
+}
+
+float AGAME259_A_URECharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	//Fix this Role < ROLE_Authority || PlayerStatsComp->GetHealth() < -0.0f
+	if (GetLocalRole() < ROLE_Authority || PlayerStatsComp->GetHealth() <= 0.0f)
+	{
+		return 0.0f;
+	}
+	const float ActualDamage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+
+	if (ActualDamage > 0.0f)
+	{
+		PlayerStatsComp->LowerHealth(ActualDamage);
+		if (PlayerStatsComp->GetHealth() <= 0.0f)
+		{
+			Die();
+		}
+	}
+	return ActualDamage;
+}
+bool AGAME259_A_URECharacter::ServerAttack_Validate()
+{
+	return true;
+}
+
+void AGAME259_A_URECharacter::ServerAttack_Implementation()
+{
+	if ((HasAuthority()))
+	{
+
+		TakeDamage(100.0f, FDamageEvent(), GetController(), this);
+
+		/*FVector Start = GetMesh()->GetBoneLocation(FName("head"));
+		FVector End = Start + FollowCamera->GetForwardVector() * 1500.0f;
+		FHitResult HitResult = LineTraceComp->LineTraceSingle(Start, End, true);
+		if (AActor* Actor = HitResult.GetActor())
+		{
+			if (AGAME259_A_URECharacter* Player = Cast<AGAME259_A_URECharacter>(Actor))
+			{
+				float TestDamage = 20.0f;
+
+				TakeDamage(TestDamage, FDamageEvent(), GetController(), this);
+			}
+		}*/
+	}
+}
+
+void AGAME259_A_URECharacter::Die()
+{
+	if (HasAuthority())
+	{
+		MultiDie();
+		AGameModeBase* GM = GetWorld()->GetAuthGameMode();
+		if (AGAME259_A_UREGameMode* GameMode = Cast <AGAME259_A_UREGameMode>(GM))
+		{
+			GameMode->Respawn(GetController());
+		}
+		//Start our destroy timer to remove actor
+		GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AGAME259_A_URECharacter::CallDestroy, 10.0f, false);
+
+	}
+}
+
+void AGAME259_A_URECharacter::CallDestroy()
+{
+	if (HasAuthority())
+	{
+		Destroy();
+	}
+}
+bool AGAME259_A_URECharacter::MultiDie_Validate()
+{
+	return true;
+}
+
+void AGAME259_A_URECharacter::MultiDie_Implementation()
+{
+	GetCapsuleComponent()->DestroyComponent();
+	this->GetCharacterMovement();
+	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	this->GetMesh()->SetAllBodiesSimulatePhysics(true);
 }

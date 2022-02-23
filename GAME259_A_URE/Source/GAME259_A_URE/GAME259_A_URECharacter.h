@@ -18,6 +18,8 @@ class AGAME259_A_URECharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
+
 public:
 	AGAME259_A_URECharacter();
 
@@ -29,7 +31,30 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
+
 protected:
+
+	class UPlayerStatsComponent* PlayerStatsComp;
+	class ULineTrace* LineTraceComp;
+
+	void Attack();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerAttack();
+	bool ServerAttack_Validate();
+	void ServerAttack_Implementation();
+
+	void Die();
+
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+		void MultiDie();
+	bool MultiDie_Validate();
+	void MultiDie_Implementation();
+
+	FTimerHandle DestroyHandle;
+
+	void CallDestroy();
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
@@ -62,6 +87,8 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
+
+	virtual void BeginPlay() override;
 
 public:
 	/** Returns CameraBoom subobject **/

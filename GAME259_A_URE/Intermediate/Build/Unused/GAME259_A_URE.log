@@ -1,0 +1,7 @@
+﻿  Using 'git status' to determine working set for adaptive non-unity build (C:\Users\garen\Desktop\Game Production\GAME259-2022-A).
+  Building GAME259_A_UREEditor...
+  Using Visual Studio 2019 14.29.30137 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133) and Windows 10.0.18362.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+  Building 1 action with 8 processes...
+    [1/1] GAME259_A_UREEditor.target
+  Total time in Parallel executor: 0.17 seconds
+  Total execution time: 0.80 seconds
