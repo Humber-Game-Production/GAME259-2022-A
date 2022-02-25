@@ -6,6 +6,10 @@
 #include "GameFramework/Character.h"
 #include "GAME259_A_URECharacter.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHPUpdate);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterHPUpdate, float, characterHealth);
+
 UCLASS(config = Game)
 class AGAME259_A_URECharacter : public ACharacter
 {
@@ -30,8 +34,6 @@ public:
 		float BaseLookUpRate;
 
 protected:
-
-
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
@@ -81,6 +83,9 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+		FCharacterHPUpdate HealthUpdate;
 
 	/** Getter for Max Health.*/
 	UFUNCTION(BlueprintPure, Category = "Health")
