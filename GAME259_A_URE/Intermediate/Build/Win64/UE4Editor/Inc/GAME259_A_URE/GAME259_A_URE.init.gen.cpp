@@ -12,6 +12,8 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeGAME259_A_URE_init() {}
 	GAME259_A_URE_API UFunction* Z_Construct_UDelegateFunction_GAME259_A_URE_CharacterHPUpdate__DelegateSignature();
+	GAME259_A_URE_API UFunction* Z_Construct_UDelegateFunction_GAME259_A_URE_ServerDel__DelegateSignature();
+	GAME259_A_URE_API UFunction* Z_Construct_UDelegateFunction_GAME259_A_URE_ServerSearchingDel__DelegateSignature();
 	UPackage* Z_Construct_UPackage__Script_GAME259_A_URE()
 	{
 		static UPackage* ReturnPackage = nullptr;
@@ -19,14 +21,16 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URE_init() {}
 		{
 			static UObject* (*const SingletonFuncArray[])() = {
 				(UObject* (*)())Z_Construct_UDelegateFunction_GAME259_A_URE_CharacterHPUpdate__DelegateSignature,
+				(UObject* (*)())Z_Construct_UDelegateFunction_GAME259_A_URE_ServerDel__DelegateSignature,
+				(UObject* (*)())Z_Construct_UDelegateFunction_GAME259_A_URE_ServerSearchingDel__DelegateSignature,
 			};
 			static const UE4CodeGen_Private::FPackageParams PackageParams = {
 				"/Script/GAME259_A_URE",
 				SingletonFuncArray,
 				UE_ARRAY_COUNT(SingletonFuncArray),
 				PKG_CompiledIn | 0x00000000,
-				0x049DA1A6,
-				0xDBB9EC5A,
+				0x37827F7B,
+				0x64367191,
 				METADATA_PARAMS(nullptr, 0)
 			};
 			UE4CodeGen_Private::ConstructUPackage(ReturnPackage, PackageParams);

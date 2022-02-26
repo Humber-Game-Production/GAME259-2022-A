@@ -1,0 +1,1399 @@
+﻿Log file open, 02/25/22 23:42:42
+LogWindows: Failed to load 'aqProf.dll' (GetLastError=126)
+LogWindows: File 'aqProf.dll' does not exist
+LogWindows: Failed to load 'VtuneApi.dll' (GetLastError=126)
+LogWindows: File 'VtuneApi.dll' does not exist
+LogWindows: Failed to load 'VtuneApi32e.dll' (GetLastError=126)
+LogWindows: File 'VtuneApi32e.dll' does not exist
+LogConsoleResponse: Display: Failed to find resolution value strings in scalability ini. Falling back to default.
+LogConsoleResponse: Display: Failed to find resolution value strings in scalability ini. Falling back to default.
+LogInit: Display: Running engine for game: GAME259_A_URE
+LogPlatformFile: Not using cached read wrapper
+LogTaskGraph: Started task graph with 5 named threads and 35 total threads with 3 sets of task threads.
+LogStats: Stats thread started at 0.449217
+LogICUInternationalization: ICU TimeZone Detection - Raw Offset: -5:00, Platform Override: ''
+LogInit: Display: Loading text-based GConfig....
+LogPluginManager: Mounting plugin MegascansPlugin
+LogPluginManager: Mounting plugin MeshPainting
+LogPluginManager: Mounting plugin XGEController
+LogPluginManager: Mounting plugin AISupport
+LogPluginManager: Mounting plugin Paper2D
+LogPluginManager: Mounting plugin EnvironmentQueryEditor
+LogPluginManager: Mounting plugin LightPropagationVolume
+LogPluginManager: Mounting plugin OodleData
+LogPluginManager: Mounting plugin OodleNetwork
+LogPluginManager: Mounting plugin AnimationSharing
+LogPluginManager: Mounting plugin CodeLiteSourceCodeAccess
+LogPluginManager: Mounting plugin LiveLink
+LogPluginManager: Mounting plugin GitSourceControl
+LogPluginManager: Mounting plugin KDevelopSourceCodeAccess
+LogPluginManager: Mounting plugin NullSourceCodeAccess
+LogPluginManager: Mounting plugin CLionSourceCodeAccess
+LogPluginManager: Mounting plugin PixWinPlugin
+LogPluginManager: Mounting plugin PerforceSourceControl
+LogPluginManager: Mounting plugin PropertyAccessNode
+LogPluginManager: Mounting plugin PluginUtils
+LogPluginManager: Mounting plugin RiderSourceCodeAccess
+LogPluginManager: Mounting plugin PlasticSourceControl
+LogPluginManager: Mounting plugin SubversionSourceControl
+LogPluginManager: Mounting plugin RiderLink
+LogPluginManager: Mounting plugin UObjectPlugin
+LogPluginManager: Mounting plugin TextureFormatOodle
+LogPluginManager: Mounting plugin AssetManagerEditor
+LogPluginManager: Mounting plugin Niagara
+LogPluginManager: Mounting plugin DatasmithContent
+LogPluginManager: Mounting plugin CryptoKeys
+LogPluginManager: Mounting plugin VisualStudioCodeSourceCodeAccess
+LogPluginManager: Mounting plugin XCodeSourceCodeAccess
+LogPluginManager: Mounting plugin DataValidation
+LogPluginManager: Mounting plugin CurveEditorTools
+LogPluginManager: Mounting plugin EditorScriptingUtilities
+LogPluginManager: Mounting plugin VisualStudioSourceCodeAccess
+LogPluginManager: Mounting plugin FacialAnimation
+LogPluginManager: Mounting plugin GameplayTagsEditor
+LogPluginManager: Mounting plugin VariantManagerContent
+LogPluginManager: Mounting plugin MacGraphicsSwitching
+LogPluginManager: Mounting plugin MaterialAnalyzer
+LogPluginManager: Mounting plugin MobileLauncherProfileWizard
+LogPluginManager: Mounting plugin GeometryMode
+LogPluginManager: Mounting plugin PluginBrowser
+LogPluginManager: Mounting plugin AlembicImporter
+LogPluginManager: Mounting plugin AutomationUtils
+LogPluginManager: Mounting plugin BackChannel
+LogPluginManager: Mounting plugin ChaosCloth
+LogPluginManager: Mounting plugin ChaosNiagara
+LogPluginManager: Mounting plugin ChaosEditor
+LogPluginManager: Mounting plugin ChaosClothEditor
+LogPluginManager: Mounting plugin ChaosSolverPlugin
+LogPluginManager: Mounting plugin CharacterAI
+LogPluginManager: Mounting plugin GeometryCache
+LogPluginManager: Mounting plugin GeometryCollectionPlugin
+LogPluginManager: Mounting plugin MagicLeap
+LogPluginManager: Mounting plugin LuminPlatformFeatures
+LogPluginManager: Mounting plugin MagicLeapLightEstimation
+LogPluginManager: Mounting plugin GeometryProcessing
+LogPluginManager: Mounting plugin MagicLeapMedia
+LogPluginManager: Mounting plugin MagicLeapPassableWorld
+LogPluginManager: Mounting plugin MLSDK
+LogPluginManager: Mounting plugin SpeedTreeImporter
+LogPluginManager: Mounting plugin OpenImageDenoise
+LogPluginManager: Mounting plugin PlanarCut
+LogPluginManager: Mounting plugin PlatformCrypto
+LogPluginManager: Mounting plugin ProxyLODPlugin
+LogPluginManager: Mounting plugin PythonScriptPlugin
+LogPluginManager: Mounting plugin SkeletalReduction
+LogPluginManager: Mounting plugin MotoSynth
+LogPluginManager: Mounting plugin AndroidMedia
+LogPluginManager: Mounting plugin AvfMedia
+LogPluginManager: Mounting plugin TcpMessaging
+LogPluginManager: Mounting plugin UdpMessaging
+LogPluginManager: Mounting plugin ImgMedia
+LogPluginManager: Mounting plugin MediaCompositing
+LogPluginManager: Mounting plugin WebMMedia
+LogPluginManager: Mounting plugin MediaPlayerEditor
+LogPluginManager: Mounting plugin EOSShared
+LogPluginManager: Mounting plugin OnlineSubsystem
+LogPluginManager: Mounting plugin OnlineSubsystemNull
+LogPluginManager: Mounting plugin OnlineSubsystemSteam
+LogPluginManager: Mounting plugin OnlineSubsystemUtils
+LogPluginManager: Mounting plugin LauncherChunkInstaller
+LogPluginManager: Mounting plugin ActorSequence
+LogPluginManager: Mounting plugin LevelSequenceEditor
+LogPluginManager: Mounting plugin MatineeToLevelSequence
+LogPluginManager: Mounting plugin ActorLayerUtilities
+LogPluginManager: Mounting plugin WmfMedia
+LogPluginManager: Mounting plugin AndroidDeviceProfileSelector
+LogPluginManager: Mounting plugin AndroidMoviePlayer
+LogPluginManager: Mounting plugin AppleMoviePlayer
+LogPluginManager: Mounting plugin AndroidPermission
+LogPluginManager: Mounting plugin ArchVisCharacter
+LogPluginManager: Mounting plugin AudioCapture
+LogPluginManager: Mounting plugin AssetTags
+LogPluginManager: Mounting plugin AudioSynesthesia
+LogPluginManager: Mounting plugin CableComponent
+LogPluginManager: Mounting plugin CustomMeshComponent
+LogPluginManager: Mounting plugin ChunkDownloader
+LogPluginManager: Mounting plugin AppleImageUtils
+LogPluginManager: Mounting plugin EditableMesh
+LogPluginManager: Mounting plugin GooglePAD
+LogPluginManager: Mounting plugin ExampleDeviceProfileSelector
+LogPluginManager: Mounting plugin GoogleCloudMessaging
+LogPluginManager: Mounting plugin IOSDeviceProfileSelector
+LogPluginManager: Mounting plugin LocationServicesBPLibrary
+LogPluginManager: Mounting plugin MobilePatchingUtils
+LogPluginManager: Mounting plugin OpenXR
+LogPluginManager: Mounting plugin OpenXREyeTracker
+LogPluginManager: Mounting plugin PhysXVehicles
+LogPluginManager: Mounting plugin PostSplashScreen
+LogPluginManager: Mounting plugin LinuxDeviceProfileSelector
+LogPluginManager: Mounting plugin OpenXRHandTracking
+LogPluginManager: Mounting plugin PropertyAccessEditor
+LogPluginManager: Mounting plugin RuntimePhysXCooking
+LogPluginManager: Mounting plugin SignificanceManager
+LogPluginManager: Mounting plugin ProceduralMeshComponent
+LogPluginManager: Mounting plugin Synthesis
+LogPluginManager: Mounting plugin WebMMoviePlayer
+LogPluginManager: Mounting plugin WindowsMoviePlayer
+LogPluginManager: Mounting plugin TemplateSequence
+LogPluginManager: Mounting plugin ScreenshotTools
+LogPluginManager: Mounting plugin SoundFields
+LogPluginManager: Mounting plugin Takes
+LogPluginManager: Mounting plugin CameraShakePreviewer
+LogPluginManager: Mounting plugin GameplayCameras
+LogPluginManager: Mounting plugin ContentBrowserClassDataSource
+LogPluginManager: Mounting plugin ContentBrowserFileDataSource
+LogPluginManager: Mounting plugin ContentBrowserAssetDataSource
+LogPluginManager: Mounting plugin OnlineSubsystemGooglePlay
+LogPluginManager: Mounting plugin OnlineSubsystemIOS
+LogPluginManager: Mounting plugin EOSVoiceChat
+LogPluginManager: Mounting plugin DatabaseSupport
+LogPluginManager: Mounting plugin SQLiteCore
+LogPluginManager: Mounting plugin SQLiteSupport
+LogPluginManager: Mounting plugin OculusVR
+LogPluginManager: Mounting plugin SteamShared
+PixWinPlugin: PIX capture plugin failed to initialize! Check that the process is launched from PIX.
+LogInit: Using libcurl 7.55.1-DEV
+LogInit:  - built for x86_64-pc-win32
+LogInit:  - supports SSL with OpenSSL/1.1.1
+LogInit:  - supports HTTP deflate (compression) using libz 1.2.8
+LogInit:  - other features:
+LogInit:      CURL_VERSION_SSL
+LogInit:      CURL_VERSION_LIBZ
+LogInit:      CURL_VERSION_IPV6
+LogInit:      CURL_VERSION_ASYNCHDNS
+LogInit:      CURL_VERSION_LARGEFILE
+LogInit:      CURL_VERSION_IDN
+LogInit:  CurlRequestOptions (configurable via config and command line):
+LogInit:  - bVerifyPeer = true  - Libcurl will verify peer certificate
+LogInit:  - bUseHttpProxy = false  - Libcurl will NOT use HTTP proxy
+LogInit:  - bDontReuseConnections = false  - Libcurl will reuse connections
+LogInit:  - MaxHostConnections = 16  - Libcurl will limit the number of connections to a host
+LogInit:  - LocalHostAddr = Default
+LogInit:  - BufferSize = 65536
+LogOnline: OSS: Creating online subsystem instance for: NULL
+LogInit: WinSock: version 1.1 (2.2), MaxSocks=32767, MaxUdp=65467
+LogOnline: OSS: TryLoadSubsystemAndSetDefault: Loaded subsystem for module [NULL]
+LogOculusPluginWrapper: OculusPlugin initialized successfully
+LogHMD: Failed initializing OVRPlugin 1.59.0
+LogInit: Build: ++UE4+Release-4.27-CL-18319896
+LogInit: Engine Version: 4.27.2-18319896+++UE4+Release-4.27
+LogInit: Compatible Engine Version: 4.27.0-17155196+++UE4+Release-4.27
+LogInit: Net CL: 17155196
+LogInit: OS: Windows 10 (Release 2009) (), CPU: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz, GPU: NVIDIA GeForce GTX 1070
+LogInit: Compiled (64-bit): Nov 30 2021 07:12:08
+LogInit: Compiled with Visual C++: 19.24.28315.00
+LogInit: Build Configuration: Development
+LogInit: Branch Name: ++UE4+Release-4.27
+LogInit: Command Line:  /Game/LobbySystem/Levels/LobbyMainMenu -game -PIEVIACONSOLE -Multiprocess GameUserSettingsINI=D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/PIEGameUserSettings0.ini -MultiprocessSaveConfig -forcepassthrough -messaging -SessionName="Play in Standalone Game" -windowed -ResX=1280 -ResY=720
+LogInit: Base Directory: D:/UE_4.27/Engine/Binaries/Win64/
+LogInit: Allocator: TBB
+LogInit: Installed Engine Build: 1
+LogDevObjectVersion: Number of dev versions registered: 29
+LogDevObjectVersion:   Dev-Blueprints (B0D832E4-1F89-4F0D-ACCF-7EB736FD4AA2): 10
+LogDevObjectVersion:   Dev-Build (E1C64328-A22C-4D53-A36C-8E866417BD8C): 0
+LogDevObjectVersion:   Dev-Core (375EC13C-06E4-48FB-B500-84F0262A717E): 4
+LogDevObjectVersion:   Dev-Editor (E4B068ED-F494-42E9-A231-DA0B2E46BB41): 40
+LogDevObjectVersion:   Dev-Framework (CFFC743F-43B0-4480-9391-14DF171D2073): 37
+LogDevObjectVersion:   Dev-Mobile (B02B49B5-BB20-44E9-A304-32B752E40360): 3
+LogDevObjectVersion:   Dev-Networking (A4E4105C-59A1-49B5-A7C5-40C4547EDFEE): 0
+LogDevObjectVersion:   Dev-Online (39C831C9-5AE6-47DC-9A44-9C173E1C8E7C): 0
+LogDevObjectVersion:   Dev-Physics (78F01B33-EBEA-4F98-B9B4-84EACCB95AA2): 14
+LogDevObjectVersion:   Dev-Platform (6631380F-2D4D-43E0-8009-CF276956A95A): 0
+LogDevObjectVersion:   Dev-Rendering (12F88B9F-8875-4AFC-A67C-D90C383ABD29): 45
+LogDevObjectVersion:   Dev-Sequencer (7B5AE74C-D270-4C10-A958-57980B212A5A): 13
+LogDevObjectVersion:   Dev-VR (D7296918-1DD6-4BDD-9DE2-64A83CC13884): 3
+LogDevObjectVersion:   Dev-LoadTimes (C2A15278-BFE7-4AFE-6C17-90FF531DF755): 1
+LogDevObjectVersion:   Private-Geometry (6EACA3D4-40EC-4CC1-B786-8BED09428FC5): 3
+LogDevObjectVersion:   Dev-AnimPhys (29E575DD-E0A3-4627-9D10-D276232CDCEA): 17
+LogDevObjectVersion:   Dev-Anim (AF43A65D-7FD3-4947-9873-3E8ED9C1BB05): 15
+LogDevObjectVersion:   Dev-ReflectionCapture (6B266CEC-1EC7-4B8F-A30B-E4D90942FC07): 1
+LogDevObjectVersion:   Dev-Automation (0DF73D61-A23F-47EA-B727-89E90C41499A): 1
+LogDevObjectVersion:   FortniteMain (601D1886-AC64-4F84-AA16-D3DE0DEAC7D6): 47
+LogDevObjectVersion:   FortniteRelease (E7086368-6B23-4C58-8439-1B7016265E91): 1
+LogDevObjectVersion:   Dev-Enterprise (9DFFBCD6-494F-0158-E221-12823C92A888): 10
+LogDevObjectVersion:   Dev-Niagara (F2AED0AC-9AFE-416F-8664-AA7FFA26D6FC): 1
+LogDevObjectVersion:   Dev-Destruction (174F1F0B-B4C6-45A5-B13F-2EE8D0FB917D): 10
+LogDevObjectVersion:   Dev-Physics-Ext (35F94A83-E258-406C-A318-09F59610247C): 41
+LogDevObjectVersion:   Dev-PhysicsMaterial-Chaos (B68FC16E-8B1B-42E2-B453-215C058844FE): 1
+LogDevObjectVersion:   Dev-CineCamera (B2E18506-4273-CFC2-A54E-F4BB758BBA07): 1
+LogDevObjectVersion:   Dev-VirtualProduction (64F58936-FD1B-42BA-BA96-7289D5D0FA4E): 1
+LogDevObjectVersion:   Dev-MediaFramework (6F0ED827-A609-4895-9C91-998D90180EA4): 2
+LogInit: Presizing for max 25165824 objects, including 0 objects not considered by GC, pre-allocating 0 bytes for permanent pool.
+LogConfig: Applying CVar settings from Section [/Script/Engine.StreamingSettings] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Engine.ini]
+LogConfig: Setting CVar [[s.MinBulkDataSizeForAsyncLoading:131072]]
+LogConfig: Setting CVar [[s.AsyncLoadingThreadEnabled:0]]
+LogConfig: Setting CVar [[s.EventDrivenLoaderEnabled:1]]
+LogConfig: Setting CVar [[s.WarnIfTimeLimitExceeded:0]]
+LogConfig: Setting CVar [[s.TimeLimitExceededMultiplier:1.5]]
+LogConfig: Setting CVar [[s.TimeLimitExceededMinTime:0.005]]
+LogConfig: Setting CVar [[s.UseBackgroundLevelStreaming:1]]
+LogConfig: Setting CVar [[s.PriorityAsyncLoadingExtraTime:15.0]]
+LogConfig: Setting CVar [[s.LevelStreamingActorsUpdateTimeLimit:5.0]]
+LogConfig: Setting CVar [[s.PriorityLevelStreamingActorsUpdateExtraTime:5.0]]
+LogConfig: Setting CVar [[s.LevelStreamingComponentsRegistrationGranularity:10]]
+LogConfig: Setting CVar [[s.UnregisterComponentsTimeLimit:1.0]]
+LogConfig: Setting CVar [[s.LevelStreamingComponentsUnregistrationGranularity:5]]
+LogConfig: Setting CVar [[s.FlushStreamingOnExit:1]]
+LogInit: Object subsystem initialized
+LogConfig: Setting CVar [[con.DebugEarlyDefault:1]]
+LogConfig: Setting CVar [[r.setres:1280x720]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[con.DebugEarlyDefault:1]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[r.setres:1280x720]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.RendererSettings] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Engine.ini]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[r.GPUCrashDebugging:0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.RendererOverrideSettings] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Engine.ini]
+[2022.02.26-04.42.44:085][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.StreamingSettings] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Engine.ini]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.MinBulkDataSizeForAsyncLoading:131072]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.AsyncLoadingThreadEnabled:0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.EventDrivenLoaderEnabled:1]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.WarnIfTimeLimitExceeded:0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.TimeLimitExceededMultiplier:1.5]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.TimeLimitExceededMinTime:0.005]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.UseBackgroundLevelStreaming:1]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.PriorityAsyncLoadingExtraTime:15.0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.LevelStreamingActorsUpdateTimeLimit:5.0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.PriorityLevelStreamingActorsUpdateExtraTime:5.0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.LevelStreamingComponentsRegistrationGranularity:10]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.UnregisterComponentsTimeLimit:1.0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.LevelStreamingComponentsUnregistrationGranularity:5]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[s.FlushStreamingOnExit:1]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.GarbageCollectionSettings] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Engine.ini]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.MaxObjectsNotConsideredByGC:1]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.SizeOfPermanentObjectPool:0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.FlushStreamingOnGC:0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.NumRetriesBeforeForcingGC:10]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.AllowParallelGC:1]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.TimeBetweenPurgingPendingKillObjects:61.1]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.MaxObjectsInEditor:25165824]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.IncrementalBeginDestroyEnabled:1]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.CreateGCClusters:1]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.MinGCClusterSize:5]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.ActorClusteringEnabled:0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.BlueprintClusteringEnabled:0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.UseDisregardForGCOnDedicatedServers:0]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Setting CVar [[gc.MultithreadedDestructionEnabled:1]]
+[2022.02.26-04.42.44:085][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.NetworkSettings] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Engine.ini]
+[2022.02.26-04.42.44:085][  0]LogConfig: Applying CVar settings from Section [/Script/UnrealEd.CookerSettings] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Engine.ini]
+[2022.02.26-04.42.44:133][  0]LogConfig: Applying CVar settings from Section [ViewDistanceQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.SkeletalMeshLODBias:0]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.ViewDistanceScale:1.0]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Applying CVar settings from Section [AntiAliasingQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.PostProcessAAQuality:4]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Applying CVar settings from Section [ShadowQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.LightFunctionQuality:1]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.ShadowQuality:5]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.Shadow.CSM.MaxCascades:10]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.Shadow.MaxResolution:2048]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.Shadow.MaxCSMResolution:2048]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.Shadow.RadiusThreshold:0.01]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.Shadow.DistanceScale:1.0]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.Shadow.CSM.TransitionScale:1.0]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.Shadow.PreShadowResolutionFactor:1.0]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.DistanceFieldShadowing:1]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.DistanceFieldAO:1]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.AOQuality:2]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.VolumetricFog:1]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.VolumetricFog.GridPixelSize:8]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.VolumetricFog.GridSizeZ:128]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.VolumetricFog.HistoryMissSupersampleCount:4]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.LightMaxDrawDistanceScale:1]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.CapsuleShadows:1]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Applying CVar settings from Section [PostProcessQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.MotionBlurQuality:4]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.AmbientOcclusionMipLevelFactor:0.4]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.AmbientOcclusionMaxQuality:100]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.AmbientOcclusionLevels:-1]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.AmbientOcclusionRadiusScale:1.0]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.DepthOfFieldQuality:2]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.RenderTargetPoolMin:400]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.LensFlareQuality:2]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.SceneColorFringeQuality:1]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.EyeAdaptationQuality:2]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.BloomQuality:5]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.FastBlurThreshold:100]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.Upscale.Quality:3]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.Tonemapper.GrainQuantization:1]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.LightShaftQuality:1]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.Filter.SizeScale:1]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.Tonemapper.Quality:5]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.DOF.Gather.AccumulatorQuality:1        ; higher gathering accumulator quality]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.DOF.Gather.PostfilterMethod:1          ; Median3x3 postfilering method]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.DOF.Gather.EnableBokehSettings:0       ; no bokeh simulation when gathering]]
+[2022.02.26-04.42.44:133][  0]LogConfig: Setting CVar [[r.DOF.Gather.RingCount:4                 ; medium number of samples when gathering]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DOF.Scatter.ForegroundCompositing:1    ; additive foreground scattering]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DOF.Scatter.BackgroundCompositing:2    ; additive background scattering]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DOF.Scatter.EnableBokehSettings:1      ; bokeh simulation when scattering]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DOF.Scatter.MaxSpriteRatio:0.1         ; only a maximum of 10% of scattered bokeh]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DOF.Recombine.Quality:1                ; cheap slight out of focus]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DOF.Recombine.EnableBokehSettings:0    ; no bokeh simulation on slight out of focus]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DOF.TemporalAAQuality:1                ; more stable temporal accumulation]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DOF.Kernel.MaxForegroundRadius:0.025]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DOF.Kernel.MaxBackgroundRadius:0.025]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Applying CVar settings from Section [TextureQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Streaming.MipBias:0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Streaming.AmortizeCPUToGPUCopy:0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Streaming.MaxNumTexturesToStreamPerFrame:0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Streaming.Boost:1]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.MaxAnisotropy:8]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.VT.MaxAnisotropy:8]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Streaming.LimitPoolSizeToVRAM:0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Streaming.PoolSize:1000]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Streaming.MaxEffectiveScreenSize:0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Applying CVar settings from Section [EffectsQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.TranslucencyLightingVolumeDim:64]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.RefractionQuality:2]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SSR.Quality:3]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SSR.HalfResSceneColor:0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SceneColorFormat:4]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DetailMode:2]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.TranslucencyVolumeBlur:1]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.MaterialQualityLevel:1 ; High quality]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.AnisotropicMaterials:1]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SSS.Scale:1]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SSS.SampleSet:2]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SSS.Quality:1]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SSS.HalfRes:0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SSGI.Quality:3]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.EmitterSpawnRateScale:1.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.ParticleLightQuality:2]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.FastApplyOnOpaque:1 ; Always have FastSkyLUT 1 in this case to avoid wrong sky]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.SampleCountMaxPerSlice:4]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.DepthResolution:16.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.FastSkyLUT:1]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.FastSkyLUT.SampleCountMin:4.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.FastSkyLUT.SampleCountMax:128.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.SampleCountMin:4.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.SampleCountMax:128.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.TransmittanceLUT.UseSmallFormat:0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.TransmittanceLUT.SampleCount:10.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.MultiScatteringLUT.SampleCount:15.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkyLight.RealTimeReflectionCapture:1]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Applying CVar settings from Section [FoliageQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[foliage.DensityScale:1.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[grass.DensityScale:1.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Applying CVar settings from Section [ShadingQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.HairStrands.SkyLighting.IntegrationType:2]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.HairStrands.SkyAO.SampleCount:4]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.HairStrands.Visibility.MSAA.SamplePerPixel:4]]
+[2022.02.26-04.42.44:134][  0]LogInit: Selected Device Profile: [Windows]
+[2022.02.26-04.42.44:134][  0]LogInit: Applying CVar settings loaded from the selected device profile: [Windows]
+[2022.02.26-04.42.44:134][  0]LogHAL: Display: Platform has ~ 16 GB [17065410560 / 17179869184 / 16], which maps to Larger [LargestMinGB=32, LargerMinGB=12, DefaultMinGB=8, SmallerMinGB=6, SmallestMinGB=0)
+[2022.02.26-04.42.44:134][  0]LogInit: Going up to parent DeviceProfile []
+[2022.02.26-04.42.44:134][  0]LogConfig: Applying CVar settings from Section [ViewDistanceQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.SkeletalMeshLODBias:0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.ViewDistanceScale:1.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Applying CVar settings from Section [AntiAliasingQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.PostProcessAAQuality:4]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Applying CVar settings from Section [ShadowQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.LightFunctionQuality:1]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.ShadowQuality:5]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Shadow.CSM.MaxCascades:10]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Shadow.MaxResolution:2048]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Shadow.MaxCSMResolution:2048]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Shadow.RadiusThreshold:0.01]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Shadow.DistanceScale:1.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Shadow.CSM.TransitionScale:1.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.Shadow.PreShadowResolutionFactor:1.0]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DistanceFieldShadowing:1]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.DistanceFieldAO:1]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.AOQuality:2]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.VolumetricFog:1]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.VolumetricFog.GridPixelSize:8]]
+[2022.02.26-04.42.44:134][  0]LogConfig: Setting CVar [[r.VolumetricFog.GridSizeZ:128]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.VolumetricFog.HistoryMissSupersampleCount:4]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.LightMaxDrawDistanceScale:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.CapsuleShadows:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Applying CVar settings from Section [PostProcessQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.MotionBlurQuality:4]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.AmbientOcclusionMipLevelFactor:0.4]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.AmbientOcclusionMaxQuality:100]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.AmbientOcclusionLevels:-1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.AmbientOcclusionRadiusScale:1.0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DepthOfFieldQuality:2]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.RenderTargetPoolMin:400]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.LensFlareQuality:2]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SceneColorFringeQuality:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.EyeAdaptationQuality:2]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.BloomQuality:5]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.FastBlurThreshold:100]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.Upscale.Quality:3]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.Tonemapper.GrainQuantization:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.LightShaftQuality:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.Filter.SizeScale:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.Tonemapper.Quality:5]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Gather.AccumulatorQuality:1        ; higher gathering accumulator quality]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Gather.PostfilterMethod:1          ; Median3x3 postfilering method]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Gather.EnableBokehSettings:0       ; no bokeh simulation when gathering]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Gather.RingCount:4                 ; medium number of samples when gathering]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Scatter.ForegroundCompositing:1    ; additive foreground scattering]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Scatter.BackgroundCompositing:2    ; additive background scattering]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Scatter.EnableBokehSettings:1      ; bokeh simulation when scattering]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Scatter.MaxSpriteRatio:0.1         ; only a maximum of 10% of scattered bokeh]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Recombine.Quality:1                ; cheap slight out of focus]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Recombine.EnableBokehSettings:0    ; no bokeh simulation on slight out of focus]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.TemporalAAQuality:1                ; more stable temporal accumulation]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Kernel.MaxForegroundRadius:0.025]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DOF.Kernel.MaxBackgroundRadius:0.025]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Applying CVar settings from Section [TextureQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.Streaming.MipBias:0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.Streaming.AmortizeCPUToGPUCopy:0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.Streaming.MaxNumTexturesToStreamPerFrame:0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.Streaming.Boost:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.MaxAnisotropy:8]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.VT.MaxAnisotropy:8]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.Streaming.LimitPoolSizeToVRAM:0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.Streaming.PoolSize:1000]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.Streaming.MaxEffectiveScreenSize:0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Applying CVar settings from Section [EffectsQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.TranslucencyLightingVolumeDim:64]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.RefractionQuality:2]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SSR.Quality:3]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SSR.HalfResSceneColor:0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SceneColorFormat:4]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.DetailMode:2]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.TranslucencyVolumeBlur:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.MaterialQualityLevel:1 ; High quality]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.AnisotropicMaterials:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SSS.Scale:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SSS.SampleSet:2]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SSS.Quality:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SSS.HalfRes:0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SSGI.Quality:3]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.EmitterSpawnRateScale:1.0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.ParticleLightQuality:2]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.FastApplyOnOpaque:1 ; Always have FastSkyLUT 1 in this case to avoid wrong sky]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.SampleCountMaxPerSlice:4]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.DepthResolution:16.0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.FastSkyLUT:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.FastSkyLUT.SampleCountMin:4.0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.FastSkyLUT.SampleCountMax:128.0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.SampleCountMin:4.0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.SampleCountMax:128.0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.TransmittanceLUT.UseSmallFormat:0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.TransmittanceLUT.SampleCount:10.0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyAtmosphere.MultiScatteringLUT.SampleCount:15.0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.SkyLight.RealTimeReflectionCapture:1]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Applying CVar settings from Section [FoliageQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[foliage.DensityScale:1.0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[grass.DensityScale:1.0]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Applying CVar settings from Section [ShadingQuality@3] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Scalability.ini]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.HairStrands.SkyLighting.IntegrationType:2]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.HairStrands.SkyAO.SampleCount:4]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Setting CVar [[r.HairStrands.Visibility.MSAA.SamplePerPixel:4]]
+[2022.02.26-04.42.44:135][  0]LogConfig: Applying CVar settings from Section [Startup] File [../../../Engine/Config/ConsoleVariables.ini]
+[2022.02.26-04.42.44:136][  0]LogConfig: Setting CVar [[net.UseAdaptiveNetUpdateFrequency:0]]
+[2022.02.26-04.42.44:136][  0]LogConfig: Setting CVar [[p.chaos.AllowCreatePhysxBodies:1]]
+[2022.02.26-04.42.44:136][  0]LogConfig: Setting CVar [[fx.SkipVectorVMBackendOptimizations:1]]
+[2022.02.26-04.42.44:136][  0]LogConfig: Applying CVar settings from Section [ConsoleVariables] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Engine.ini]
+[2022.02.26-04.42.44:136][  0]LogConfig: Applying CVar settings from Section [ConsoleVariables] File [D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Config/Windows/Editor.ini]
+[2022.02.26-04.42.44:136][  0]LogInit: Computer: OMEN
+[2022.02.26-04.42.44:136][  0]LogInit: User: James
+[2022.02.26-04.42.44:136][  0]LogInit: CPU Page size=4096, Cores=6
+[2022.02.26-04.42.44:136][  0]LogInit: High frequency timer resolution =10.000000 MHz
+[2022.02.26-04.42.44:136][  0]LogMemory: Memory total: Physical=15.9GB (16GB approx)
+[2022.02.26-04.42.44:136][  0]LogMemory: Platform Memory Stats for Windows
+[2022.02.26-04.42.44:136][  0]LogMemory: Process Physical Memory: 148.63 MB used, 148.63 MB peak
+[2022.02.26-04.42.44:136][  0]LogMemory: Process Virtual Memory: 131.96 MB used, 131.96 MB peak
+[2022.02.26-04.42.44:136][  0]LogMemory: Physical Memory: 8984.13 MB used,  7290.71 MB free, 16274.84 MB total
+[2022.02.26-04.42.44:136][  0]LogMemory: Virtual Memory: 134204952.00 MB used,  12772.56 MB free, 134217728.00 MB total
+[2022.02.26-04.42.44:138][  0]LogWindows: WindowsPlatformFeatures enabled
+[2022.02.26-04.42.44:186][  0]LogInit: Physics initialised using underlying interface: PhysX
+[2022.02.26-04.42.44:186][  0]LogInit: Using OS detected language (en-US).
+[2022.02.26-04.42.44:186][  0]LogInit: Using OS detected locale (en-US).
+[2022.02.26-04.42.44:189][  0]LogTextLocalizationManager: No specific localization for 'en-US' exists, so the 'en' localization will be used.
+[2022.02.26-04.42.44:378][  0]LogWindowsTextInputMethodSystem: Display: IME system deactivated.
+[2022.02.26-04.42.44:468][  0]LogSlate: New Slate User Created.  User Index 0, Is Virtual User: 0
+[2022.02.26-04.42.44:468][  0]LogSlate: Slate User Registered.  User Index 0, Is Virtual User: 0
+[2022.02.26-04.42.44:531][  0]LogD3D11RHI: Loaded GFSDK_Aftermath_Lib.x64.dll
+[2022.02.26-04.42.44:589][  0]LogHMD: Optional extension XR_VARJO_quad_views is not available
+[2022.02.26-04.42.44:589][  0]LogHMD: Warning: Required extension XR_EXT_eye_gaze_interaction is not available
+[2022.02.26-04.42.44:589][  0]LogHMD: Could not enable all required OpenXR extensions for OpenXREyeTracker on current system. This plugin will be loaded but ignored, but will be enabled on a target platform that supports the required extension.
+[2022.02.26-04.42.45:091][  0]LogHMD: Failed to get an OpenXR system, result is XR_ERROR_FORM_FACTOR_UNAVAILABLE. Please check that your runtime supports VR headsets.
+[2022.02.26-04.42.45:091][  0]LogD3D11RHI: D3D11 min allowed feature level: 11_0
+[2022.02.26-04.42.45:091][  0]LogD3D11RHI: D3D11 max allowed feature level: 11_0
+[2022.02.26-04.42.45:091][  0]LogD3D11RHI: D3D11 adapters:
+[2022.02.26-04.42.45:234][  0]LogD3D11RHI:    0. 'NVIDIA GeForce GTX 1070' (Feature Level 11_0)
+[2022.02.26-04.42.45:234][  0]LogD3D11RHI:       8088/0/8137 MB DedicatedVideo/DedicatedSystem/SharedSystem, Outputs:2, VendorId:0x10de
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI:    1. 'Microsoft Basic Render Driver' (Feature Level 11_0)
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI:       0/0/8137 MB DedicatedVideo/DedicatedSystem/SharedSystem, Outputs:0, VendorId:0x1414
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI: Chosen D3D11 Adapter:
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI:     Description : NVIDIA GeForce GTX 1070
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI:     VendorId    : 10de
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI:     DeviceId    : 1b81
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI:     SubSysId    : 82fb103c
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI:     Revision    : 00a1
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI:     DedicatedVideoMemory : 8480882688 bytes
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI:     DedicatedSystemMemory : 0 bytes
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI:     SharedSystemMemory : 8532705280 bytes
+[2022.02.26-04.42.45:236][  0]LogD3D11RHI:     AdapterLuid : 0 89437
+[2022.02.26-04.42.45:243][  0]LogD3D11RHI: Creating new Direct3DDevice
+[2022.02.26-04.42.45:243][  0]LogD3D11RHI:     GPU DeviceId: 0x1b81 (for the marketing name, search the web for "GPU Device Id")
+[2022.02.26-04.42.45:243][  0]LogWindows: EnumDisplayDevices:
+[2022.02.26-04.42.45:243][  0]LogWindows:    0. 'NVIDIA GeForce GTX 1070' (P:1 D:1)
+[2022.02.26-04.42.45:243][  0]LogWindows:    1. 'NVIDIA GeForce GTX 1070' (P:0 D:1)
+[2022.02.26-04.42.45:243][  0]LogWindows:    2. 'NVIDIA GeForce GTX 1070' (P:0 D:0)
+[2022.02.26-04.42.45:243][  0]LogWindows:    3. 'NVIDIA GeForce GTX 1070' (P:0 D:0)
+[2022.02.26-04.42.45:244][  0]LogWindows: DebugString: FoundDriverCount:4 
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:     Adapter Name: NVIDIA GeForce GTX 1070
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:   Driver Version: 472.08 (internal:30.0.14.7208, unified:472.08)
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:      Driver Date: 9-13-2021
+[2022.02.26-04.42.45:244][  0]LogRHI: Texture pool is 5661 MB (70% of 8088 MB)
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI: Creating D3DDevice using adapter:
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:     Description : NVIDIA GeForce GTX 1070
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:     VendorId    : 10de
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:     DeviceId    : 1b81
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:     SubSysId    : 82fb103c
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:     Revision    : 00a1
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:     DedicatedVideoMemory : 8480882688 bytes
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:     DedicatedSystemMemory : 0 bytes
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:     SharedSystemMemory : 8532705280 bytes
+[2022.02.26-04.42.45:244][  0]LogD3D11RHI:     AdapterLuid : 0 89437
+[2022.02.26-04.42.45:319][  0]LogD3D11RHI: RHI has support for 64 bit atomics
+[2022.02.26-04.42.45:319][  0]LogD3D11RHI: Async texture creation enabled
+[2022.02.26-04.42.45:319][  0]LogD3D11RHI: Array index from any shader is supported
+[2022.02.26-04.42.45:320][  0]LogD3D11RHI: HDR output is supported on display 0 (NvId: 0x80061082).
+[2022.02.26-04.42.45:335][  0]LogD3D11RHI: GPU Timing Frequency: 1000.000000 (Debug: 2 1)
+[2022.02.26-04.42.45:360][  0]LogRHI: GeForceNow SDK initialized: 1
+[2022.02.26-04.42.45:708][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsNoEditor'
+[2022.02.26-04.42.45:711][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Windows'
+[2022.02.26-04.42.45:713][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsClient'
+[2022.02.26-04.42.45:715][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsServer'
+[2022.02.26-04.42.45:715][  0]LogTargetPlatformManager: Display: Building Assets For Windows
+[2022.02.26-04.42.45:718][  0]LogAudioDebug: Display: Lib vorbis DLL was dynamically loaded.
+[2022.02.26-04.42.45:730][  0]LogTextureFormatOodle: Display: Oodle Texture 2.9.0 init RDO Off
+[2022.02.26-04.42.45:745][  0]LogRendererCore: Ray tracing is disabled. Reason: r.RayTracing=0.
+[2022.02.26-04.42.45:745][  0]LogShaderCompilers: Guid format shader working directory is -1 characters bigger than the processId version (../../../../GitHub/GAME259-2022-A/GAME259_A_URE/Intermediate/Shaders/WorkingDirectory/4964/).
+[2022.02.26-04.42.45:745][  0]LogShaderCompilers: Cleaned the shader compiler working directory 'C:/Users/James/AppData/Local/Temp/UnrealShaderWorkingDir/C43515764CFA27AABC1C5F9CF1EB36BA/'.
+[2022.02.26-04.42.45:746][  0]LogXGEController: Cannot use XGE Controller as Incredibuild is not installed on this machine.
+[2022.02.26-04.42.45:746][  0]LogShaderCompilers: Cannot use XGE Shader Compiler as Incredibuild is not installed on this machine.
+[2022.02.26-04.42.45:746][  0]LogShaderCompilers: Display: Using Local Shader Compiler.
+[2022.02.26-04.42.46:457][  0]LogDerivedDataCache: Display: Max Cache Size: 512 MB
+[2022.02.26-04.42.46:527][  0]LogDerivedDataCache: Loaded boot cache 0.07s 103MB C:/Users/James/AppData/Local/UnrealEngine/4.27/DerivedDataCache/Boot.ddc.
+[2022.02.26-04.42.46:527][  0]LogDerivedDataCache: Display: Loaded Boot cache: C:/Users/James/AppData/Local/UnrealEngine/4.27/DerivedDataCache/Boot.ddc
+[2022.02.26-04.42.46:527][  0]LogDerivedDataCache: FDerivedDataBackendGraph:  Pak pak cache file ../../../../GitHub/GAME259-2022-A/GAME259_A_URE/DerivedDataCache/DDC.ddp not found, will not use a pak cache.
+[2022.02.26-04.42.46:527][  0]LogDerivedDataCache: Unable to find inner node Pak for hierarchical cache Hierarchy.
+[2022.02.26-04.42.46:527][  0]LogDerivedDataCache: FDerivedDataBackendGraph:  CompressedPak pak cache file ../../../../GitHub/GAME259-2022-A/GAME259_A_URE/DerivedDataCache/Compressed.ddp not found, will not use a pak cache.
+[2022.02.26-04.42.46:527][  0]LogDerivedDataCache: Unable to find inner node CompressedPak for hierarchical cache Hierarchy.
+[2022.02.26-04.42.46:542][  0]LogDerivedDataCache: Display: Pak cache opened for reading ../../../Engine/DerivedDataCache/Compressed.ddp.
+[2022.02.26-04.42.46:542][  0]LogDerivedDataCache: FDerivedDataBackendGraph:  EnterprisePak pak cache file ../../../Enterprise/DerivedDataCache/Compressed.ddp not found, will not use a pak cache.
+[2022.02.26-04.42.46:542][  0]LogDerivedDataCache: Unable to find inner node EnterprisePak for hierarchical cache Hierarchy.
+[2022.02.26-04.42.46:548][  0]LogDerivedDataCache: Speed tests for C:/Users/James/AppData/Local/UnrealEngine/Common/DerivedDataCache took 0.01 seconds
+[2022.02.26-04.42.46:548][  0]LogDerivedDataCache: Display: Performance to C:/Users/James/AppData/Local/UnrealEngine/Common/DerivedDataCache: Latency=0.03ms. RandomReadSpeed=1396.98MBs, RandomWriteSpeed=186.78MBs. Assigned SpeedClass 'Local'
+[2022.02.26-04.42.46:549][  0]LogDerivedDataCache: Using Local data cache path C:/Users/James/AppData/Local/UnrealEngine/Common/DerivedDataCache: Writable
+[2022.02.26-04.42.46:549][  0]LogDerivedDataCache: Shared data cache path not found in *engine.ini, will not use an Shared cache.
+[2022.02.26-04.42.46:549][  0]LogDerivedDataCache: Unable to find inner node Shared for hierarchical cache Hierarchy.
+[2022.02.26-04.42.46:588][  0]LogSlate: Using FreeType 2.10.0
+[2022.02.26-04.42.46:588][  0]LogSlate: SlateFontServices - WITH_FREETYPE: 1, WITH_HARFBUZZ: 1
+[2022.02.26-04.42.47:090][  0]LogHMD: Failed to get an OpenXR system, result is XR_ERROR_FORM_FACTOR_UNAVAILABLE. Please check that your runtime supports VR headsets.
+[2022.02.26-04.42.47:173][  0]LogInit: Using OS detected language (en-US).
+[2022.02.26-04.42.47:173][  0]LogInit: Using OS detected locale (en-US).
+[2022.02.26-04.42.47:173][  0]LogTextLocalizationManager: No localization for 'en-US' exists, so 'en' will be used for the language.
+[2022.02.26-04.42.47:173][  0]LogTextLocalizationManager: No localization for 'en-US' exists, so 'en' will be used for the locale.
+[2022.02.26-04.42.47:173][  0]LogSlate: FontCache flush requested. Reason: Culture for localization was changed
+[2022.02.26-04.42.47:173][  0]LogSlate: FontCache flush requested. Reason: Culture for localization was changed
+[2022.02.26-04.42.47:175][  0]LogTextLocalizationManager: Compacting localization data took   0.00ms
+[2022.02.26-04.42.47:175][  0]LogAssetRegistry: FAssetRegistry took 0.0014 seconds to start up
+[2022.02.26-04.42.47:332][  0]LogPackageLocalizationCache: Processed 27 localized package path(s) for 1 prioritized culture(s) in 0.001381 seconds
+[2022.02.26-04.42.47:392][  0]LogInit: Selected Device Profile: [Windows]
+[2022.02.26-04.42.47:392][  0]LogInit: Active device profile: [0000020F67614A00][0000020F5DCE1B00 49] Windows
+[2022.02.26-04.42.47:392][  0]LogInit: Profiles: [0000020F67614A00][0000020F5DCE1B00 49] Windows, [0000020F675E1A00][0000020F5DCE8100 49] WindowsNoEditor, [0000020F67617500][0000020F5DCEC280 49] WindowsServer, [0000020F675E3D00][0000020F5DA94400 49] WindowsClient, [0000020F67617300][0000020F5DA98580 49] IOS, [0000020F675E3F00][0000020F5DA9C700 49] iPadAir, [0000020F67616000][0000020F5DAA0880 49] iPadAir2, [0000020F6757CC00][0000020F5DAA8B40 49] IPadPro, [0000020F6757CD00][0000020F5DAA4B80 49] iPadAir3, [0000020F675E3300][0000020F5DAACD00 49] iPadAir4, [0000020F6757F200][0000020F5DAB0E80 49] iPadMini2, [0000020F675E2A00][0000020F5DAB5000 49] iPadMini3, [0000020F6757D700][0000020F5DAB9180 49] iPadMini4, [0000020F675E2300][0000020F5DABD300 49] iPadMini5, [0000020F675B8500][0000020F5DCE5580 49] iPhone6, [0000020F675B8600][0000020F5DAC15C0 49] iPodTouch6, [0000020F6757F800][0000020F5DAC9800 49] iPhone7, [0000020F6757DC00][0000020F5DAC5840 49] iPodTouch7, [0000020F675B8400][0000020F5DAD19C0 49] iPhone5S, [0000020F675E2100][0000020F5DAD5B40 49] iPhone6Plus, [0000020F675BAF00][0000020F5DAD8140 49] iPhone6S, [0000020F6757CA00][0000020F5DADC2C0 49] iPhone6SPlus, [0000020F675BA300][0000020F5DDA4440 49] iPhone7Plus, [0000020F6757C100][0000020F5DDA85C0 49] iPhoneSE, [0000020F675B8800][0000020F5DDAC740 49] iPhone8, [0000020F6757DF00][0000020F5DDB08C0 49] iPhone8Plus, [0000020F675B8700][0000020F5DDB4A40 49] iPhoneX, [0000020F6757E200][0000020F5DDB8BC0 49] iPhoneXS, [0000020F675BB800][0000020F5DDBCD40 49] iPhoneXSMax, [0000020F6757C900][0000020F5DDC0EC0 49] iPhoneXR, [0000020F675B9900][0000020F5DDC5040 49] iPhone11, [0000020F6757E800][0000020F5DDC91C0 49] iPhone11Pro, [0000020F675B9000][0000020F5DDCD340 49] iPhone11ProMax, [0000020F6757D500][0000020F5DDD14C0 49] iPhoneSE2, [0000020F675BB500][0000020F5DDD5640 49] iPhone12Mini, [0000020F6757FD00][0000020F5DACD780 49] iPhone12, [0000020F675B9F00][0000020F5DDD98C0 49] iPhone12Pro, [0000020F6757F000][0000020F5DDDDA00 49] iPhone12ProMax, [0000020F675B9400][0000020F5DDE1B40 49] iPadPro105, [0000020F6757E700][0000020F5DDE8140 49] iPadPro129, [0000020F675BB400][0000020F5DDEC2C0 49] iPadPro97, [0000020F6757E600][0000020F67A0E440 49] iPadPro2_129, [0000020F675B9E00][0000020F67A125C0 49] iPad5, [0000020F6757C200][0000020F67A16740 49] iPad6, [0000020F675BBB00][0000020F67A1A8C0 49] iPad7, [0000020F6757FB00][0000020F67A1EA40 49] iPad8, [0000020F675BBA00][0000020F67A22BC0 49] iPadPro11, [0000020F6757E900][0000020F67A26D40 49] iPadPro2_11, [0000020F675B9C00][0000020F67A2AEC0 49] iPadPro3_129, [0000020F6757CF00][0000020F67A2F040 49] iPadPro4_129, [0000020F675B8100][0000020F67A331C0 49] AppleTV, [0000020F6757D000][0000020F67A37340 49] AppleTV4K, [0000020F675BBD00][0000020F67A3B4C0 49] TVOS, [0000020F6757C700][0000020F67A3F640 49] Mac, [0000020F675B8300][0000020F67A437C0 49] MacClient, [0000020F6757C600][0000020F5DDE5900 49] MacNoEditor, [0000020F675B9700][0000020F67A47A40 49] MacServer, [0000020F6757D600][0000020F67A4BB80 49] Linux, [0000020F675BB000][0000020F67A4E140 49] LinuxAArch64, [0000020F6757F400][0000020F67A562C0 49] LinuxNoEditor, [0000020F675BAE00][0000020F67A5A440 49] LinuxAArch64NoEditor, [0000020F6757F700][0000020F67A5E5C0 49] LinuxClient, [0000020F675B8C00][0000020F67A62740 49] LinuxAArch64Client, [0000020F6757E400][0000020F67A668C0 49] LinuxServer, [0000020F675BBE00][0000020F67A6AA40 49] LinuxAArch64Server, [0000020F6757F900][0000020F67A6EBC0 49] Android, [0000020F675B8B00][0000020F67A72D40 49] Android_Low, [0000020F6757F500][0000020F67A76EC0 49] Android_Mid, [0000020F675BA800][0000020F67A7B040 49] Android_High, [0000020F675E3800][0000020F67A7F1C0 49] Android_Default, [0000020F67616100][0000020F67A83340 49] Android_Adreno4xx, [0000020F675E3E00][0000020F67A874C0 49] Android_Adreno5xx_Low, [0000020F67616B00][0000020F67A8B640 49] Android_Adreno5xx, [0000020F675E3200][0000020F67A8F7C0 49] Android_Adreno6xx, [0000020F67616800][0000020F67A93940 49] Android_Adreno6xx_Vulkan, [0000020F675E1900][0000020F67A97AC0 49] Android_Mali_T6xx, [0000020F67617B00][0000020F67A53C00 49] Android_Mali_T7xx, [0000020F675E0B00][0000020F67A9A1C0 49] Android_Mali_T8xx, [0000020F67617E00][0000020F67A9E300 49] Android_Mali_G71, [0000020F675E0A00][0000020F67AA6480 49] Android_Mali_G72, [0000020F67615800][0000020F67AAA600 49] Android_Mali_G72_Vulkan, [0000020F675E3600][0000020F67AAE780 49] Android_Mali_G76, [0000020F67615B00][0000020F67AB2900 49] Android_Mali_G76_Vulkan, [0000020F675E1F00][0000020F67AB6A80 49] Android_Mali_G77, [0000020F67615000][0000020F67ABAC00 49] Android_Mali_G77_Vulkan, [0000020F675E1700][0000020F67ABED80 49] Android_Mali_G78, [0000020F67616900][0000020F67AC2F00 49] Android_Mali_G78_Vulkan, [0000020F675E2800][0000020F67AC7080 49] Android_Mali_G710, [0000020F67614700][0000020F67ACB200 49] Android_Mali_G710_Vulkan, [0000020F675E1100][0000020F67ACF380 49] Android_Vulkan_SM5, [0000020F67615600][0000020F67AD3500 49] Android_PowerVR_G6xxx, [0000020F675E1500][0000020F67AD7680 49] Android_PowerVR_GT7xxx, [0000020F67616F00][0000020F67ADB800 49] Android_PowerVR_GE8xxx, [0000020F675E1400][0000020F67ADF980 49] Android_PowerVR_GM9xxx, [0000020F67614300][0000020F67AE3B00 49] Android_PowerVR_GM9xxx_Vulkan, [0000020F675E0400][0000020F67AE6100 49] Android_TegraK1, [0000020F67616C00][0000020F67AA2240 49] Android_Unknown_Vulkan, [0000020F675E0300][0000020F67AEA380 49] Lumin, [0000020F6757D900][0000020F67AEE4C0 49] Lumin_Desktop, [0000020F675E2E00][0000020F67AF6640 49] HoloLens, 
+[2022.02.26-04.42.47:415][  0]LogMeshReduction: Using QuadricMeshReduction for automatic static mesh reduction
+[2022.02.26-04.42.47:415][  0]LogMeshReduction: Using SimplygonMeshReduction for automatic skeletal mesh reduction
+[2022.02.26-04.42.47:415][  0]LogMeshReduction: Using ProxyLODMeshReduction for automatic mesh merging
+[2022.02.26-04.42.47:415][  0]LogMeshReduction: No distributed automatic mesh merging module available
+[2022.02.26-04.42.47:415][  0]LogMeshMerging: No distributed automatic mesh merging module available
+[2022.02.26-04.42.47:530][  0]LogNetVersion: GAME259_A_URE 1.0.0, NetCL: 17155196, EngineNetVer: 17, GameNetVer: 0 (Checksum: 2250587433)
+[2022.02.26-04.42.47:754][  0]LogTexture: Default maximum texture size for cubemaps generated from long-lat sources has been changed from 512 to unlimited. In order to preserve old behaiour for '/Engine/MapTemplates/Sky/DaylightAmbientCubemap.DaylightAmbientCubemap', its maximum texture size has been explicitly set to 512.
+[2022.02.26-04.42.47:805][  0]LogHMD: PokeAHoleMaterial loaded successfully
+[2022.02.26-04.42.47:867][  0]LogMoviePlayer: Initializing movie player
+[2022.02.26-04.42.47:957][  0]LogNiagaraDebuggerClient: Niagara Debugger Client Initialized | Session: 15B1D8444EF38DA27C4C6EAF4DE3EE69 | Instance: 2694F2D542D67692A64BA09966042484 (OMEN-4964).
+[2022.02.26-04.42.47:974][  0]LogCollectionManager: Loaded 0 collections in 0.000911 seconds
+[2022.02.26-04.42.47:976][  0]LogFileCache: Scanning file cache for directory 'D:/GitHub/GAME259-2022-A/GAME259_A_URE/Saved/Collections/' took 0.00s
+[2022.02.26-04.42.47:976][  0]LogFileCache: Scanning file cache for directory 'D:/GitHub/GAME259-2022-A/GAME259_A_URE/Content/Developers/James/Collections/' took 0.00s
+[2022.02.26-04.42.47:976][  0]LogFileCache: Scanning file cache for directory 'D:/GitHub/GAME259-2022-A/GAME259_A_URE/Content/Collections/' took 0.00s
+[2022.02.26-04.42.47:976][  0]LogCollectionManager: Fixed up redirectors for 0 collections in 0.000002 seconds (updated 0 objects)
+[2022.02.26-04.42.48:059][  0]LogPython: Using Python 3.7.7
+[2022.02.26-04.42.48:506][  0]LogTcpMessaging: Initializing TcpMessaging bridge
+[2022.02.26-04.42.48:508][  0]LogUdpMessaging: Initializing bridge on interface 0.0.0.0:0 to multicast group 230.0.0.1:6666.
+[2022.02.26-04.42.48:544][  0]LogSteamShared: Display: Loading Steam SDK 1.51
+[2022.02.26-04.42.48:545][  0]LogSteamShared: Steam SDK Loaded!
+[2022.02.26-04.42.48:724][  0]SourceControl: Source control is disabled
+[2022.02.26-04.42.48:724][  0]SourceControl: Source control is disabled
+[2022.02.26-04.42.48:727][  0]SourceControl: Source control is disabled
+[2022.02.26-04.42.48:731][  0]LogUProjectInfo: Found projects:
+[2022.02.26-04.42.48:807][  0]LogOpenImageDenoise: OIDN starting up
+[2022.02.26-04.42.48:840][  0]LogAndroidPermission: UAndroidPermissionCallbackProxy::GetInstance
+[2022.02.26-04.42.48:857][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2022.02.26-04.42.48:857][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2022.02.26-04.42.48:917][  0]LogOcInput: OculusInput pre-init called
+[2022.02.26-04.42.48:925][  0]LogUObjectArray: 23057 objects as part of root set at end of initial load.
+[2022.02.26-04.42.48:925][  0]LogUObjectAllocator: 6401856 out of 0 bytes used by permanent object pool.
+[2022.02.26-04.42.48:925][  0]LogUObjectArray: CloseDisregardForGC: 0/0 objects in disregard for GC pool
+[2022.02.26-04.42.48:967][  0]LogClass: Display: IntProperty FServerInfo::CurrentPlayers is not initialized properly. Module:GAME259_A_URE File:GameInstance_GAME259_A_URE.h
+[2022.02.26-04.42.48:967][  0]LogClass: Display: IntProperty FServerInfo::MaxPlayers is not initialized properly. Module:GAME259_A_URE File:GameInstance_GAME259_A_URE.h
+[2022.02.26-04.42.48:967][  0]LogClass: Display: IntProperty FServerInfo::ServerArrayIndex is not initialized properly. Module:GAME259_A_URE File:GameInstance_GAME259_A_URE.h
+[2022.02.26-04.42.48:967][  0]LogClass: Display: 3 Uninitialized script struct members found including 0 object properties
+[2022.02.26-04.42.48:968][  0]LogEngine: Initializing Engine...
+[2022.02.26-04.42.49:469][  0]LogHMD: Failed to get an OpenXR system, result is XR_ERROR_FORM_FACTOR_UNAVAILABLE. Please check that your runtime supports VR headsets.
+[2022.02.26-04.42.49:469][  0]LogMagicLeap: Warning: VR disabled because ZI is not enabled.  To enable, in the editor, Edit -> Project Settings -> Plugins -> Magic Leap Plugin -> Enable Zero Iteration
+[2022.02.26-04.42.49:470][  0]LogStats: UGameplayTagsManager::InitializeManager -  0.000 s
+[2022.02.26-04.42.49:568][  0]LogInit: Initializing FReadOnlyCVARCache
+[2022.02.26-04.42.49:568][  0]LogAudio: Display: Initializing Audio Device Manager...
+[2022.02.26-04.42.49:572][  0]LogAudio: Display: Loading Default Audio Settings Objects...
+[2022.02.26-04.42.49:572][  0]LogAudio: Display: No default SoundConcurrencyObject specified (or failed to load).
+[2022.02.26-04.42.49:573][  0]LogAudio: Display: Audio Device Manager Initialized
+[2022.02.26-04.42.49:573][  0]LogAudio: Display: Creating Audio Device:                 Id: 1, Scope: Shared, Realtime: True
+[2022.02.26-04.42.49:573][  0]LogAudioMixer: Display: Audio Mixer Platform Settings:
+[2022.02.26-04.42.49:573][  0]LogAudioMixer: Display: 	Sample Rate:						  48000
+[2022.02.26-04.42.49:573][  0]LogAudioMixer: Display: 	Callback Buffer Frame Size Requested: 1024
+[2022.02.26-04.42.49:573][  0]LogAudioMixer: Display: 	Callback Buffer Frame Size To Use:	  1024
+[2022.02.26-04.42.49:573][  0]LogAudioMixer: Display: 	Number of buffers to queue:			  2
+[2022.02.26-04.42.49:573][  0]LogAudioMixer: Display: 	Max Channels (voices):				  32
+[2022.02.26-04.42.49:573][  0]LogAudioMixer: Display: 	Number of Async Source Workers:		  0
+[2022.02.26-04.42.49:573][  0]LogAudio: Display: AudioDevice MaxSources: 32
+[2022.02.26-04.42.49:573][  0]LogAudio: Display: Audio Spatialization Plugin: None (built-in).
+[2022.02.26-04.42.49:573][  0]LogAudio: Display: Audio Reverb Plugin: None (built-in).
+[2022.02.26-04.42.49:573][  0]LogAudio: Display: Audio Occlusion Plugin: None (built-in).
+[2022.02.26-04.42.49:573][  0]LogAudioMixer: Display: Initializing audio mixer.
+[2022.02.26-04.42.49:598][  0]LogAudioMixer: Display: 0: FrontLeft
+[2022.02.26-04.42.49:598][  0]LogAudioMixer: Display: 1: FrontRight
+[2022.02.26-04.42.49:646][  0]LogAudioMixer: Display: Using Audio Device Headphones (2- Arctis 7 Game)
+[2022.02.26-04.42.49:653][  0]LogAudioMixer: Display: Initializing Sound Submixes...
+[2022.02.26-04.42.49:656][  0]LogAudioMixer: Display: Creating Master Submix 'MasterSubmixDefault'
+[2022.02.26-04.42.49:656][  0]LogAudioMixer: Display: Creating Master Submix 'MasterReverbSubmixDefault'
+[2022.02.26-04.42.49:657][  0]LogAudioMixer: Display: Creating Master Submix 'MasterEQSubmixDefault'
+[2022.02.26-04.42.49:657][  0]LogAudioMixer: FMixerPlatformXAudio2::StartAudioStream() called
+[2022.02.26-04.42.49:657][  0]LogAudioMixer: Display: Output buffers initialized: Frames=1024, Channels=2, Samples=2048
+[2022.02.26-04.42.49:658][  0]LogAudioMixer: Display: Starting AudioMixerPlatformInterface::RunInternal()
+[2022.02.26-04.42.49:658][  0]LogAudioMixer: Display: FMixerPlatformXAudio2::SubmitBuffer() called for the first time
+[2022.02.26-04.42.49:658][  0]LogInit: FAudioDevice initialized.
+[2022.02.26-04.42.49:659][  0]LogNetVersion: Set ProjectVersion to 1.0.0.0. Version Checksum will be recalculated on next use.
+[2022.02.26-04.42.49:663][  0]LogInit: Texture streaming: Enabled
+[2022.02.26-04.42.49:723][  0]LogAudio: Display: Audio Device (ID: 1) registered with world 'Untitled'.
+[2022.02.26-04.42.49:723][  0]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2022.02.26-04.42.49:723][  0]LogInit: Display: Game Engine Initialized.
+[2022.02.26-04.42.49:723][  0]LogNiagaraEditor: GEditor isn't valid! Particle reset commands will not work for Niagara components!
+[2022.02.26-04.42.49:785][  0]LogInit: Display: Starting Game.
+[2022.02.26-04.42.49:786][  0]LogNet: Browse: /Game/LobbySystem/Levels/LobbyMainMenu?Name=Player
+[2022.02.26-04.42.49:786][  0]LogLoad: LoadMap: /Game/LobbySystem/Levels/LobbyMainMenu?Name=Player
+[2022.02.26-04.42.49:786][  0]LogWorld: BeginTearingDown for /Temp/Untitled_0
+[2022.02.26-04.42.49:787][  0]LogWorld: UWorld::CleanupWorld for Untitled, bSessionEnded=true, bCleanupResources=true
+[2022.02.26-04.42.49:787][  0]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2022.02.26-04.42.49:791][  0]LogAudio: Display: Audio Device unregistered from world 'None'.
+[2022.02.26-04.42.49:794][  0]LogUObjectHash: Compacting FUObjectHashTables data took   0.77ms
+[2022.02.26-04.42.49:824][  0]LogAudio: Display: Audio Device (ID: 1) registered with world 'LobbyMainMenu'.
+[2022.02.26-04.42.49:830][  0]LogAIModule: Creating AISystem for world LobbyMainMenu
+[2022.02.26-04.42.49:830][  0]LogLoad: Game class is 'BP_LobbyGameMode_C'
+[2022.02.26-04.42.49:831][  0]LogWorld: Bringing World /Game/LobbySystem/Levels/LobbyMainMenu.LobbyMainMenu up for play (max tick rate 0) at 2022.02.25-23.42.49
+[2022.02.26-04.42.49:831][  0]LogWorld: Bringing up level for play took: 0.000447
+[2022.02.26-04.42.49:832][  0]LogGameMode: FindPlayerStart: PATHS NOT DEFINED or NO PLAYERSTART with positive rating
+[2022.02.26-04.42.49:835][  0]LogViewport: Display: Viewport MouseLockMode Changed, LockOnCapture -> DoNotLock
+[2022.02.26-04.42.49:835][  0]LogViewport: Display: Viewport MouseCaptureMode Changed, CapturePermanently_IncludingInitialMouseDown -> NoCapture
+[2022.02.26-04.42.49:835][  0]LogLoad: Took 0.049378 seconds to LoadMap(/Game/LobbySystem/Levels/LobbyMainMenu)
+[2022.02.26-04.42.50:093][  0]LogSlate: Took 0.000299 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' (155K)
+[2022.02.26-04.42.50:202][  0]LogRenderer: Reallocating scene render targets to support 1280x720 Format 10 NumSamples 1 (Frame:1).
+[2022.02.26-04.42.50:202][  0]LogInit: Display: Engine is initialized. Leaving FEngineLoop::Init()
+[2022.02.26-04.42.50:202][  0]LogLoad: (Engine Initialization) Total time: 8.23 seconds
+[2022.02.26-04.42.50:202][  0]LogLoad: (Engine Initialization) Total Blueprint compile time: 0.00 seconds
+[2022.02.26-04.42.50:204][  0]LogContentStreaming: Texture pool size now 1000 MB
+[2022.02.26-04.42.50:207][  0]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2022.02.26-04.42.50:263][  1]LogSlate: Took 0.000176 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' (155K)
+[2022.02.26-04.43.01:955][307]LogTemp: Warning: Find Servers Called
+[2022.02.26-04.43.06:955][702]LogTemp: Warning: OnFindSessionComplete, Succeeded: 1
+[2022.02.26-04.43.06:955][702]LogTemp: Warning: SearchResults, Server Count: 1
+[2022.02.26-04.43.08:335][372]LogTemp: Warning: JOINING SERVER at index: 0
+[2022.02.26-04.43.08:335][372]LogTemp: Warning: OnJoinSessionComplete, SessionName: My Session
+[2022.02.26-04.43.08:335][372]LogNet: Browse: 192.168.56.1/Game/LobbySystem/Levels/LobbyMainMenu
+[2022.02.26-04.43.08:335][372]LogInit: WinSock: Socket queue. Rx: 32768 (config 32768) Tx: 32768 (config 32768)
+[2022.02.26-04.43.08:335][372]LogNet: Created socket for bind address: 0.0.0.0 on port 0
+[2022.02.26-04.43.08:336][372]PacketHandlerLog: Loaded PacketHandler component: Engine.EngineHandlerComponentFactory (StatelessConnectHandlerComponent)
+[2022.02.26-04.43.08:336][372]LogNet: Game client on port 7777, rate 100000
+[2022.02.26-04.43.09:348][857]LogHandshake: SendChallengeResponse. Timestamp: 9.949151, Cookie: 047166015003172042168077073143254219191159240232178132251017
+[2022.02.26-04.43.09:357][861]LogNetVersion: GAME259_A_URE 1.0.0.0, NetCL: 17155196, EngineNetVer: 17, GameNetVer: 0 (Checksum: 1639948920)
+[2022.02.26-04.43.09:357][861]LogNet: UPendingNetGame::SendInitialJoin: Sending hello. [UNetConnection] RemoteAddr: 192.168.56.1:7777, Name: IpConnection_0, Driver: PendingNetDriver IpNetDriver_0, IsServer: NO, PC: NULL, Owner: NULL, UniqueId: INVALID
+[2022.02.26-04.43.09:370][867]LogNet: Welcomed by server (Level: /Game/LobbySystem/Levels/Networking_GameTestMap, Game: /Script/GAME259_A_URE.GAME259_A_UREGameMode)
+[2022.02.26-04.43.09:370][867]LogLoad: LoadMap: 192.168.56.1/Game/LobbySystem/Levels/Networking_GameTestMap?game=/Script/GAME259_A_URE.GAME259_A_UREGameMode
+[2022.02.26-04.43.09:370][867]LogWorld: BeginTearingDown for /Game/LobbySystem/Levels/LobbyMainMenu
+[2022.02.26-04.43.09:371][867]LogWorld: UWorld::CleanupWorld for LobbyMainMenu, bSessionEnded=true, bCleanupResources=true
+[2022.02.26-04.43.09:371][867]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2022.02.26-04.43.09:398][867]LogAudio: Display: Audio Device unregistered from world 'None'.
+[2022.02.26-04.43.09:400][867]LogUObjectHash: Compacting FUObjectHashTables data took   0.98ms
+[2022.02.26-04.43.09:446][867]LogAudio: Display: Audio Device (ID: 1) registered with world 'Networking_GameTestMap'.
+[2022.02.26-04.43.09:449][867]LogWorld: Bringing World /Game/LobbySystem/Levels/Networking_GameTestMap.Networking_GameTestMap up for play (max tick rate 0) at 2022.02.25-23.43.09
+[2022.02.26-04.43.09:449][867]LogWorld: Bringing up level for play took: 0.001361
+[2022.02.26-04.43.09:450][867]LogLoad: Took 0.079802 seconds to LoadMap(/Game/LobbySystem/Levels/Networking_GameTestMap)
+[2022.02.26-04.43.09:450][867]LogNavigation: Warning: NavData RegistrationFailed_DataPendingKill.
+[2022.02.26-04.43.09:481][871]LogViewport: Display: Viewport MouseLockMode Changed, DoNotLock -> LockOnCapture
+[2022.02.26-04.43.09:481][871]LogViewport: Display: Viewport MouseCaptureMode Changed, NoCapture -> CapturePermanently
+[2022.02.26-04.43.09:482][871]LogOnlineSession: Warning: OSS: No game present to join for session (GameSession)
+[2022.02.26-04.43.09:482][871]LogOnlineSession: Warning: OSS: No game present to join for session (GameSession)
+[2022.02.26-04.43.20:374][ 96]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 90.0
+[2022.02.26-04.43.20:377][ 97]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 80.0
+[2022.02.26-04.43.20:383][ 99]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 70.0
+[2022.02.26-04.43.20:386][100]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 60.0
+[2022.02.26-04.43.20:390][101]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 50.0
+[2022.02.26-04.43.20:402][105]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 40.0
+[2022.02.26-04.43.30:384][686]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 30.0
+[2022.02.26-04.43.30:408][693]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 20.0
+[2022.02.26-04.43.30:432][700]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 10.0
+[2022.02.26-04.43.31:497][ 25]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.31:500][ 26]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.31:507][ 28]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.31:514][ 30]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.31:520][ 32]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.31:526][ 34]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.31:533][ 36]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.31:536][ 37]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.32:695][390]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.32:721][398]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.33:975][783]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.35:723][323]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.37:256][796]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.38:646][222]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.38:805][270]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.39:938][620]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.40:121][676]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.40:679][852]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.43:116][616]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.43:294][670]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.43:307][674]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.44:100][911]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.45:094][214]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.45:433][315]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.45:624][372]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.46:364][599]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.46:592][665]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.46:609][670]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.46:630][676]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.46:661][685]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.46:694][694]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.48:011][ 76]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.43.48:017][ 78]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.07:422][811]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.07:425][812]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.07:428][813]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.07:434][815]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.07:441][817]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.07:447][819]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.07:487][831]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.08:004][987]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.08:013][990]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.08:036][997]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.08:315][ 83]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.08:322][ 85]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.08:347][ 93]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.08:846][246]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.09:232][360]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.09:433][421]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.09:988][593]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.10:014][601]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.10:731][820]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.11:047][916]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.11:246][978]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.11:249][979]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.11:270][986]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.11:648][ 99]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.12:538][370]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.13:382][629]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.13:593][695]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.14:596][  4]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.14:687][ 32]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.14:697][ 35]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.14:722][ 43]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.14:940][111]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.14:950][114]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.14:974][121]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.15:317][226]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.15:320][227]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.15:323][228]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.15:359][239]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.18:064][895]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.18:368][989]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.18:714][ 91]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.18:874][140]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.18:881][142]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.19:759][410]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.20:121][524]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.20:124][525]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.20:127][526]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.20:130][527]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.20:802][731]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.20:820][736]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.21:656][996]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.21:906][ 70]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.22:105][129]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.22:108][130]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.23:193][463]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.23:396][523]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.23:747][630]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.23:960][697]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.24:760][941]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.24:995][ 14]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.25:375][132]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.25:381][134]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.25:385][135]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.26:249][399]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.26:805][570]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.27:633][823]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.27:953][922]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.31:908][143]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.31:929][150]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.31:933][151]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.47:490][664]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.47:811][761]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.47:814][762]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.47:819][763]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.47:823][764]LogBlueprintUserMessages: [DamageTestActor_2] Current Health: 0.0
+[2022.02.26-04.44.54:143][207]LogOnlineSession: Warning: OSS: No game present to leave for session (GameSession)
+[2022.02.26-04.44.54:143][207]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = FailureReceived, ErrorString = Host closed the connection., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:143][207]LogNet: Warning: Network Failure: GameNetDriver[FailureReceived]: Host closed the connection.
+[2022.02.26-04.44.54:143][207]LogNet: NetworkFailure: FailureReceived, Error: 'Host closed the connection.'
+[2022.02.26-04.44.54:143][207]LogNet: UNetConnection::Close: [UNetConnection] RemoteAddr: 192.168.56.1:7777, Name: IpConnection_0, Driver: GameNetDriver IpNetDriver_0, IsServer: NO, PC: PlayerController_1, Owner: PlayerController_1, UniqueId: NULL:OMEN-3975961E457AEFA4B7D007A211D76D66, Channels: 10, Time: 2022.02.26-04.44.54
+[2022.02.26-04.44.54:144][207]LogNet: UChannel::Close: Sending CloseBunch. ChIndex == 0. Name: [UChannel] ChIndex: 0, Closing: 0 [UNetConnection] RemoteAddr: 192.168.56.1:7777, Name: IpConnection_0, Driver: GameNetDriver IpNetDriver_0, IsServer: NO, PC: PlayerController_1, Owner: PlayerController_1, UniqueId: NULL:OMEN-3975961E457AEFA4B7D007A211D76D66
+[2022.02.26-04.44.54:144][207]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:147][208]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:150][209]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:154][210]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:157][211]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:161][212]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:165][213]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:170][214]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:174][215]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:177][216]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:180][217]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:183][218]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:186][219]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:192][220]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:196][221]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:199][222]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:202][223]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:208][224]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:210][225]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:213][226]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:216][227]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:219][228]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:222][229]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:225][230]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:228][231]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:230][232]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:234][233]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:237][234]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:241][235]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:244][236]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:248][237]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:251][238]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:254][239]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:257][240]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:260][241]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:263][242]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:265][243]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:268][244]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:272][245]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:276][246]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:278][247]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:281][248]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:285][249]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:290][250]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:293][251]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:296][252]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:298][253]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:301][254]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:305][255]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:308][256]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:311][257]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:314][258]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:318][259]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:321][260]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:324][261]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:328][262]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:332][263]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:335][264]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:338][265]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:340][266]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:343][267]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:346][268]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:349][269]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:352][270]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:355][271]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:359][272]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:362][273]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:365][274]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:371][275]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:374][276]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:377][277]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:380][278]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:383][279]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:386][280]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:389][281]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:392][282]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:395][283]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:398][284]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:401][285]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:405][286]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:408][287]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:412][288]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:415][289]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:418][290]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:422][291]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:425][292]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:428][293]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:430][294]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:433][295]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:437][296]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:440][297]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:443][298]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:446][299]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:449][300]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:454][301]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:457][302]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:460][303]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:463][304]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:465][305]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:468][306]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:471][307]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:474][308]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:477][309]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:480][310]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:484][311]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:487][312]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:490][313]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:494][314]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:498][315]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:501][316]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:504][317]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:507][318]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:510][319]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:512][320]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:515][321]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:518][322]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:521][323]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:524][324]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:527][325]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:530][326]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:533][327]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:538][328]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:541][329]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:544][330]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:547][331]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:551][332]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:554][333]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:557][334]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:561][335]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:564][336]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:568][337]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:572][338]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:575][339]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:580][340]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:583][341]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:586][342]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:588][343]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:591][344]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:596][345]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:599][346]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:602][347]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:605][348]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:608][349]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:611][350]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:615][351]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:620][352]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:625][353]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:628][354]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:630][355]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:633][356]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:637][357]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:640][358]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:642][359]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:645][360]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:648][361]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:652][362]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:655][363]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:659][364]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:663][365]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:666][366]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:670][367]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:673][368]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:676][369]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:679][370]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:682][371]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:685][372]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:690][373]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:693][374]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:695][375]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:699][376]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:702][377]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:707][378]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:710][379]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:713][380]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:715][381]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:718][382]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:722][383]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:725][384]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:727][385]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:730][386]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:733][387]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:736][388]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:739][389]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:742][390]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:745][391]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:747][392]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:750][393]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:754][394]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:759][395]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:762][396]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:765][397]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:768][398]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:772][399]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:775][400]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:778][401]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:781][402]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:784][403]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:789][404]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:791][405]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:794][406]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:797][407]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:800][408]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:803][409]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:806][410]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:809][411]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:811][412]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:815][413]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:819][414]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:823][415]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:825][416]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:828][417]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:831][418]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:834][419]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:840][420]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:842][421]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:845][422]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:848][423]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:850][424]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:853][425]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:857][426]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:860][427]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:863][428]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:865][429]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:868][430]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:873][431]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:876][432]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:879][433]LogNet: Error: UEngine::BroadcastNetworkFailure: FailureType = ConnectionLost, ErrorString = Your connection to the host has been lost., Driver = GameNetDriver IpNetDriver_0
+[2022.02.26-04.44.54:888][433]LogSlate: Window 'GAME259_A_URE (64-bit Development PCD3D_SM5) ' being destroyed
+[2022.02.26-04.44.54:890][433]LogWindowsTextInputMethodSystem: Display: IME system deactivated.
+[2022.02.26-04.44.54:893][434]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2022.02.26-04.44.54:893][434]LogEngine: All Windows Closed
+[2022.02.26-04.44.54:893][434]LogWindows: FPlatformMisc::RequestExit(0)
+[2022.02.26-04.44.54:893][434]LogWindows: FPlatformMisc::RequestExitWithStatus(0, 0)
+[2022.02.26-04.44.54:893][434]LogCore: Engine exit requested (reason: Win RequestExit)
+[2022.02.26-04.44.54:893][435]LogCore: Engine exit requested (reason: EngineExit() was called; note: exit was already requested)
+[2022.02.26-04.44.54:893][435]LogInit: Display: PreExit Game.
+[2022.02.26-04.44.54:901][435]LogWorld: BeginTearingDown for /Game/LobbySystem/Levels/Networking_GameTestMap
+[2022.02.26-04.44.54:901][435]LogNet: World NetDriver shutdown IpNetDriver_0 [GameNetDriver]
+[2022.02.26-04.44.54:901][435]LogNet: DestroyNamedNetDriver IpNetDriver_0 [GameNetDriver]
+[2022.02.26-04.44.54:901][435]LogExit: GameNetDriver IpNetDriver_0 shut down
+[2022.02.26-04.44.54:901][435]LogWorld: UWorld::CleanupWorld for Networking_GameTestMap, bSessionEnded=true, bCleanupResources=true
+[2022.02.26-04.44.54:902][435]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2022.02.26-04.44.55:535][435]LogAudio: Display: Beginning Audio Device Manager Shutdown (Module: AudioMixerXAudio2)...
+[2022.02.26-04.44.55:535][435]LogAudio: Display: Destroying 1 Remaining Audio Device(s)...
+[2022.02.26-04.44.55:535][435]LogAudio: Display: Audio Device unregistered from world 'Networking_GameTestMap'.
+[2022.02.26-04.44.55:561][435]LogAudioMixer: FMixerPlatformXAudio2::StopAudioStream() called
+[2022.02.26-04.44.55:562][435]LogAudioMixer: FMixerPlatformXAudio2::StopAudioStream() called
+[2022.02.26-04.44.55:567][435]LogAudio: Display: Audio Device Manager Shutdown
+[2022.02.26-04.44.55:570][435]LogExit: Preparing to exit.
+[2022.02.26-04.44.55:577][435]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2022.02.26-04.44.55:578][435]LogUObjectHash: Compacting FUObjectHashTables data took   0.81ms
+[2022.02.26-04.44.55:705][435]LogMoviePlayer: Shutting down movie player
+[2022.02.26-04.44.55:833][435]LogDemo: Cleaned up 0 splitscreen connections with owner deletion
+[2022.02.26-04.44.55:839][435]LogExit: Game engine shut down
+[2022.02.26-04.44.55:877][435]LogExit: Object subsystem successfully closed.
+[2022.02.26-04.44.55:890][435]LogShaderCompilers: Display: === FShaderJobCache stats ===
+[2022.02.26-04.44.55:890][435]LogShaderCompilers: Display: Total job queries 0, among them cache hits 0 (0.00%)
+[2022.02.26-04.44.55:890][435]LogShaderCompilers: Display: Tracking 0 distinct input hashes that result in 0 distinct outputs (0.00%)
+[2022.02.26-04.44.55:890][435]LogShaderCompilers: Display: RAM used: 0.00 MB (0.00 GB) of 819.20 MB (0.80 GB) budget. Usage: 0.00%
+[2022.02.26-04.44.55:890][435]LogShaderCompilers: Display: ================================================
+[2022.02.26-04.44.55:906][435]LogShaderCompilers: Display: Shaders left to compile 0
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module SequenceRecorderSections (566)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module SequenceRecorder (564)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module AutomationController (562)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module AutomationWorker (560)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module Voice (558)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module AIModule (556)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module GameplayDebugger (555)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module AITestSuite (553)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module NavigationSystem (551)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module OculusMR (548)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module TakeRecorderSources (546)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module TakeRecorder (545)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module TakeTrackRecorders (542)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module TakesCore (540)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module OpenXRInput (538)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module WmfMediaFactory (536)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module WebMMediaFactory (534)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module WebMMedia (532)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module OpenExrWrapper (530)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module ImgMediaFactory (528)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module AvfMediaFactory (526)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module PlanarCut (524)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module MagicLeapMediaCodecFactory (522)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module MagicLeapMediaFactory (520)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module CharacterAI (518)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module SessionServices (516)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module MovieSceneCapture (514)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module LiveCoding (512)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module LevelSequence (510)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module MovieSceneTracks (508)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module MovieScene (506)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module StreamingPauseRendering (504)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module PortalServices (502)
+[2022.02.26-04.44.55:914][435]LogModuleManager: Shutting down and abandoning module PortalRpc (500)
+[2022.02.26-04.44.55:915][435]LogModuleManager: Shutting down and abandoning module MessagingRpc (498)
+[2022.02.26-04.44.55:915][435]LogModuleManager: Shutting down and abandoning module AudioMixerXAudio2 (496)
+[2022.02.26-04.44.55:915][435]LogModuleManager: Shutting down and abandoning module AudioMixerCore (495)
+[2022.02.26-04.44.55:915][435]LogModuleManager: Shutting down and abandoning module ImageWriteQueue (492)
+[2022.02.26-04.44.55:917][435]LogModuleManager: Shutting down and abandoning module ProfilerService (490)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module TaskGraph (488)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module OculusInput (486)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module SQLiteSupport (484)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module DatabaseSupport (482)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module EOSVoiceChat (480)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module TakeMovieScene (478)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module TemplateSequence (476)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module Synthesis (474)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module ProceduralMeshComponent (472)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module MobilePatchingUtils (470)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module GooglePAD (468)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module EditableMesh (466)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module AppleImageUtilsBlueprintSupport (464)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module AppleImageUtils (462)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module CustomMeshComponent (460)
+[2022.02.26-04.44.55:960][435]LogModuleManager: Shutting down and abandoning module CableComponent (458)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module AssetTags (456)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module AudioCapture (454)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module AudioCaptureRtAudio (453)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module ArchVisCharacter (450)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module AndroidPermission (448)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module ActorLayerUtilities (446)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module MediaCompositing (442)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module ImgMedia (440)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module MotoSynth (438)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module OpenImageDenoise (436)
+[2022.02.26-04.44.55:961][435]LogOpenImageDenoise: OIDN shutting down
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module MagicLeapSharedWorld (434)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module MeshConversion (432)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module DynamicMesh (430)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module GeometryAlgorithms (428)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module GeometricObjects (426)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module MagicLeapLightEstimation (424)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module MagicLeapHelperVulkan (422)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module MagicLeapHelperOpenGL (420)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module MagicLeapAudio (418)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module GeometryCollectionTracks (416)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module GeometryCollectionSequencer (415)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module GeometryCacheTracks (412)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module GeometryCacheSequencer (411)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module GeometryCache (408)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module GeometryCacheEd (407)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module ChaosNiagara (404)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module FieldSystemEngine (403)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module BackChannel (400)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module AutomationUtils (398)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module VisualStudioSourceCodeAccess (396)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module HotReload (395)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module VisualStudioCodeSourceCodeAccess (392)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module UObjectPlugin (390)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module SubversionSourceControl (388)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module PerforceSourceControl (386)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module SourceControl (385)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module CLionSourceCodeAccess (382)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module LiveLinkSequencer (380)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module LiveLinkMovieScene (378)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module LiveLinkGraphNode (376)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module LiveLinkComponents (374)
+[2022.02.26-04.44.55:961][435]LogModuleManager: Shutting down and abandoning module LiveLink (372)
+[2022.02.26-04.44.56:772][435]LogModuleManager: Shutting down and abandoning module OodleNetworkHandlerComponent (370)
+[2022.02.26-04.44.56:772][435]LogModuleManager: Shutting down and abandoning module GAME259_A_URE (368)
+[2022.02.26-04.44.56:772][435]LogModuleManager: Shutting down and abandoning module AnimGraph (367)
+[2022.02.26-04.44.56:772][435]LogModuleManager: Shutting down and abandoning module SteamShared (364)
+[2022.02.26-04.44.56:772][435]LogSteamShared: Freeing the Steam Loaded Modules...
+[2022.02.26-04.44.56:772][435]LogModuleManager: Shutting down and abandoning module SQLiteCore (362)
+[2022.02.26-04.44.56:772][435]LogModuleManager: Shutting down and abandoning module GameplayCameras (360)
+[2022.02.26-04.44.56:772][435]LogModuleManager: Shutting down and abandoning module SoundFields (358)
+[2022.02.26-04.44.56:772][435]LogModuleManager: Shutting down and abandoning module SignificanceManager (356)
+[2022.02.26-04.44.56:773][435]LogModuleManager: Shutting down and abandoning module RuntimePhysXCooking (354)
+[2022.02.26-04.44.56:773][435]LogModuleManager: Shutting down and abandoning module PropertyAccessEditor (352)
+[2022.02.26-04.44.56:773][435]LogModuleManager: Shutting down and abandoning module PhysXVehiclesEditor (350)
+[2022.02.26-04.44.56:773][435]LogModuleManager: Shutting down and abandoning module LocationServicesBPLibrary (346)
+[2022.02.26-04.44.56:773][435]LogModuleManager: Shutting down and abandoning module AudioSynesthesia (344)
+[2022.02.26-04.44.56:773][435]LogModuleManager: Shutting down and abandoning module AudioSynesthesiaCore (342)
+[2022.02.26-04.44.56:773][435]LogModuleManager: Shutting down and abandoning module ActorSequence (340)
+[2022.02.26-04.44.56:773][435]LogModuleManager: Shutting down and abandoning module ImgMediaEngine (338)
+[2022.02.26-04.44.56:773][435]LogModuleManager: Shutting down and abandoning module UdpMessaging (336)
+[2022.02.26-04.44.56:874][435]LogModuleManager: Shutting down and abandoning module TcpMessaging (334)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module PythonScriptPlugin (332)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapARPin (330)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapHandMeshing (328)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapSecureStorage (326)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapPrivileges (324)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapPlanes (322)
+[2022.02.26-04.44.56:974][435]LogMagicLeapPlanes: Planes tracker already destroyed.
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapImageTracker (320)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapIdentity (318)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapHandTracking (316)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapEyeTracker (314)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapController (312)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapARPinImpl (310)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module MagicLeapAR (308)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module GameplayTagsEditor (306)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module FacialAnimation (304)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module NiagaraAnimNotifies (302)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module Niagara (300)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module SignalProcessing (299)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module NiagaraEditor (297)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module ContentBrowser (296)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module CollectionManager (295)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module DirectoryWatcher (294)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module ContentBrowserData (291)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module NiagaraCore (286)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module AssetManagerEditor (284)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module TreeMap (283)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module PropertyAccessNode (280)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module AnimationSharing (278)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module LightPropagationVolumeRuntime (276)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module EnvironmentQueryEditor (274)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module Paper2D (272)
+[2022.02.26-04.44.56:974][435]LogModuleManager: Shutting down and abandoning module WindowsMoviePlayer (270)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module WebMMoviePlayer (268)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module NetworkReplayStreaming (266)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module PacketHandler (264)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module ClothingSystemEditor (262)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module ClothingSystemRuntimeNv (260)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module MediaAssets (258)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module Overlay (256)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module OverlayEditor (255)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module VREditor (252)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module StringTableEditor (250)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module GameplayTasksEditor (248)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module BehaviorTreeEditor (246)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module FunctionalTesting (244)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module CollisionAnalyzer (242)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module WorkspaceMenuStructure (241)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module UMG (238)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module UMGEditor (237)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module Sequencer (236)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module MessageLog (233)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module SlateReflector (228)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module Slate (226)
+[2022.02.26-04.44.56:975][435]LogModuleManager: Shutting down and abandoning module SlateCore (224)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module LandscapeEditorUtilities (222)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module UnrealEd (220)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module MRMesh (218)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module Messaging (216)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module SourceCodeAccess (214)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module HeadMountedDisplay (212)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module XAudio2 (210)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module Networking (208)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module Core (206)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module MaterialEditor (204)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module MovieSceneTools (202)
+[2022.02.26-04.44.56:976][435]LogModuleManager: Shutting down and abandoning module EditorStyle (201)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module KismetCompiler (198)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module MeshBuilder (196)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module MeshUtilities (194)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module MeshMergeUtilities (193)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module MeshReductionInterface (192)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module MeshBoneReduction (191)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module SkeletalMeshReduction (189)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module ProxyLODMeshReduction (187)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module QuadricMeshReduction (185)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module MaterialBaking (181)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module NullInstallBundleManager (176)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module PIEPreviewDeviceProfileSelector (174)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module DerivedDataCache (172)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module TargetPlatform (170)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module VulkanShaderFormat (169)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module ShaderFormatVectorVM (167)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module ShaderFormatOpenGL (165)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module ShaderFormatD3D (163)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module MetalShaderFormat (161)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module TextureFormatOodle (159)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module TextureFormatUncompressed (157)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module TextureFormatPVR (155)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module TextureFormatETC2 (153)
+[2022.02.26-04.44.56:977][435]LogModuleManager: Shutting down and abandoning module TextureFormatDXT (151)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module TextureFormatIntelISPCTexComp (149)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module TextureFormatASTC (147)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module ImageWrapper (146)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module AudioFormatOpus (143)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module AudioFormatOgg (141)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module AudioFormatADPCM (139)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module WindowsServerTargetPlatform (137)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module WindowsClientTargetPlatform (135)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module WindowsTargetPlatform (133)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module WindowsNoEditorTargetPlatform (131)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module D3D11RHI (128)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module InputCore (126)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module Settings (124)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module PhysXCooking (122)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module Chaos (120)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module WindowsPlatformFeatures (118)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module GameplayMediaEncoder (117)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module AVEncoder (116)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module OculusHMD (112)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module OpenXRHandTracking (110)
+[2022.02.26-04.44.56:978][435]LogSlate: Slate User Destroyed.  User Index 0, Is Virtual User: 0
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module OpenXREyeTracker (108)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module OpenXRAR (106)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module AugmentedReality (105)
+[2022.02.26-04.44.56:978][435]LogModuleManager: Shutting down and abandoning module OpenXRHMD (102)
+[2022.02.26-04.44.56:980][435]LogModuleManager: Shutting down and abandoning module ExampleDeviceProfileSelector (100)
+[2022.02.26-04.44.56:980][435]LogModuleManager: Shutting down and abandoning module ChunkDownloader (98)
+[2022.02.26-04.44.56:980][435]LogModuleManager: Shutting down and abandoning module WmfMedia (96)
+[2022.02.26-04.44.56:981][435]LogModuleManager: Shutting down and abandoning module Media (95)
+[2022.02.26-04.44.56:982][435]LogModuleManager: Shutting down and abandoning module MediaInfo (94)
+[2022.02.26-04.44.56:982][435]LogModuleManager: Shutting down and abandoning module LauncherChunkInstaller (90)
+[2022.02.26-04.44.56:982][435]LogModuleManager: Shutting down and abandoning module OnlineBlueprintSupport (88)
+[2022.02.26-04.44.56:982][435]LogModuleManager: Shutting down and abandoning module OnlineSubsystem (84)
+[2022.02.26-04.44.56:982][435]LogModuleManager: Shutting down and abandoning module XMPP (79)
+[2022.02.26-04.44.56:982][435]LogModuleManager: Shutting down and abandoning module WebSockets (78)
+[2022.02.26-04.44.57:009][435]LogModuleManager: Shutting down and abandoning module HTTP (75)
+[2022.02.26-04.44.57:009][435]LogHttp: Display: cleaning up 0 outstanding Http requests.
+[2022.02.26-04.44.57:042][435]LogModuleManager: Shutting down and abandoning module SSL (74)
+[2022.02.26-04.44.57:043][435]LogModuleManager: Shutting down and abandoning module EOSShared (70)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module ExrReaderGpu (68)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module MLSDK (66)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module MagicLeap (64)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module ChaosCloth (62)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module VariantManagerContent (60)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module DatasmithContent (58)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module NiagaraVertexFactories (56)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module NiagaraShader (54)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module PixWinPlugin (52)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module AISupportModule (50)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module DesktopPlatform (48)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module PythonScriptPluginPreload (46)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module PlatformCryptoOpenSSL (44)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module PlatformCryptoTypes (42)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module PlatformCrypto (40)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module OodleDataCompressionFormat (38)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module XGEController (36)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module AnimationModifiers (34)
+[2022.02.26-04.44.57:044][435]LogModuleManager: Shutting down and abandoning module AudioEditor (32)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module PropertyEditor (31)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module TextureCompressor (28)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module RenderCore (26)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module Landscape (24)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module SlateRHIRenderer (22)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module AnimGraphRuntime (20)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module Renderer (18)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module Engine (16)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module CoreUObject (14)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module NetworkFile (12)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module CookedIterativeFile (10)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module StreamingFile (8)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module SandboxFile (6)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module PakFile (4)
+[2022.02.26-04.44.57:045][435]LogModuleManager: Shutting down and abandoning module RSA (3)
+[2022.02.26-04.44.57:045][435]LogContentStreaming: Display: There are 1 unreleased StreamingManagers
+[2022.02.26-04.44.57:057][435]LogD3D11RHI: Shutdown
+[2022.02.26-04.44.57:057][435]LogD3D11RHI: CleanupD3DDevice
+[2022.02.26-04.44.57:058][435]LogExit: Exiting.
+[2022.02.26-04.44.57:119][435]Log file closed, 02/25/22 23:44:57
