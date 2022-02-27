@@ -79,7 +79,9 @@ void EmptyLinkFunctionForGeneratedCodeGameInstance_GAME259_A_URE() {}
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UDelegateFunction_GAME259_A_URE_ServerDel__DelegateSignature_Statics::Function_MetaDataParams[] = {
+		{ "Comment", "// Delegate for ServerList Loading\n" },
 		{ "ModuleRelativePath", "GameInstance_GAME259_A_URE.h" },
+		{ "ToolTip", "Delegate for ServerList Loading" },
 	};
 #endif
 	const UE4CodeGen_Private::FFunctionParams Z_Construct_UDelegateFunction_GAME259_A_URE_ServerDel__DelegateSignature_Statics::FuncParams = { (UObject*(*)())Z_Construct_UPackage__Script_GAME259_A_URE, nullptr, "ServerDel__DelegateSignature", nullptr, nullptr, sizeof(_Script_GAME259_A_URE_eventServerDel_Parms), Z_Construct_UDelegateFunction_GAME259_A_URE_ServerDel__DelegateSignature_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UDelegateFunction_GAME259_A_URE_ServerDel__DelegateSignature_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00130000, 0, 0, METADATA_PARAMS(Z_Construct_UDelegateFunction_GAME259_A_URE_ServerDel__DelegateSignature_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UDelegateFunction_GAME259_A_URE_ServerDel__DelegateSignature_Statics::Function_MetaDataParams)) };
@@ -367,7 +369,6 @@ static struct FScriptStruct_GAME259_A_URE_StaticRegisterNativesFServerInfo
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UGameInstance_GAME259_A_URE_Statics::Class_MetaDataParams[] = {
-		{ "Comment", "/**\n * \n */" },
 		{ "IncludePath", "GameInstance_GAME259_A_URE.h" },
 		{ "ModuleRelativePath", "GameInstance_GAME259_A_URE.h" },
 	};
@@ -415,7 +416,7 @@ static struct FScriptStruct_GAME259_A_URE_StaticRegisterNativesFServerInfo
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UGameInstance_GAME259_A_URE, 2283556039);
+	IMPLEMENT_CLASS(UGameInstance_GAME259_A_URE, 69693710);
 	template<> GAME259_A_URE_API UClass* StaticClass<UGameInstance_GAME259_A_URE>()
 	{
 		return UGameInstance_GAME259_A_URE::StaticClass();

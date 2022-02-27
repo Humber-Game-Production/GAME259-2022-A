@@ -24,14 +24,13 @@ public:
 	int32 ServerArrayIndex;
 };
 
+// Delegate for ServerList Loading
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerDel, FServerInfo, ServerListDel);
 
 // Checks if "Refresh Server" is active
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerSearchingDel, bool, SearchingForServer);
 
-/**
- * 
- */
+
 UCLASS()
 class GAME259_A_URE_API UGameInstance_GAME259_A_URE : public UGameInstance
 {

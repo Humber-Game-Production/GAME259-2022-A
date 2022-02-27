@@ -29,7 +29,7 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URE_init() {}
 				SingletonFuncArray,
 				UE_ARRAY_COUNT(SingletonFuncArray),
 				PKG_CompiledIn | 0x00000000,
-				0x37827F7B,
+				0xD36B6F22,
 				0x64367191,
 				METADATA_PARAMS(nullptr, 0)
 			};

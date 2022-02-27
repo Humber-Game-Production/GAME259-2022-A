@@ -21,7 +21,7 @@ struct FServerInfo;
 
 template<> GAME259_A_URE_API UScriptStruct* StaticStruct<struct FServerInfo>();
 
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_30_DELEGATE \
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_31_DELEGATE \
 struct _Script_GAME259_A_URE_eventServerSearchingDel_Parms \
 { \
 	bool SearchingForServer; \
@@ -34,7 +34,7 @@ static inline void FServerSearchingDel_DelegateWrapper(const FMulticastScriptDel
 }
 
 
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_27_DELEGATE \
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_28_DELEGATE \
 struct _Script_GAME259_A_URE_eventServerDel_Parms \
 { \
 	FServerInfo ServerListDel; \
@@ -47,22 +47,22 @@ static inline void FServerDel_DelegateWrapper(const FMulticastScriptDelegate& Se
 }
 
 
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_SPARSE_DATA
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_RPC_WRAPPERS \
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_SPARSE_DATA
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_RPC_WRAPPERS \
  \
 	DECLARE_FUNCTION(execJoinServer); \
 	DECLARE_FUNCTION(execFindServers); \
 	DECLARE_FUNCTION(execCreateServer);
 
 
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_RPC_WRAPPERS_NO_PURE_DECLS \
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_RPC_WRAPPERS_NO_PURE_DECLS \
  \
 	DECLARE_FUNCTION(execJoinServer); \
 	DECLARE_FUNCTION(execFindServers); \
 	DECLARE_FUNCTION(execCreateServer);
 
 
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_INCLASS_NO_PURE_DECLS \
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUGameInstance_GAME259_A_URE(); \
 	friend struct Z_Construct_UClass_UGameInstance_GAME259_A_URE_Statics; \
@@ -71,7 +71,7 @@ public: \
 	DECLARE_SERIALIZER(UGameInstance_GAME259_A_URE)
 
 
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_INCLASS \
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_INCLASS \
 private: \
 	static void StaticRegisterNativesUGameInstance_GAME259_A_URE(); \
 	friend struct Z_Construct_UClass_UGameInstance_GAME259_A_URE_Statics; \
@@ -80,7 +80,7 @@ public: \
 	DECLARE_SERIALIZER(UGameInstance_GAME259_A_URE)
 
 
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_STANDARD_CONSTRUCTORS \
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UGameInstance_GAME259_A_URE(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UGameInstance_GAME259_A_URE) \
@@ -93,7 +93,7 @@ private: \
 public:
 
 
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_ENHANCED_CONSTRUCTORS \
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API UGameInstance_GAME259_A_URE(UGameInstance_GAME259_A_URE&&); \
@@ -104,32 +104,32 @@ public: \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(UGameInstance_GAME259_A_URE)
 
 
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_PRIVATE_PROPERTY_OFFSET \
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_PRIVATE_PROPERTY_OFFSET \
 	FORCEINLINE static uint32 __PPO__ServerListDel() { return STRUCT_OFFSET(UGameInstance_GAME259_A_URE, ServerListDel); } \
 	FORCEINLINE static uint32 __PPO__SearchingForServer() { return STRUCT_OFFSET(UGameInstance_GAME259_A_URE, SearchingForServer); }
 
 
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_35_PROLOG
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_GENERATED_BODY_LEGACY \
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_34_PROLOG
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_PRIVATE_PROPERTY_OFFSET \
-	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_SPARSE_DATA \
-	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_RPC_WRAPPERS \
-	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_INCLASS \
-	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_STANDARD_CONSTRUCTORS \
+	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_PRIVATE_PROPERTY_OFFSET \
+	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_SPARSE_DATA \
+	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_RPC_WRAPPERS \
+	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_INCLASS \
+	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_GENERATED_BODY \
+#define GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_PRIVATE_PROPERTY_OFFSET \
-	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_SPARSE_DATA \
-	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_RPC_WRAPPERS_NO_PURE_DECLS \
-	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_INCLASS_NO_PURE_DECLS \
-	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_38_ENHANCED_CONSTRUCTORS \
+	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_PRIVATE_PROPERTY_OFFSET \
+	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_SPARSE_DATA \
+	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_RPC_WRAPPERS_NO_PURE_DECLS \
+	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_INCLASS_NO_PURE_DECLS \
+	GAME259_A_URE_Source_GAME259_A_URE_GameInstance_GAME259_A_URE_h_37_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
