@@ -32,6 +32,7 @@
 /wd4244
 /wd4838
 /I .
+/I "C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Source\GAME259_A_URE\Private"
 /I ..\Intermediate\Build\Win64\UE4Editor\Inc\Engine
 /I Runtime
 /I Runtime\Engine\Classes
@@ -233,6 +234,7 @@
 /I Runtime\ClothingSystemRuntimeInterface\Public
 /I "C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Inc\GAME259_A_URE"
 /I "C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Source"
+/I "C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Source\GAME259_A_URE\Public"
 /I ..\Intermediate\Build\Win64\UE4Editor\Inc\AugmentedReality
 /I Runtime\AugmentedReality\Public
 /I ..\Intermediate\Build\Win64\UE4Editor\Inc\MRMesh
