@@ -13,16 +13,39 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeGAME259_A_URECharacter() {}
 // Cross Module References
+	GAME259_A_URE_API UFunction* Z_Construct_UDelegateFunction_GAME259_A_URE_CharacterHPUpdate__DelegateSignature();
+	UPackage* Z_Construct_UPackage__Script_GAME259_A_URE();
 	GAME259_A_URE_API UClass* Z_Construct_UClass_AGAME259_A_URECharacter_NoRegister();
 	GAME259_A_URE_API UClass* Z_Construct_UClass_AGAME259_A_URECharacter();
 	ENGINE_API UClass* Z_Construct_UClass_ACharacter();
-	UPackage* Z_Construct_UPackage__Script_GAME259_A_URE();
 	ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FDamageEvent();
 	ENGINE_API UClass* Z_Construct_UClass_AController_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_AActor_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 // End Cross Module References
+	struct Z_Construct_UDelegateFunction_GAME259_A_URE_CharacterHPUpdate__DelegateSignature_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UDelegateFunction_GAME259_A_URE_CharacterHPUpdate__DelegateSignature_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "GAME259_A_URECharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UDelegateFunction_GAME259_A_URE_CharacterHPUpdate__DelegateSignature_Statics::FuncParams = { (UObject*(*)())Z_Construct_UPackage__Script_GAME259_A_URE, nullptr, "CharacterHPUpdate__DelegateSignature", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00130000, 0, 0, METADATA_PARAMS(Z_Construct_UDelegateFunction_GAME259_A_URE_CharacterHPUpdate__DelegateSignature_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UDelegateFunction_GAME259_A_URE_CharacterHPUpdate__DelegateSignature_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UDelegateFunction_GAME259_A_URE_CharacterHPUpdate__DelegateSignature()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UDelegateFunction_GAME259_A_URE_CharacterHPUpdate__DelegateSignature_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	DEFINE_FUNCTION(AGAME259_A_URECharacter::execTakeDamage)
 	{
 		P_GET_PROPERTY(FFloatProperty,Z_Param_DamageTaken);
@@ -266,6 +289,10 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URECharacter() {}
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CurrentHealth_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_CurrentHealth;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_HealthUpdate_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_HealthUpdate;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UE4CodeGen_Private::FClassParams ClassParams;
@@ -282,9 +309,11 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URECharacter() {}
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AGAME259_A_URECharacter_Statics::Class_MetaDataParams[] = {
+		{ "Comment", "//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterHPUpdate, float, characterHealth);\n" },
 		{ "HideCategories", "Navigation" },
 		{ "IncludePath", "GAME259_A_URECharacter.h" },
 		{ "ModuleRelativePath", "GAME259_A_URECharacter.h" },
+		{ "ToolTip", "DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterHPUpdate, float, characterHealth);" },
 	};
 #endif
 #if WITH_METADATA
@@ -345,6 +374,13 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URECharacter() {}
 	};
 #endif
 	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_CurrentHealth = { "CurrentHealth", nullptr, (EPropertyFlags)0x0020080000010001, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AGAME259_A_URECharacter, CurrentHealth), METADATA_PARAMS(Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_CurrentHealth_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_CurrentHealth_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_HealthUpdate_MetaData[] = {
+		{ "Category", "EventDispatchers" },
+		{ "ModuleRelativePath", "GAME259_A_URECharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_HealthUpdate = { "HealthUpdate", nullptr, (EPropertyFlags)0x0010000010080000, UE4CodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AGAME259_A_URECharacter, HealthUpdate), Z_Construct_UDelegateFunction_GAME259_A_URE_CharacterHPUpdate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_HealthUpdate_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_HealthUpdate_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AGAME259_A_URECharacter_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_CameraBoom,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_FollowCamera,
@@ -352,6 +388,7 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URECharacter() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_BaseLookUpRate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_MaxHealth,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_CurrentHealth,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGAME259_A_URECharacter_Statics::NewProp_HealthUpdate,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_AGAME259_A_URECharacter_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<AGAME259_A_URECharacter>::IsAbstract,
@@ -380,7 +417,7 @@ void EmptyLinkFunctionForGeneratedCodeGAME259_A_URECharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AGAME259_A_URECharacter, 313407181);
+	IMPLEMENT_CLASS(AGAME259_A_URECharacter, 3606176426);
 	template<> GAME259_A_URE_API UClass* StaticClass<AGAME259_A_URECharacter>()
 	{
 		return AGAME259_A_URECharacter::StaticClass();
