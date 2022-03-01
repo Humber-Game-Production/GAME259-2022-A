@@ -1,9 +1,0 @@
-C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Development\GAME259_A_URE\Definitions.GAME259_A_URE.h
-C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Source\GAME259_A_URE\Public\BallIceActor.h
-C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Source\GAME259_A_URE\Public\BallActor.h
-C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Classes\Components/SphereComponent.h
-C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Classes\Components/ShapeComponent.h
-C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ShapeComponent.generated.h
-C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SphereComponent.generated.h
-C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Inc\GAME259_A_URE\BallActor.generated.h
-C:\Users\sargi\Desktop\School\Sem 4\Game Production 2\Repository\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Inc\GAME259_A_URE\BallIceActor.generated.h
