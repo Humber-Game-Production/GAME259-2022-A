@@ -46,7 +46,7 @@ SourceArt/**/*.png
 SourceArt/**/*.tga
 
 # Binary Files
-Binaries/*
+GAME259_A_URE/Binaries/*
 Plugins/*/Binaries/*
 
 # Builds
