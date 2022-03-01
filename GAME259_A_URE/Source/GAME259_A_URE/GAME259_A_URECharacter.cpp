@@ -10,7 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
-// AGAME259_A_URECharacter
+// AThirdPersonMPCharacter
 
 AGAME259_A_URECharacter::AGAME259_A_URECharacter()
 {
@@ -45,6 +45,11 @@ AGAME259_A_URECharacter::AGAME259_A_URECharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+	
+	//Initialize the player's Health
+	MaxHealth = 100.0f;
+	CurrentHealth = MaxHealth;
+	bReplicates = true;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -74,12 +79,13 @@ void AGAME259_A_URECharacter::SetupPlayerInputComponent(class UInputComponent* P
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AGAME259_A_URECharacter::OnResetVR);
+
 }
 
 
 void AGAME259_A_URECharacter::OnResetVR()
 {
-	// If GAME259_A_URE is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in GAME259_A_URE.Build.cs is not automatically propagated
+	// If ThirdPersonMP is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in ThirdPersonMP.Build.cs is not automatically propagated
 	// and a linker error will result.
 	// You will need to either:
 	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
@@ -90,12 +96,12 @@ void AGAME259_A_URECharacter::OnResetVR()
 
 void AGAME259_A_URECharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
 {
-		Jump();
+	Jump();
 }
 
 void AGAME259_A_URECharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
-		StopJumping();
+	StopJumping();
 }
 
 void AGAME259_A_URECharacter::TurnAtRate(float Rate)
@@ -126,15 +132,50 @@ void AGAME259_A_URECharacter::MoveForward(float Value)
 
 void AGAME259_A_URECharacter::MoveRight(float Value)
 {
-	if ( (Controller != nullptr) && (Value != 0.0f) )
+	if ((Controller != nullptr) && (Value != 0.0f))
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
+
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+void AGAME259_A_URECharacter::OnHealthUpdate()
+{	
+		//Display message to show current health
+		//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+
+		//Display dying message when health reaches 0
+		if (CurrentHealth <= 0)
+		{
+			FString deathMessage = FString::Printf(TEXT("You have been killed."));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+		}
+
+}
+
+void AGAME259_A_URECharacter::SetCurrentHealth(float healthValue)
+{
+	//Prevent current health to go above max health
+	CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
+	HealthUpdate.Broadcast();
+	//HealthUpdate.Broadcast(CurrentHealth);
+
+	OnHealthUpdate();
+	
+}
+
+float AGAME259_A_URECharacter::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float damageApplied = CurrentHealth - DamageTaken;
+	SetCurrentHealth(damageApplied);
+	return damageApplied;
 }
