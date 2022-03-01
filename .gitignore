@@ -50,7 +50,7 @@ GAME259_A_URE/Binaries/*
 Plugins/*/Binaries/*
 
 # Builds
-Build/*
+GAME259_A_URE/Build/*
 
 # Whitelist PakBlacklist-<BuildConfiguration>.txt files
 !Build/*/
