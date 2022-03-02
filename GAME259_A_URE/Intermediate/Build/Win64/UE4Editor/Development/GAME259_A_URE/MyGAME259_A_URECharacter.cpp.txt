@@ -1,0 +1,11 @@
+C:\Users\Tanner\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Development\GAME259_A_URE\Definitions.GAME259_A_URE.h
+C:\Users\Tanner\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Source\GAME259_A_URE\MyGAME259_A_URECharacter.h
+C:\Users\Tanner\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Source\GAME259_A_URE\GAME259_A_URECharacter.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Classes\GameFramework/Character.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Classes\GameFramework/CharacterMovementReplication.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\CharacterMovementReplication.generated.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Classes\GameFramework/RootMotionSource.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\RootMotionSource.generated.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\Character.generated.h
+C:\Users\Tanner\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Inc\GAME259_A_URE\GAME259_A_URECharacter.generated.h
+C:\Users\Tanner\Documents\GitHub\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Inc\GAME259_A_URE\MyGAME259_A_URECharacter.generated.h
