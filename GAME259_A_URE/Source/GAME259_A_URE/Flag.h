@@ -7,18 +7,18 @@
 #include "Net/UnrealNetwork.h"
 #include "Engine/Engine.h"
 #include "Components/ActorComponent.h"
-#include "GAME259_Flag.generated.h"
+#include "Flag.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GAME259_A_URE_API AGAME259_Flag : public AActor
+class GAME259_A_URE_API AFlag : public AActor
 {
 	GENERATED_BODY()
 	
 public:
-	AGAME259_Flag();
+	AFlag();
 
 protected:
 	virtual void BeginPlay() override;

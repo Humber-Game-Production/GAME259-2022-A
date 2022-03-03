@@ -4,15 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
-#include "GAME259_GameState.generated.h"
+#include "CTF_GameState.generated.h"
 
 UCLASS()
-class GAME259_A_URE_API AGAME259_GameState : public AGameStateBase
+class GAME259_A_URE_API ACTF_GameState : public AGameStateBase
 {
 	GENERATED_BODY()
 
 public:
-	AGAME259_GameState();
+	ACTF_GameState();
 
 	float timeElapsed;
 	int team1Score;

@@ -1,26 +1,25 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "GAME259_A_UREGameMode.h"
-#include "GAME259_A_URECharacter.h"
-#include "GAME259_GameState.h"
-#include "GAME259_PlayerController.h"
-#include "GAME259_PLayerSpawnPoint.h"
+#include "CTF_GameMode.h"
+#include "Main_Character.h"
+#include "CTF_GameState.h"
+#include "PLayerSpawnPoint.h"
 #include "EngineUtils.h"
 #include "Math/UnrealMathUtility.h"
 #include "TimerManager.h"
 #include "UObject/ConstructorHelpers.h"
 
-AGAME259_A_UREGameMode::AGAME259_A_UREGameMode()
+ACTF_GameMode::ACTF_GameMode()
 {
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/BP_GAME259_A_URECharacter"));
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/BP_Main_Character"));
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 
-	GameStateClass = AGAME259_GameState::StaticClass();
-	PlayerControllerClass = AGAME259_PlayerController::StaticClass();
+	GameStateClass = ACTF_GameState::StaticClass();
+	PlayerControllerClass = APlayerController::StaticClass();
 
 	timeLimit = 300.0f;
 	maxScore = 3;
@@ -28,38 +27,39 @@ AGAME259_A_UREGameMode::AGAME259_A_UREGameMode()
 	maxPlayers = 8;
 	respawnDelay = 5.0f;
 
-	team1 = true;
-	team2 = false;
+	team1 = false;
+	team2 = true;
 }
 
-void AGAME259_A_UREGameMode::BeginPlay()
+void ACTF_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UClass* SpawnPointClass = AGAME259_PlayerSpawnPoint::StaticClass();
+	UClass* SpawnPointClass = APlayerSpawnPoint::StaticClass();
 
 	//Add refference to team1 SpawnPoints
 	for (TActorIterator<AActor> Actor(GetWorld(), SpawnPointClass); Actor; ++Actor)
 	{
-		SpawnPoints.Add(Cast<AGAME259_PlayerSpawnPoint>(*Actor));
+		SpawnPoints.Add(Cast<APlayerSpawnPoint>(*Actor));
 
 	}
 }
 
-void AGAME259_A_UREGameMode::Respawn(AController* Controller)
+void ACTF_GameMode::Respawn(AController* Controller)
 {
 	if (Controller)
 	{
 		if (HasAuthority())
 		{
 			FTimerDelegate RespawnDele;
+			FTimerHandle RespawnHandle;
 			RespawnDele.BindUFunction(this, FName("Spawn"), Controller);
 			GetWorld()->GetTimerManager().SetTimer(RespawnHandle, RespawnDele, 3.0f, false);
 		}
 	}
 }
 
-AGAME259_PlayerSpawnPoint* AGAME259_A_UREGameMode::GetSpawnPoint()
+APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint()
 {
 	//Gets the total team1 spawn points
 	for (int32 i = 0 < SpawnPoints.Num(); ++i;)
@@ -75,12 +75,12 @@ AGAME259_PlayerSpawnPoint* AGAME259_A_UREGameMode::GetSpawnPoint()
 	return nullptr;
 }
 
-void AGAME259_A_UREGameMode::Spawn(AController* Controller)
+void ACTF_GameMode::Spawn(AController* Controller)
 {
 	//Team 1 spawning system
 	if (team1 == true)
 	{
-		if (AGAME259_PlayerSpawnPoint* SpawnPoint = GetSpawnPoint())
+		if (APlayerSpawnPoint* SpawnPoint = GetSpawnPoint())
 		{
 			FVector LocationOffset = FVector(0.0f, 0.0f, 0.0f);
 			FVector Location = SpawnPoint->GetActorLocation() + LocationOffset;

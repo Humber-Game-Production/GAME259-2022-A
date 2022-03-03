@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "GAME259_A_URECharacter.generated.h"
+#include "Main_Character.generated.h"
 
 UCLASS(config=Game)
-class AGAME259_A_URECharacter : public ACharacter
+class AMain_Character : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -21,7 +21,7 @@ class AGAME259_A_URECharacter : public ACharacter
 
 
 public:
-	AGAME259_A_URECharacter();
+	AMain_Character();
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -37,6 +37,8 @@ protected:
 
 	class UPlayerStatsComponent* PlayerStatsComp;
 	class ULineTrace* LineTraceComp;
+
+	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
 
 	void Attack();
 

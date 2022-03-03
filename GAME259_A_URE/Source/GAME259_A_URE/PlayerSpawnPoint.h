@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "GAME259_PlayerSpawnPoint.generated.h"
+#include "PlayerSpawnPoint.generated.h"
 
 UCLASS()
-class GAME259_A_URE_API AGAME259_PlayerSpawnPoint : public AActor
+class GAME259_A_URE_API APlayerSpawnPoint : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AGAME259_PlayerSpawnPoint();
+	APlayerSpawnPoint();
 
 protected:
 	// Called when the game starts or when spawned
