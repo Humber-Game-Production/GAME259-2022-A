@@ -1,7 +1,0 @@
-C:\Users\garen\Desktop\Game Production\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Development\GAME259_A_URE\Definitions.GAME259_A_URE.h
-C:\Users\garen\Desktop\Game Production\GAME259-2022-A\GAME259_A_URE\Source\GAME259_A_URE\LineTrace.h
-C:\Users\garen\Desktop\Game Production\GAME259-2022-A\GAME259_A_URE\Intermediate\Build\Win64\UE4Editor\Inc\GAME259_A_URE\LineTrace.generated.h
-C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Classes\Kismet/KismetSystemLibrary.h
-C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\CoreUObject\Public\UObject/PropertyAccessUtil.h
-C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\KismetSystemLibrary.generated.h
-C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Public\DrawDebugHelpers.h
