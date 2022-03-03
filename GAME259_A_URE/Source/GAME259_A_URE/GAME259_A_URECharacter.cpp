@@ -150,8 +150,8 @@ void AGAME259_A_URECharacter::MoveRight(float Value)
 void AGAME259_A_URECharacter::OnHealthUpdate()
 {	
 		//Display message to show current health
-		FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+		//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
 
 		//Display dying message when health reaches 0
 		if (CurrentHealth <= 0)
@@ -171,6 +171,7 @@ void AGAME259_A_URECharacter::SetCurrentHealth(float healthValue)
 	//Broadcast health changes
 	HealthUpdate.Broadcast();
 	//HealthUpdate.Broadcast(CurrentHealth);
+
 	OnHealthUpdate();
 	
 }

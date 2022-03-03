@@ -8,6 +8,7 @@
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHPUpdate);
+ 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterDead);
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterHPUpdate, float, characterHealth);
 
