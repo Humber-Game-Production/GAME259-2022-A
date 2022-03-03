@@ -45,6 +45,14 @@ public:
 	//Determines if the actor has a status effect or not
 	UPROPERTY(EditAnywhere, Category = "Input")
 	bool HasStatus;
+
+	//Testing for impulse value
+	UPROPERTY(EditAnywhere, Category = "Input")
+	float impulse;
+
+	//
+	UPROPERTY(EditAnywhere, Category = "Input")
+		float lethalVelocity;
 	
 	//Starting time for the destroying the object
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
@@ -73,11 +81,17 @@ public:
 	//Dispatcher for the amount of damage to deal
 	UPROPERTY(BlueprintAssignable, Category = "Dispatcher")
 	FMessageStatus MessageStatus;
-	
+
+
+	//Testing for impulse
+	UFUNCTION()
+	void SetImpulse(float impulse_) { impulse = impulse_; }
+
+
 	//Function used by the timer to determine what happens when the destroy timer is up
 	UFUNCTION()
 	void DestroyTimerUp();
-	
+
 	//Overlap function for destroying the actor and broadcasting delegates
 	UFUNCTION()
 	void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,  bool bFromSweep, const FHitResult &SweepResult );
