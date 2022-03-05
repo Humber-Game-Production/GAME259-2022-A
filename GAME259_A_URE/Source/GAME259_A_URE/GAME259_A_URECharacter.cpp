@@ -158,6 +158,8 @@ void AGAME259_A_URECharacter::OnHealthUpdate()
 		{
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+			//BroadCast character dead
+			DeadUpdate.Broadcast();
 		}
 
 }
@@ -166,12 +168,14 @@ void AGAME259_A_URECharacter::SetCurrentHealth(float healthValue)
 {
 	//Prevent current health to go above max health
 	CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
+	//Broadcast health changes
 	HealthUpdate.Broadcast();
 	//HealthUpdate.Broadcast(CurrentHealth);
 
 	OnHealthUpdate();
 	
 }
+
 
 float AGAME259_A_URECharacter::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {

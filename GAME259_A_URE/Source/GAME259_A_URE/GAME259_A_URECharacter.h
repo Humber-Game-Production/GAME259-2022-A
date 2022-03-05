@@ -8,6 +8,8 @@
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHPUpdate);
+ 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterDead);
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterHPUpdate, float, characterHealth);
 
 UCLASS(config = Game)
@@ -87,6 +89,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FCharacterHPUpdate HealthUpdate;
 
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+		FCharacterDead DeadUpdate;
+
 	/** Getter for Max Health.*/
 	UFUNCTION(BlueprintPure, Category = "Health")
 		FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
@@ -99,7 +104,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Health")
 		void SetCurrentHealth(float healthValue);
 
-	/** Event for taking damage. Overridden from APawn.*/
+	/** Event for taking damage. Overridden from APawn.
+	*   DamageEvent describes the type of damage.
+	*	EventInstigator describes the controller that is responsible for the damage event.
+	*	DamageCauser describes the Actor that deals damage.
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Health")
 		float TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 };

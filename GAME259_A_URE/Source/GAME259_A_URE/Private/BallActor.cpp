@@ -2,6 +2,7 @@
 
 
 #include "BallActor.h"
+#include "../GAME259_A_URECharacter.h"
 
 // Sets default values
 ABallActor::ABallActor()
@@ -16,7 +17,9 @@ ABallActor::ABallActor()
 	//With a radius of 40
 	SphereComp->InitSphereRadius(40.0f);
 	//Sets the default collision profile to "Projectile" profile
-	SphereComp->SetCollisionProfileName(TEXT("Projectile"));
+	//SphereComp->SetCollisionProfileName(TEXT("Projectile"));
+	
+	SphereComp->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 	
 	//Sets the mesh's model in code (not the best practice)
 	SphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
@@ -56,23 +59,51 @@ ABallActor::ABallActor()
 
 	//The type of status to apply
 	Status = "None";
+
+	//Impulse setup
+	//impulse = 0.0f;
+
+	//Lethal setup
+	//IsLethal = false;
+
+	lethalVelocity = 0.0f;
+
 }
 
 // Called when the game starts or when spawned
 void ABallActor::BeginPlay()
 {
 	Super::BeginPlay();
-
 	//Sets the timer to countdown at start
 	GetWorldTimerManager().SetTimer(TimeHandle, this, &ABallActor::DestroyTimerUp, DestroyTimer);
-	
+	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ABallActor::BeginOverlap);
+
+	//If the ball is spawned with a high impulse, set it to lethal (testing purpose)
+	if (impulse > 1.0f) {
+		IsLethal = true;
+	}
+	else {
+		IsLethal = false;
+	}
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
+
 }
 
 // Called every frame
 void ABallActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+
+	//If the ball reaches a certain velocity, the ball becomes lethal
+	//float velocity = SphereMesh->GetPhysicsLinearVelocity().Size();
+	//if (velocity > lethalVelocity) {
+	//	IsLethal = true;
+	//}
+	//else {
+	//	IsLethal = false;
+	//}
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
+
 	if (Debug == true)
 	{
 		if (HasStatus == true)
@@ -81,7 +112,7 @@ void ABallActor::Tick(float DeltaTime)
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, TEXT("Status Applyed: " + Status));
 		}
 		//Displays the Velocity of the actor
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Current Actor Velocity: %f"), SphereComp->GetPhysicsLinearVelocity().Size()));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Current Actor Velocity: %f"), SphereMesh->GetPhysicsLinearVelocity().Size()));
 	}
 	
 }
@@ -94,7 +125,7 @@ void ABallActor::DestroyTimerUp()
 		//Displays the actor has been destroyed
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Ball Actor Destroyed"));	
 	}
-
+	
 	//Destroys this actor
 	this->Destroy();
 }
@@ -102,22 +133,30 @@ void ABallActor::DestroyTimerUp()
 //An overlap function
 void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult )
 {
-	if (IsLethal == true)
-	{
-		//Broadcasts the time to add message with the amount of time needed
-		MessageDamage.Broadcast(DamageToDeal);
+	//Check if the ball is overlapping with the character
+	if (OtherActor->IsA(AGAME259_A_URECharacter::StaticClass())) {
 
-		//If status is enabled broadcast it
-		if (HasStatus == true)
+		AGAME259_A_URECharacter *playerCharacter = (AGAME259_A_URECharacter*)OtherActor;
+
+		if (IsLethal)
 		{
-			//Broadcasts the the status effect
-			MessageStatus.Broadcast(Status);
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
+			//Broadcasts the time to add message with the amount of time needed
+			MessageDamage.Broadcast(DamageToDeal);
+			TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
+			//AController *DamageCauserController = GetOwner()->GetInstigatorController();
+			playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), nullptr, this);
+			//If status is enabled broadcast it
+			if (HasStatus == true)
+			{
+				//Broadcasts the the status effect
+				MessageStatus.Broadcast(Status);
+			}
+
+			//Destroys this game actor
+			//this->Destroy();	
 		}
-		
-		//Destroys the actor that collides with this object
-		OtherActor->Destroy();
-		//Destroys this game actor
-		this->Destroy();	
 	}
+
 	
 }
