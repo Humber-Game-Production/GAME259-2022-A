@@ -13,6 +13,7 @@
 #include "GameFramework/SpringArmComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
+// AThirdPersonMPCharacter
 // AMain_Character
 
 AMain_Character::AMain_Character()
@@ -46,6 +47,13 @@ AMain_Character::AMain_Character()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
+	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+	
+	//Initialize the player's Health
+	MaxHealth = 100.0f;
+	CurrentHealth = MaxHealth;
+	bReplicates = true;
 	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
 	LineTraceComp = CreateDefaultSubobject<ULineTrace>("LineTrace");
 
@@ -74,6 +82,35 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AMain_Character::LookUpAtRate);
 
+	// handle touch devices
+	PlayerInputComponent->BindTouch(IE_Pressed, this, &AMain_Character::TouchStarted);
+	PlayerInputComponent->BindTouch(IE_Released, this, &AMain_Character::TouchStopped);
+
+	// VR headset functionality
+	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AMain_Character::OnResetVR);
+
+}
+
+
+void AMain_Character::OnResetVR()
+{
+	// If ThirdPersonMP is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in ThirdPersonMP.Build.cs is not automatically propagated
+	// and a linker error will result.
+	// You will need to either:
+	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
+	// or:
+	//		Comment or delete the call to ResetOrientationAndPosition below (appropriate if not supporting VR)
+	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
+}
+
+void AMain_Character::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
+{
+	Jump();
+}
+
+void AMain_Character::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
+{
+	StopJumping();
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 }
 
@@ -110,12 +147,12 @@ void AMain_Character::MoveForward(float Value)
 
 void AMain_Character::MoveRight(float Value)
 {
-	if ( (Controller != nullptr) && (Value != 0.0f) )
+	if ((Controller != nullptr) && (Value != 0.0f))
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
+    
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
@@ -123,11 +160,50 @@ void AMain_Character::MoveRight(float Value)
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////
+
+void AMain_Character::OnHealthUpdate()
+{	
+		//Display message to show current health
+		//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+
+		//Display dying message when health reaches 0
+		if (CurrentHealth <= 0)
+		{
+			FString deathMessage = FString::Printf(TEXT("You have been killed."));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+			//BroadCast character dead
+			DeadUpdate.Broadcast();
+		}
+
+}
+
+void AMain_Character::SetCurrentHealth(float healthValue)
+{
+	//Prevent current health to go above max health
+	CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
+	//Broadcast health changes
+	HealthUpdate.Broadcast();
+	//HealthUpdate.Broadcast(CurrentHealth);
+
+	OnHealthUpdate();
+	
+}
+
+
+float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float damageApplied = CurrentHealth - DamageTaken;
+	SetCurrentHealth(damageApplied);
+	return damageApplied;
+}
+
 void AMain_Character::Attack()
 {
 	ServerAttack();
 }
-
+/*
 float AMain_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	//Fix this Role < ROLE_Authority || PlayerStatsComp->GetHealth() < -0.0f
@@ -147,6 +223,7 @@ float AMain_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent,
 	}
 	return ActualDamage;
 }
+*/
 bool AMain_Character::ServerAttack_Validate()
 {
 	return true;
