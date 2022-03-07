@@ -91,6 +91,9 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 
 
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
+
+
 }
 
 
