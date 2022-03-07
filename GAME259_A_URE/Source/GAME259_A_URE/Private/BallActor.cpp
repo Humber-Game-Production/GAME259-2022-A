@@ -126,9 +126,6 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 
 		AMain_Character *playerCharacter = (AMain_Character*)OtherActor;
 
-
-			AGAME259_A_URECharacter* playerCharacter = (AGAME259_A_URECharacter*)OtherActor;
-
 			if (IsLethal)
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));

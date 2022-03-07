@@ -18,7 +18,7 @@ ACTF_GameMode::ACTF_GameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
-}
+
 
 	GameStateClass = ACTF_GameState::StaticClass();
 	PlayerControllerClass = APlayerController::StaticClass();

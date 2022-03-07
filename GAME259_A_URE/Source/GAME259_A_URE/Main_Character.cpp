@@ -88,6 +88,8 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AMain_Character::OnResetVR);
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
+
 
 }
 
@@ -111,7 +113,6 @@ void AMain_Character::TouchStarted(ETouchIndex::Type FingerIndex, FVector Locati
 void AMain_Character::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
 	StopJumping();
-	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 }
 
 void  AMain_Character::BeginPlay()
