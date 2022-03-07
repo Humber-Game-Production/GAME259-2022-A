@@ -4,15 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "GAME259_A_UREGameMode.generated.h"
+#include "CTF_GameMode.generated.h"
 
 UCLASS(minimalapi)
-class AGAME259_A_UREGameMode : public AGameModeBase
+class ACTF_GameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
 public:
-	AGAME259_A_UREGameMode();
+	ACTF_GameMode();
 };
 
 

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "GAME259_A_URECharacter.generated.h"
+#include "Main_Character.generated.h"
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHPUpdate);
@@ -13,7 +13,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterDead);
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterHPUpdate, float, characterHealth);
 
 UCLASS(config = Game)
-class AGAME259_A_URECharacter : public ACharacter
+class AMain_Character : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -25,7 +25,7 @@ class AGAME259_A_URECharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
 public:
-	AGAME259_A_URECharacter();
+	AMain_Character();
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
