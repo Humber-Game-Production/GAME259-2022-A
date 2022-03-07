@@ -13,9 +13,8 @@ class ACTF_GameMode : public AGameModeBase
 
 public:
 	ACTF_GameMode();
-};
 
-    ACTF_GameMode();
+
 
 
 	float timeLimit;
