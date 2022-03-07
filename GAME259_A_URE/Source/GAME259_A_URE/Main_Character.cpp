@@ -1,6 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "Main_Character.h"
+#include "CTF_GameMode.h"
+#include "LineTrace.h"
+#include "PlayerStats.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -11,6 +14,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
+// AMain_Character
 
 AMain_Character::AMain_Character()
 {
@@ -50,6 +54,11 @@ AMain_Character::AMain_Character()
 	MaxHealth = 100.0f;
 	CurrentHealth = MaxHealth;
 	bReplicates = true;
+	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
+	LineTraceComp = CreateDefaultSubobject<ULineTrace>("LineTrace");
+
+	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
+	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -102,6 +111,12 @@ void AMain_Character::TouchStarted(ETouchIndex::Type FingerIndex, FVector Locati
 void AMain_Character::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
 	StopJumping();
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
+}
+
+void  AMain_Character::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void AMain_Character::TurnAtRate(float Rate)
@@ -137,7 +152,7 @@ void AMain_Character::MoveRight(float Value)
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
+    
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
@@ -182,4 +197,97 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 	float damageApplied = CurrentHealth - DamageTaken;
 	SetCurrentHealth(damageApplied);
 	return damageApplied;
+}
+
+void AMain_Character::Attack()
+{
+	ServerAttack();
+}
+/*
+float AMain_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	//Fix this Role < ROLE_Authority || PlayerStatsComp->GetHealth() < -0.0f
+	if (GetLocalRole() < ROLE_Authority || PlayerStatsComp->GetHealth() <= 0.0f)
+	{
+		return 0.0f;
+	}
+	const float ActualDamage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+
+	if (ActualDamage > 0.0f)
+	{
+		PlayerStatsComp->LowerHealth(ActualDamage);
+		if (PlayerStatsComp->GetHealth() <= 0.0f)
+		{
+			Die();
+		}
+	}
+	return ActualDamage;
+}
+*/
+bool AMain_Character::ServerAttack_Validate()
+{
+	return true;
+}
+
+void AMain_Character::ServerAttack_Implementation()
+{
+	if ((HasAuthority()))
+	{
+
+		TakeDamage(100.0f, FDamageEvent(), GetController(), this);
+
+		/*FVector Start = GetMesh()->GetBoneLocation(FName("head"));
+		FVector End = Start + FollowCamera->GetForwardVector() * 1500.0f;
+		FHitResult HitResult = LineTraceComp->LineTraceSingle(Start, End, true);
+		if (AActor* Actor = HitResult.GetActor())
+		{
+			if (AMain_Character* Player = Cast<AMain_Character>(Actor))
+			{
+				float TestDamage = 20.0f;
+
+				TakeDamage(TestDamage, FDamageEvent(), GetController(), this);
+			}
+		}*/
+	}
+}
+
+void AMain_Character::Die()
+{
+	if (HasAuthority())
+	{
+		MultiDie();
+		AGameModeBase* GM = GetWorld()->GetAuthGameMode();
+		if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
+		{
+			GameMode->Respawn(GetController());
+		}
+		//Start our destroy timer to remove actor
+		GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
+
+	}
+}
+
+void AMain_Character::CallDestroy()
+{
+	if (HasAuthority())
+	{
+		Destroy();
+	}
+}
+bool AMain_Character::MultiDie_Validate()
+{
+	return true;
+}
+
+void AMain_Character::MultiDie_Implementation()
+{
+	GetCapsuleComponent()->DestroyComponent();
+	this->GetCharacterMovement();
+	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	this->GetMesh()->SetAllBodiesSimulatePhysics(true);
+}
+
+void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
+{
+	Die();
 }

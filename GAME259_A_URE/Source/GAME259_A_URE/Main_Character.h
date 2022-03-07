@@ -6,7 +6,6 @@
 #include "GameFramework/Character.h"
 #include "Main_Character.generated.h"
 
-
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHPUpdate);
  
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterDead);
@@ -24,6 +23,7 @@ class AMain_Character : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
+    
 public:
 	AMain_Character();
 
@@ -35,7 +35,32 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
+	//virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
+
 protected:
+
+	class UPlayerStatsComponent* PlayerStatsComp;
+	class ULineTrace* LineTraceComp;
+
+	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
+
+	void Attack();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerAttack();
+	bool ServerAttack_Validate();
+	void ServerAttack_Implementation();
+
+	void Die();
+
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+		void MultiDie();
+	bool MultiDie_Validate();
+	void MultiDie_Implementation();
+
+	FTimerHandle DestroyHandle;
+
+	void CallDestroy();
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
@@ -79,6 +104,8 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
+
+	virtual void BeginPlay() override;
 
 public:
 	/** Returns CameraBoom subobject **/

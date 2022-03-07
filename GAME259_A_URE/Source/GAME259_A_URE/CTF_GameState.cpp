@@ -3,3 +3,7 @@
 
 #include "CTF_GameState.h"
 
+ACTF_GameState::ACTF_GameState() {
+
+
+}
