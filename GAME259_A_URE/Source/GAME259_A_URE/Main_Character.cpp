@@ -177,6 +177,7 @@ void AMain_Character::OnHealthUpdate()
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
 			//BroadCast character dead
 			DeadUpdate.Broadcast();
+			Die();
 		}
 
 }
