@@ -12,11 +12,13 @@
 ACTF_GameMode::ACTF_GameMode()
 {
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/BP_Main_Character"));
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/BP_Main_Character"));
+
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+
 
 	GameStateClass = ACTF_GameState::StaticClass();
 	PlayerControllerClass = APlayerController::StaticClass();
@@ -27,8 +29,8 @@ ACTF_GameMode::ACTF_GameMode()
 	maxPlayers = 8;
 	respawnDelay = 5.0f;
 
-	team1 = false;
-	team2 = true;
+	team1 = true;
+	team2 = false;
 }
 
 void ACTF_GameMode::BeginPlay()

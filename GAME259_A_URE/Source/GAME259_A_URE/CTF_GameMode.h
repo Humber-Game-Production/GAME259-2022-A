@@ -12,7 +12,9 @@ class ACTF_GameMode : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-    ACTF_GameMode();
+	ACTF_GameMode();
+
+
 
 
 	float timeLimit;
