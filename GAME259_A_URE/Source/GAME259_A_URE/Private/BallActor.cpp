@@ -2,7 +2,7 @@
 
 
 #include "BallActor.h"
-#include "../GAME259_A_URECharacter.h"
+#include "../Main_Character.h"
 
 // Sets default values
 ABallActor::ABallActor()
@@ -134,9 +134,9 @@ void ABallActor::DestroyTimerUp()
 void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult )
 {
 	//Check if the ball is overlapping with the character
-	if (OtherActor->IsA(AGAME259_A_URECharacter::StaticClass())) {
+	if (OtherActor->IsA(AMain_Character::StaticClass())) {
 
-		AGAME259_A_URECharacter *playerCharacter = (AGAME259_A_URECharacter*)OtherActor;
+		AMain_Character *playerCharacter = (AMain_Character*)OtherActor;
 
 		if (IsLethal)
 		{
