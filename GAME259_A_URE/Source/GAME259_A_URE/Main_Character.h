@@ -40,7 +40,6 @@ public:
 protected:
 
 	class UPlayerStatsComponent* PlayerStatsComp;
-	class ULineTrace* LineTraceComp;
 
 	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
 
