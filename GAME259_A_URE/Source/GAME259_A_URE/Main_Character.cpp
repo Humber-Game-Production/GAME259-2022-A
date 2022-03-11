@@ -178,6 +178,7 @@ void AMain_Character::SetCurrentHealth(float healthValue)
 	{
 		//BroadCast character dead
 		DeadUpdate.Broadcast();
+		Die();
 	}
 	
 }
