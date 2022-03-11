@@ -111,7 +111,7 @@ void UGameInstance_GAME259_A_URE::CreateServer(FString ServerName)
 	}
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
-	SessionSettings.NumPublicConnections = 40;
+	SessionSettings.NumPublicConnections = 3;
 	SessionSettings.bUseLobbiesIfAvailable = true;
 
 	// Set Server Names
