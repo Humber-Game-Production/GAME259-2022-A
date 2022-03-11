@@ -97,9 +97,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 		float CurrentHealth;
 
-	/** Update Health */
-	void OnHealthUpdate();
-
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -114,22 +111,22 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-		FCharacterHPUpdate HealthUpdate;
+	FCharacterHPUpdate HealthUpdate;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-		FCharacterDead DeadUpdate;
+	FCharacterDead DeadUpdate;
 
 	/** Getter for Max Health.*/
 	UFUNCTION(BlueprintPure, Category = "Health")
-		FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
+	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 
 	/** Getter for Current Health.*/
 	UFUNCTION(BlueprintPure, Category = "Health")
-		FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
+	FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
 
 	/** Setter for Current Health. Clamps the value between 0 and MaxHealth and calls OnHealthUpdate. Should only be called on the server.*/
 	UFUNCTION(BlueprintCallable, Category = "Health")
-		void SetCurrentHealth(float healthValue);
+	void SetCurrentHealth(float healthValue);
 
 	/** Event for taking damage. Overridden from APawn.
 	*   DamageEvent describes the type of damage.
@@ -137,6 +134,6 @@ public:
 	*	DamageCauser describes the Actor that deals damage.
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Health")
-		float TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	virtual float TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 };
 
