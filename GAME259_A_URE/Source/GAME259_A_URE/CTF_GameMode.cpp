@@ -29,8 +29,8 @@ ACTF_GameMode::ACTF_GameMode()
 	maxPlayers = 8;
 	respawnDelay = 5.0f;
 
-	team1 = false;
-	team2 = true;
+	team1 = true;
+	team2 = false;
 }
 
 void ACTF_GameMode::BeginPlay()
