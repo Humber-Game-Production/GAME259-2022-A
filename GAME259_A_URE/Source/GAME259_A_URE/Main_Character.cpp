@@ -2,7 +2,6 @@
 
 #include "Main_Character.h"
 #include "CTF_GameMode.h"
-#include "LineTrace.h"
 #include "PlayerStats.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -55,7 +54,6 @@ AMain_Character::AMain_Character()
 	CurrentHealth = MaxHealth;
 	bReplicates = true;
 	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
-	LineTraceComp = CreateDefaultSubobject<ULineTrace>("LineTrace");
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -163,24 +161,6 @@ void AMain_Character::MoveRight(float Value)
 }
 
 //////////////////////////////////////////////////////////////////////////
-
-void AMain_Character::OnHealthUpdate()
-{	
-		//Display message to show current health
-		//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
-
-		//Display dying message when health reaches 0
-		if (CurrentHealth <= 0)
-		{
-			FString deathMessage = FString::Printf(TEXT("You have been killed."));
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
-			//BroadCast character dead
-			DeadUpdate.Broadcast();
-		}
-
-}
-
 void AMain_Character::SetCurrentHealth(float healthValue)
 {
 	//Prevent current health to go above max health
@@ -189,7 +169,17 @@ void AMain_Character::SetCurrentHealth(float healthValue)
 	HealthUpdate.Broadcast();
 	//HealthUpdate.Broadcast(CurrentHealth);
 
-	OnHealthUpdate();
+	//Display message to show current health
+	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+
+	//Display dying message when health reaches 0
+	if (CurrentHealth <= 0)
+	{
+		//BroadCast character dead
+		DeadUpdate.Broadcast();
+		Die();
+	}
 	
 }
 
