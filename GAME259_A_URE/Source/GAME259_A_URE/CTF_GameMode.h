@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Main_PlayerController.h"
 #include "GameFramework/GameModeBase.h"
 #include "CTF_GameMode.generated.h"
 
@@ -14,7 +15,7 @@ class ACTF_GameMode : public AGameModeBase
 public:
 	ACTF_GameMode();
 
-
+    virtual void PostLogin(APlayerController* NewPlayer) override;
 
 
 	float timeLimit;
@@ -32,8 +33,10 @@ protected:
     virtual void BeginPlay() override;
 
     TArray<class APlayerSpawnPoint*> SpawnPoints;
+    TArray<class APlayerSpawnPoint*> TeamASpawnPoints;
+    TArray<class APlayerSpawnPoint*> TeamBSpawnPoints;
 
-    class APlayerSpawnPoint* GetSpawnPoint();
+    class APlayerSpawnPoint* GetSpawnPoint(bool bIsTeamA_);
 
 public:
 
