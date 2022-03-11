@@ -18,33 +18,32 @@ ABallActor::ABallActor()
 	SphereComp->InitSphereRadius(40.0f);
 	//Sets the default collision profile to "Projectile" profile
 	//SphereComp->SetCollisionProfileName(TEXT("Projectile"));
+	
 	SphereComp->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 	
 	//Sets the mesh's model in code (not the best practice)
 	SphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
 	SphereMesh->SetupAttachment(RootComponent);
-	//Simulates physics
-	SphereMesh->SetSimulatePhysics(true);
-	//Moves the mesh down
-	SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
-	//Scales the mesh to 70% of its size
-	SphereMesh->SetWorldScale3D(FVector(0.7f)); 
 
 	//Sets the default model to use
-	//static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
-	//if (SphereVisualAsset.Succeeded())
-	//{
-	//	SphereMesh->SetStaticMesh(SphereVisualAsset.Object);
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
+	if (SphereVisualAsset.Succeeded())
+	{
+		SphereMesh->SetStaticMesh(SphereVisualAsset.Object);
+		//Moves the mesh down
+		SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
+		//Scales the mesh to 70% of its size
+		SphereMesh->SetWorldScale3D(FVector(0.7f)); 
+	}
 
-	//}
+	static ConstructorHelpers::FObjectFinder<UMaterial> SphereMaterialAsset(TEXT("/Game/Materials/BallMat.BallMat"));
+	if (SphereMaterialAsset.Succeeded())
+	{
+		SphereMesh->SetMaterial(0, SphereMaterialAsset.Object);
+	}
 
-	SphereMaterial = CreateDefaultSubobject<UMaterial>(TEXT("SphereMaterial"));
-	//static ConstructorHelpers::FObjectFinder<UMaterial> SphereMaterialAsset(TEXT("/Game/Materials/BallMat.BallMat"));
-	//if (SphereMaterialAsset.Succeeded())
-	//{
-	//	SphereMesh->SetMaterial(0, SphereMaterialAsset.Object);
-	//}
-
+	//Simulates physics
+	SphereMesh->SetSimulatePhysics(true);
 	
 	//Amount of time to add
 	DamageToDeal = 5;
@@ -61,8 +60,11 @@ ABallActor::ABallActor()
 	//The type of status to apply
 	Status = "None";
 
+	//Impulse setup
+	//impulse = 0.0f;
+
 	//Lethal setup
-	IsLethal = false;
+	//IsLethal = false;
 
 	lethalVelocity = 0.0f;
 
@@ -75,7 +77,15 @@ void ABallActor::BeginPlay()
 	//Sets the timer to countdown at start
 	GetWorldTimerManager().SetTimer(TimeHandle, this, &ABallActor::DestroyTimerUp, DestroyTimer);
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ABallActor::BeginOverlap);
-	//SphereMesh->SetMaterial(0, SphereMaterial);
+
+	//If the ball is spawned with a high impulse, set it to lethal (testing purpose)
+	if (impulse > 1.0f) {
+		IsLethal = true;
+	}
+	else {
+		IsLethal = false;
+	}
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
 
 }
 
@@ -123,37 +133,30 @@ void ABallActor::DestroyTimerUp()
 //An overlap function
 void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult )
 {
+	//Check if the ball is overlapping with the character
+	if (OtherActor->IsA(AMain_Character::StaticClass())) {
 
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
-		//Check if the ball is overlapping with the character
-		if (OtherActor->IsA(AMain_Character::StaticClass())) {
+		AMain_Character *playerCharacter = (AMain_Character*)OtherActor;
 
-			AMain_Character* playerCharacter = (AMain_Character*)OtherActor;
-
-			if (IsLethal)
+		if (IsLethal)
+		{
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
+			//Broadcasts the time to add message with the amount of time needed
+			MessageDamage.Broadcast(DamageToDeal);
+			TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
+			//AController *DamageCauserController = GetOwner()->GetInstigatorController();
+			playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), nullptr, this);
+			//If status is enabled broadcast it
+			if (HasStatus == true)
 			{
-				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
-				//Broadcasts the time to add message with the amount of time needed
-				MessageDamage.Broadcast(DamageToDeal);
-				TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
-				//AController *DamageCauserController = GetOwner()->GetInstigatorController();
-				playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), nullptr, this);
-				//If status is enabled broadcast it
-				if (HasStatus == true)
-				{
-					//Broadcasts the the status effect
-					MessageStatus.Broadcast(Status);
-				}
-
-				//Destroys this game actor
-				//this->Destroy();	
+				//Broadcasts the the status effect
+				MessageStatus.Broadcast(Status);
 			}
+
+			//Destroys this game actor
+			//this->Destroy();	
 		}
 	}
-
-
-
-
 
 	
 }
