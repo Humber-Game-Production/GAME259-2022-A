@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "Main_Character.h"
+#include "Main_PlayerController.h"
 #include "CTF_GameMode.h"
 #include "PlayerStats.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
@@ -117,6 +118,10 @@ void AMain_Character::TouchStopped(ETouchIndex::Type FingerIndex, FVector Locati
 void  AMain_Character::BeginPlay()
 {
 	Super::BeginPlay();
+	if(HasAuthority())
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, GetName());
+	}
 }
 
 void AMain_Character::TurnAtRate(float Rate)
@@ -174,7 +179,11 @@ void AMain_Character::OnHealthUpdate()
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
 			//BroadCast character dead
-			DeadUpdate.Broadcast();
+			//DeadUpdate.Broadcast();
+			
+			// Calls Death Event in the Player Controller 
+			Cast<AMain_PlayerController>(GetController())->DeathEvent();
+			
 			Die();
 		}
 
