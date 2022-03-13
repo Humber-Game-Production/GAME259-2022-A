@@ -36,7 +36,7 @@ public:
 		float BaseLookUpRate;
 
 	//virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
-	
+
 protected:
 
 	class UPlayerStatsComponent* PlayerStatsComp;
@@ -57,8 +57,8 @@ protected:
 	bool MultiDie_Validate();
 	void MultiDie_Implementation();
 
-	FTimerHandle DestroyHandle;	
-	
+	FTimerHandle DestroyHandle;
+
 	void CallDestroy();
 
 	/** Resets HMD orientation in VR. */
