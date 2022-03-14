@@ -120,10 +120,7 @@ void AMain_Character::TouchStopped(ETouchIndex::Type FingerIndex, FVector Locati
 void  AMain_Character::BeginPlay()
 {
 	Super::BeginPlay();
-	if(HasAuthority())
-	{
-		//GEngine->AddOnScreenDebugMessage(-1, 120.0f, FColor::Red, GetName());
-	}
+	
 }
 
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
@@ -180,62 +177,66 @@ void AMain_Character::OnHealthUpdate()
 	//Display message to show current health
 	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
-
-	//Display dying message when health reaches 0
-	if (CurrentHealth <= 0)
+	
+	if(IsLocallyControlled())
 	{
-		FString deathMessage = FString::Printf(TEXT("You have been killed."));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
-		
-		//BroadCast character dead
-		//DeadUpdate.Broadcast();
-		
-		//Cast<AMain_PlayerController>(GetController())->DeathEventDispatcher.Broadcast();
-		
-		// Calls Death Event in the Player Controller
-		Cast<AMain_PlayerController>(GetController())->DeathEvent(); // Added
-		
-		Die();
+		// Updates Health Bar
+		HealthUpdate.Broadcast(); // Added
+	}
+	if(HasAuthority())
+	{
+		if (CurrentHealth <= 0)
+		{
+			//Display dying message when health reaches 0
+			FString deathMessage = FString::Printf(TEXT("You have been killed."));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+			
+			//BroadCast character dead
+			//DeadUpdate.Broadcast();
+			
+			//Cast<AMain_PlayerController>(GetController())->DeathEventDispatcher.Broadcast();
+			
+			// Calls Death Event in the Player Controller to Remove HUD
+			Cast<AMain_PlayerController>(GetController())->DeathEvent(); // Added
+			
+			Die();
+		}
 	}
 }
 
 void AMain_Character::OnRep_CurrentHealth() // Added replication to CurrentHealth
 {
-	//Broadcast health changes
-	//HealthUpdate.Broadcast();
+	OnHealthUpdate();
 }
 
 void AMain_Character::SetCurrentHealth(float healthValue)
 {
 	//Prevent current health to go above max health
-	CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
+	if(HasAuthority())
+	{
+		CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
 	
-	bReplicates = true;
+		//bReplicates = true;
+
+		// Old Code
+		//HealthUpdate.Broadcast(CurrentHealth);
+		//Cast<AMain_PlayerController>(GetController())->HealthUpdateEvent();
 	
-	//HealthUpdate.Broadcast(CurrentHealth);
-	//Cast<AMain_PlayerController>(GetController())->HealthUpdateEvent();
-	
-	OnHealthUpdate();
+		OnHealthUpdate();
+	}
 }
 
 
 float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
-{
+{	
+	float damageApplied = CurrentHealth - DamageTaken;
 	
-	float damageApplied = 0.0f;
-	if(HasAuthority()) // Added
-	{
-		damageApplied = CurrentHealth - DamageTaken;
+	//GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, FString::Printf(TEXT("Output: %f - %f = %f"),
+	//	CurrentHealth, DamageTaken, damageApplied));
+
+	// Changes the CurrentHealth variable
+	SetCurrentHealth(damageApplied);
 	
-		//GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, FString::Printf(TEXT("Output: %f - %f = %f"),
-		//	CurrentHealth, DamageTaken, damageApplied));
-		
-		SetCurrentHealth(damageApplied);
-	}
-	// Updates Health Bar
-	HealthUpdate.Broadcast(); // Added
-	
-	//GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, GetName());
 	return damageApplied;
 }
 
@@ -290,18 +291,18 @@ void AMain_Character::ServerAttack_Implementation()
 
 void AMain_Character::Die()
 {
-	if (HasAuthority())
+	//if (HasAuthority())
+	//{
+	MultiDie();
+	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
+	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
 	{
-		MultiDie();
-		AGameModeBase* GM = GetWorld()->GetAuthGameMode();
-		if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
-		{
-			GameMode->Respawn(GetController());
-		}
-		//Start our destroy timer to remove actor
-		GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
-
+		GameMode->Respawn(GetController());
 	}
+	//Start our destroy timer to remove actor
+	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
+
+	//}
 }
 
 void AMain_Character::CallDestroy()
