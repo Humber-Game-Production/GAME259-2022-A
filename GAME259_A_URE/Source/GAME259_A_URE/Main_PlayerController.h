@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "Main_PlayerController.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterDeathEventDispatcher);
+
 /**
  * 
  */
@@ -23,4 +25,10 @@ public:
 	// Event that will be triggered in the blueprint when player dies
 	UFUNCTION(BlueprintImplementableEvent)
 	void DeathEvent();
+
+	//UFUNCTION(BlueprintImplementableEvent)
+	//void HealthUpdateEvent();
+
+	//UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	//FCharacterDeathEventDispatcher DeathEventDispatcher;
 };

@@ -6,9 +6,9 @@
 #include "GameFramework/Character.h"
 #include "Main_Character.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHPUpdate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
  
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterDead);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterDeathDispatcher);
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterHPUpdate, float, characterHealth);
 
 UCLASS(config = Game)
@@ -93,7 +93,7 @@ protected:
 		float MaxHealth;
 
 	/** The player's current health. When reduced to 0, they are considered dead.*/
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, ReplicatedUsing=OnRep_CurrentHealth)
 		float CurrentHealth;
 
 	/** Update Health */
@@ -113,10 +113,13 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-		FCharacterHPUpdate HealthUpdate;
+		FCharacterHealthUpdate HealthUpdate;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-		FCharacterDead DeadUpdate;
+		FCharacterDeathDispatcher DeathDispatcher;
+
+	//UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	//FCharacterHPUpdate HealthUpdateNew;
 
 	/** Getter for Max Health.*/
 	UFUNCTION(BlueprintPure, Category = "Health")
@@ -125,6 +128,9 @@ public:
 	/** Getter for Current Health.*/
 	UFUNCTION(BlueprintPure, Category = "Health")
 		FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
+
+	UFUNCTION()
+	void OnRep_CurrentHealth();
 
 	/** Setter for Current Health. Clamps the value between 0 and MaxHealth and calls OnHealthUpdate. Should only be called on the server.*/
 	UFUNCTION(BlueprintCallable, Category = "Health")

@@ -8,9 +8,11 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "Net/UnrealNetwork.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -124,6 +126,12 @@ void  AMain_Character::BeginPlay()
 	}
 }
 
+void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AMain_Character, CurrentHealth);
+}
+
+
 void AMain_Character::TurnAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
@@ -169,43 +177,65 @@ void AMain_Character::MoveRight(float Value)
 
 void AMain_Character::OnHealthUpdate()
 {	
-		//Display message to show current health
-		//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+	//Display message to show current health
+	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
 
-		//Display dying message when health reaches 0
-		if (CurrentHealth <= 0)
-		{
-			FString deathMessage = FString::Printf(TEXT("You have been killed."));
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
-			//BroadCast character dead
-			//DeadUpdate.Broadcast();
-			
-			// Calls Death Event in the Player Controller 
-			Cast<AMain_PlayerController>(GetController())->DeathEvent();
-			
-			Die();
-		}
+	//Display dying message when health reaches 0
+	if (CurrentHealth <= 0)
+	{
+		FString deathMessage = FString::Printf(TEXT("You have been killed."));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+		
+		//BroadCast character dead
+		//DeadUpdate.Broadcast();
+		
+		//Cast<AMain_PlayerController>(GetController())->DeathEventDispatcher.Broadcast();
+		
+		// Calls Death Event in the Player Controller
+		Cast<AMain_PlayerController>(GetController())->DeathEvent(); // Added
+		
+		Die();
+	}
+}
 
+void AMain_Character::OnRep_CurrentHealth() // Added replication to CurrentHealth
+{
+	//Broadcast health changes
+	//HealthUpdate.Broadcast();
 }
 
 void AMain_Character::SetCurrentHealth(float healthValue)
 {
 	//Prevent current health to go above max health
 	CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
-	//Broadcast health changes
-	HealthUpdate.Broadcast();
-	//HealthUpdate.Broadcast(CurrentHealth);
-
-	OnHealthUpdate();
 	
+	bReplicates = true;
+	
+	//HealthUpdate.Broadcast(CurrentHealth);
+	//Cast<AMain_PlayerController>(GetController())->HealthUpdateEvent();
+	
+	OnHealthUpdate();
 }
 
 
 float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	float damageApplied = CurrentHealth - DamageTaken;
-	SetCurrentHealth(damageApplied);
+	
+	float damageApplied = 0.0f;
+	if(HasAuthority()) // Added
+	{
+		damageApplied = CurrentHealth - DamageTaken;
+	
+		//GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, FString::Printf(TEXT("Output: %f - %f = %f"),
+		//	CurrentHealth, DamageTaken, damageApplied));
+		
+		SetCurrentHealth(damageApplied);
+	}
+	// Updates Health Bar
+	HealthUpdate.Broadcast(); // Added
+	
+	//GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, GetName());
 	return damageApplied;
 }
 
@@ -241,24 +271,21 @@ bool AMain_Character::ServerAttack_Validate()
 
 void AMain_Character::ServerAttack_Implementation()
 {
-	if ((HasAuthority()))
+
+	TakeDamage(100.0f, FDamageEvent(), GetController(), this);
+
+	/*FVector Start = GetMesh()->GetBoneLocation(FName("head"));
+	FVector End = Start + FollowCamera->GetForwardVector() * 1500.0f;
+	FHitResult HitResult = LineTraceComp->LineTraceSingle(Start, End, true);
+	if (AActor* Actor = HitResult.GetActor())
 	{
-
-		TakeDamage(100.0f, FDamageEvent(), GetController(), this);
-
-		/*FVector Start = GetMesh()->GetBoneLocation(FName("head"));
-		FVector End = Start + FollowCamera->GetForwardVector() * 1500.0f;
-		FHitResult HitResult = LineTraceComp->LineTraceSingle(Start, End, true);
-		if (AActor* Actor = HitResult.GetActor())
+		if (AMain_Character* Player = Cast<AMain_Character>(Actor))
 		{
-			if (AMain_Character* Player = Cast<AMain_Character>(Actor))
-			{
-				float TestDamage = 20.0f;
+			float TestDamage = 20.0f;
 
-				TakeDamage(TestDamage, FDamageEvent(), GetController(), this);
-			}
-		}*/
-	}
+			TakeDamage(TestDamage, FDamageEvent(), GetController(), this);
+		}
+	}*/
 }
 
 void AMain_Character::Die()
