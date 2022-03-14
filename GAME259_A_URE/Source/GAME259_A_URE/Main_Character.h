@@ -16,8 +16,8 @@ class AMain_Character : public ACharacter
 {
 	GENERATED_BODY()
 
-		/** Camera boom positioning the camera behind the character */
-		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	/** Camera boom positioning the camera behind the character */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
 
 	/** Follow camera */
@@ -96,6 +96,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 		float CurrentHealth;
 
+	//Store combat status
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		TArray<class CombatStatusComponent*> CombatStatusList;
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -134,5 +138,11 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	virtual float TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
+	//Add Combat Status
+	UFUNCTION(BlueprintPure, Category = "Health")
+		void AddCombatStatus(FString statusName);
+
+
 };
 

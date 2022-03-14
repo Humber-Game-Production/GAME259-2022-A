@@ -3,6 +3,7 @@
 #include "Main_Character.h"
 #include "CTF_GameMode.h"
 #include "PlayerStats.h"
+#include "CombatStatusComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -283,3 +284,10 @@ void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 {
 	Die();
 }
+
+void AMain_Character::AddCombatStatus(FString statusName) {
+
+
+
+}
+

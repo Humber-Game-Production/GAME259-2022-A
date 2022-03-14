@@ -2,6 +2,7 @@
 
 
 #include "CombatStatusComponent.h"
+#include "GameFramework/Actor.h"
 
 // Sets default values for this component's properties
 UCombatStatusComponent::UCombatStatusComponent()
@@ -19,8 +20,9 @@ void UCombatStatusComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
 	
+	//GetWorldTimerManager().SetTimer(TimeHandle, this, &UCombatStatusComponent::ApplyEffect, durationTime);
+
 }
 
 

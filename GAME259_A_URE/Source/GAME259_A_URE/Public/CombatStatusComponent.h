@@ -17,6 +17,9 @@ public:
 	// Sets default values for this component's properties
 	UCombatStatusComponent();
 
+	UPROPERTY(EditAnywhere, Category = "Timer")
+		FTimerHandle TimeHandle;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
