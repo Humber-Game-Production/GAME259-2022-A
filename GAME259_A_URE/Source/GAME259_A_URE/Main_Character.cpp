@@ -273,7 +273,7 @@ bool AMain_Character::ServerAttack_Validate()
 void AMain_Character::ServerAttack_Implementation()
 {
 
-	TakeDamage(100.0f, FDamageEvent(), GetController(), this);
+	TakeDamage(25.0f, FDamageEvent(), GetController(), this);
 
 	/*FVector Start = GetMesh()->GetBoneLocation(FName("head"));
 	FVector End = Start + FollowCamera->GetForwardVector() * 1500.0f;
