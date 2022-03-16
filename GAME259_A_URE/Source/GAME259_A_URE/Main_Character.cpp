@@ -57,6 +57,9 @@ AMain_Character::AMain_Character()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+	
+	loadedAmmo = 30;
+	ammoPool = 30;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -89,7 +92,8 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 
-
+	//helps reload function
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMain_Character::OnReload);
 }
 
 
@@ -193,8 +197,35 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 
 void AMain_Character::Attack()
 {
-	ServerAttack();
+
+	//makes sure that the firing function connects to the ammo function
+	if (loadedAmmo <= 0) {
+		return;
+	}
+	loadedAmmo = loadedAmmo - 1;
+		ServerAttack();
+
+		
+
+	
 }
+
+void AMain_Character::OnReload() {
+	//Do we have ammo in the ammoPool?
+	if (ammoPool <= 0 || loadedAmmo >= 30) {
+		return;
+	}
+	//Do we have enough to meet what the gun needs?
+	if (ammoPool < (30 - loadedAmmo)) {
+		loadedAmmo = loadedAmmo + ammoPool;
+		ammoPool = 0;
+	}
+	else {
+		ammoPool = ammoPool - (30 - loadedAmmo);
+		loadedAmmo = 30;
+	}
+}
+
 /*
 float AMain_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {

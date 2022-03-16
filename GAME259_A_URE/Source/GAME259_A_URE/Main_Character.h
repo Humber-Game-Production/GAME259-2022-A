@@ -36,6 +36,12 @@ public:
 		float BaseLookUpRate;
 
 	//virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Ammo)
+	int32 loadedAmmo;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Ammo)
+		int32 ammoPool;
 
 protected:
 
@@ -87,6 +93,9 @@ protected:
 
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+	
+	//Reloads the weapon (may or may not be used)
+	void OnReload();
 
 	/** The player's maximum health. This is the highest that their health can be, and the value that their health starts at when spawned.*/
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
