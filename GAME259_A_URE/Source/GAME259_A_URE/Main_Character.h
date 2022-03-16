@@ -23,7 +23,8 @@ class AMain_Character : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
-    
+
+
 public:
 	AMain_Character();
 
@@ -35,11 +36,16 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
+
+
 	//virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
 
 protected:
 
 	class UPlayerStatsComponent* PlayerStatsComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UCombatStatusComponent* CombatStatusComp;
 
 	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
 
@@ -97,8 +103,8 @@ protected:
 		float CurrentHealth;
 
 	//Store combat status
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		TArray<class CombatStatusComponent*> CombatStatusList;
+	UPROPERTY(EditDefaultsOnly)
+		TArray<FString> CombatStatusList;
 
 protected:
 	// APawn interface
@@ -140,8 +146,8 @@ public:
 	virtual float TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	//Add Combat Status
-	UFUNCTION(BlueprintPure, Category = "Health")
-		void AddCombatStatus(FString statusName);
+	//UFUNCTION(BlueprintPure, Category = "Health")
+	//	void AddCombatStatus(FString statusName);
 
 
 };

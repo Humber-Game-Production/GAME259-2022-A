@@ -3,7 +3,7 @@
 #include "Main_Character.h"
 #include "CTF_GameMode.h"
 #include "PlayerStats.h"
-#include "CombatStatusComponent.h"
+#include "Public/CombatStatusComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -55,6 +55,7 @@ AMain_Character::AMain_Character()
 	CurrentHealth = MaxHealth;
 	bReplicates = true;
 	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
+	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -118,6 +119,7 @@ void AMain_Character::TouchStopped(ETouchIndex::Type FingerIndex, FVector Locati
 void  AMain_Character::BeginPlay()
 {
 	Super::BeginPlay();
+	
 }
 
 void AMain_Character::TurnAtRate(float Rate)
@@ -228,7 +230,7 @@ void AMain_Character::ServerAttack_Implementation()
 	{
 
 		TakeDamage(100.0f, FDamageEvent(), GetController(), this);
-
+		CombatStatusComp->AddCombatStatus(FName(TEXT("IceBuff")));
 		/*FVector Start = GetMesh()->GetBoneLocation(FName("head"));
 		FVector End = Start + FollowCamera->GetForwardVector() * 1500.0f;
 		FHitResult HitResult = LineTraceComp->LineTraceSingle(Start, End, true);
@@ -285,9 +287,9 @@ void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 	Die();
 }
 
-void AMain_Character::AddCombatStatus(FString statusName) {
-
-
-
-}
+//void AMain_Character::AddCombatStatus(FString statusName) {
+//
+//
+//
+//}
 

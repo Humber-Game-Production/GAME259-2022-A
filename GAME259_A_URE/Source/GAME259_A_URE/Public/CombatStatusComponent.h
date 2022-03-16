@@ -17,8 +17,14 @@ public:
 	// Sets default values for this component's properties
 	UCombatStatusComponent();
 
-	UPROPERTY(EditAnywhere, Category = "Timer")
+	UPROPERTY(EditAnywhere, Category = "Data Table")
+		UDataTable* CombatStatusTable;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "Timer")
 		FTimerHandle TimeHandle;
+
+	UPROPERTY(EditAnywhere, Category = "Particle Effect")
+		class UParticleSystem* particleEffect;
 
 protected:
 	// Called when the game starts
@@ -37,6 +43,9 @@ public:
 	
 	//Declare functions
 	//ApplyEffect
+	UFUNCTION(BlueprintCallable)
+		void AddCombatStatus(FName rowName_);
+
 
 };
 
@@ -50,13 +59,18 @@ struct FCombatStatus : public FTableRowBase {
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FString name;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString description;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float durationTime;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FString effectType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UTexture* icon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UParticleSystem* particleEffect;
 
 };

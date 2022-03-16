@@ -11,6 +11,7 @@ UCombatStatusComponent::UCombatStatusComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
+
 	// ...
 }
 
@@ -19,7 +20,7 @@ UCombatStatusComponent::UCombatStatusComponent()
 void UCombatStatusComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
+	//AddCombatStatus(FName(TEXT("IceBuff")));
 	
 	//GetWorldTimerManager().SetTimer(TimeHandle, this, &UCombatStatusComponent::ApplyEffect, durationTime);
 
@@ -32,5 +33,18 @@ void UCombatStatusComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UCombatStatusComponent::AddCombatStatus(FName rowName_)
+{
+	if (CombatStatusTable) {
+		FCombatStatus* combatStatusInfo = CombatStatusTable->FindRow<FCombatStatus>(rowName_, TEXT("test"), true);
+		UE_LOG(LogTemp, Warning, TEXT("The float value is: %f"), combatStatusInfo->durationTime);
+	}
+	else {} {
+		UE_LOG(LogTemp, Warning, TEXT("Database Not Found"));
+
+	}
+
 }
 
