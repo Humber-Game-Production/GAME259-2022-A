@@ -191,15 +191,10 @@ void AMain_Character::OnHealthUpdate()
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
 			
-			//BroadCast character dead
-			//DeadUpdate.Broadcast();
-			
-			//Cast<AMain_PlayerController>(GetController())->DeathEventDispatcher.Broadcast();
-			
-			// Calls Death Event in the Player Controller to Remove HUD
-			Cast<AMain_PlayerController>(GetController())->DeathEvent(); // Added
-			
 			Die();
+
+			// Calls Death Event to Remove HUD
+			DeathEvent();
 		}
 	}
 }
