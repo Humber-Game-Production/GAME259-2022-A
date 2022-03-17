@@ -136,6 +136,7 @@ void ACTF_GameMode::Spawn(AController* Controller)
 				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, FRotator::ZeroRotator))
 				{
 					PlayerController->Possess(Pawn);
+					PlayerController->RespawnEvent(); // Added
 				}
 			}
 		}
@@ -150,6 +151,7 @@ void ACTF_GameMode::Spawn(AController* Controller)
 				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, FRotator::ZeroRotator))
 				{
 					PlayerController->Possess(Pawn);
+					PlayerController->RespawnEvent(); // Added
 				}
 			}
 		}

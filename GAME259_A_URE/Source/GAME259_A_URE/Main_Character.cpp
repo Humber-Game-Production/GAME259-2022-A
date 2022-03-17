@@ -175,13 +175,11 @@ void AMain_Character::MoveRight(float Value)
 void AMain_Character::OnHealthUpdate()
 {	
 	//Display message to show current health
-	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
 	
 	if(IsLocallyControlled())
 	{
 		// Updates Health Bar
-		HealthUpdate.Broadcast(); // Added
+		HealthUpdate.Broadcast(); 
 	}
 	if(HasAuthority())
 	{
@@ -191,15 +189,20 @@ void AMain_Character::OnHealthUpdate()
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
 			
+			//BroadCast character dead
+			//DeadUpdate.Broadcast();
+			
+			//Cast<AMain_PlayerController>(GetController())->DeathEventDispatcher.Broadcast();
+			
+			// Calls Death Event in the Player Controller to Remove HUD
+			Cast<AMain_PlayerController>(GetController())->DeathEvent();
+			
 			Die();
-
-			// Calls Death Event to Remove HUD
-			DeathEvent();
 		}
 	}
 }
 
-void AMain_Character::OnRep_CurrentHealth() // Added replication to CurrentHealth
+void AMain_Character::OnRep_CurrentHealth() 
 {
 	OnHealthUpdate();
 }
@@ -210,9 +213,7 @@ void AMain_Character::SetCurrentHealth(float healthValue)
 	if(HasAuthority())
 	{
 		CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
-	
-		//bReplicates = true;
-
+		
 		// Old Code
 		//HealthUpdate.Broadcast(CurrentHealth);
 		//Cast<AMain_PlayerController>(GetController())->HealthUpdateEvent();
@@ -286,18 +287,17 @@ void AMain_Character::ServerAttack_Implementation()
 
 void AMain_Character::Die()
 {
-	//if (HasAuthority())
-	//{
 	MultiDie();
 	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
 	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
 	{
 		GameMode->Respawn(GetController());
 	}
+	
 	//Start our destroy timer to remove actor
 	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
 
-	//}
+	
 }
 
 void AMain_Character::CallDestroy()
