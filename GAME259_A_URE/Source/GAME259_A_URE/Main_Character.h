@@ -7,8 +7,7 @@
 #include "Main_Character.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
- 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterDeathDispatcher);
+
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterHPUpdate, float, characterHealth);
 
 UCLASS(config = Game)
@@ -115,12 +114,6 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FCharacterHealthUpdate HealthUpdate;
 
-	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-		FCharacterDeathDispatcher DeathDispatcher;
-
-	//UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	//FCharacterHPUpdate HealthUpdateNew;
-
 	/** Getter for Max Health.*/
 	UFUNCTION(BlueprintPure, Category = "Health")
 		FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
@@ -135,6 +128,10 @@ public:
 	/** Setter for Current Health. Clamps the value between 0 and MaxHealth and calls OnHealthUpdate. Should only be called on the server.*/
 	UFUNCTION(BlueprintCallable, Category = "Health")
 		void SetCurrentHealth(float healthValue);
+
+	// Event that will be triggered in the blueprint when player dies
+	UFUNCTION(BlueprintImplementableEvent)
+	void DeathEvent();
 
 	/** Event for taking damage. Overridden from APawn.
 	*   DamageEvent describes the type of damage.
