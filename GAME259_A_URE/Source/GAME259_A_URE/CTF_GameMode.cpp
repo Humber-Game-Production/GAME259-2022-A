@@ -15,14 +15,20 @@ ACTF_GameMode::ACTF_GameMode()
 {
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/BP_Main_Character"));
+	static ConstructorHelpers::FClassFinder<AActor> ControllerBP(TEXT("/Game/Blueprints/BP_Main_PlayerController")); // Added
 
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+	if (ControllerBP.Class != NULL)
+	{
+		PlayerControllerClass = ControllerBP.Class;  // Added
+	}
 
 	GameStateClass = ACTF_GameState::StaticClass();
-	PlayerControllerClass = AMain_PlayerController::StaticClass();
+	//PlayerControllerClass = AMain_PlayerController::StaticClass();
+	
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 
 	timeLimit = 300.0f;
@@ -53,7 +59,6 @@ void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 void ACTF_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
 	UClass* SpawnPointClass = APlayerSpawnPoint::StaticClass();
 
 	//Add refference to team1 SpawnPoints
