@@ -16,7 +16,7 @@ public:
 	ACTF_GameMode();
 
     virtual void PostLogin(APlayerController* NewPlayer) override;
-
+    //virtual AActor* ChoosePlayerStart_Implementation(AController* player)override;
 
 	float timeLimit;
 	int maxScore;
@@ -36,7 +36,7 @@ protected:
     TArray<class APlayerSpawnPoint*> TeamASpawnPoints;
     TArray<class APlayerSpawnPoint*> TeamBSpawnPoints;
 
-    class APlayerSpawnPoint* GetSpawnPoint(bool bIsTeamA_);
+    class APlayerSpawnPoint* GetSpawnPoint(TeamSelected owningTeam_);
 
 public:
 
@@ -48,4 +48,12 @@ public:
 protected:
 
    
+};
+
+UENUM(BlueprintType)
+enum  class TeamSelected : uint8
+{
+    NONE          UMETA (DisplayName = "None"),
+    TEAM_A        UMETA (DisplayName = "TeamA"),
+    TEAM_B        UMETA(DisplayName = "TeamB"),
 };
