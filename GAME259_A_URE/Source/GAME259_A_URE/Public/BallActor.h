@@ -81,6 +81,20 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Dispatcher")
 	FMessageStatus MessageStatus;
 
+	//This section is for the ammo function
+	/*UPROPERTY(VisibleDefaultsOnly, Category = "Ammo Crate")
+		TSoftObjectPtr<USphereComponent> TouchSphere;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "Ammo Crate")
+		TSoftObjectPtr<UStaticMeshComponent> StaticMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo Crate")
+		int32 count;
+
+	UFUNCTION()
+		void OnPickup(class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex, bool FromSweep, const FHitResult& SweepResult);*/
+	//this section above is for the ammo function
 
 	//Function used by the timer to determine what happens when the destroy timer is up
 	UFUNCTION()
