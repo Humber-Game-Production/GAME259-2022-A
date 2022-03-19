@@ -13,9 +13,5 @@ UCLASS()
 class GAME259_A_URE_API ACTF_PlayerState : public APlayerState
 {
 	GENERATED_BODY()
-
-public:
-	ACTF_PlayerState();
-
-	bool bIsTeamA;
+	
 };

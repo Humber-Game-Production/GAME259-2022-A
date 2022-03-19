@@ -62,9 +62,6 @@ protected:
 	virtual void OnFindSessionsComplete(bool Succeeded);
 	virtual void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
-	// Returns players to main menu if Network Failure Occurs
-	void OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString);
-
 	
 	UFUNCTION(BlueprintCallable)
 	void CreateServer(FString ServerName);
@@ -74,6 +71,4 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void JoinServer(int32 ArrayIndex);
-
-	
 };
