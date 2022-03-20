@@ -35,6 +35,11 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	//Declare variables
+	UPROPERTY(EditAnywhere, Category = "Ball Stat Type")
+	bool isFrozen;
+	UPROPERTY(EditAnywhere, Category = "Ball Stat Type")
+	bool isBurning;
+
 	// TODO: Add following variables
 	// Duration Time (how long will the status be on the player)
 	// Name of the status
