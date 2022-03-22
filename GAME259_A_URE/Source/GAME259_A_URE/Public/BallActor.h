@@ -46,13 +46,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	bool HasStatus;
 
-	//Testing for impulse value
 	UPROPERTY(EditAnywhere, Category = "Input")
-	float impulse;
-
-	//
-	UPROPERTY(EditAnywhere, Category = "Input")
-		float lethalVelocity;
+	float lethalVelocity;
 	
 	//Starting time for the destroying the object
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
@@ -67,8 +62,12 @@ public:
 	FTimerHandle TimeHandle;;
 	
 	//Stores the mesh component
-	UPROPERTY(VisibleDefaultsOnly, Category = "Mesh")
+	UPROPERTY(VisibleAnywhere, Category = "Mesh")
 	UStaticMeshComponent* SphereMesh;
+
+	//Stores the material
+	UPROPERTY(EditAnywhere, Category = "Material")
+	UMaterial* SphereMaterial;
 
 	//Stores the sphere component
 	UPROPERTY(VisibleDefaultsOnly, Category = "Sphere")
@@ -81,11 +80,6 @@ public:
 	//Dispatcher for the amount of damage to deal
 	UPROPERTY(BlueprintAssignable, Category = "Dispatcher")
 	FMessageStatus MessageStatus;
-
-
-	//Testing for impulse
-	UFUNCTION()
-	void SetImpulse(float impulse_) { impulse = impulse_; }
 
 
 	//Function used by the timer to determine what happens when the destroy timer is up
