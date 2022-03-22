@@ -11,6 +11,7 @@
 #include "TimerManager.h"
 #include "UObject/ConstructorHelpers.h"
 
+
 ACTF_GameMode::ACTF_GameMode()
 {
 	// set default pawn class to our Blueprinted character
@@ -25,30 +26,39 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerControllerClass = AMain_PlayerController::StaticClass();
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 
+
 	timeLimit = 300.0f;
 	maxScore = 3;
 	maxRounds = 3;
 	maxPlayers = 8;
 	respawnDelay = 5.0f;
-}
 
+	
+}
+ 
 void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 {
+	//ChoosePlayerStart(NewPlayer);
 	ACTF_GameMode::Super::PostLogin(NewPlayer);
+	
 	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(NewPlayer))
 	{
-		if (GameState->PlayerArray.Num() % 2 != 0)
-		{
-			PlayerController->GetPlayerState<ACTF_PlayerState>()->bIsTeamA = false;
-			PlayerController->GetPlayerState<ACTF_PlayerState>()->SetPlayerName("TeamA");
-		}
-		else
-		{
-			PlayerController->GetPlayerState<ACTF_PlayerState>()->SetPlayerName("TeamB");
-		}
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, PlayerController->GetPlayerState<ACTF_PlayerState>()->GetPlayerName());
+
+		PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::NONE;
+
 	}
+	NewPlayer->GetPawn() -> TakeDamage(100.0f, FDamageEvent(), NewPlayer, NewPlayer->GetPawn());
 }
+
+//AActor* ACTF_GameMode::ChoosePlayerStart_Implementation(AController* player)
+//{
+//	//ACTF_GameMode::Super::ChoosePlayerStart(player);
+//
+//	
+//		return GetSpawnPoint (TeamSelected::NONE);
+//
+//}
+
 
 void ACTF_GameMode::BeginPlay()
 {
@@ -56,17 +66,17 @@ void ACTF_GameMode::BeginPlay()
 
 	UClass* SpawnPointClass = APlayerSpawnPoint::StaticClass();
 
-	//Add refference to team1 SpawnPoints
 	for (TActorIterator<AActor> Actor(GetWorld(), SpawnPointClass); Actor; ++Actor)
 	{
 		if (APlayerSpawnPoint* PlayerSpawnPoint = Cast<APlayerSpawnPoint>(*Actor)) {
-			if (PlayerSpawnPoint->bIsTeamASpawn == true) {
+			if (PlayerSpawnPoint->owningTeam == TeamSelected::TEAM_A) {
 				TeamASpawnPoints.Add(Cast<APlayerSpawnPoint>(*Actor));
 			}
-			else if (PlayerSpawnPoint->bIsTeamASpawn == false) {
+			else if (PlayerSpawnPoint->owningTeam == TeamSelected::TEAM_B) {
 				TeamBSpawnPoints.Add(Cast<APlayerSpawnPoint>(*Actor));
 			}
-			else {
+
+			else if (PlayerSpawnPoint->owningTeam == TeamSelected::NONE) {
 				SpawnPoints.Add(Cast<APlayerSpawnPoint>(*Actor));
 			}
 		}
@@ -87,10 +97,10 @@ void ACTF_GameMode::Respawn(AController* Controller)
 	}
 }
 
-APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(bool bIsTeamA_)
+APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(TeamSelected owningTeam_)
 {
 	//Gets the total teamA spawn points
-	if (bIsTeamA_ == true) {
+	if (owningTeam_ == TeamSelected::TEAM_A) {
 		for (int32 i = 0 < TeamASpawnPoints.Num(); ++i;)
 		{
 			int32 Slot = FMath::RandRange(0, TeamASpawnPoints.Num() - 1);
@@ -101,7 +111,7 @@ APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(bool bIsTeamA_)
 		}
 	}
 	//Gets the total teamB spawn points
-	if (bIsTeamA_ == false) {
+	if (owningTeam_ == TeamSelected::TEAM_B) {
 		for (int32 i = 0 < TeamBSpawnPoints.Num(); ++i;)
 		{
 			int32 Slot = FMath::RandRange(0, TeamBSpawnPoints.Num() - 1);
@@ -111,7 +121,17 @@ APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(bool bIsTeamA_)
 			}
 		}
 	}
-	
+
+	if (owningTeam_ == TeamSelected::NONE) {
+		for (int32 i = 0 < SpawnPoints.Num(); ++i;)
+		{
+			int32 Slot = FMath::RandRange(0, SpawnPoints.Num() - 1);
+			if (SpawnPoints[Slot])
+			{
+				return SpawnPoints[Slot];
+			}
+		}
+	}
 
 	return nullptr;
 }
@@ -121,9 +141,9 @@ void ACTF_GameMode::Spawn(AController* Controller)
 	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(Controller))
 	{
 		//Team A Spawn
-		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->bIsTeamA == true)
+		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->team == TeamSelected::TEAM_A)
 		{
-			if (APlayerSpawnPoint* SpawnPoint = GetSpawnPoint(true))
+			if (APlayerSpawnPoint* SpawnPoint = GetSpawnPoint(TeamSelected::TEAM_A))
 			{
 				FVector LocationOffset = FVector(0.0f, 0.0f, 0.0f);
 				FVector Location = SpawnPoint->GetActorLocation() + LocationOffset;
@@ -135,9 +155,23 @@ void ACTF_GameMode::Spawn(AController* Controller)
 			}
 		}
 		//Team B Spawn
-		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->bIsTeamA == false)
+		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->team == TeamSelected::TEAM_B)
 		{
-			if (APlayerSpawnPoint* SpawnPoint = GetSpawnPoint(false))
+			if (APlayerSpawnPoint* SpawnPoint = GetSpawnPoint(TeamSelected::TEAM_B))
+			{
+				FVector LocationOffset = FVector(0.0f, 0.0f, 0.0f);
+				FVector Location = SpawnPoint->GetActorLocation() + LocationOffset;
+				FRotator Rotation = SpawnPoint->GetActorRotation();
+				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, FRotator::ZeroRotator))
+				{
+					PlayerController->Possess(Pawn);
+				}
+			}
+		}
+
+		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->team == TeamSelected::NONE)
+		{
+			if (APlayerSpawnPoint* SpawnPoint = GetSpawnPoint(TeamSelected::NONE))
 			{
 				FVector LocationOffset = FVector(0.0f, 0.0f, 0.0f);
 				FVector Location = SpawnPoint->GetActorLocation() + LocationOffset;
