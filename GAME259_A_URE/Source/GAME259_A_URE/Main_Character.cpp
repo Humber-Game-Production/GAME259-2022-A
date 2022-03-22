@@ -229,8 +229,8 @@ void AMain_Character::ServerAttack_Implementation()
 	if ((HasAuthority()))
 	{
 
-		TakeDamage(100.0f, FDamageEvent(), GetController(), this);
-		CombatStatusComp->AddCombatStatus(FName(TEXT("IceBuff")));
+		//TakeDamage(100.0f, FDamageEvent(), GetController(), this);
+		CombatStatusComp->AddCombatStatus(FName(TEXT("FireDebuff")));
 		/*FVector Start = GetMesh()->GetBoneLocation(FName("head"));
 		FVector End = Start + FollowCamera->GetForwardVector() * 1500.0f;
 		FHitResult HitResult = LineTraceComp->LineTraceSingle(Start, End, true);

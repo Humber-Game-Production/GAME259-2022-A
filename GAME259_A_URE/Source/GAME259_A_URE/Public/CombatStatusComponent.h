@@ -7,6 +7,7 @@
 #include "Engine/DataTable.h"
 #include "CombatStatusComponent.generated.h"
 
+class ACombatStatusActor;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class GAME259_A_URE_API UCombatStatusComponent : public UActorComponent
@@ -20,11 +21,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Data Table")
 		UDataTable* CombatStatusTable;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = "Timer")
-		FTimerHandle TimeHandle;
-
-	UPROPERTY(EditAnywhere, Category = "Particle Effect")
-		class UParticleSystem* particleEffect;
+	UPROPERTY(EditAnywhere)
+		TArray<ACombatStatusActor*> combatStatusList;
 
 protected:
 	// Called when the game starts
@@ -55,7 +53,12 @@ public:
 };
 
 //TODO: Enum Class Status Type
-
+UENUM(BlueprintType)
+enum EStatusType{
+	Default,
+	DamageOverTime,
+	ReduceSpeed
+};
 
 //DataTable Row
 USTRUCT(BlueprintType)
@@ -70,7 +73,10 @@ public:
 		float durationTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FString effectType;
+		float effectAmount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<EStatusType> statusType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UTexture* icon;
@@ -79,3 +85,4 @@ public:
 		UParticleSystem* particleEffect;
 
 };
+

@@ -102,10 +102,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 		float CurrentHealth;
 
-	//Store combat status
-	UPROPERTY(EditDefaultsOnly)
-		TArray<FString> CombatStatusList;
-
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

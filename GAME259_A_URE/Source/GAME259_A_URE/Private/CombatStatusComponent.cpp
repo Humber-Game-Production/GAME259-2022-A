@@ -3,6 +3,9 @@
 
 #include "CombatStatusComponent.h"
 #include "GameFramework/Actor.h"
+#include "CombatStatusActor.h"
+#include "DamageOverTimeActor.h"
+#include "ReduceSpeedActor.h"
 
 // Sets default values for this component's properties
 UCombatStatusComponent::UCombatStatusComponent()
@@ -20,9 +23,7 @@ UCombatStatusComponent::UCombatStatusComponent()
 void UCombatStatusComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	//AddCombatStatus(FName(TEXT("IceBuff")));
-	
-	//GetWorldTimerManager().SetTimer(TimeHandle, this, &UCombatStatusComponent::ApplyEffect, durationTime);
+	//Setup the delegates when the combatStatus is destroyed
 
 }
 
@@ -37,14 +38,48 @@ void UCombatStatusComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UCombatStatusComponent::AddCombatStatus(FName rowName_)
 {
+	//Check if datatable exist
 	if (CombatStatusTable) {
 		FCombatStatus* combatStatusInfo = CombatStatusTable->FindRow<FCombatStatus>(rowName_, TEXT("test"), true);
-		UE_LOG(LogTemp, Warning, TEXT("The float value is: %f"), combatStatusInfo->durationTime);
+		//Check if row name exist
+		if (combatStatusInfo) {
+			UE_LOG(LogTemp, Warning, TEXT("Database Row found"));
+			FActorSpawnParameters ActorSpawnParams;
+			ActorSpawnParams.Owner = this->GetOwner();
+			float durationTime = combatStatusInfo->durationTime;
+			float effectAmount = combatStatusInfo->effectAmount;
+			//Spawn actor according to the status type, and add it to the list
+			switch (combatStatusInfo->statusType) {
+				case DamageOverTime:
+				{
+					UE_LOG(LogTemp, Warning, TEXT("DamageOverTime Type"));
+					ACombatStatusActor* statusActor = GetWorld()->SpawnActor<ADamageOverTimeActor>(ADamageOverTimeActor::StaticClass(),
+						FVector(0.0f, 0.0, 0.0f), FRotator(0.0f, 0.0f, 0.0), ActorSpawnParams);
+					statusActor->setValue(rowName_, durationTime, effectAmount);
+					combatStatusList.Add(statusActor);
+					break;
+				}
+
+				case ReduceSpeed:
+				{
+					UE_LOG(LogTemp, Warning, TEXT("ReduceSpeed Type"));
+					ACombatStatusActor* statusActor = GetWorld()->SpawnActor<AReduceSpeedActor>(AReduceSpeedActor::StaticClass(),
+						FVector(0.0f, 0.0, 0.0f), FRotator(0.0f, 0.0f, 0.0), ActorSpawnParams);
+					statusActor->setValue(rowName_, durationTime, effectAmount);
+					combatStatusList.Add(statusActor);
+					break;
+
+				}
+
+				default:
+					break;
+			}
+
+
+		}
 	}
-	else {} {
+	else {
 		UE_LOG(LogTemp, Warning, TEXT("Database Not Found"));
-
 	}
-
 }
 
