@@ -66,32 +66,9 @@ ABallActor::ABallActor() //(const class FPostConstructInitializeProperties& PCIP
 
 	lethalVelocity = 0.0f;
 
-	//section below is for ammo
-	/*count = 30;
 
-	TouchSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("TouchSphereComponent"));
-	TouchSphere->SetSphereRadius(45.0f, false);
-	TouchSphere->OnComponentBeginOverlap.AddDynamic(this, &Apickup_AmmoCrate::OnPickup);
-	RootComponent = TouchSphere;
-
-	StaticMesh = PCIP.CreateAbstractDefaultSubobject<UStaticMeshComponent>(this, TEXT("StaticMeshComponent"));
-	StaticMesh->AttachParent = RootComponent;*/
-	//section above is for ammo
 }
-//function to help ammo system
-//void ABallActor::OnPickup(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool FromSweep, const FHitResult& SweepResult)
-//{
-//	AMain_Character* character = Cast<AMain_Character>(OtherActor);
-//
-//	if (character)
-//	{
-//		character->ammoPool = character->ammoPool + count;
-//
-//		this->Destroy();
-//	}
-//
-//}
-// function to help ammo system above
+
 
 
 // Called when the game starts or when spawned

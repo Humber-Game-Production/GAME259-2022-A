@@ -37,11 +37,7 @@ public:
 
 	//virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Ammo)
-	int32 loadedAmmo;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Ammo)
-		int32 ammoPool;
 
 protected:
 
