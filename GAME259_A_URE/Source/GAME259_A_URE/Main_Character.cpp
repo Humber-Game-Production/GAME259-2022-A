@@ -88,10 +88,10 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AMain_Character::OnResetVR);
 
-	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
+	//PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 
 	//helps reload function
-	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMain_Character::OnReload);
+	//PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMain_Character::OnReload);
 }
 
 
