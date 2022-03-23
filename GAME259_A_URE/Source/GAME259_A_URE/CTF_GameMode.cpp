@@ -27,42 +27,23 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 
 
-	timeLimit = 300.0f;
+	matchTimeLimit = 20.0f;
+	warmupTimeLimit = 5.0f;
 	maxScore = 3;
 	maxRounds = 3;
-	maxPlayers = 8;
+	maxPlayers = 2;
 	respawnDelay = 5.0f;
 
-	
-}
- 
-void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
-{
-	//ChoosePlayerStart(NewPlayer);
-	ACTF_GameMode::Super::PostLogin(NewPlayer);
-	
-	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(NewPlayer))
-	{
+	bDelayedStart = true;
+	bUseSeamlessTravel = true;
 
-		PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::NONE;
-
-	}
-	NewPlayer->GetPawn() -> TakeDamage(100.0f, FDamageEvent(), NewPlayer, NewPlayer->GetPawn());
 }
 
-//AActor* ACTF_GameMode::ChoosePlayerStart_Implementation(AController* player)
-//{
-//	//ACTF_GameMode::Super::ChoosePlayerStart(player);
-//
-//	
-//		return GetSpawnPoint (TeamSelected::NONE);
-//
-//}
+void ACTF_GameMode::HandleMatchIsWaitingToStart() {
 
+	ACTF_GameMode::Super::HandleMatchIsWaitingToStart();
 
-void ACTF_GameMode::BeginPlay()
-{
-	Super::BeginPlay();
+	//TODO: check if this is a restarted game somehow, setup warmup timer outside post login
 
 	UClass* SpawnPointClass = APlayerSpawnPoint::StaticClass();
 
@@ -81,6 +62,58 @@ void ACTF_GameMode::BeginPlay()
 			}
 		}
 	}
+}
+ 
+void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
+{
+	//ChoosePlayerStart(NewPlayer);
+	ACTF_GameMode::Super::PostLogin(NewPlayer);
+
+	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(NewPlayer))
+	{
+		Players.Add(PlayerController);
+		PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::NONE;
+	}
+	if (Players.Num() < maxPlayers) {
+		return;
+	}
+	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+		if (GS->MatchStartCountdown.IsValid()) {
+			return;
+		}
+		GetWorldTimerManager().SetTimer(GS->MatchStartCountdown, GS, &ACTF_GameState::MatchStartCountdownTick, 1.0f, true, 1.0f);
+		GS->warmupStartTime = GS->GetServerWorldTimeSeconds();
+	}
+	//NewPlayer->GetPawn() -> TakeDamage(100.0f, FDamageEvent(), NewPlayer, NewPlayer->GetPawn());
+}
+
+//AActor* ACTF_GameMode::ChoosePlayerStart_Implementation(AController* player)
+//{
+//	//ACTF_GameMode::Super::ChoosePlayerStart(player);
+//
+//	
+//		return GetSpawnPoint (TeamSelected::NONE);
+//
+//}
+
+void ACTF_GameMode::HandleMatchHasStarted() {
+
+	ACTF_GameMode::Super::HandleMatchHasStarted();
+
+	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+		GetWorldTimerManager().SetTimer(GS->MatchTimer, GS, &ACTF_GameState::MatchTick, 1.0f, true, 1.0f);
+		GS->matchStartTime = GS->GetServerWorldTimeSeconds();
+		for (AMain_PlayerController* PC : Players) {
+			Spawn(PC);
+		}
+	}
+}
+
+void ACTF_GameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	
 }
 
 void ACTF_GameMode::Respawn(AController* Controller)
