@@ -7,6 +7,7 @@
 #include "DamageOverTimeActor.h"
 #include "ReduceSpeedActor.h"
 
+
 // Sets default values for this component's properties
 UCombatStatusComponent::UCombatStatusComponent()
 {
@@ -48,24 +49,37 @@ void UCombatStatusComponent::AddCombatStatus(FName rowName_)
 			ActorSpawnParams.Owner = this->GetOwner();
 			float durationTime = combatStatusInfo->durationTime;
 			float effectAmount = combatStatusInfo->effectAmount;
+			UParticleSystem* particleEffect = combatStatusInfo->particleEffect;
+			FVector spawnLocation = GetOwner()->GetActorLocation();
+			FRotator rotation = GetOwner()->GetActorRotation();
+			UE_LOG(LogTemp, Warning, TEXT("ActorLocation: %s"), *spawnLocation.ToString());
+
 			//Spawn actor according to the status type, and add it to the list
 			switch (combatStatusInfo->statusType) {
 				case DamageOverTime:
 				{
+			
 					UE_LOG(LogTemp, Warning, TEXT("DamageOverTime Type"));
-					ACombatStatusActor* statusActor = GetWorld()->SpawnActor<ADamageOverTimeActor>(ADamageOverTimeActor::StaticClass(),
-						FVector(0.0f, 0.0, 0.0f), FRotator(0.0f, 0.0f, 0.0), ActorSpawnParams);
-					statusActor->setValue(rowName_, durationTime, effectAmount);
+					ACombatStatusActor* statusActor = GetWorld()->SpawnActor<ADamageOverTimeActor>(
+						ADamageOverTimeActor::StaticClass(),
+						spawnLocation, rotation, ActorSpawnParams);
+					//Set the value for the actor, and activate it
+					statusActor->setValue(rowName_, durationTime, effectAmount, particleEffect);
 					combatStatusList.Add(statusActor);
+					//Attach to Actor
+					statusActor->AttachToActor(GetOwner(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+					statusActor->OnCombStatusRemove.AddDynamic(this, &UCombatStatusComponent::RemoveCombatStatus);
 					break;
 				}
 
 				case ReduceSpeed:
 				{
 					UE_LOG(LogTemp, Warning, TEXT("ReduceSpeed Type"));
-					ACombatStatusActor* statusActor = GetWorld()->SpawnActor<AReduceSpeedActor>(AReduceSpeedActor::StaticClass(),
-						FVector(0.0f, 0.0, 0.0f), FRotator(0.0f, 0.0f, 0.0), ActorSpawnParams);
-					statusActor->setValue(rowName_, durationTime, effectAmount);
+					ACombatStatusActor* statusActor = GetWorld()->SpawnActor<AReduceSpeedActor>(
+						AReduceSpeedActor::StaticClass(),
+						spawnLocation, rotation, ActorSpawnParams);
+					//Set the value for the actor, and activate it
+					statusActor->setValue(rowName_, durationTime, effectAmount, particleEffect);
 					combatStatusList.Add(statusActor);
 					break;
 
@@ -74,12 +88,16 @@ void UCombatStatusComponent::AddCombatStatus(FName rowName_)
 				default:
 					break;
 			}
-
-
 		}
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Database Not Found"));
 	}
+}
+
+void UCombatStatusComponent::RemoveCombatStatus(ACombatStatusActor* statusActor){
+	int i = combatStatusList.Find(statusActor);
+	combatStatusList.RemoveAt(i);
+
 }
 

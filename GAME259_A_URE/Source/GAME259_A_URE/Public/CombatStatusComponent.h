@@ -49,7 +49,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void AddCombatStatus(FName rowName_);
 
-
+	UFUNCTION(BlueprintCallable)
+		void RemoveCombatStatus(ACombatStatusActor* statusActor);
 };
 
 //TODO: Enum Class Status Type

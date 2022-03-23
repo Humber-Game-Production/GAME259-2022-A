@@ -7,7 +7,7 @@
 #include "CombatStatusActor.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCombatStatusDestroy);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatStatusDestroy, ACombatStatusActor*, statusActor);
 UCLASS(ABSTRACT)
 class GAME259_A_URE_API ACombatStatusActor : public AActor
 {
@@ -21,15 +21,14 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = "Timer")
 		FTimerHandle TimeHandle;
 
-	UPROPERTY(EditAnywhere, Category = "Particle Effect")
-		class UParticleSystem* particleEffect;
+	UPROPERTY(VisibleAnywhere, Category = "Particle Effect")
+		class UParticleSystemComponent* ParticleComponent;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FCombatStatusDestroy OnCombStatusRemove;
 
-
 	UFUNCTION()
-		void setValue(FName statusName_, float durationTime_, float effectAmount_);
+		void setValue(FName statusName_, float durationTime_, float effectAmount_, UParticleSystem* particleEffect_);
 
 
 

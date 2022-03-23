@@ -16,7 +16,6 @@ class GAME259_A_URE_API ADamageOverTimeActor : public ACombatStatusActor
 
 public:
 	ADamageOverTimeActor();
-	ADamageOverTimeActor(float durationTime_, float effectAmount_);
 
 protected:
 	void ApplyEffect() override;
