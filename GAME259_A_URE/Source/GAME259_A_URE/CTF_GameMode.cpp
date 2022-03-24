@@ -116,7 +116,10 @@ void ACTF_GameMode::HandleMatchHasStarted() {
 		GetWorldTimerManager().SetTimer(GS->MatchTimer, GS, &ACTF_GameState::MatchTick, 1.0f, true, 1.0f);
 		GS->matchStartTime = GS->GetServerWorldTimeSeconds();
 		for (AMain_PlayerController* PC : Players) {
-			Spawn(PC);
+			if (AMain_Character* Character = Cast<AMain_Character>(PC->GetPawn())) {
+				Spawn(PC);
+				Character->Destroy();
+			}
 		}
 	}
 }
