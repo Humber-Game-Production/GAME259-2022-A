@@ -20,6 +20,11 @@ public:
 	void MatchStartCountdownTick();
 	void MatchTick();
 
+	//Potentially track flag state here?
+	//
+	//bool team1FlagStolen;
+	//bool team2FlagStolen;
+
 	float warmupStartTime;
 	float matchStartTime;
 	int team1Score;
