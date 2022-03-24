@@ -21,5 +21,7 @@ void ACTF_GameState::MatchTick() {
 		if (GetServerWorldTimeSeconds() - matchStartTime >= GM->matchTimeLimit) {
 			GM->RestartGame();
 		}
+		int timeRemaining = GM->matchTimeLimit - (GetServerWorldTimeSeconds() - matchStartTime) + 1;
+		MatchTimeRemainingUpdate.Broadcast(timeRemaining);
 	}
 }

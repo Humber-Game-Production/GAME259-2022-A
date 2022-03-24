@@ -81,8 +81,8 @@ void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 		if (GS->MatchStartCountdown.IsValid()) {
 			return;
 		}
-		GetWorldTimerManager().SetTimer(GS->MatchStartCountdown, GS, &ACTF_GameState::MatchStartCountdownTick, 1.0f, true, 1.0f);
 		GS->warmupStartTime = GS->GetServerWorldTimeSeconds();
+		GetWorldTimerManager().SetTimer(GS->MatchStartCountdown, GS, &ACTF_GameState::MatchStartCountdownTick, 1.0f, true, 0.0f);
 	}
 	//NewPlayer->GetPawn() -> TakeDamage(100.0f, FDamageEvent(), NewPlayer, NewPlayer->GetPawn());
 }

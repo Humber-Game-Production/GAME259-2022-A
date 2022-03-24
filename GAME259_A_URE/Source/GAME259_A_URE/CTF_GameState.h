@@ -7,9 +7,8 @@
 #include "CTF_GameMode.h"
 #include "CTF_GameState.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMatchTimeRemaining, int, timeRemaining_);
+
 UCLASS()
 class GAME259_A_URE_API ACTF_GameState : public AGameState
 {
@@ -31,4 +30,7 @@ public:
 	
 	FTimerHandle MatchStartCountdown;
 	FTimerHandle MatchTimer;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FMatchTimeRemaining MatchTimeRemainingUpdate;
 };
