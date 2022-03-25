@@ -9,6 +9,7 @@
 
 class ACombatStatusActor;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatStatusAdd, FName, statusName);
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class GAME259_A_URE_API UCombatStatusComponent : public UActorComponent
 {
@@ -44,6 +45,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void RemoveCombatStatus(ACombatStatusActor* statusActor);
 
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+		FCombatStatusAdd OnCombStatusAdd;
+
 private:
 
 	ACombatStatusActor* existCombatStatus(FName statusName_);
@@ -52,10 +56,16 @@ private:
 
 //TODO: Enum Class Status Type
 UENUM(BlueprintType)
-enum EStatusType{
+enum EStatusClass{
 	Default,
 	DamageOverTime,
 	ReduceSpeed
+};
+
+UENUM(BlueprintType)
+enum EStatusType {
+	Buff,
+	Debuff
 };
 
 //DataTable Row
@@ -75,6 +85,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TEnumAsByte<EStatusType> statusType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<EStatusClass> statusClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UTexture* icon;

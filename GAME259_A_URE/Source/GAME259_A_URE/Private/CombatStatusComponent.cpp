@@ -53,13 +53,15 @@ void UCombatStatusComponent::AddCombatStatus(FName rowName_)
 			float durationTime = combatStatusInfo->durationTime;
 			float effectAmount = combatStatusInfo->effectAmount;
 			UParticleSystem* particleEffect = combatStatusInfo->particleEffect;
+			FString description = combatStatusInfo->description;
+			UTexture* icon = combatStatusInfo->icon;
 			FVector spawnLocation = GetOwner()->GetActorLocation();
 			FRotator rotation = GetOwner()->GetActorRotation();
 			UE_LOG(LogTemp, Warning, TEXT("ActorLocation: %s"), *spawnLocation.ToString());
 
 			//Spawn actor according to the status type, and add it to the list
 			ACombatStatusActor* statusActor = nullptr;
-			switch (combatStatusInfo->statusType) {
+			switch (combatStatusInfo->statusClass) {
 				case DamageOverTime:
 				{		
 					UE_LOG(LogTemp, Warning, TEXT("DamageOverTime Type"));
@@ -93,13 +95,14 @@ void UCombatStatusComponent::AddCombatStatus(FName rowName_)
 				}
 				else {
 					//Set the value for the actor, and activate it
-					statusActor->setValue(rowName_, durationTime, effectAmount, particleEffect);
+					statusActor->setValue(rowName_, durationTime, effectAmount, particleEffect, description, icon);
 					combatStatusList.Add(statusActor);
 					//Attach to Actor
 					statusActor->AttachToActor(GetOwner(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
 					//Setup the delegates when the combatStatus is destroyed
 					statusActor->OnCombStatusRemove.AddDynamic(this, &UCombatStatusComponent::RemoveCombatStatus);
 				}
+				OnCombStatusAdd.Broadcast(statusActor->getName());
 			}
 		}
 	}

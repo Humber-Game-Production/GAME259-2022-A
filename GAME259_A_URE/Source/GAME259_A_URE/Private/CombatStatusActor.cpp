@@ -29,11 +29,14 @@ void ACombatStatusActor::Tick(float DeltaTime)
 
 
 
-void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float effectAmount_, UParticleSystem* particleEffect_) {
+void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float effectAmount_, 
+	UParticleSystem* particleEffect_, FString description_, UTexture* icon_) {
 	statusName = statusName_;
 	durationTime = durationTime_;
 	effectAmount = effectAmount_;
 	ParticleComponent->SetTemplate(particleEffect_);
+	description = description_;
+	icon = icon_;
 	remainTime = durationTime;
 	GetWorldTimerManager().SetTimer(TimeHandle, this, &ACombatStatusActor::ApplyEffect, 1.0f, true);
 }

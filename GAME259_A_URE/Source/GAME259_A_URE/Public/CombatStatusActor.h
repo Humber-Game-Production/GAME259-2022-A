@@ -28,13 +28,23 @@ public:
 
 protected:
 
+	UPROPERTY(VisibleDefaultsOnly)
 	FName statusName;
 
+	UPROPERTY(VisibleDefaultsOnly)
 	float durationTime;
 
+	UPROPERTY(VisibleDefaultsOnly)
 	float remainTime;
 
+	UPROPERTY(VisibleDefaultsOnly)
 	float effectAmount;
+
+	UPROPERTY(VisibleDefaultsOnly)
+	FString description;
+
+	UPROPERTY(VisibleDefaultsOnly)
+	UTexture* icon;
 
 protected:
 	// Called when the game starts or when spawned
@@ -51,12 +61,26 @@ public:
 	FCombatStatusDestroy OnCombStatusRemove;
 
 	UFUNCTION(BlueprintCallable)
-	void setValue(FName statusName_, float durationTime_, float effectAmount_, UParticleSystem* particleEffect_);
+	void setValue(FName statusName_, float durationTime_, float effectAmount_, 
+	UParticleSystem* particleEffect_, FString description_, UTexture* icon_);
 
 	UFUNCTION(BlueprintCallable)
 	FName getName() { return statusName; }
 
 	UFUNCTION(BlueprintCallable)
+	FString getDescription() { return description; }
+
+	UFUNCTION(BlueprintCallable)
+	UTexture* getIcon() { return icon; }
+
+	UFUNCTION(BlueprintCallable)
+	float getEffectAmount() { return effectAmount; }
+
+	UFUNCTION(BlueprintCallable)
+	float getRemainTime() { return remainTime; }
+
+	UFUNCTION(BlueprintCallable)
 	void refreshTime() { remainTime = durationTime; }
 
 };
+
