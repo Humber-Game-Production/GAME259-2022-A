@@ -1,18 +1,16 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "Main_Character.h"
-#include "Main_PlayerController.h"
 #include "CTF_GameMode.h"
 #include "PlayerStats.h"
+#include "Public/CombatStatusComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
-#include "Net/UnrealNetwork.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
-
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -51,12 +49,13 @@ AMain_Character::AMain_Character()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-
+	
 	//Initialize the player's Health
 	MaxHealth = 100.0f;
 	CurrentHealth = MaxHealth;
 	bReplicates = true;
 	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
+	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -120,14 +119,8 @@ void AMain_Character::TouchStopped(ETouchIndex::Type FingerIndex, FVector Locati
 void  AMain_Character::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 }
-
-void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AMain_Character, CurrentHealth);
-}
-
 
 void AMain_Character::TurnAtRate(float Rate)
 {
@@ -162,7 +155,7 @@ void AMain_Character::MoveRight(float Value)
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
+    
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
@@ -171,67 +164,33 @@ void AMain_Character::MoveRight(float Value)
 }
 
 //////////////////////////////////////////////////////////////////////////
-
-void AMain_Character::OnHealthUpdate()
+void AMain_Character::SetCurrentHealth(float healthValue)
 {
+	//Prevent current health to go above max health
+	CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
+	//Broadcast health changes
+	HealthUpdate.Broadcast();
+	//HealthUpdate.Broadcast(CurrentHealth);
+
 	//Display message to show current health
 	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
 
-	if (IsLocallyControlled())
+	//Display dying message when health reaches 0
+	if (CurrentHealth <= 0)
 	{
-		// Updates Health Bar
-		HealthUpdate.Broadcast(); // Added
+		//BroadCast character dead
+		DeadUpdate.Broadcast();
+		Die();
 	}
-	if (HasAuthority())
-	{
-		if (CurrentHealth <= 0)
-		{
-			//Display dying message when health reaches 0
-			FString deathMessage = FString::Printf(TEXT("You have been killed."));
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
-
-			Die();
-
-			// Calls Death Event to Remove HUD
-			DeathEvent();
-		}
-	}
-}
-
-void AMain_Character::OnRep_CurrentHealth() // Added replication to CurrentHealth
-{
-	OnHealthUpdate();
-}
-
-void AMain_Character::SetCurrentHealth(float healthValue)
-{
-	//Prevent current health to go above max health
-	if (HasAuthority())
-	{
-		CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
-
-		//bReplicates = true;
-
-		// Old Code
-		//HealthUpdate.Broadcast(CurrentHealth);
-		//Cast<AMain_PlayerController>(GetController())->HealthUpdateEvent();
-
-		OnHealthUpdate();
-	}
+	
 }
 
 
 float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	float damageApplied = CurrentHealth - DamageTaken;
-
-	//GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, FString::Printf(TEXT("Output: %f - %f = %f"),
-	//	CurrentHealth, DamageTaken, damageApplied));
-
-	// Changes the CurrentHealth variable
 	SetCurrentHealth(damageApplied);
-
 	return damageApplied;
 }
 
@@ -267,37 +226,40 @@ bool AMain_Character::ServerAttack_Validate()
 
 void AMain_Character::ServerAttack_Implementation()
 {
-
-	TakeDamage(100.0f, FDamageEvent(), GetController(), this);
-
-	/*FVector Start = GetMesh()->GetBoneLocation(FName("head"));
-	FVector End = Start + FollowCamera->GetForwardVector() * 1500.0f;
-	FHitResult HitResult = LineTraceComp->LineTraceSingle(Start, End, true);
-	if (AActor* Actor = HitResult.GetActor())
+	if ((HasAuthority()))
 	{
-		if (AMain_Character* Player = Cast<AMain_Character>(Actor))
-		{
-			float TestDamage = 20.0f;
 
-			TakeDamage(TestDamage, FDamageEvent(), GetController(), this);
-		}
-	}*/
+		//TakeDamage(100.0f, FDamageEvent(), GetController(), this);
+		CombatStatusComp->AddCombatStatus(FName(TEXT("FireDebuff")));
+		/*FVector Start = GetMesh()->GetBoneLocation(FName("head"));
+		FVector End = Start + FollowCamera->GetForwardVector() * 1500.0f;
+		FHitResult HitResult = LineTraceComp->LineTraceSingle(Start, End, true);
+		if (AActor* Actor = HitResult.GetActor())
+		{
+			if (AMain_Character* Player = Cast<AMain_Character>(Actor))
+			{
+				float TestDamage = 20.0f;
+
+				TakeDamage(TestDamage, FDamageEvent(), GetController(), this);
+			}
+		}*/
+	}
 }
 
 void AMain_Character::Die()
 {
-	//if (HasAuthority())
-	//{
-	MultiDie();
-	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
-	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
+	if (HasAuthority())
 	{
-		GameMode->Respawn(GetController());
-	}
-	//Start our destroy timer to remove actor
-	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
+		MultiDie();
+		AGameModeBase* GM = GetWorld()->GetAuthGameMode();
+		if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
+		{
+			GameMode->Respawn(GetController());
+		}
+		//Start our destroy timer to remove actor
+		GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
 
-	//}
+	}
 }
 
 void AMain_Character::CallDestroy()
@@ -324,3 +286,11 @@ void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 {
 	Die();
 }
+
+void AMain_Character::AddCombatStatus(FName statusName_) {
+
+	if (HasAuthority()) {
+		CombatStatusComp->AddCombatStatus(statusName_);
+	}
+}
+
