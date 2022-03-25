@@ -142,8 +142,8 @@ public:
 	virtual float TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	//Add Combat Status
-	//UFUNCTION(BlueprintPure, Category = "Health")
-	//	void AddCombatStatus(FString statusName);
+	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
+		void AddCombatStatus(FName statusName_);
 
 
 };

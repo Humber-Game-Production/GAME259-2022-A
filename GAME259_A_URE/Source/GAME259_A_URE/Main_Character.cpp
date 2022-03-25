@@ -287,9 +287,10 @@ void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 	Die();
 }
 
-//void AMain_Character::AddCombatStatus(FString statusName) {
-//
-//
-//
-//}
+void AMain_Character::AddCombatStatus(FName statusName_) {
+
+	if (HasAuthority()) {
+		CombatStatusComp->AddCombatStatus(statusName_);
+	}
+}
 

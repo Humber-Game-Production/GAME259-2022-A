@@ -12,23 +12,17 @@ UCLASS(ABSTRACT)
 class GAME259_A_URE_API ACombatStatusActor : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ACombatStatusActor();
 	ACombatStatusActor(float durationTime_, float effectAmount_);
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "Timer")
-		FTimerHandle TimeHandle;
+	FTimerHandle TimeHandle;
 
 	UPROPERTY(VisibleAnywhere, Category = "Particle Effect")
-		class UParticleSystemComponent* ParticleComponent;
-
-	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-		FCombatStatusDestroy OnCombStatusRemove;
-
-	UFUNCTION()
-		void setValue(FName statusName_, float durationTime_, float effectAmount_, UParticleSystem* particleEffect_);
+	class UParticleSystemComponent* ParticleComponent;
 
 
 
@@ -47,11 +41,22 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-		virtual void ApplyEffect();
+	virtual void ApplyEffect();
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FCombatStatusDestroy OnCombStatusRemove;
+
+	UFUNCTION(BlueprintCallable)
+	void setValue(FName statusName_, float durationTime_, float effectAmount_, UParticleSystem* particleEffect_);
+
+	UFUNCTION(BlueprintCallable)
+	FName getName() { return statusName; }
+
+	UFUNCTION(BlueprintCallable)
+	void refreshTime() { remainTime = durationTime; }
 
 };

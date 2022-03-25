@@ -38,19 +38,16 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Ball Stat Type")
 	bool isBurning;
 
-	// TODO: Add following variables
-	// Duration Time (how long will the status be on the player)
-	// Name of the status
-	// Type of the status: Enum
-
-	
-	//Declare functions
-	//ApplyEffect
 	UFUNCTION(BlueprintCallable)
 		void AddCombatStatus(FName rowName_);
 
 	UFUNCTION(BlueprintCallable)
 		void RemoveCombatStatus(ACombatStatusActor* statusActor);
+
+private:
+
+	ACombatStatusActor* existCombatStatus(FName statusName_);
+
 };
 
 //TODO: Enum Class Status Type
