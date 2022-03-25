@@ -36,7 +36,7 @@ public:
 
 	//Stores the type of status
 	UPROPERTY(EditAnywhere, Category = "Input")
-	FString Status;
+	FName Status;
 	
 	//Determines if the actor is lethal or not
 	UPROPERTY(EditAnywhere, Category = "Input")
