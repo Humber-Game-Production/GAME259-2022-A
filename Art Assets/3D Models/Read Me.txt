@@ -1,0 +1,1 @@
+This folder is meant for the game's 3D models
