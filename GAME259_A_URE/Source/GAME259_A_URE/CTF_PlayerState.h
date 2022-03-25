@@ -3,8 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CTF_GameMode.h"
 #include "GameFramework/PlayerState.h"
 #include "CTF_PlayerState.generated.h"
+
+
 
 /**
  * 
@@ -16,6 +19,5 @@ class GAME259_A_URE_API ACTF_PlayerState : public APlayerState
 
 public:
 	ACTF_PlayerState();
-
-	bool bIsTeamA;
+	TeamSelected team;
 };

@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CTF_GameMode.h"
 #include "GameFramework/Actor.h"
 #include "PlayerSpawnPoint.generated.h"
+
 
 UCLASS()
 class GAME259_A_URE_API APlayerSpawnPoint : public AActor
@@ -16,7 +18,7 @@ public:
 	APlayerSpawnPoint();
 
 	UPROPERTY(EditAnywhere)
-		bool bIsTeamASpawn;
+	TeamSelected owningTeam;
 
 protected:
 	// Called when the game starts or when spawned
