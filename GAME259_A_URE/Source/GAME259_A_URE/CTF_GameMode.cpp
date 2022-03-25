@@ -33,7 +33,7 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 
 
-	matchTimeLimit = 20.0f;
+	matchTimeLimit = 300.0f;
 	warmupTimeLimit = 5.0f;
 	maxScore = 3;
 	maxRounds = 3;
@@ -117,8 +117,7 @@ void ACTF_GameMode::HandleMatchHasStarted() {
 		GS->matchStartTime = GS->GetServerWorldTimeSeconds();
 		for (AMain_PlayerController* PC : Players) {
 			if (AMain_Character* Character = Cast<AMain_Character>(PC->GetPawn())) {
-				Spawn(PC);
-				Character->Destroy();
+				Character->TakeDamage(100.0f,FDamageEvent(), PC, this);
 			}
 		}
 	}
