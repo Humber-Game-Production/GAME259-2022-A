@@ -6,9 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Main_Character.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHPUpdate);
- 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterDead);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
+
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterHPUpdate, float, characterHealth);
 
 UCLASS(config = Game)
@@ -16,15 +15,14 @@ class AMain_Character : public ACharacter
 {
 	GENERATED_BODY()
 
-	/** Camera boom positioning the camera behind the character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		/** Camera boom positioning the camera behind the character */
+		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
 
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
-
-
+    
 public:
 	AMain_Character();
 
@@ -36,16 +34,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
-
-
 	//virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
-
+	
 protected:
 
 	class UPlayerStatsComponent* PlayerStatsComp;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		class UCombatStatusComponent* CombatStatusComp;
 
 	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
 
@@ -63,8 +56,8 @@ protected:
 	bool MultiDie_Validate();
 	void MultiDie_Implementation();
 
-	FTimerHandle DestroyHandle;
-
+	FTimerHandle DestroyHandle;	
+	
 	void CallDestroy();
 
 	/** Resets HMD orientation in VR. */
@@ -99,8 +92,11 @@ protected:
 		float MaxHealth;
 
 	/** The player's current health. When reduced to 0, they are considered dead.*/
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, ReplicatedUsing=OnRep_CurrentHealth)
 		float CurrentHealth;
+
+	/** Update Health */
+	void OnHealthUpdate();
 
 protected:
 	// APawn interface
@@ -116,22 +112,26 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	FCharacterHPUpdate HealthUpdate;
-
-	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	FCharacterDead DeadUpdate;
+		FCharacterHealthUpdate HealthUpdate;
 
 	/** Getter for Max Health.*/
 	UFUNCTION(BlueprintPure, Category = "Health")
-	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
+		FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 
 	/** Getter for Current Health.*/
 	UFUNCTION(BlueprintPure, Category = "Health")
-	FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
+		FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
+
+	UFUNCTION()
+	void OnRep_CurrentHealth();
 
 	/** Setter for Current Health. Clamps the value between 0 and MaxHealth and calls OnHealthUpdate. Should only be called on the server.*/
 	UFUNCTION(BlueprintCallable, Category = "Health")
-	void SetCurrentHealth(float healthValue);
+		void SetCurrentHealth(float healthValue);
+
+	// Event that will be triggered in the blueprint when player dies
+	UFUNCTION(BlueprintImplementableEvent)
+	void DeathEvent();
 
 	/** Event for taking damage. Overridden from APawn.
 	*   DamageEvent describes the type of damage.
@@ -139,12 +139,6 @@ public:
 	*	DamageCauser describes the Actor that deals damage.
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Health")
-	virtual float TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
-
-	//Add Combat Status
-	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
-		void AddCombatStatus(FName statusName_);
-
-
+		float TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 };
 

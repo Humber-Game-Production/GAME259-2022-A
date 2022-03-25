@@ -99,7 +99,7 @@ void ABallActor::Tick(float DeltaTime)
 		if (HasStatus == true)
 		{
 			//Displays the type of status on the actor
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, TEXT("Status Applyed: " + Status.ToString()));
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, TEXT("Status Applyed: " + Status));
 		}
 		//Displays the Velocity of the actor
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Current Actor Velocity: %f"), SphereMesh->GetPhysicsLinearVelocity().Size()));
@@ -124,9 +124,6 @@ void ABallActor::DestroyTimerUp()
 void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult )
 {
 
-	UE_LOG(LogTemp, Warning, TEXT("Overlapping"));
-
-
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
 		//Check if the ball is overlapping with the character
 		if (OtherActor->IsA(AMain_Character::StaticClass())) {
@@ -142,14 +139,10 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 				//AController *DamageCauserController = GetOwner()->GetInstigatorController();
 				playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), nullptr, this);
 				//If status is enabled broadcast it
-				if (Status != "None") {
-					playerCharacter->AddCombatStatus(Status);
-				}
-
 				if (HasStatus == true)
 				{
 					//Broadcasts the the status effect
-					//MessageStatus.Broadcast(Status);
+					MessageStatus.Broadcast(Status);
 				}
 
 				//Destroys this game actor

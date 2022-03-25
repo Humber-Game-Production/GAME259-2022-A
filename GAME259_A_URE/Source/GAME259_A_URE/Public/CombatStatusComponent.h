@@ -7,9 +7,7 @@
 #include "Engine/DataTable.h"
 #include "CombatStatusComponent.generated.h"
 
-class ACombatStatusActor;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatStatusAdd, FName, statusName);
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class GAME259_A_URE_API UCombatStatusComponent : public UActorComponent
 {
@@ -18,12 +16,6 @@ class GAME259_A_URE_API UCombatStatusComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UCombatStatusComponent();
-
-	UPROPERTY(EditAnywhere, Category = "Data Table")
-		UDataTable* CombatStatusTable;
-
-	UPROPERTY(EditAnywhere)
-		TArray<ACombatStatusActor*> combatStatusList;
 
 protected:
 	// Called when the game starts
@@ -34,39 +26,19 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	//Declare variables
-	UPROPERTY(EditAnywhere, Category = "Ball Stat Type")
-	bool isFrozen;
-	UPROPERTY(EditAnywhere, Category = "Ball Stat Type")
-	bool isBurning;
+	// TODO: Add following variables
+	// Duration Time (how long will the status be on the player)
+	// Name of the status
+	// Type of the status: Enum
 
-	UFUNCTION(BlueprintCallable)
-		void AddCombatStatus(FName rowName_);
-
-	UFUNCTION(BlueprintCallable)
-		void RemoveCombatStatus(ACombatStatusActor* statusActor);
-
-	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-		FCombatStatusAdd OnCombStatusAdd;
-
-private:
-
-	ACombatStatusActor* existCombatStatus(FName statusName_);
+	
+	//Declare functions
+	//ApplyEffect
 
 };
 
 //TODO: Enum Class Status Type
-UENUM(BlueprintType)
-enum EStatusClass{
-	Default,
-	DamageOverTime,
-	ReduceSpeed
-};
 
-UENUM(BlueprintType)
-enum EStatusType {
-	Buff,
-	Debuff
-};
 
 //DataTable Row
 USTRUCT(BlueprintType)
@@ -75,25 +47,13 @@ struct FCombatStatus : public FTableRowBase {
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FString name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString description;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float durationTime;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float effectAmount;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<EStatusType> statusType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<EStatusClass> statusClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UTexture* icon;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UParticleSystem* particleEffect;
 
 };
-
