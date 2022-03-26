@@ -43,7 +43,7 @@ void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float 
 
 void ACombatStatusActor::ApplyEffect() {
 	remainTime--;
-	UE_LOG(LogTemp, Warning, TEXT("Remain status time: %f"), remainTime);
+	//UE_LOG(LogTemp, Warning, TEXT("Remain status time: %f"), remainTime);
 	//Remove combatstatus and destroy it when remain time is over
 	if (remainTime <= 0.0f) {
 		OnCombStatusRemove.Broadcast(this);

@@ -57,8 +57,6 @@ void UCombatStatusComponent::AddCombatStatus(FName rowName_)
 			UTexture* icon = combatStatusInfo->icon;
 			FVector spawnLocation = GetOwner()->GetActorLocation();
 			FRotator rotation = GetOwner()->GetActorRotation();
-			UE_LOG(LogTemp, Warning, TEXT("ActorLocation: %s"), *spawnLocation.ToString());
-
 			//Spawn actor according to the status type, and add it to the list
 			ACombatStatusActor* statusActor = nullptr;
 			switch (combatStatusInfo->statusClass) {
@@ -115,6 +113,15 @@ void UCombatStatusComponent::RemoveCombatStatus(ACombatStatusActor* statusActor)
 	int i = combatStatusList.Find(statusActor);
 	combatStatusList.RemoveAt(i);
 }
+
+void UCombatStatusComponent::RemoveCombatStatusList() {
+	for (ACombatStatusActor* status : combatStatusList) {
+		UE_LOG(LogTemp, Warning, TEXT("Removing status list"));
+		status->Destroy();
+	}
+	combatStatusList.Empty();
+}
+
 
 ACombatStatusActor* UCombatStatusComponent::existCombatStatus(FName statusName_) {
 

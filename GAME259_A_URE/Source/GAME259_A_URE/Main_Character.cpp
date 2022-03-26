@@ -287,6 +287,8 @@ void AMain_Character::Die()
 {
 	//if (HasAuthority())
 	//{
+
+	CombatStatusComp->RemoveCombatStatusList();
 	MultiDie();
 	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
 	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
@@ -313,6 +315,7 @@ bool AMain_Character::MultiDie_Validate()
 
 void AMain_Character::MultiDie_Implementation()
 {
+
 	GetCapsuleComponent()->DestroyComponent();
 	this->GetCharacterMovement();
 	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
