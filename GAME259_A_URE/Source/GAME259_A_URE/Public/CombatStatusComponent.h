@@ -45,6 +45,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void RemoveCombatStatus(ACombatStatusActor* statusActor);
 
+	UFUNCTION(BlueprintCallable)
+		void RemoveCombatStatusList();
+
+
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FCombatStatusAdd OnCombStatusAdd;
 
