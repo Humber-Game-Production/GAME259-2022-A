@@ -53,6 +53,8 @@ ABallActor::ABallActor()
 
 	lethalVelocity = 0.0f;
 
+	
+
 }
 
 // Called when the game starts or when spawned
@@ -148,4 +150,5 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 
 
 	
+
 }

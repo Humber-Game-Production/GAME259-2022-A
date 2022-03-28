@@ -12,6 +12,7 @@ ACombatStatusActor::ACombatStatusActor()
 	PrimaryActorTick.bCanEverTick = true;
 	ParticleComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle Effect"));
 	RootComponent = ParticleComponent;
+	
 }
 
 // Called when the game starts or when spawned
@@ -35,6 +36,7 @@ void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float 
 	durationTime = durationTime_;
 	effectAmount = effectAmount_;
 	ParticleComponent->SetTemplate(particleEffect_);
+	ParticleComponent->SetIsReplicated(true);
 	description = description_;
 	icon = icon_;
 	remainTime = durationTime;
