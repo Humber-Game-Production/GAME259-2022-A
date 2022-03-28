@@ -124,9 +124,6 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 {
 	UE_LOG(LogTemp, Warning, TEXT("Overlapping"));
 
-	UE_LOG(LogTemp, Warning, TEXT("Overlapping"));
-
-
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
 		//Check if the ball is overlapping with the character
 		if (OtherActor->IsA(AMain_Character::StaticClass())) {

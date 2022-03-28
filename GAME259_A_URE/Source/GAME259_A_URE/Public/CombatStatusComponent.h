@@ -100,4 +100,3 @@ public:
 		UParticleSystem* particleEffect;
 
 };
-

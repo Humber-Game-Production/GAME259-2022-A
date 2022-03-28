@@ -8,7 +8,7 @@
 // Sets default values
 ACombatStatusActor::ACombatStatusActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	ParticleComponent = CreateAbstractDefaultSubobject<UParticleSystemComponent>(TEXT("Particle Effect"));
 
