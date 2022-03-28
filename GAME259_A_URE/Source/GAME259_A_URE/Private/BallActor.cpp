@@ -29,7 +29,6 @@ ABallActor::ABallActor()
 	SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
 	//Scales the mesh to 70% of its size
 	SphereMesh->SetWorldScale3D(FVector(0.7f)); 
-
 	//Sets the default model to use
 	//static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
 	//if (SphereVisualAsset.Succeeded())
@@ -123,9 +122,7 @@ void ABallActor::DestroyTimerUp()
 //An overlap function
 void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult )
 {
-
 	UE_LOG(LogTemp, Warning, TEXT("Overlapping"));
-
 
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
 		//Check if the ball is overlapping with the character

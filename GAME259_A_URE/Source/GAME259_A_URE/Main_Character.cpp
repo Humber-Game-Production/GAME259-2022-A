@@ -58,7 +58,7 @@ AMain_Character::AMain_Character()
 	CurrentHealth = MaxHealth;
 	bReplicates = true;
 	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
-
+	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
@@ -287,6 +287,8 @@ void AMain_Character::Die()
 {
 	//if (HasAuthority())
 	//{
+
+	CombatStatusComp->RemoveCombatStatusList();
 	MultiDie();
 	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
 	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
@@ -313,6 +315,7 @@ bool AMain_Character::MultiDie_Validate()
 
 void AMain_Character::MultiDie_Implementation()
 {
+
 	GetCapsuleComponent()->DestroyComponent();
 	this->GetCharacterMovement();
 	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
