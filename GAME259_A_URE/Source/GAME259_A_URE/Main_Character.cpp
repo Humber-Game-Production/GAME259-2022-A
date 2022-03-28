@@ -12,6 +12,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Public/CombatStatusComponent.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -51,13 +52,13 @@ AMain_Character::AMain_Character()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-	
+
 	//Initialize the player's Health
 	MaxHealth = 100.0f;
 	CurrentHealth = MaxHealth;
 	bReplicates = true;
 	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
-
+	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
@@ -120,7 +121,7 @@ void AMain_Character::TouchStopped(ETouchIndex::Type FingerIndex, FVector Locati
 void  AMain_Character::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
@@ -162,7 +163,7 @@ void AMain_Character::MoveRight(float Value)
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
-    
+
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
@@ -173,24 +174,24 @@ void AMain_Character::MoveRight(float Value)
 //////////////////////////////////////////////////////////////////////////
 
 void AMain_Character::OnHealthUpdate()
-{	
+{
 	//Display message to show current health
 	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
-	
-	if(IsLocallyControlled())
+
+	if (IsLocallyControlled())
 	{
 		// Updates Health Bar
 		HealthUpdate.Broadcast(); // Added
 	}
-	if(HasAuthority())
+	if (HasAuthority())
 	{
 		if (CurrentHealth <= 0)
 		{
 			//Display dying message when health reaches 0
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
-			
+
 			Die();
 
 			// Calls Death Event to Remove HUD
@@ -207,31 +208,31 @@ void AMain_Character::OnRep_CurrentHealth() // Added replication to CurrentHealt
 void AMain_Character::SetCurrentHealth(float healthValue)
 {
 	//Prevent current health to go above max health
-	if(HasAuthority())
+	if (HasAuthority())
 	{
 		CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
-	
+
 		//bReplicates = true;
 
 		// Old Code
 		//HealthUpdate.Broadcast(CurrentHealth);
 		//Cast<AMain_PlayerController>(GetController())->HealthUpdateEvent();
-	
+
 		OnHealthUpdate();
 	}
 }
 
 
 float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
-{	
+{
 	float damageApplied = CurrentHealth - DamageTaken;
-	
+
 	//GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, FString::Printf(TEXT("Output: %f - %f = %f"),
 	//	CurrentHealth, DamageTaken, damageApplied));
 
 	// Changes the CurrentHealth variable
 	SetCurrentHealth(damageApplied);
-	
+
 	return damageApplied;
 }
 
@@ -248,7 +249,6 @@ float AMain_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent,
 		return 0.0f;
 	}
 	const float ActualDamage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-
 	if (ActualDamage > 0.0f)
 	{
 		PlayerStatsComp->LowerHealth(ActualDamage);
@@ -278,7 +278,6 @@ void AMain_Character::ServerAttack_Implementation()
 		if (AMain_Character* Player = Cast<AMain_Character>(Actor))
 		{
 			float TestDamage = 20.0f;
-
 			TakeDamage(TestDamage, FDamageEvent(), GetController(), this);
 		}
 	}*/
@@ -288,6 +287,8 @@ void AMain_Character::Die()
 {
 	//if (HasAuthority())
 	//{
+
+	CombatStatusComp->RemoveCombatStatusList();
 	MultiDie();
 	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
 	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
@@ -314,6 +315,7 @@ bool AMain_Character::MultiDie_Validate()
 
 void AMain_Character::MultiDie_Implementation()
 {
+
 	GetCapsuleComponent()->DestroyComponent();
 	this->GetCharacterMovement();
 	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
@@ -323,4 +325,11 @@ void AMain_Character::MultiDie_Implementation()
 void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 {
 	Die();
+}
+
+void AMain_Character::AddCombatStatus(FName statusName_) {
+
+	if (HasAuthority()) {
+		CombatStatusComp->AddCombatStatus(statusName_);
+	}
 }
