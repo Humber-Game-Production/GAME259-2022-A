@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Main_PlayerController.h"
-#include "GameFramework/GameModeBase.h"
+#include "GameFramework/GameMode.h"
 #include "CTF_GameMode.generated.h"
 
 UCLASS(minimalapi)
-class ACTF_GameMode : public AGameModeBase
+class ACTF_GameMode : public AGameMode
 {
 	GENERATED_BODY()
 
@@ -16,19 +16,19 @@ public:
 	ACTF_GameMode();
 
     virtual void PostLogin(APlayerController* NewPlayer) override;
+    //virtual AActor* ChoosePlayerStart_Implementation(AController* player)override;
 
-
-	float timeLimit;
+	float matchTimeLimit;
+    float warmupTimeLimit;
 	int maxScore;
 	int maxRounds;
 	int maxPlayers;
 	float respawnDelay;
 
-public:
-    bool team1;
-    bool team2;
-
 protected:
+    virtual void HandleMatchIsWaitingToStart() override;
+    virtual void HandleMatchHasStarted() override;
+
     // Called when the game starts
     virtual void BeginPlay() override;
 
@@ -36,7 +36,9 @@ protected:
     TArray<class APlayerSpawnPoint*> TeamASpawnPoints;
     TArray<class APlayerSpawnPoint*> TeamBSpawnPoints;
 
-    class APlayerSpawnPoint* GetSpawnPoint(bool bIsTeamA_);
+    TArray<class AMain_PlayerController*> Players;
+
+    class APlayerSpawnPoint* GetSpawnPoint(TeamSelected owningTeam_);
 
 public:
 
@@ -48,4 +50,12 @@ public:
 protected:
 
    
+};
+
+UENUM(BlueprintType)
+enum  class TeamSelected : uint8
+{
+    NONE          UMETA (DisplayName = "None"),
+    TEAM_A        UMETA (DisplayName = "TeamA"),
+    TEAM_B        UMETA(DisplayName = "TeamB"),
 };
