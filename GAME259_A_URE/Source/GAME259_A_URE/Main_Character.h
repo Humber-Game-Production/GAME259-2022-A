@@ -22,7 +22,7 @@ class AMain_Character : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
-    
+
 public:
 	AMain_Character();
 
@@ -35,12 +35,15 @@ public:
 		float BaseLookUpRate;
 
 	//virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
-	
+
 protected:
 
 	class UPlayerStatsComponent* PlayerStatsComp;
 
 	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UCombatStatusComponent* CombatStatusComp;
 
 	void Attack();
 
@@ -56,8 +59,8 @@ protected:
 	bool MultiDie_Validate();
 	void MultiDie_Implementation();
 
-	FTimerHandle DestroyHandle;	
-	
+	FTimerHandle DestroyHandle;
+
 	void CallDestroy();
 
 	/** Resets HMD orientation in VR. */
@@ -92,7 +95,7 @@ protected:
 		float MaxHealth;
 
 	/** The player's current health. When reduced to 0, they are considered dead.*/
-	UPROPERTY(EditDefaultsOnly, ReplicatedUsing=OnRep_CurrentHealth)
+	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_CurrentHealth)
 		float CurrentHealth;
 
 	/** Update Health */
@@ -123,7 +126,7 @@ public:
 		FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
 
 	UFUNCTION()
-	void OnRep_CurrentHealth();
+		void OnRep_CurrentHealth();
 
 	/** Setter for Current Health. Clamps the value between 0 and MaxHealth and calls OnHealthUpdate. Should only be called on the server.*/
 	UFUNCTION(BlueprintCallable, Category = "Health")
@@ -131,7 +134,7 @@ public:
 
 	// Event that will be triggered in the blueprint when player dies
 	UFUNCTION(BlueprintImplementableEvent)
-	void DeathEvent();
+		void DeathEvent();
 
 	/** Event for taking damage. Overridden from APawn.
 	*   DamageEvent describes the type of damage.
@@ -140,5 +143,8 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Health")
 		float TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
-};
 
+	//Add Combat Status
+	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
+		void AddCombatStatus(FName statusName_);
+};
