@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Public/CombatAmmoContainerComponent.h"
 #include "Main_Character.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
@@ -117,6 +118,10 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FCharacterHealthUpdate HealthUpdate;
 
+	//Collection of ball slots
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TArray<UCombatAmmoContainerComponent*> AmmoBallSlot;
+	
 	/** Getter for Max Health.*/
 	UFUNCTION(BlueprintPure, Category = "Health")
 		FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
