@@ -27,10 +27,19 @@ public:
 
 	float warmupStartTime;
 	float matchStartTime;
-	int team1Score;
-	int team2Score;
-	int team1RoundsWon;
-	int team2RoundsWon;
+	UPROPERTY(BlueprintReadWrite)
+	int teamAScore;
+	UPROPERTY(BlueprintReadWrite)
+	int teamBScore;
+	UPROPERTY(BlueprintReadWrite)
+	int teamARoundsWon;
+	UPROPERTY(BlueprintReadWrite)
+	int teamBRoundsWon;
+	UPROPERTY(BlueprintReadWrite)
+	bool teamAFlagStolen;
+	UPROPERTY(BlueprintReadWrite)
+	bool teamBFlagStolen;
+	UPROPERTY(BlueprintReadOnly)
 	bool isOvertime;
 	
 	FTimerHandle MatchStartCountdown;
