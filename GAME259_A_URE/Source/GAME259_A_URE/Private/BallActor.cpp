@@ -9,8 +9,13 @@ ABallActor::ABallActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
+	bAlwaysRelevant = true;
+	bNetLoadOnClient = true;
+	bReplicates = true;
+	
 	//Setsup the sphere component
+	
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
 	//Institutes the sphere component to the root component
 	RootComponent = SphereComp;
@@ -18,6 +23,7 @@ ABallActor::ABallActor()
 	SphereComp->InitSphereRadius(40.0f);
 	//Sets the default collision profile to "BallCollision" profile
 	SphereComp->SetCollisionProfileName(TEXT("BallCollision"));
+	SphereComp->SetIsReplicated(true);
 
 	SphereComp->bHiddenInGame = false;
 	//Sets the mesh's model in code (not the best practice)
@@ -28,7 +34,13 @@ ABallActor::ABallActor()
 	//Moves the mesh down
 	SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
 	//Scales the mesh to 70% of its size
-	SphereMesh->SetWorldScale3D(FVector(0.7f)); 
+	SphereMesh->SetWorldScale3D(FVector(0.7f));
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
+	if (CubeVisualAsset.Succeeded())
+	{
+		SphereMesh->SetStaticMesh(CubeVisualAsset.Object);
+	}
 	
 	//Setup Material
 	SphereMaterial = CreateDefaultSubobject<UMaterial>(TEXT("SphereMaterial"));
@@ -37,19 +49,19 @@ ABallActor::ABallActor()
 	DamageToDeal = 5;
 
 	//The time it takes before this actor is destroyed
-	DestroyTimer = 15.0f;
+	DestroyTimer = 150.0f;
 
 	//Set whether to enable debug options
 	Debug = false;
 
 	//Determines if the actor has a status effect or not
-	HasStatus = false;
+	HasStatus = true;
 
 	//The type of status to apply
-	Status = "None";
+	Status = "FireDebuff";
 
 	//Lethal setup
-	IsLethal = false;
+	IsLethal = true;
 
 	lethalVelocity = 0.0f;
 

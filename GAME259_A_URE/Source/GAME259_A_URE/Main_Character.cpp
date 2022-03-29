@@ -333,3 +333,8 @@ void AMain_Character::AddCombatStatus(FName statusName_) {
 		CombatStatusComp->AddCombatStatus(statusName_);
 	}
 }
+
+void AMain_Character::GetNameOfActor()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, GetName());
+}
