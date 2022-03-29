@@ -8,6 +8,7 @@
 #include "CTF_GameState.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMatchTimeRemaining, int, timeRemaining_);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMatchHasEnded, TeamSelected, winningTeam_);
 
 UCLASS()
 class GAME259_A_URE_API ACTF_GameState : public AGameState
@@ -47,4 +48,6 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FMatchTimeRemaining MatchTimeRemainingUpdate;
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FMatchHasEnded MatchHasEndedUpdate;
 };
