@@ -59,6 +59,12 @@ protected:
 	bool MultiDie_Validate();
 	void MultiDie_Implementation();
 
+	//Combat abilities function
+	UFUNCTION(BlueprintCallable)
+		void ActivateBallRepulsor();
+	UFUNCTION(BlueprintCallable)
+		void ActivateGrenade();
+
 	FTimerHandle DestroyHandle;
 
 	void CallDestroy();

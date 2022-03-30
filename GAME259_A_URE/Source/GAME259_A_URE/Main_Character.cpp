@@ -90,9 +90,12 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AMain_Character::OnResetVR);
-
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 
+	//Combat Abilities binding
+	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor);
+	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMain_Character::Attack);
 
 }
 
@@ -332,4 +335,14 @@ void AMain_Character::AddCombatStatus(FName statusName_) {
 	if (HasAuthority()) {
 		CombatStatusComp->AddCombatStatus(statusName_);
 	}
+}
+
+void AMain_Character::ActivateBallRepulsor() {
+	UE_LOG(LogTemp, Warning, TEXT("ActivateBallRepulsor"));
+
+}
+
+void AMain_Character::ActivateGrenade() {
+	UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
+
 }
