@@ -9,41 +9,41 @@ ABallActor::ABallActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
+	bAlwaysRelevant = true;
+	bNetLoadOnClient = true;
+	bReplicates = true;
+	
 	//Setsup the sphere component
+	
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
 	//Institutes the sphere component to the root component
 	RootComponent = SphereComp;
 	//With a radius of 40
 	SphereComp->InitSphereRadius(40.0f);
-	//Sets the default collision profile to "Projectile" profile
-	//SphereComp->SetCollisionProfileName(TEXT("Projectile"));
-	SphereComp->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
-	
+	//Sets the default collision profile to "BallCollision" profile
+	SphereComp->SetCollisionProfileName(TEXT("BallCollision"));
+	SphereComp->SetIsReplicated(true);
+
+	SphereComp->bHiddenInGame = false;
 	//Sets the mesh's model in code (not the best practice)
 	SphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
 	SphereMesh->SetupAttachment(RootComponent);
 	//Simulates physics
-	SphereMesh->SetSimulatePhysics(true);
+	SphereComp->SetSimulatePhysics(true);
 	//Moves the mesh down
 	SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
 	//Scales the mesh to 70% of its size
-	SphereMesh->SetWorldScale3D(FVector(0.7f)); 
-	//Sets the default model to use
-	//static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
-	//if (SphereVisualAsset.Succeeded())
-	//{
-	//	SphereMesh->SetStaticMesh(SphereVisualAsset.Object);
+	SphereMesh->SetWorldScale3D(FVector(0.7f));
 
-	//}
-
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
+	if (CubeVisualAsset.Succeeded())
+	{
+		SphereMesh->SetStaticMesh(CubeVisualAsset.Object);
+	}
+	
+	//Setup Material
 	SphereMaterial = CreateDefaultSubobject<UMaterial>(TEXT("SphereMaterial"));
-	//static ConstructorHelpers::FObjectFinder<UMaterial> SphereMaterialAsset(TEXT("/Game/Materials/BallMat.BallMat"));
-	//if (SphereMaterialAsset.Succeeded())
-	//{
-	//	SphereMesh->SetMaterial(0, SphereMaterialAsset.Object);
-	//}
-
 	
 	//Amount of time to add
 	DamageToDeal = 5;
@@ -64,6 +64,8 @@ ABallActor::ABallActor()
 	IsLethal = false;
 
 	lethalVelocity = 0.0f;
+
+	
 
 }
 
@@ -160,4 +162,5 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 
 
 	
+
 }
