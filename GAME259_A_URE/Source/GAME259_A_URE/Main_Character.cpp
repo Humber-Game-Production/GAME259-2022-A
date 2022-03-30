@@ -334,7 +334,7 @@ void AMain_Character::AddCombatStatus(FName statusName_) {
 	}
 }
 
-void AMain_Character::GetNameOfActor()
+FString AMain_Character::GetNameOfActor()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, GetName());
+	return GetName();
 }

@@ -49,19 +49,19 @@ ABallActor::ABallActor()
 	DamageToDeal = 5;
 
 	//The time it takes before this actor is destroyed
-	DestroyTimer = 150.0f;
+	DestroyTimer = 600.0f;
 
 	//Set whether to enable debug options
 	Debug = false;
 
 	//Determines if the actor has a status effect or not
-	HasStatus = true;
+	HasStatus = false;
 
 	//The type of status to apply
-	Status = "FireDebuff";
+	Status = "None";
 
 	//Lethal setup
-	IsLethal = true;
+	IsLethal = false;
 
 	lethalVelocity = 0.0f;
 

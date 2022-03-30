@@ -34,7 +34,7 @@ ACTF_GameMode::ACTF_GameMode()
 
 
 	matchTimeLimit = 300.0f;
-	warmupTimeLimit = 5.0f;
+	warmupTimeLimit = 15.0f;
 	maxScore = 3;
 	maxRounds = 3;
 	maxPlayers = 2;
