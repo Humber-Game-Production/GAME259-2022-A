@@ -149,5 +149,5 @@ public:
 		void AddCombatStatus(FName statusName_);
 
 	UFUNCTION(BlueprintCallable)
-		void GetNameOfActor();
+		FString GetNameOfActor();
 };

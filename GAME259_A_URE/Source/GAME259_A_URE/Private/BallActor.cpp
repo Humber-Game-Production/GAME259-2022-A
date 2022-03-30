@@ -55,7 +55,7 @@ ABallActor::ABallActor()
 	Debug = false;
 
 	//Determines if the actor has a status effect or not
-	HasStatus = true;
+	HasStatus = false;
 
 	//The type of status to apply
 	Status = "None";
