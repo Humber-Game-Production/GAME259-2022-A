@@ -56,6 +56,7 @@ AMain_Character::AMain_Character()
 	//Initialize the player's Health
 	MaxHealth = 100.0f;
 	CurrentHealth = MaxHealth;
+	velPercentage = 1.0f;
 	bReplicates = true;
 	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
 	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
@@ -155,7 +156,7 @@ void AMain_Character::MoveForward(float Value)
 
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
+		AddMovementInput(Direction, Value * velPercentage); // custom defined velocity should be in effect
 	}
 }
 
@@ -170,7 +171,7 @@ void AMain_Character::MoveRight(float Value)
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
-		AddMovementInput(Direction, Value);
+		AddMovementInput(Direction, Value * velPercentage);
 	}
 }
 

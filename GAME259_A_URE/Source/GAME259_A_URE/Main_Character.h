@@ -96,6 +96,13 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
+	// APawn interface
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	// End of APawn interface
+
+	virtual void BeginPlay() override;
+
+
 	/** The player's maximum health. This is the highest that their health can be, and the value that their health starts at when spawned.*/
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
 		float MaxHealth;
@@ -107,12 +114,12 @@ protected:
 	/** Update Health */
 	void OnHealthUpdate();
 
-protected:
-	// APawn interface
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	// End of APawn interface
-
-	virtual void BeginPlay() override;
+	/*Setup for velocity
+	  This is a percentage that effects velocity. 
+	  Ex. When it is 1.0f, it means that the velocity is at 100% usage.
+	  Ex. When it is 0.3f, it means that the crrunt velocity is only 30% of normal velocity*/
+	UPROPERTY(EditDefaultsOnly, Category = "Player Stats")
+		float velPercentage;
 
 public:
 	/** Returns CameraBoom subobject **/
@@ -153,4 +160,13 @@ public:
 	//Add Combat Status
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
 		void AddCombatStatus(FName statusName_);
+
+	//Set velocity
+	UFUNCTION(BlueprintCallable, Category = "Player Stats")
+		void setVelocity(float velPrecentage_) { velPercentage = velPrecentage_; }
+
+	//Reset velocity to 100%
+	UFUNCTION(BlueprintCallable, Category = "Player Stats")
+		void resetVelocity() { velPercentage = 1.0f; }
+
 };

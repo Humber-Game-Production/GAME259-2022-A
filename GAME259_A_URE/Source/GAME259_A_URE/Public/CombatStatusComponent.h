@@ -33,12 +33,6 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	//Declare variables
-	UPROPERTY(EditAnywhere, Category = "Ball Stat Type")
-	bool isFrozen;
-	UPROPERTY(EditAnywhere, Category = "Ball Stat Type")
-	bool isBurning;
-
 	UFUNCTION(BlueprintCallable)
 		void AddCombatStatus(FName rowName_);
 

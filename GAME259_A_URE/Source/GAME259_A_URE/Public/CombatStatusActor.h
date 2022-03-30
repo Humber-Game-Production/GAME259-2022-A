@@ -24,8 +24,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Particle Effect")
 	class UParticleSystemComponent* ParticleComponent;
 
-
-
 protected:
 
 	UPROPERTY(VisibleDefaultsOnly)
