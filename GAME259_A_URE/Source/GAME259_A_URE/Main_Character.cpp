@@ -446,4 +446,68 @@ void AMain_Character::ActivateBallRepulsor() {
 void AMain_Character::ActivateGrenade() {
 	UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
 	GrenadeAbility->ActivateAbility();
+}FString AMain_Character::GetNameOfActor()
+{
+	return GetName();
+}
+
+
+void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) {
+
+	int index = 0;
+	//Check which index should be added
+	switch (ballType) {
+
+	case BallDefault:
+
+		index = AmmoBallSlot.Find(CombatAmmoContainerComp0);
+		break;
+
+	case BallFire:
+
+		index = AmmoBallSlot.Find(CombatAmmoContainerComp1);
+		break;
+
+	case BallIce:
+
+		index = AmmoBallSlot.Find(CombatAmmoContainerComp2);
+		break;
+
+	default:
+		break;
+	}
+	//Add ammo to the AmmoBallSlot and broadcast the delegate
+	if (AmmoBallSlot[index]) AmmoBallSlot[index]->AddNum(ballNum);
+	AmmoUpdate.Broadcast(index, ballNum);
+
+
+}
+
+void AMain_Character::ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_) {
+
+	UE_LOG(LogTemp, Warning, TEXT("Character Cooldown: %f"), cooldown_percentage_);
+
+	if (abilityName_ == "BallRepulsor") {
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
+		AbilityCooldownUpdate.Broadcast(1, cooldown_percentage_);
+	}
+	else if (abilityName_ == "Grenade") {
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
+		AbilityCooldownUpdate.Broadcast(3, cooldown_percentage_);
+	}
+
+}
+
+void AMain_Character::ActivateBallRepulsor() {
+	UE_LOG(LogTemp, Warning, TEXT("ActivateBallRepulsor"));
+	BallRepulsorAbility->ActivateAbility();
+}
+
+void AMain_Character::ActivateGrenade() {
+	UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
+	GrenadeAbility->ActivateAbility();
+}
+FString AMain_Character::GetNameOfActor()
+{
+	return GetName();
 }

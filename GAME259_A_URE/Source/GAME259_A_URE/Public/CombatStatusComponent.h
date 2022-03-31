@@ -33,6 +33,8 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 	UFUNCTION(BlueprintCallable)
 		void AddCombatStatus(FName rowName_);
 
@@ -94,4 +96,3 @@ public:
 		UParticleSystem* particleEffect;
 
 };
-

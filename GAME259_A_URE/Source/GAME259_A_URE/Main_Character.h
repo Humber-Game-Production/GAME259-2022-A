@@ -202,6 +202,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Player Stats")
 		void resetVelocity() { velPercentage = 1.0f; }
 
+	UFUNCTION(BlueprintCallable)
+		FString GetNameOfActor();
+
 private:
 
 	UFUNCTION()
