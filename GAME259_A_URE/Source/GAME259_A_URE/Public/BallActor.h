@@ -54,7 +54,7 @@ public:
 	float DestroyTimer;
 
 	//Set whether to enable debug options
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UPROPERTY(EditAnywhere, Category = "Debug")
 	bool Debug;
 	
 	//The timer handler for the game's time

@@ -22,7 +22,7 @@ class GAME259_A_URE_API UCombatAmmoContainerComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UCombatAmmoContainerComponent();
-	UCombatAmmoContainerComponent(TEnumAsByte<EBallType> ballInContainer_, int ballNum_);
+	UCombatAmmoContainerComponent(TEnumAsByte<EBallType> ballInContainer_, int ballNum_, int maxBallNum_);
 	
 protected:
 	// Called when the game starts
@@ -43,6 +43,22 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	int ballNum;
 
+	//The maximum amount of balls allowed in the container
+	UPROPERTY(EditAnywhere, Category = "Input")
+	int maxBallNum;
+
+	//Set whether to enable infinite ammo for this container. Meaning balls never run out
+	UPROPERTY(EditAnywhere, Category = "Debug\|Cheats")
+	bool infiniteAmmo;
+
+	//Set whether to enable manual control over adding or minusing balls for this container
+	UPROPERTY(EditAnywhere, Category = "Debug")
+	bool manualControl;
+
+	//Set whether to enable debug options
+	UPROPERTY(EditAnywhere, Category = "Debug")
+	bool Debug;
+	
 	//Function used to increase the number of balls, numToIncrease represents the amount of balls to add
 	UFUNCTION()
 	void AddNum(int numToIncrease);
@@ -50,6 +66,13 @@ public:
 	//Function used to decrease the number of balls, numToDecrease represents the amount of balls to minus
 	UFUNCTION()
 	void MinusNum(int numToDecrease);
+	
+	//Function used to manually increase the number of balls
+	UFUNCTION()
+	void ManualAddNum();
 
+	//Function used to manually increase the number of balls
+	UFUNCTION()
+	void ManualMinusNum();
 	
 };

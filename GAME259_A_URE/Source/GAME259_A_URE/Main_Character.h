@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Public/CombatAmmoContainerComponent.h"
 #include "Main_Character.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
@@ -46,8 +45,19 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UCombatStatusComponent* CombatStatusComp;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UCombatAmmoContainerComponent* CombatAmmoContainerComp0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UCombatAmmoContainerComponent* CombatAmmoContainerComp1;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UCombatAmmoContainerComponent* CombatAmmoContainerComp2;
+	
 	void Attack();
 
+	//for testing
+	void ManualAddBall();
+	void ManualMinusBall();
+	
 	UFUNCTION(Server, Reliable, WithValidation)
 		void ServerAttack();
 	bool ServerAttack_Validate();
