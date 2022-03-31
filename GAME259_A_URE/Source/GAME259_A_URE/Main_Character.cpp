@@ -14,6 +14,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Public/CombatStatusComponent.h"
 #include "Public/CombatAmmoContainerComponent.h"
+#include "Public/BallActor.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -78,12 +79,9 @@ AMain_Character::AMain_Character()
 
 	CombatAmmoContainerComp2->ballInContainer = BallIce;
 	CombatAmmoContainerComp2->ballNum = 0;
-	CombatAmmoContainerComp2->maxBallNum = 3;
+	CombatAmmoContainerComp2->maxBallNum = 4;
 	
-	AmmoBallSlot.Add(CombatAmmoContainerComp0);
-	AmmoBallSlot.Add(CombatAmmoContainerComp1);
-	AmmoBallSlot.Add(CombatAmmoContainerComp2);
-	
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -152,7 +150,11 @@ void AMain_Character::TouchStopped(ETouchIndex::Type FingerIndex, FVector Locati
 void  AMain_Character::BeginPlay()
 {
 	Super::BeginPlay();
-
+	AmmoBallSlot.Empty();
+	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
+	AmmoBallSlot.Add(CombatAmmoContainerComp0);
+	AmmoBallSlot.Add(CombatAmmoContainerComp1);
+	AmmoBallSlot.Add(CombatAmmoContainerComp2);
 }
 
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
@@ -275,6 +277,7 @@ void AMain_Character::Attack()
 
 void AMain_Character::ManualAddBall()
 {
+	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
 	AmmoBallSlot[0]->ManualAddNum();
 	//AmmoBallSlot[0]->AddNum(1);
 	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Added Manually") );
@@ -388,5 +391,35 @@ void AMain_Character::ActivateBallRepulsor() {
 
 void AMain_Character::ActivateGrenade() {
 	UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
+
+}
+
+void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) {
+
+	int index = 0;
+	switch (ballType){
+
+		case BallDefault:
+
+			index = AmmoBallSlot.Find(CombatAmmoContainerComp0);
+			break;
+
+		case BallFire:
+
+			index = AmmoBallSlot.Find(CombatAmmoContainerComp1);
+			break;
+
+		case BallIce:
+
+			index = AmmoBallSlot.Find(CombatAmmoContainerComp2);
+			break;
+
+		default:
+			break;
+	}
+
+	if (AmmoBallSlot[index]) AmmoBallSlot[index]->AddNum(ballNum);
+	AmmoUpdate.Broadcast(index, ballNum);
+
 
 }

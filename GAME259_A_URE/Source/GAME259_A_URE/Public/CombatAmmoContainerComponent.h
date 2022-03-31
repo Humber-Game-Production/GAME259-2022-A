@@ -7,12 +7,7 @@
 #include "BallActor.h"
 #include "CombatAmmoContainerComponent.generated.h"
 
-UENUM(BlueprintType)
-enum EBallType{
-	BallDefault, //0
-	BallFire, //1
-	BallIce //2
-};
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class GAME259_A_URE_API UCombatAmmoContainerComponent : public UActorComponent

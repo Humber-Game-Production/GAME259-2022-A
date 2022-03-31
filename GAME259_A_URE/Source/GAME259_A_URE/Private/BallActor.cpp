@@ -53,6 +53,8 @@ ABallActor::ABallActor()
 
 	lethalVelocity = 0.0f;
 
+	ballType = BallDefault;
+
 }
 
 // Called when the game starts or when spawned
@@ -138,7 +140,12 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 				}
 
 				//Destroys this game actor
-				//this->Destroy();	
+
+			}
+			else if (!IsLethal){
+				//Add ball ammo then destroy the character
+				playerCharacter->AddBallAmmo(ballType, 1);
+				this->Destroy();	
 			}
 		}
 	}

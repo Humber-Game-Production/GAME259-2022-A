@@ -8,7 +8,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
 
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterHPUpdate, float, characterHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoUpdate, int, index, int, ballNum);
 
 UCLASS(config = Game)
 class AMain_Character : public ACharacter
@@ -141,6 +141,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FCharacterHealthUpdate HealthUpdate;
 
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+		FAmmoUpdate AmmoUpdate;
+
 	//Collection of ball slots
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TArray<UCombatAmmoContainerComponent*> AmmoBallSlot;
@@ -175,6 +178,10 @@ public:
 	//Add Combat Status
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
 		void AddCombatStatus(FName statusName_);
+
+	//Add Ball Ammo
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+		void AddBallAmmo(TEnumAsByte<enum EBallType> ballType, int ballNum);
 
 	//Set velocity
 	UFUNCTION(BlueprintCallable, Category = "Player Stats")
