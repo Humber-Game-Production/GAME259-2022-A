@@ -229,13 +229,14 @@ void AMain_Character::SetCurrentHealth(float healthValue)
 
 float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	float damageApplied = CurrentHealth - DamageTaken;
+	float damageApplied = 0.0f;
 
-	//GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, FString::Printf(TEXT("Output: %f - %f = %f"),
-	//	CurrentHealth, DamageTaken, damageApplied));
+	if (CurrentHealth > 0.0f) {
 
-	// Changes the CurrentHealth variable
-	SetCurrentHealth(damageApplied);
+		damageApplied = CurrentHealth - DamageTaken;
+		// Changes the CurrentHealth variable
+		SetCurrentHealth(damageApplied);
+	}
 
 	return damageApplied;
 }
