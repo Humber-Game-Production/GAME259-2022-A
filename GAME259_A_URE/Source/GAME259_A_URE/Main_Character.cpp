@@ -13,7 +13,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
-
+#include "Public/CombatStatusComponent.h"
+#include "Public/CombatAmmoContainerComponent.h"
+#include "Public/BallActor.h"
+#include "Public/GrenadeComponent.h"
+#include "Public/BallRepulsorComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -56,11 +60,33 @@ AMain_Character::AMain_Character()
 	//Initialize the player's Health
 	MaxHealth = 100.0f;
 	CurrentHealth = MaxHealth;
+	velPercentage = 1.0f;
 	bReplicates = true;
 	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
-
+	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
+	GrenadeAbility = CreateDefaultSubobject<UGrenadeComponent>(TEXT("GrenadeAbility"));
+	BallRepulsorAbility = CreateDefaultSubobject<UBallRepulsorComponent>(TEXT("BallRepulsorAbility"));
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+	
+	//Define the ammo containers
+	CombatAmmoContainerComp0 = CreateDefaultSubobject<UCombatAmmoContainerComponent>(TEXT("AmmoContainer0"));
+	CombatAmmoContainerComp1 = CreateDefaultSubobject<UCombatAmmoContainerComponent>(TEXT("AmmoContainer1"));
+	CombatAmmoContainerComp2 = CreateDefaultSubobject<UCombatAmmoContainerComponent>(TEXT("AmmoContainer2"));
+	
+	CombatAmmoContainerComp0->ballInContainer = BallDefault;
+	CombatAmmoContainerComp0->ballNum = 5;
+	CombatAmmoContainerComp0->maxBallNum = 5;
+
+	CombatAmmoContainerComp1->ballInContainer = BallFire;
+	CombatAmmoContainerComp1->ballNum = 0;
+	CombatAmmoContainerComp1->maxBallNum = 3;
+
+	CombatAmmoContainerComp2->ballInContainer = BallIce;
+	CombatAmmoContainerComp2->ballNum = 0;
+	CombatAmmoContainerComp2->maxBallNum = 4;
+	
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -90,9 +116,17 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AMain_Character::OnResetVR);
-
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 
+
+	//Combat Abilities binding
+	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor);
+	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
+
+
+
+	PlayerInputComponent->BindAction("AddBall", IE_Pressed, this, &AMain_Character::ManualAddBall);
+	PlayerInputComponent->BindAction("RemoveBall", IE_Pressed, this, &AMain_Character::ManualMinusBall);
 
 }
 
@@ -121,7 +155,14 @@ void AMain_Character::TouchStopped(ETouchIndex::Type FingerIndex, FVector Locati
 void  AMain_Character::BeginPlay()
 {
 	Super::BeginPlay();
+	AmmoBallSlot.Empty();
+	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
+	AmmoBallSlot.Add(CombatAmmoContainerComp0);
+	AmmoBallSlot.Add(CombatAmmoContainerComp1);
+	AmmoBallSlot.Add(CombatAmmoContainerComp2);
 
+	GrenadeAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
+	BallRepulsorAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
 }
 
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
@@ -152,7 +193,7 @@ void AMain_Character::MoveForward(float Value)
 
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
+		AddMovementInput(Direction, Value * velPercentage); // custom defined velocity should be in effect
 	}
 }
 
@@ -167,7 +208,7 @@ void AMain_Character::MoveRight(float Value)
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
-		AddMovementInput(Direction, Value);
+		AddMovementInput(Direction, Value * velPercentage);
 	}
 }
 
@@ -231,13 +272,14 @@ void AMain_Character::SetCurrentHealth(float healthValue)
 
 float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	float damageApplied = CurrentHealth - DamageTaken;
+	float damageApplied = 0.0f;
 
-	//GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, FString::Printf(TEXT("Output: %f - %f = %f"),
-	//	CurrentHealth, DamageTaken, damageApplied));
+	if (CurrentHealth > 0.0f) {
 
-	// Changes the CurrentHealth variable
-	SetCurrentHealth(damageApplied);
+		damageApplied = CurrentHealth - DamageTaken;
+		// Changes the CurrentHealth variable
+		SetCurrentHealth(damageApplied);
+	}
 
 	return damageApplied;
 }
@@ -246,6 +288,22 @@ void AMain_Character::Attack()
 {
 	ServerAttack();
 }
+
+void AMain_Character::ManualAddBall()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
+	AmmoBallSlot[0]->ManualAddNum();
+	//AmmoBallSlot[0]->AddNum(1);
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Added Manually") );
+}
+
+void AMain_Character::ManualMinusBall()
+{
+	AmmoBallSlot[0]->ManualMinusNum();
+	//AmmoBallSlot[0]->MinusNum(1);
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Removed Manually") );
+}
+
 /*
 float AMain_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
@@ -255,7 +313,6 @@ float AMain_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent,
 		return 0.0f;
 	}
 	const float ActualDamage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-
 	if (ActualDamage > 0.0f)
 	{
 		PlayerStatsComp->LowerHealth(ActualDamage);
@@ -285,7 +342,6 @@ void AMain_Character::ServerAttack_Implementation()
 		if (AMain_Character* Player = Cast<AMain_Character>(Actor))
 		{
 			float TestDamage = 20.0f;
-
 			TakeDamage(TestDamage, FDamageEvent(), GetController(), this);
 		}
 	}*/
@@ -295,6 +351,8 @@ void AMain_Character::Die()
 {
 	//if (HasAuthority())
 	//{
+
+	CombatStatusComp->RemoveCombatStatusList();
 	MultiDie();
 	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
 	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
@@ -321,6 +379,7 @@ bool AMain_Character::MultiDie_Validate()
 
 void AMain_Character::MultiDie_Implementation()
 {
+
 	GetCapsuleComponent()->DestroyComponent();
 	this->GetCharacterMovement();
 	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
@@ -330,4 +389,76 @@ void AMain_Character::MultiDie_Implementation()
 void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 {
 	Die();
+}
+
+void AMain_Character::AddCombatStatus(FName statusName_) {
+
+	if (HasAuthority()) {
+		CombatStatusComp->AddCombatStatus(statusName_);
+	}
+}
+
+
+void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) {
+
+	int index = 0;
+	//Check which index should be added
+	switch (ballType){
+
+		case BallDefault:
+
+			index = AmmoBallSlot.Find(CombatAmmoContainerComp0);
+			break;
+
+		case BallFire:
+
+			index = AmmoBallSlot.Find(CombatAmmoContainerComp1);
+			break;
+
+		case BallIce:
+
+			index = AmmoBallSlot.Find(CombatAmmoContainerComp2);
+			break;
+
+		default:
+			break;
+	}
+	//Add ammo to the AmmoBallSlot and broadcast the delegate
+	if (AmmoBallSlot[index]) AmmoBallSlot[index]->AddNum(ballNum);
+	AmmoUpdate.Broadcast(index, ballNum);
+
+
+}
+
+void AMain_Character::ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_) {
+
+	UE_LOG(LogTemp, Warning, TEXT("Character Cooldown: %f"), cooldown_percentage_);
+
+	if (abilityName_ == "BallRepulsor") {
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
+		AbilityCooldownUpdate.Broadcast(1, cooldown_percentage_);
+	}
+	else if (abilityName_ == "Grenade") {
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
+		AbilityCooldownUpdate.Broadcast(3, cooldown_percentage_);
+	}
+
+}
+
+
+FString AMain_Character::GetNameOfActor(){
+	return GetName();
+}
+
+
+
+
+void AMain_Character::ActivateBallRepulsor() {
+	UE_LOG(LogTemp, Warning, TEXT("ActivateBallRepulsor"));
+	BallRepulsorAbility->ActivateAbility();
+}
+
+void AMain_Character::ActivateGrenade() {
+	UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
+	GrenadeAbility->ActivateAbility();
 }
