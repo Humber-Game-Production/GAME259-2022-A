@@ -10,6 +10,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoUpdate, int, index, int, ballNum);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityCooldownUpdate, int, index, float, cd_percentage);
+
 UCLASS(config = Game)
 class AMain_Character : public ACharacter
 {
@@ -51,6 +53,12 @@ protected:
 		class UCombatAmmoContainerComponent* CombatAmmoContainerComp1;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UCombatAmmoContainerComponent* CombatAmmoContainerComp2;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UGrenadeComponent* GrenadeAbility;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UBallRepulsorComponent* BallRepulsorAbility;
 	
 	void Attack();
 
@@ -144,6 +152,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FAmmoUpdate AmmoUpdate;
 
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+		FAbilityCooldownUpdate AbilityCooldownUpdate;
+
 	//Collection of ball slots
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TArray<UCombatAmmoContainerComponent*> AmmoBallSlot;
@@ -190,5 +201,10 @@ public:
 	//Reset velocity to 100%
 	UFUNCTION(BlueprintCallable, Category = "Player Stats")
 		void resetVelocity() { velPercentage = 1.0f; }
+
+private:
+
+	UFUNCTION()
+	void ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_);
 
 };

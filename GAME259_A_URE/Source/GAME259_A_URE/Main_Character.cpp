@@ -15,6 +15,8 @@
 #include "Public/CombatStatusComponent.h"
 #include "Public/CombatAmmoContainerComponent.h"
 #include "Public/BallActor.h"
+#include "Public/GrenadeComponent.h"
+#include "Public/BallRepulsorComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -61,6 +63,8 @@ AMain_Character::AMain_Character()
 	bReplicates = true;
 	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
 	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
+	GrenadeAbility = CreateDefaultSubobject<UGrenadeComponent>(TEXT("GrenadeAbility"));
+	BallRepulsorAbility = CreateDefaultSubobject<UBallRepulsorComponent>(TEXT("BallRepulsorAbility"));
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 	
@@ -155,6 +159,9 @@ void  AMain_Character::BeginPlay()
 	AmmoBallSlot.Add(CombatAmmoContainerComp0);
 	AmmoBallSlot.Add(CombatAmmoContainerComp1);
 	AmmoBallSlot.Add(CombatAmmoContainerComp2);
+
+	GrenadeAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
+	BallRepulsorAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
 }
 
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
@@ -384,19 +391,11 @@ void AMain_Character::AddCombatStatus(FName statusName_) {
 	}
 }
 
-void AMain_Character::ActivateBallRepulsor() {
-	UE_LOG(LogTemp, Warning, TEXT("ActivateBallRepulsor"));
-
-}
-
-void AMain_Character::ActivateGrenade() {
-	UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
-
-}
 
 void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) {
 
 	int index = 0;
+	//Check which index should be added
 	switch (ballType){
 
 		case BallDefault:
@@ -417,9 +416,34 @@ void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) 
 		default:
 			break;
 	}
-
+	//Add ammo to the AmmoBallSlot and broadcast the delegate
 	if (AmmoBallSlot[index]) AmmoBallSlot[index]->AddNum(ballNum);
 	AmmoUpdate.Broadcast(index, ballNum);
 
 
+}
+
+void AMain_Character::ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_) {
+
+	UE_LOG(LogTemp, Warning, TEXT("Character Cooldown: %f"), cooldown_percentage_);
+
+	if (abilityName_ == "BallRepulsor") {
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
+		AbilityCooldownUpdate.Broadcast(1, cooldown_percentage_);
+	}
+	else if (abilityName_ == "Grenade") {
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
+		AbilityCooldownUpdate.Broadcast(3, cooldown_percentage_);
+	}
+
+}
+
+void AMain_Character::ActivateBallRepulsor() {
+	UE_LOG(LogTemp, Warning, TEXT("ActivateBallRepulsor"));
+	BallRepulsorAbility->ActivateAbility();
+}
+
+void AMain_Character::ActivateGrenade() {
+	UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
+	GrenadeAbility->ActivateAbility();
 }
