@@ -15,7 +15,6 @@ UCombatStatusComponent::UCombatStatusComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-
 	// ...
 }
 
@@ -37,7 +36,7 @@ void UCombatStatusComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	// ...
 }
 
-void UCombatStatusComponent::AddCombatStatus(FName rowName_)
+void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 {
 	//Check if datatable exist
 	if (CombatStatusTable) {

@@ -39,7 +39,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Ball Stat Type")
 	bool isBurning;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void AddCombatStatus(FName rowName_);
 
 	UFUNCTION(BlueprintCallable)
@@ -100,4 +100,3 @@ public:
 		UParticleSystem* particleEffect;
 
 };
-

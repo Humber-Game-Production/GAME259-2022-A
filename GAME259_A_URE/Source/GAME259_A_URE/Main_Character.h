@@ -147,4 +147,7 @@ public:
 	//Add Combat Status
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
 		void AddCombatStatus(FName statusName_);
+
+	UFUNCTION(BlueprintCallable)
+		FString GetNameOfActor();
 };

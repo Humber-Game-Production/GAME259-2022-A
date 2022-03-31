@@ -333,3 +333,8 @@ void AMain_Character::AddCombatStatus(FName statusName_) {
 		CombatStatusComp->AddCombatStatus(statusName_);
 	}
 }
+
+FString AMain_Character::GetNameOfActor()
+{
+	return GetName();
+}
