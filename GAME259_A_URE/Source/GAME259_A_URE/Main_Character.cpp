@@ -12,6 +12,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Public/CombatStatusComponent.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -57,7 +58,7 @@ AMain_Character::AMain_Character()
 	CurrentHealth = MaxHealth;
 	bReplicates = true;
 	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
-
+	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
@@ -248,7 +249,6 @@ float AMain_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent,
 		return 0.0f;
 	}
 	const float ActualDamage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-
 	if (ActualDamage > 0.0f)
 	{
 		PlayerStatsComp->LowerHealth(ActualDamage);
@@ -278,7 +278,6 @@ void AMain_Character::ServerAttack_Implementation()
 		if (AMain_Character* Player = Cast<AMain_Character>(Actor))
 		{
 			float TestDamage = 20.0f;
-
 			TakeDamage(TestDamage, FDamageEvent(), GetController(), this);
 		}
 	}*/
@@ -288,6 +287,8 @@ void AMain_Character::Die()
 {
 	//if (HasAuthority())
 	//{
+
+	CombatStatusComp->RemoveCombatStatusList();
 	MultiDie();
 	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
 	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
@@ -314,6 +315,7 @@ bool AMain_Character::MultiDie_Validate()
 
 void AMain_Character::MultiDie_Implementation()
 {
+
 	GetCapsuleComponent()->DestroyComponent();
 	this->GetCharacterMovement();
 	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
@@ -323,4 +325,11 @@ void AMain_Character::MultiDie_Implementation()
 void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 {
 	Die();
+}
+
+void AMain_Character::AddCombatStatus(FName statusName_) {
+
+	if (HasAuthority()) {
+		CombatStatusComp->AddCombatStatus(statusName_);
+	}
 }
