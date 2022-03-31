@@ -33,8 +33,8 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 
 
-	matchTimeLimit = 3000.0f;
-	warmupTimeLimit = 60.0f;
+	matchTimeLimit = 300.0f;
+	warmupTimeLimit = 5.0f;
 	maxScore = 3;
 	maxRounds = 3;
 	maxPlayers = 2;

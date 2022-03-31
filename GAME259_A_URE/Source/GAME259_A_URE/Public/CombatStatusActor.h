@@ -24,8 +24,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Particle Effect")
 	class UParticleSystemComponent* ParticleComponent;
 
-
-
 protected:
 
 	UPROPERTY(VisibleDefaultsOnly)
@@ -44,7 +42,7 @@ protected:
 	FString description;
 
 	UPROPERTY(VisibleDefaultsOnly)
-	UTexture* icon;
+	UTexture2D* icon;
 
 protected:
 	// Called when the game starts or when spawned
@@ -62,7 +60,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void setValue(FName statusName_, float durationTime_, float effectAmount_, 
-	UParticleSystem* particleEffect_, FString description_, UTexture* icon_);
+	UParticleSystem* particleEffect_, FString description_, UTexture2D* icon_);
 
 	UFUNCTION(BlueprintCallable)
 	FName getName() { return statusName; }
