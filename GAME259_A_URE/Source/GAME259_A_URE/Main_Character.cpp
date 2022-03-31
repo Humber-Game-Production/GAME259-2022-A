@@ -13,7 +13,7 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Public/CombatStatusComponent.h"
-
+#include "Public/CombatAmmoContainerComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -62,6 +62,28 @@ AMain_Character::AMain_Character()
 	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+	
+	//Define the ammo containers
+	CombatAmmoContainerComp0 = CreateDefaultSubobject<UCombatAmmoContainerComponent>(TEXT("AmmoContainer0"));
+	CombatAmmoContainerComp1 = CreateDefaultSubobject<UCombatAmmoContainerComponent>(TEXT("AmmoContainer1"));
+	CombatAmmoContainerComp2 = CreateDefaultSubobject<UCombatAmmoContainerComponent>(TEXT("AmmoContainer2"));
+	
+	CombatAmmoContainerComp0->ballInContainer = BallDefault;
+	CombatAmmoContainerComp0->ballNum = 5;
+	CombatAmmoContainerComp0->maxBallNum = 5;
+
+	CombatAmmoContainerComp1->ballInContainer = BallFire;
+	CombatAmmoContainerComp1->ballNum = 0;
+	CombatAmmoContainerComp1->maxBallNum = 3;
+
+	CombatAmmoContainerComp2->ballInContainer = BallIce;
+	CombatAmmoContainerComp2->ballNum = 0;
+	CombatAmmoContainerComp2->maxBallNum = 3;
+	
+	AmmoBallSlot.Add(CombatAmmoContainerComp0);
+	AmmoBallSlot.Add(CombatAmmoContainerComp1);
+	AmmoBallSlot.Add(CombatAmmoContainerComp2);
+	
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -93,10 +115,15 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AMain_Character::OnResetVR);
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 
+
 	//Combat Abilities binding
 	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor);
 	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMain_Character::Attack);
+
+
+	PlayerInputComponent->BindAction("AddBall", IE_Pressed, this, &AMain_Character::ManualAddBall);
+	PlayerInputComponent->BindAction("RemoveBall", IE_Pressed, this, &AMain_Character::ManualMinusBall);
 
 }
 
@@ -245,6 +272,21 @@ void AMain_Character::Attack()
 {
 	ServerAttack();
 }
+
+void AMain_Character::ManualAddBall()
+{
+	AmmoBallSlot[0]->ManualAddNum();
+	//AmmoBallSlot[0]->AddNum(1);
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Added Manually") );
+}
+
+void AMain_Character::ManualMinusBall()
+{
+	AmmoBallSlot[0]->ManualMinusNum();
+	//AmmoBallSlot[0]->MinusNum(1);
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Removed Manually") );
+}
+
 /*
 float AMain_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {

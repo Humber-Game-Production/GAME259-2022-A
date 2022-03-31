@@ -45,8 +45,19 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UCombatStatusComponent* CombatStatusComp;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UCombatAmmoContainerComponent* CombatAmmoContainerComp0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UCombatAmmoContainerComponent* CombatAmmoContainerComp1;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UCombatAmmoContainerComponent* CombatAmmoContainerComp2;
+	
 	void Attack();
 
+	//for testing
+	void ManualAddBall();
+	void ManualMinusBall();
+	
 	UFUNCTION(Server, Reliable, WithValidation)
 		void ServerAttack();
 	bool ServerAttack_Validate();
@@ -130,6 +141,10 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FCharacterHealthUpdate HealthUpdate;
 
+	//Collection of ball slots
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TArray<UCombatAmmoContainerComponent*> AmmoBallSlot;
+	
 	/** Getter for Max Health.*/
 	UFUNCTION(BlueprintPure, Category = "Health")
 		FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
