@@ -3,6 +3,7 @@
 #include "Main_Character.h"
 #include "Main_PlayerController.h"
 #include "CTF_GameMode.h"
+#include "CTF_GameState.h"
 #include "PlayerStats.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -187,6 +188,11 @@ void AMain_Character::OnHealthUpdate()
 	{
 		if (CurrentHealth <= 0)
 		{
+			//Currently used to handle dropping flag
+			if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+				GS->PlayerDied(this);
+			}
+
 			//Display dying message when health reaches 0
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
@@ -195,6 +201,7 @@ void AMain_Character::OnHealthUpdate()
 
 			// Calls Death Event to Remove HUD
 			DeathEvent();
+			
 		}
 	}
 }

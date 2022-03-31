@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Main_PlayerController.h"
 #include "Main_Character.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
-
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterHPUpdate, float, characterHealth);
 
 UCLASS(config = Game)
