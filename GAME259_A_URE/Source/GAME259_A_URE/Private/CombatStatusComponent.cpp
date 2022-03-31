@@ -15,7 +15,6 @@ UCombatStatusComponent::UCombatStatusComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-
 	// ...
 }
 
@@ -37,7 +36,7 @@ void UCombatStatusComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	// ...
 }
 
-void UCombatStatusComponent::AddCombatStatus(FName rowName_)
+void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 {
 	//Check if datatable exist
 	if (CombatStatusTable) {
@@ -61,7 +60,7 @@ void UCombatStatusComponent::AddCombatStatus(FName rowName_)
 				float effectAmount = combatStatusInfo->effectAmount;
 				UParticleSystem* particleEffect = combatStatusInfo->particleEffect;
 				FString description = combatStatusInfo->description;
-				UTexture* icon = combatStatusInfo->icon;
+				UTexture2D* icon = combatStatusInfo->icon;
 				FVector spawnLocation = GetOwner()->GetActorLocation();
 				FRotator rotation = GetOwner()->GetActorRotation();
 				//Spawn actor according to the status type, and add it to the list
