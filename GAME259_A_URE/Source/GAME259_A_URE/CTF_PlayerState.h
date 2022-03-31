@@ -19,5 +19,8 @@ class GAME259_A_URE_API ACTF_PlayerState : public APlayerState
 
 public:
 	ACTF_PlayerState();
+	UPROPERTY(BlueprintReadWrite)
 	TeamSelected team;
+	UPROPERTY(BlueprintReadWrite)
+	bool isCarryingFlag;
 };
