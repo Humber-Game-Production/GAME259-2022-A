@@ -33,13 +33,8 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	//Declare variables
-	UPROPERTY(EditAnywhere, Category = "Ball Stat Type")
-	bool isFrozen;
-	UPROPERTY(EditAnywhere, Category = "Ball Stat Type")
-	bool isBurning;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void AddCombatStatus(FName rowName_);
 
 	UFUNCTION(BlueprintCallable)
@@ -94,7 +89,7 @@ public:
 		TEnumAsByte<EStatusClass> statusClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UTexture* icon;
+		UTexture2D* icon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UParticleSystem* particleEffect;
