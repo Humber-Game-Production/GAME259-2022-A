@@ -2,13 +2,25 @@
 
 
 #include "ReduceSpeedActor.h"
+#include "../Main_Character.h"
 
 AReduceSpeedActor::AReduceSpeedActor(){}
 
 
 void AReduceSpeedActor::ApplyEffect() {
-	Super::ApplyEffect();
-	UE_LOG(LogTemp, Warning, TEXT("This is a ReduceSpeed actor."));
-	//Implement code here
+
+	AMain_Character* player = (AMain_Character*)this->GetOwner();
+	//Set player velocity
+	if (player) {
+		player->setVelocity(1.0f - effectAmount);
+	}
+
+	remainTime--;
+	//Remove combatstatus and destroy it when remain time is over
+	if (remainTime <= 0.0f) {
+		player->resetVelocity();
+		OnCombStatusRemove.Broadcast(this);
+		Destroy();
+	}
 
 }

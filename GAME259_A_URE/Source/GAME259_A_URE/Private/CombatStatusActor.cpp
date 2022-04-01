@@ -12,7 +12,7 @@ ACombatStatusActor::ACombatStatusActor()
 	PrimaryActorTick.bCanEverTick = true;
 	ParticleComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle Effect"));
 	RootComponent = ParticleComponent;
-	
+
 }
 
 // Called when the game starts or when spawned
@@ -31,7 +31,7 @@ void ACombatStatusActor::Tick(float DeltaTime)
 
 
 void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float effectAmount_, 
-	UParticleSystem* particleEffect_, FString description_, UTexture* icon_) {
+	UParticleSystem* particleEffect_, FString description_, UTexture2D* icon_) {
 	statusName = statusName_;
 	durationTime = durationTime_;
 	effectAmount = effectAmount_;
@@ -44,11 +44,5 @@ void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float 
 }
 
 void ACombatStatusActor::ApplyEffect() {
-	remainTime--;
-	//UE_LOG(LogTemp, Warning, TEXT("Remain status time: %f"), remainTime);
-	//Remove combatstatus and destroy it when remain time is over
-	if (remainTime <= 0.0f) {
-		OnCombStatusRemove.Broadcast(this);
-		Destroy();
-	}
+
 }
