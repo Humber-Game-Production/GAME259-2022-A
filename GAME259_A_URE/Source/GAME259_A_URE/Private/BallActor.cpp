@@ -21,11 +21,13 @@ ABallActor::ABallActor()
 	RootComponent = SphereComp;
 	//With a radius of 40
 	SphereComp->InitSphereRadius(40.0f);
-	//Sets the default collision profile to "BallCollision" profile
+	//Sets the default collision profile to "Projectile" profile
+	//SphereComp->SetCollisionProfileName(TEXT("Projectile"));
 	SphereComp->SetCollisionProfileName(TEXT("BallCollision"));
 	SphereComp->SetIsReplicated(true);
 
 	SphereComp->bHiddenInGame = false;
+	
 	//Sets the mesh's model in code (not the best practice)
 	SphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
 	SphereMesh->SetupAttachment(RootComponent);
@@ -34,15 +36,9 @@ ABallActor::ABallActor()
 	//Moves the mesh down
 	SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
 	//Scales the mesh to 70% of its size
-	SphereMesh->SetWorldScale3D(FVector(0.7f));
+	SphereMesh->SetWorldScale3D(FVector(0.7f)); 
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
-	if (CubeVisualAsset.Succeeded())
-	{
-		SphereMesh->SetStaticMesh(CubeVisualAsset.Object);
-	}
-	
-	//Setup Material
+
 	SphereMaterial = CreateDefaultSubobject<UMaterial>(TEXT("SphereMaterial"));
 	
 	//Amount of time to add
@@ -65,8 +61,7 @@ ABallActor::ABallActor()
 
 	lethalVelocity = 0.0f;
 
-	
-
+	ballType = BallDefault;
 }
 
 // Called when the game starts or when spawned
@@ -152,7 +147,12 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 				}
 
 				//Destroys this game actor
-				//this->Destroy();	
+
+			}
+			else if (!IsLethal){
+				//Add ball ammo then destroy the character
+				playerCharacter->AddBallAmmo(ballType, 1);
+				this->Destroy();	
 			}
 		}
 	}
