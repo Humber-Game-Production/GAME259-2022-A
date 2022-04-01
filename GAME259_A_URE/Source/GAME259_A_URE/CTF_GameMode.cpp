@@ -14,27 +14,14 @@
 
 ACTF_GameMode::ACTF_GameMode()
 {
-	//// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/BP_Main_Character"));
-	static ConstructorHelpers::FClassFinder<AActor> ControllerBP(TEXT("/Game/Blueprints/BP_Main_PlayerController")); // Added
-
-	if (PlayerPawnBPClass.Class != NULL)
-	{
-		DefaultPawnClass = PlayerPawnBPClass.Class;
-	}
-	if (ControllerBP.Class != NULL)
-	{
-		PlayerControllerClass = ControllerBP.Class;  // Added
-	}
-
+	//Default Classes, changed to BP versions in BP_CTF_GameMode
 	GameStateClass = ACTF_GameState::StaticClass();
-	//PlayerControllerClass = AMain_PlayerController::StaticClass();
-	
+	PlayerControllerClass = AMain_PlayerController::StaticClass();
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
+	DefaultPawnClass = AMain_Character::StaticClass();
 
-
-	matchTimeLimit = 3000.0f;
-	warmupTimeLimit = 60.0f;
+	matchTimeLimit = 200.0f;
+	warmupTimeLimit = 20.0f;
 	maxScore = 3;
 	maxRounds = 3;
 	maxPlayers = 2;
@@ -47,7 +34,7 @@ ACTF_GameMode::ACTF_GameMode()
 
 void ACTF_GameMode::HandleMatchIsWaitingToStart() {
 
-	ACTF_GameMode::Super::HandleMatchIsWaitingToStart();
+	Super::HandleMatchIsWaitingToStart();
 
 	//TODO: check if this is a restarted game somehow, setup warmup timer outside post login
 
@@ -68,20 +55,28 @@ void ACTF_GameMode::HandleMatchIsWaitingToStart() {
 			}
 		}
 	}
+
 	for (AMain_PlayerController* PC : Players) {
 		Spawn(PC);
 	}
+	MatchWaitingToStart();
 }
  
 void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 {
-	//ChoosePlayerStart(NewPlayer);
-	ACTF_GameMode::Super::PostLogin(NewPlayer);
+	//if players.Num >= max players max NewPlayer forced spectator potentially
+
+	Super::PostLogin(NewPlayer);
 
 	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(NewPlayer))
 	{
 		Players.Add(PlayerController);
-		PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::TEAM_A;
+		if (Players.Num() % 2 == 0) {
+			PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::TEAM_A;
+		}
+		else {
+			PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::TEAM_B;
+		}
 		if (GetMatchState() != MatchState::EnteringMap) {
 			Spawn(PlayerController);
 		}
@@ -96,28 +91,19 @@ void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 		GS->warmupStartTime = GS->GetServerWorldTimeSeconds();
 		GetWorldTimerManager().SetTimer(GS->MatchStartCountdown, GS, &ACTF_GameState::MatchStartCountdownTick, 1.0f, true, 0.0f);
 	}
-	//NewPlayer->GetPawn() -> TakeDamage(100.0f, FDamageEvent(), NewPlayer, NewPlayer->GetPawn());
 }
-
-//AActor* ACTF_GameMode::ChoosePlayerStart_Implementation(AController* player)
-//{
-//	//ACTF_GameMode::Super::ChoosePlayerStart(player);
-//
-//	
-//		return GetSpawnPoint (TeamSelected::NONE);
-//
-//}
 
 void ACTF_GameMode::HandleMatchHasStarted() {
 
 	ACTF_GameMode::Super::HandleMatchHasStarted();
 
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
-		GetWorldTimerManager().SetTimer(GS->MatchTimer, GS, &ACTF_GameState::MatchTick, 1.0f, true, 1.0f);
+		GetWorldTimerManager().SetTimer(GS->MatchTimer, GS, &ACTF_GameState::MatchTick, 1.0f, true, 0.0f);
 		GS->matchStartTime = GS->GetServerWorldTimeSeconds();
+		GS->timeRemaining = matchTimeLimit;
 		for (AMain_PlayerController* PC : Players) {
 			if (AMain_Character* Character = Cast<AMain_Character>(PC->GetPawn())) {
-				Character->TakeDamage(100.0f,FDamageEvent(), PC, this);
+				Character->TakeDamage(100.0f, FDamageEvent(), PC, this);
 			}
 		}
 	}
@@ -128,6 +114,19 @@ void ACTF_GameMode::BeginPlay()
 	Super::BeginPlay();
 
 	
+}
+
+void ACTF_GameMode::HandleMatchHasEnded() 
+{
+	Super::HandleMatchHasEnded();
+
+	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+		GetWorld()->GetTimerManager().ClearTimer(GS->MatchTimer);
+		GS->MatchTimer.Invalidate();
+		FTimerDelegate RespawnDele;
+		RespawnDele.BindUFunction(this, FName("RestartGame"));
+		GetWorldTimerManager().SetTimer(GS->EndOfMatchTimer, RespawnDele, 20.0f, false);
+	}
 }
 
 void ACTF_GameMode::Respawn(AController* Controller)

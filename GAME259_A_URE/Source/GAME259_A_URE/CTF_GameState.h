@@ -5,9 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameState.h"
 #include "CTF_GameMode.h"
+#include "Main_Character.h"
 #include "CTF_GameState.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMatchTimeRemaining, int, timeRemaining_);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMatchHasEnded, TeamSelected, winningTeam_);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerKilledDelegate, AMain_Character*, playerKilled);
 
 UCLASS()
 class GAME259_A_URE_API ACTF_GameState : public AGameState
@@ -20,22 +23,43 @@ public:
 	void MatchStartCountdownTick();
 	void MatchTick();
 
-	//Potentially track flag state here?
-	//
-	//bool team1FlagStolen;
-	//bool team2FlagStolen;
+	void PlayerDied(AMain_Character* deadPlayer_);
 
 	float warmupStartTime;
 	float matchStartTime;
-	int team1Score;
-	int team2Score;
-	int team1RoundsWon;
-	int team2RoundsWon;
+	int timeRemaining;
+
+	UPROPERTY(BlueprintReadWrite)
+	int numTeamAPlayers;
+	UPROPERTY(BlueprintReadWrite)
+	int numTeamBPlayers;
+
+	UPROPERTY(BlueprintReadWrite)
+	int teamAScore;
+	UPROPERTY(BlueprintReadWrite)
+	int teamBScore;
+
+	UPROPERTY(BlueprintReadOnly)
+	int teamARoundsWon;
+	UPROPERTY(BlueprintReadOnly)
+	int teamBRoundsWon;
+
+	UPROPERTY(BlueprintReadWrite)
+	FlagState teamAFlagState;
+	UPROPERTY(BlueprintReadWrite)
+	FlagState teamBFlagState;
+
+	UPROPERTY(BlueprintReadOnly)
 	bool isOvertime;
 	
 	FTimerHandle MatchStartCountdown;
 	FTimerHandle MatchTimer;
+	FTimerHandle EndOfMatchTimer;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FMatchTimeRemaining MatchTimeRemainingUpdate;
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FMatchHasEnded MatchHasEndedUpdate;
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FPlayerKilledDelegate PlayerKilled;;
 };
