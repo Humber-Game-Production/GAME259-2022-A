@@ -8,6 +8,7 @@ ACTF_GameState::ACTF_GameState() {
 	teamAFlagState = teamBFlagState = FlagState::SAFE;
 	isOvertime = false;
 
+
 }
 
 void ACTF_GameState::PlayerDied(AMain_Character* deadPlayer_) {
@@ -15,6 +16,9 @@ void ACTF_GameState::PlayerDied(AMain_Character* deadPlayer_) {
 }
 
 void ACTF_GameState::MatchStartCountdownTick() {
+	SetReplicates(true);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "MatchStartCountdownTick replicates true");
+
 	if (ACTF_GameMode* GM = Cast<ACTF_GameMode>(GetWorld()->GetAuthGameMode())) {
 		if (GetServerWorldTimeSeconds() - warmupStartTime >= GM->warmupTimeLimit) {
 			GM->StartMatch();
@@ -23,6 +27,9 @@ void ACTF_GameState::MatchStartCountdownTick() {
 }
 
 void ACTF_GameState::MatchTick() {
+	SetReplicates(true);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "match tick replicates true");
+
 	if (ACTF_GameMode* GM = Cast<ACTF_GameMode>(GetWorld()->GetAuthGameMode())) {
 		if (teamAScore >= GM->maxScore) {
 			FString winMessage = FString::Printf(TEXT("Team A Wins!"));
