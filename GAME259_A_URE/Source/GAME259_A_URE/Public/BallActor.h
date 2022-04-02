@@ -7,6 +7,14 @@
 #include "Components/SphereComponent.h"
 #include "BallActor.generated.h"
 
+
+UENUM(BlueprintType)
+enum EBallType {
+	BallDefault, //0
+	BallFire, //1
+	BallIce //2
+};
+
 //Dynamic one parameter delegate used for broadcasting the amount of time to deal
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageDamage, float, FDamage);
 
@@ -36,7 +44,7 @@ public:
 
 	//Stores the type of status
 	UPROPERTY(EditAnywhere, Category = "Input")
-	FString Status;
+	FName Status;
 	
 	//Determines if the actor is lethal or not
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -44,17 +52,20 @@ public:
 
 	//Determines if the actor has a status effect or not
 	UPROPERTY(EditAnywhere, Category = "Input")
-	bool HasStatus;
+		bool HasStatus;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
-	float lethalVelocity;
+		float lethalVelocity;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+		TEnumAsByte<EBallType> ballType;
 	
 	//Starting time for the destroying the object
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	float DestroyTimer;
 
 	//Set whether to enable debug options
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UPROPERTY(EditAnywhere, Category = "Debug")
 	bool Debug;
 	
 	//The timer handler for the game's time
