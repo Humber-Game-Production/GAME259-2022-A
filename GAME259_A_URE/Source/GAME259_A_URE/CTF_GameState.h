@@ -27,6 +27,8 @@ public:
 
 	float warmupStartTime;
 	float matchStartTime;
+
+	UPROPERTY(BlueprintReadWrite)
 	int timeRemaining;
 
 	UPROPERTY(BlueprintReadWrite)

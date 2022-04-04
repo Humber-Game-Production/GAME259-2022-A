@@ -20,8 +20,8 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 	DefaultPawnClass = AMain_Character::StaticClass();
 
-	matchTimeLimit = 200.0f;
-	warmupTimeLimit = 20.0f;
+	matchTimeLimit = 10.0f;
+	warmupTimeLimit = 2.0f;
 	maxScore = 3;
 	maxRounds = 3;
 	maxPlayers = 2;
@@ -125,7 +125,7 @@ void ACTF_GameMode::HandleMatchHasEnded()
 		GS->MatchTimer.Invalidate();
 		FTimerDelegate RespawnDele;
 		RespawnDele.BindUFunction(this, FName("RestartGame"));
-		GetWorldTimerManager().SetTimer(GS->EndOfMatchTimer, RespawnDele, 20.0f, false);
+		GetWorldTimerManager().SetTimer(GS->EndOfMatchTimer, RespawnDele, 0.1f, false);
 	}
 }
 
