@@ -25,6 +25,11 @@ void UGameInstance_GAME259_A_URE::Init()
 			SessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnJoinSessionComplete);
 		}
 	}
+
+	if (GEngine)
+	{
+		GEngine->OnNetworkFailure().AddUObject(this, &UGameInstance_GAME259_A_URE::OnNetworkFailure);
+	}
 }
 
 void UGameInstance_GAME259_A_URE::OnCreateSessionComplete(FName SessionName, bool Succeeded)
@@ -89,6 +94,13 @@ void UGameInstance_GAME259_A_URE::OnJoinSessionComplete(FName SessionName, EOnJo
 
 }
 
+void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString)
+{
+	APlayerController* PController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	PController->ClientTravel("Game/UI/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute); // May Change this line of code 
+}
+
+
 void UGameInstance_GAME259_A_URE::CreateServer(FString ServerName)
 {
 	if (GEngine)
@@ -111,7 +123,7 @@ void UGameInstance_GAME259_A_URE::CreateServer(FString ServerName)
 	}
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
-	SessionSettings.NumPublicConnections = 3;
+	SessionSettings.NumPublicConnections = 40;
 	SessionSettings.bUseLobbiesIfAvailable = true;
 
 	// Set Server Names
