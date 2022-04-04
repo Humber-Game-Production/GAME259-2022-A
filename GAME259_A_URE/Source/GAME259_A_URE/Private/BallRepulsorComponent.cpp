@@ -13,6 +13,5 @@ UBallRepulsorComponent::UBallRepulsorComponent(){
 void UBallRepulsorComponent::TriggerAbilityEffect(){
 
 	UE_LOG(LogTemp, Warning, TEXT("Triggering Ability Effect: %s"), *abilityName.ToString());
-	cd_countdown = cooldown;
 
 }

@@ -85,6 +85,7 @@ void UBaseAbilityComponent::ActivateAbility() {
 	if (cd_countdown == 0.0f) {
 		//TriggerEffect here
 		TriggerAbilityEffect();
+		cd_countdown = cooldown;
 		//Get the timer from the attached actor
 		AbilityCooldownUpdate.Broadcast(abilityName, 0.0f);
 		GetOwner()->GetWorldTimerManager().SetTimer(TimeHandle, this, 
