@@ -4,10 +4,10 @@
 #include "CTF_GameState.h"
 
 ACTF_GameState::ACTF_GameState() {
+
 	timeRemaining = teamAScore = teamBScore = teamARoundsWon = teamBRoundsWon = numTeamAPlayers = numTeamBPlayers = 0;
 	teamAFlagState = teamBFlagState = FlagState::SAFE;
 	isOvertime = false;
-
 
 }
 
