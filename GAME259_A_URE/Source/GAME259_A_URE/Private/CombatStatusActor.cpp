@@ -8,9 +8,10 @@
 // Sets default values
 ACombatStatusActor::ACombatStatusActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	ParticleComponent = CreateAbstractDefaultSubobject<UParticleSystemComponent>(TEXT("Particle Effect"));
+	ParticleComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle Effect"));
+	RootComponent = ParticleComponent;
 
 }
 
@@ -30,11 +31,12 @@ void ACombatStatusActor::Tick(float DeltaTime)
 
 
 void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float effectAmount_, 
-	UParticleSystem* particleEffect_, FString description_, UTexture* icon_) {
+	UParticleSystem* particleEffect_, FString description_, UTexture2D* icon_) {
 	statusName = statusName_;
 	durationTime = durationTime_;
 	effectAmount = effectAmount_;
 	ParticleComponent->SetTemplate(particleEffect_);
+	ParticleComponent->SetIsReplicated(true);
 	description = description_;
 	icon = icon_;
 	remainTime = durationTime;
@@ -42,11 +44,5 @@ void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float 
 }
 
 void ACombatStatusActor::ApplyEffect() {
-	remainTime--;
-	UE_LOG(LogTemp, Warning, TEXT("Remain status time: %f"), remainTime);
-	//Remove combatstatus and destroy it when remain time is over
-	if (remainTime <= 0.0f) {
-		OnCombStatusRemove.Broadcast(this);
-		Destroy();
-	}
+
 }
