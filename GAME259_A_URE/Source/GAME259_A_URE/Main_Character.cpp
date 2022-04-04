@@ -18,7 +18,6 @@
 
 AMain_Character::AMain_Character()
 {
-	Velocity = 1.0f;
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -60,11 +59,6 @@ AMain_Character::AMain_Character()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-}
-
-void AMain_Character::setVelocity(float Velocity, float effectAmount)
-{
-	Velocity = Velocity - effectAmount;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -150,7 +144,7 @@ void AMain_Character::MoveForward(float Value)
 
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value * Velocity);
+		AddMovementInput(Direction, Value);
 	}
 }
 
@@ -165,7 +159,7 @@ void AMain_Character::MoveRight(float Value)
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
-		AddMovementInput(Direction, Value * Velocity);
+		AddMovementInput(Direction, Value);
 	}
 }
 
@@ -299,5 +293,4 @@ void AMain_Character::AddCombatStatus(FName statusName_) {
 		CombatStatusComp->AddCombatStatus(statusName_);
 	}
 }
-
 

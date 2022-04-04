@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Main_Character.generated.h"
-#include "CombatStatusComponent.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHPUpdate);
  
@@ -29,8 +28,6 @@ class AMain_Character : public ACharacter
 public:
 	AMain_Character();
 
-	void setVelocity(float Velocity, float effectAmount);
-
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseTurnRate;
@@ -39,8 +36,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
-	float Velocity;
-	void setVelocity();
+
 
 	//virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
 
@@ -149,6 +145,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
 		void AddCombatStatus(FName statusName_);
 
-	
+
 };
 
