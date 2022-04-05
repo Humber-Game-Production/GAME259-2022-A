@@ -156,10 +156,7 @@ void  AMain_Character::BeginPlay()
 {
 	Super::BeginPlay();
 	AmmoBallSlot.Empty();
-	//UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("AmmoListSize: %d"), AmmoBallSlot.Num()));
-
-	
+	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
 	AmmoBallSlot.Add(CombatAmmoContainerComp0);
 	AmmoBallSlot.Add(CombatAmmoContainerComp1);
 	AmmoBallSlot.Add(CombatAmmoContainerComp2);
@@ -294,8 +291,7 @@ void AMain_Character::Attack()
 
 void AMain_Character::ManualAddBall()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("AmmoListSize: %d"), AmmoBallSlot.Num()));
+	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
 	AmmoBallSlot[0]->ManualAddNum();
 	//AmmoBallSlot[0]->AddNum(1);
 	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Added Manually") );
@@ -436,17 +432,14 @@ void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) 
 
 void AMain_Character::ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_) {
 
-	//UE_LOG(LogTemp, Warning, TEXT("Character Cooldown: %f"), cooldown_percentage_);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Character Cooldown: %f"), cooldown_percentage_));
+	UE_LOG(LogTemp, Warning, TEXT("Character Cooldown: %f"), cooldown_percentage_);
 
 	if (abilityName_ == "BallRepulsor") {
-		//UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Broadcasting Ballrepulsor"));
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
 		AbilityCooldownUpdate.Broadcast(1, cooldown_percentage_);
 	}
 	else if (abilityName_ == "Grenade") {
-		//UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Broadcasting Grenade"));
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
 		AbilityCooldownUpdate.Broadcast(3, cooldown_percentage_);
 	}
 
@@ -461,15 +454,11 @@ FString AMain_Character::GetNameOfActor(){
 
 
 void AMain_Character::ActivateBallRepulsor() {
-	//UE_LOG(LogTemp, Warning, TEXT("ActivateBallRepulsor"));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("ActivateBallRepulsor"));
-
+	UE_LOG(LogTemp, Warning, TEXT("ActivateBallRepulsor"));
 	BallRepulsorAbility->ActivateAbility();
 }
 
 void AMain_Character::ActivateGrenade() {
-	//UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("ActivateGrenade"));
-
+	UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
 	GrenadeAbility->ActivateAbility();
 }

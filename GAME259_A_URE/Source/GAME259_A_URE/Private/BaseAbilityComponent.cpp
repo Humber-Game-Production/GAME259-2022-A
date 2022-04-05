@@ -53,9 +53,7 @@ void UBaseAbilityComponent::CooldownCountdown() {
 
 		bool broadcast = false;
 	
-		//UE_LOG(LogTemp, Warning, TEXT("Cooldown percentage %f"), percentage_remainder);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Cooldown percentage %f"), percentage_remainder));
-
+		UE_LOG(LogTemp, Warning, TEXT("Cooldown percentage %f"), percentage_remainder);
 
 		if (cd_countdown <= 0.0f) { //when cooldown is ready
 			broadcast = true;
@@ -74,9 +72,7 @@ void UBaseAbilityComponent::CooldownCountdown() {
 	}
 	//Clear timer when the countdown is over
 	else {
-		//UE_LOG(LogTemp, Warning, TEXT("Clearing Timer"));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Clearing Timer"));
-		
+		UE_LOG(LogTemp, Warning, TEXT("Clearing Timer"));
 
 		GetOwner()->GetWorldTimerManager().ClearTimer(TimeHandle);
 	}
@@ -95,9 +91,7 @@ void UBaseAbilityComponent::ActivateAbility() {
 			&UBaseAbilityComponent::CooldownCountdown, 1.0f, true);
 	}
 	else {
-		//UE_LOG(LogTemp, Warning, TEXT("Ability %s in cooldown"), *abilityName.ToString());
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, *abilityName.ToString());
-			
+		UE_LOG(LogTemp, Warning, TEXT("Ability %s in cooldown"), *abilityName.ToString());
 
 	}
 
