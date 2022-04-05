@@ -6,6 +6,7 @@
 #include "GameFramework/GameState.h"
 #include "CTF_GameMode.h"
 #include "Main_Character.h"
+#include "Net/UnrealNetwork.h"
 #include "CTF_GameState.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMatchTimeRemaining, int, timeRemaining_);
@@ -28,7 +29,7 @@ public:
 	float warmupStartTime;
 	float matchStartTime;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadOnly, Replicated)
 	int timeRemaining;
 
 	UPROPERTY(BlueprintReadWrite)

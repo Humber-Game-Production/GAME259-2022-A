@@ -11,6 +11,13 @@ ACTF_GameState::ACTF_GameState() {
 
 }
 
+void ACTF_GameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ACTF_GameState, timeRemaining);
+}
+
 void ACTF_GameState::PlayerDied(AMain_Character* deadPlayer_) {
 	PlayerKilled.Broadcast(deadPlayer_);
 }
