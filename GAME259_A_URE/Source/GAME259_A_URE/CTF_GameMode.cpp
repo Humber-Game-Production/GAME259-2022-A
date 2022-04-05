@@ -20,8 +20,8 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 	DefaultPawnClass = AMain_Character::StaticClass();
 
-	matchTimeLimit = 10.0f;
-	warmupTimeLimit = 2.0f;
+	matchTimeLimit = 30.0f;
+	warmupTimeLimit = 10.0f;
 	maxScore = 3;
 	maxRounds = 3;
 	maxPlayers = 2;
@@ -84,6 +84,7 @@ void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 	if (Players.Num() < maxPlayers) {
 		return;
 	}
+	
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
 		if (GS->MatchStartCountdown.IsValid()) {
 			return;
