@@ -55,10 +55,6 @@ void ACTF_GameMode::HandleMatchIsWaitingToStart() {
 			}
 		}
 	}
-
-	for (AMain_PlayerController* PC : Players) {
-		Spawn(PC);
-	}
 	MatchWaitingToStart();
 }
  
@@ -71,15 +67,6 @@ void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(NewPlayer))
 	{
 		Players.Add(PlayerController);
-		if (Players.Num() % 2 == 0) {
-			PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::TEAM_A;
-		}
-		else {
-			PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::TEAM_B;
-		}
-		if (GetMatchState() != MatchState::EnteringMap) {
-			Spawn(PlayerController);
-		}
 	}
 	if (Players.Num() < maxPlayers) {
 		return;

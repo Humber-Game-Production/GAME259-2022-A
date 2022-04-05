@@ -10,6 +10,13 @@ ACTF_GameState::ACTF_GameState() {
 
 }
 
+void ACTF_GameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ACTF_GameState, timeRemaining);
+}
+
 void ACTF_GameState::PlayerDied(AMain_Character* deadPlayer_) {
 	PlayerKilled.Broadcast(deadPlayer_);
 }
@@ -50,9 +57,19 @@ void ACTF_GameState::MatchTick() {
 				GM->EndMatch();
 			}
 		}
-		MatchTimeRemainingUpdate.Broadcast(timeRemaining);
-		FString timeRemainingMessage = FString::Printf(TEXT("%d"), timeRemaining);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, timeRemainingMessage);
+		MultiBroadcast();
 		--timeRemaining;
 	}
+}
+
+bool ACTF_GameState::MultiBroadcast_Validate()
+{
+	return true;
+}
+
+void ACTF_GameState::MultiBroadcast_Implementation()
+{
+	MatchTimeRemainingUpdate.Broadcast(timeRemaining);
+	FString timeRemainingMessage = FString::Printf(TEXT("%d"), timeRemaining);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, timeRemainingMessage);
 }

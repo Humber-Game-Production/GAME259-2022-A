@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameState.h"
+#include "Net/UnrealNetwork.h"
 #include "CTF_GameMode.h"
 #include "Main_Character.h"
 #include "CTF_GameState.generated.h"
@@ -23,10 +24,17 @@ public:
 	void MatchStartCountdownTick();
 	void MatchTick();
 
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+	void MultiBroadcast();
+	bool MultiBroadcast_Validate();
+	void MultiBroadcast_Implementation();
+
 	void PlayerDied(AMain_Character* deadPlayer_);
 
 	float warmupStartTime;
 	float matchStartTime;
+
+	UPROPERTY(Replicated)
 	int timeRemaining;
 
 	UPROPERTY(BlueprintReadWrite)
