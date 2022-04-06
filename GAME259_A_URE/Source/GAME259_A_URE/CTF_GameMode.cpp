@@ -55,10 +55,6 @@ void ACTF_GameMode::HandleMatchIsWaitingToStart() {
 			}
 		}
 	}
-
-	for (AMain_PlayerController* PC : Players) {
-		Spawn(PC);
-	}
 	MatchWaitingToStart();
 }
  
@@ -71,15 +67,6 @@ void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(NewPlayer))
 	{
 		Players.Add(PlayerController);
-		if (Players.Num() % 2 == 0) {
-			PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::TEAM_A;
-		}
-		else {
-			PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::TEAM_B;
-		}
-		if (GetMatchState() != MatchState::EnteringMap) {
-			Spawn(PlayerController);
-		}
 	}
 	if (Players.Num() < maxPlayers) {
 		return;
@@ -147,36 +134,51 @@ APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(TeamSelected owningTeam_)
 {
 	//Gets the total teamA spawn points
 	if (owningTeam_ == TeamSelected::TEAM_A) {
-		for (int32 i = 0 < TeamASpawnPoints.Num(); ++i;)
+		for (int i = 0; i < 5; ++i)
 		{
 			int32 Slot = FMath::RandRange(0, TeamASpawnPoints.Num() - 1);
 			if (TeamASpawnPoints[Slot])
 			{
-				return TeamASpawnPoints[Slot];
+				FString spawnBlockedMessage = FString::Printf(TEXT("Spawn Blocked"));
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, spawnBlockedMessage);
+				if (!TeamASpawnPoints[Slot]->obstructed) {
+					return TeamASpawnPoints[Slot];
+				}
 			}
 		}
+		return nullptr;
 	}
 	//Gets the total teamB spawn points
 	if (owningTeam_ == TeamSelected::TEAM_B) {
-		for (int32 i = 0 < TeamBSpawnPoints.Num(); ++i;)
+		for (int i = 0; i < 5; ++i)
 		{
 			int32 Slot = FMath::RandRange(0, TeamBSpawnPoints.Num() - 1);
 			if (TeamBSpawnPoints[Slot])
 			{
-				return TeamBSpawnPoints[Slot];
+				FString spawnBlockedMessage = FString::Printf(TEXT("Spawn Blocked"));
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, spawnBlockedMessage);
+				if (!TeamBSpawnPoints[Slot]->obstructed) {
+					return TeamBSpawnPoints[Slot];
+				}
 			}
 		}
+		return nullptr;
 	}
 
 	if (owningTeam_ == TeamSelected::NONE) {
-		for (int32 i = 0 < SpawnPoints.Num(); ++i;)
+		for (int i = 0; i < 5; ++i)
 		{
 			int32 Slot = FMath::RandRange(0, SpawnPoints.Num() - 1);
 			if (SpawnPoints[Slot])
 			{
-				return SpawnPoints[Slot];
+				FString spawnBlockedMessage = FString::Printf(TEXT("Spawn Blocked"));
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, spawnBlockedMessage);
+				if (!SpawnPoints[Slot]->obstructed) {
+					return SpawnPoints[Slot];
+				}
 			}
 		}
+		return nullptr;
 	}
 
 	return nullptr;
@@ -199,6 +201,12 @@ void ACTF_GameMode::Spawn(AController* Controller)
 					PlayerController->Possess(Pawn);
 				}
 			}
+			else {
+				FTimerDelegate RespawnDele;
+				FTimerHandle RespawnHandle;
+				RespawnDele.BindUFunction(this, FName("Spawn"), PlayerController);
+				GetWorld()->GetTimerManager().SetTimer(RespawnHandle, RespawnDele, 1.0f, false);
+			}
 		}
 		//Team B Spawn
 		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->team == TeamSelected::TEAM_B)
@@ -213,6 +221,12 @@ void ACTF_GameMode::Spawn(AController* Controller)
 					PlayerController->Possess(Pawn);
 				}
 			}
+			else {
+				FTimerDelegate RespawnDele;
+				FTimerHandle RespawnHandle;
+				RespawnDele.BindUFunction(this, FName("Spawn"), PlayerController);
+				GetWorld()->GetTimerManager().SetTimer(RespawnHandle, RespawnDele, 1.0f, false);
+			}
 		}
 
 		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->team == TeamSelected::NONE)
@@ -226,6 +240,12 @@ void ACTF_GameMode::Spawn(AController* Controller)
 				{
 					PlayerController->Possess(Pawn);
 				}
+			}
+			else {
+				FTimerDelegate RespawnDele;
+				FTimerHandle RespawnHandle;
+				RespawnDele.BindUFunction(this, FName("Spawn"), PlayerController);
+				GetWorld()->GetTimerManager().SetTimer(RespawnHandle, RespawnDele, 1.0f, false);
 			}
 		}
 	}
