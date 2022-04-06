@@ -24,17 +24,12 @@ public:
 	void MatchStartCountdownTick();
 	void MatchTick();
 
-	UFUNCTION(NetMulticast, Reliable, WithValidation)
-	void MultiBroadcast();
-	bool MultiBroadcast_Validate();
-	void MultiBroadcast_Implementation();
-
 	void PlayerDied(AMain_Character* deadPlayer_);
 
 	float warmupStartTime;
 	float matchStartTime;
 
-	UPROPERTY(Replicated)
+	UPROPERTY(BlueprintReadOnly, Replicated)
 	int timeRemaining;
 
 	UPROPERTY(BlueprintReadWrite)

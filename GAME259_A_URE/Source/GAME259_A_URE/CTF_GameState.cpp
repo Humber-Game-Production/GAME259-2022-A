@@ -57,19 +57,9 @@ void ACTF_GameState::MatchTick() {
 				GM->EndMatch();
 			}
 		}
-		MultiBroadcast();
+		MatchTimeRemainingUpdate.Broadcast(timeRemaining);
+		FString timeRemainingMessage = FString::Printf(TEXT("%d"), timeRemaining);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, timeRemainingMessage);
 		--timeRemaining;
 	}
-}
-
-bool ACTF_GameState::MultiBroadcast_Validate()
-{
-	return true;
-}
-
-void ACTF_GameState::MultiBroadcast_Implementation()
-{
-	MatchTimeRemainingUpdate.Broadcast(timeRemaining);
-	FString timeRemainingMessage = FString::Printf(TEXT("%d"), timeRemaining);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, timeRemainingMessage);
 }
