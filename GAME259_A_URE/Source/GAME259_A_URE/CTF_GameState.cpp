@@ -4,7 +4,6 @@
 #include "CTF_GameState.h"
 
 ACTF_GameState::ACTF_GameState() {
-
 	timeRemaining = teamAScore = teamBScore = teamARoundsWon = teamBRoundsWon = numTeamAPlayers = numTeamBPlayers = 0;
 	teamAFlagState = teamBFlagState = FlagState::SAFE;
 	isOvertime = false;
@@ -23,7 +22,6 @@ void ACTF_GameState::PlayerDied(AMain_Character* deadPlayer_) {
 }
 
 void ACTF_GameState::MatchStartCountdownTick() {
-
 	if (ACTF_GameMode* GM = Cast<ACTF_GameMode>(GetWorld()->GetAuthGameMode())) {
 		if (GetServerWorldTimeSeconds() - warmupStartTime >= GM->warmupTimeLimit) {
 			GM->StartMatch();
@@ -32,7 +30,6 @@ void ACTF_GameState::MatchStartCountdownTick() {
 }
 
 void ACTF_GameState::MatchTick() {
-
 	if (ACTF_GameMode* GM = Cast<ACTF_GameMode>(GetWorld()->GetAuthGameMode())) {
 		if (teamAScore >= GM->maxScore) {
 			FString winMessage = FString::Printf(TEXT("Team A Wins!"));

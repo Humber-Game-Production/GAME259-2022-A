@@ -9,6 +9,7 @@ APlayerSpawnPoint::APlayerSpawnPoint()
 {
     MeshComp = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshComponent");
     RootComponent = MeshComp;
+    obstructed = false;
     SetActorHiddenInGame(true);
 }
 
