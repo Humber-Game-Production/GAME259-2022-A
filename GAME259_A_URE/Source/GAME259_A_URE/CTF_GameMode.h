@@ -36,6 +36,8 @@ protected:
     virtual void HandleMatchIsWaitingToStart() override;
     UFUNCTION(BlueprintImplementableEvent)
     void MatchWaitingToStart();
+    UFUNCTION(BLueprintCallable)
+    void PlayerJoinedTeam();
     virtual void HandleMatchHasStarted() override;
     virtual void HandleMatchHasEnded() override;
 
