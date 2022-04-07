@@ -92,6 +92,8 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Dispatcher")
 	FMessageStatus MessageStatus;
 
+	UFUNCTION(BlueprintCallable)
+	void ApplyForce(float force_);
 
 	//Function used by the timer to determine what happens when the destroy timer is up
 	UFUNCTION()

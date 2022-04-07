@@ -119,8 +119,6 @@ void ABallActor::DestroyTimerUp()
 //An overlap function
 void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult )
 {
-	UE_LOG(LogTemp, Warning, TEXT("Overlapping"));
-
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
 		//Check if the ball is overlapping with the character
 		if (OtherActor->IsA(AMain_Character::StaticClass())) {
@@ -156,11 +154,13 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 			}
 		}
 	}
+}
 
-
-
-
-
-	
+void ABallActor::ApplyForce(float force_) {
+	//Apply am opposite force if the parameter is negative
+	FVector velocityVec = SphereComp->GetPhysicsLinearVelocity();
+	if (velocityVec.Size() == 0) {
+		SphereComp->AddForce(FVector(1.0f, 0.0f, 0.0f) * 30.0f * force_);
+	}
 
 }

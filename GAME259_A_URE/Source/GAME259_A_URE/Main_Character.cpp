@@ -156,7 +156,6 @@ void  AMain_Character::BeginPlay()
 {
 	Super::BeginPlay();
 	AmmoBallSlot.Empty();
-	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
 	AmmoBallSlot.Add(CombatAmmoContainerComp0);
 	AmmoBallSlot.Add(CombatAmmoContainerComp1);
 	AmmoBallSlot.Add(CombatAmmoContainerComp2);
@@ -353,6 +352,7 @@ void AMain_Character::Die()
 	//{
 
 	CombatStatusComp->RemoveCombatStatusList();
+	BallRepulsorAbility->OnDestroy();
 	MultiDie();
 	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
 	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
@@ -432,7 +432,7 @@ void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) 
 
 void AMain_Character::ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_) {
 
-	UE_LOG(LogTemp, Warning, TEXT("Character Cooldown: %f"), cooldown_percentage_);
+	//UE_LOG(LogTemp, Warning, TEXT("Character Cooldown: %f"), cooldown_percentage_);
 
 	if (abilityName_ == "BallRepulsor") {
 		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
@@ -461,4 +461,11 @@ void AMain_Character::ActivateBallRepulsor() {
 void AMain_Character::ActivateGrenade() {
 	UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
 	GrenadeAbility->ActivateAbility();
+}
+
+void AMain_Character::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+
+	UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Overlapping"));
+
+
 }

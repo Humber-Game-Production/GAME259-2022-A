@@ -36,8 +36,8 @@ void UBaseAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 }
 
 //Implement this in child class
-void UBaseAbilityComponent::TriggerAbilityEffect() {
-
+bool UBaseAbilityComponent::TriggerAbilityEffect() {
+	return false;
 }
 
 void UBaseAbilityComponent::CooldownCountdown() {
@@ -72,7 +72,7 @@ void UBaseAbilityComponent::CooldownCountdown() {
 	}
 	//Clear timer when the countdown is over
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("Clearing Timer"));
+		//UE_LOG(LogTemp, Warning, TEXT("Clearing Timer"));
 
 		GetOwner()->GetWorldTimerManager().ClearTimer(TimeHandle);
 	}
@@ -84,15 +84,17 @@ void UBaseAbilityComponent::ActivateAbility() {
 
 	if (cd_countdown == 0.0f) {
 		//TriggerEffect here
-		TriggerAbilityEffect();
-		cd_countdown = cooldown;
-		//Get the timer from the attached actor
-		AbilityCooldownUpdate.Broadcast(abilityName, 0.0f);
-		GetOwner()->GetWorldTimerManager().SetTimer(TimeHandle, this, 
-			&UBaseAbilityComponent::CooldownCountdown, 1.0f, true);
+		if (TriggerAbilityEffect()) {
+			cd_countdown = cooldown;
+			//Get the timer from the attached actor
+			AbilityCooldownUpdate.Broadcast(abilityName, 0.0f);
+			GetOwner()->GetWorldTimerManager().SetTimer(TimeHandle, this,
+				&UBaseAbilityComponent::CooldownCountdown, 1.0f, true);
+		}
+
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("Ability %s in cooldown"), *abilityName.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Ability %s in cooldown"), *abilityName.ToString());
 
 	}
 
