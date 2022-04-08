@@ -43,8 +43,8 @@ void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 		//Check that it is not a ball owned by the player
 
 		if (ballActor->GetOwner() != GetOwner()) {
-			UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Ability Overlapping"));
-			UE_LOG(LogTemp, Warning, TEXT("SengRequest: %s"), (sendRequest ? TEXT("true") : TEXT("false")));
+			//UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Ability Overlapping"));
+			//UE_LOG(LogTemp, Warning, TEXT("SengRequest: %s"), (sendRequest ? TEXT("true") : TEXT("false")));
 
 			if (sendRequest) {
 				//Set a negative force then set the booleans

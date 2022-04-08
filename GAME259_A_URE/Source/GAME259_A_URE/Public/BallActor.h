@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Engine/DataTable.h"
 #include "Components/SphereComponent.h"
 #include "BallActor.generated.h"
 
@@ -13,6 +14,29 @@ enum EBallType {
 	BallDefault, //0
 	BallFire, //1
 	BallIce //2
+};
+
+//DataTable Row
+USTRUCT(BlueprintType)
+struct FBallRow : public FTableRowBase {
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FName statusName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<EBallType> ballType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float damageToDeal;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UStaticMesh* ballMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UMaterial* ballMaterial;
+
 };
 
 //Dynamic one parameter delegate used for broadcasting the amount of time to deal
@@ -52,13 +76,13 @@ public:
 
 	//Determines if the actor has a status effect or not
 	UPROPERTY(EditAnywhere, Category = "Input")
-		bool HasStatus;
+	bool HasStatus;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
-		float lethalVelocity;
+	float lethalVelocity;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
-		TEnumAsByte<EBallType> ballType;
+	TEnumAsByte<EBallType> ballType;
 	
 	//Starting time for the destroying the object
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
@@ -95,6 +119,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ApplyForce(float force_);
 
+	UFUNCTION(BlueprintCallable)
+	void ApplyImpulse (FVector impulse_);
+
+	UFUNCTION(BlueprintCallable)
+	void setValue(UStaticMesh* sphereMesh_, UMaterial* sphereMaterial_, 
+			float damageToDeal_, FName combatStatus_, TEnumAsByte<EBallType> ballType_, bool isLethal_);
+
 	//Function used by the timer to determine what happens when the destroy timer is up
 	UFUNCTION()
 	void DestroyTimerUp();
@@ -103,3 +134,5 @@ public:
 	UFUNCTION()
 	void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,  bool bFromSweep, const FHitResult &SweepResult );
 };
+
+
