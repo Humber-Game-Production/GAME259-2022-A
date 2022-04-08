@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameState.h"
+#include "Net/UnrealNetwork.h"
 #include "CTF_GameMode.h"
 #include "Main_Character.h"
 #include "CTF_GameState.generated.h"
@@ -27,6 +28,8 @@ public:
 
 	float warmupStartTime;
 	float matchStartTime;
+
+	UPROPERTY(BlueprintReadOnly, Replicated)
 	int timeRemaining;
 
 	UPROPERTY(BlueprintReadWrite)
