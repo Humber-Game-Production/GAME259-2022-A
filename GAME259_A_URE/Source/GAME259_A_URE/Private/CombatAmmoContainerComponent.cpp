@@ -83,6 +83,8 @@ void UCombatAmmoContainerComponent::TickComponent(float DeltaTime, ELevelTick Ti
 void UCombatAmmoContainerComponent::AddNum(int numToIncrease)
 {
 	ballNum = ballNum + numToIncrease;
+	UE_LOG(LogTemp, Warning, TEXT("BallDefault: %d"), ballNum);
+
 
 	if (maxBallNum != 0)
 	{

@@ -18,5 +18,5 @@ public:
 	UGrenadeComponent();
 	
 	UFUNCTION(BlueprintCallable)
-		bool TriggerAbilityEffect() override;
+		void TriggerAbilityEffect() override;
 };

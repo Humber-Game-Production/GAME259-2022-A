@@ -10,8 +10,8 @@ UGrenadeComponent::UGrenadeComponent() {
 	cd_countdown = 0.0f;
 }
 
-bool UGrenadeComponent::TriggerAbilityEffect(){
+void UGrenadeComponent::TriggerAbilityEffect(){
 
 	UE_LOG(LogTemp, Warning, TEXT("Triggering Ability Effect: %s"), *abilityName.ToString());
-	return true;
+
 }
