@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Engine/DataTable.h"
+#include "Public/BallActor.h"
 #include "Main_PlayerController.h"
 #include "Main_Character.generated.h"
 
@@ -12,6 +14,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoUpdate, int, index, int, ballNum);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityCooldownUpdate, int, index, float, cd_percentage);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCurrentBallUpdate, int, index);
 
 //Setup current weapon delegate with index
 
@@ -69,7 +73,7 @@ protected:
 	void ManualAddBall();
 	void ManualMinusBall();
 	
-	UFUNCTION(Server, Reliable, WithValidation)
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
 		void ServerAttack();
 	bool ServerAttack_Validate();
 	void ServerAttack_Implementation();
@@ -143,11 +147,27 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Player Stats")
 		float velPercentage;
 
+	UPROPERTY(EditAnywhere, Category = "Current Weapon")
+		TEnumAsByte<EBallType> currentBall;
+
+	UPROPERTY(EditAnywhere, Category = "Ball Spawn")
+		float ballSpawnOffset;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UStaticMeshComponent* ballSpawnLocation;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulse;
+
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+
+	UPROPERTY(EditAnywhere, Category = "Data Table")
+		UDataTable* BallTable;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FCharacterHealthUpdate HealthUpdate;
@@ -157,6 +177,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FAbilityCooldownUpdate AbilityCooldownUpdate;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+		FCurrentBallUpdate CurrentBallUpdate;
 
 	//Collection of ball slots
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -206,7 +229,24 @@ public:
 		void resetVelocity() { velPercentage = 1.0f; }
 
 	UFUNCTION(BlueprintCallable)
+		void SetCurrentBall(TEnumAsByte<EBallType> newBall_) { currentBall = newBall_; }
+
+	UFUNCTION(BlueprintCallable)
+		void SetToBallType0(); 
+
+	UFUNCTION(BlueprintCallable)
+		void SetToBallType1();
+
+	UFUNCTION(BlueprintCallable)
+		void SetToBallType2();
+
+	UFUNCTION(BlueprintCallable)
 		FString GetNameOfActor();
+
+	//Overlap function for destroying the actor and broadcasting delegates
+	UFUNCTION()
+		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 
 private:
 

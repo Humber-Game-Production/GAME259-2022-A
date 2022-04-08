@@ -36,7 +36,7 @@ protected:
 
 private:
 
-	virtual void TriggerAbilityEffect();
+	virtual bool TriggerAbilityEffect();
 
 	void CooldownCountdown();
 
