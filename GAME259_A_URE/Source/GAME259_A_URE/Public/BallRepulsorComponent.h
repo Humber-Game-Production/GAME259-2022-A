@@ -17,21 +17,9 @@ class GAME259_A_URE_API UBallRepulsorComponent : public UBaseAbilityComponent
 public:
 
 	UBallRepulsorComponent();
-
-	UPROPERTY(EditAnywhere)
-		class ABallRepulsorActor *collisionActor;
-
+	
 	UFUNCTION(BlueprintCallable)
-		bool TriggerAbilityEffect() override;
+		void TriggerAbilityEffect() override;
 
-	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
-		void AddCollisionComp();
-
-	UFUNCTION(BlueprintCallable)
-		void OnDestroy();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 };

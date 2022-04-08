@@ -2,7 +2,6 @@
 
 
 #include "BallActor.h"
-#include "GameFramework/ProjectileMovementComponent.h"
 #include "../Main_Character.h"
 
 // Sets default values
@@ -26,20 +25,22 @@ ABallActor::ABallActor()
 	//SphereComp->SetCollisionProfileName(TEXT("Projectile"));
 	SphereComp->SetCollisionProfileName(TEXT("BallCollision"));
 	SphereComp->SetIsReplicated(true);
-	//Simulates physics
-	SphereComp->SetSimulatePhysics(true);
-	SphereComp->SetMassScale("None", 20.0f);
+
+	SphereComp->bHiddenInGame = false;
+	
 	//Sets the mesh's model in code (not the best practice)
 	SphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
 	SphereMesh->SetupAttachment(RootComponent);
-
+	//Simulates physics
+	SphereComp->SetSimulatePhysics(true);
 	//Moves the mesh down
 	SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
 	//Scales the mesh to 70% of its size
 	SphereMesh->SetWorldScale3D(FVector(0.7f)); 
 
-	SphereMaterial = CreateDefaultSubobject<UMaterial>(TEXT("SphereMaterial"));
 
+	SphereMaterial = CreateDefaultSubobject<UMaterial>(TEXT("SphereMaterial"));
+	
 	//Amount of time to add
 	DamageToDeal = 5;
 
@@ -70,6 +71,7 @@ void ABallActor::BeginPlay()
 	//Sets the timer to countdown at start
 	GetWorldTimerManager().SetTimer(TimeHandle, this, &ABallActor::DestroyTimerUp, DestroyTimer);
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ABallActor::BeginOverlap);
+	//SphereMesh->SetMaterial(0, SphereMaterial);
 
 }
 
@@ -117,6 +119,8 @@ void ABallActor::DestroyTimerUp()
 //An overlap function
 void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult )
 {
+	UE_LOG(LogTemp, Warning, TEXT("Overlapping"));
+
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
 		//Check if the ball is overlapping with the character
 		if (OtherActor->IsA(AMain_Character::StaticClass())) {
@@ -129,16 +133,10 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 				//Broadcasts the time to add message with the amount of time needed
 				MessageDamage.Broadcast(DamageToDeal);
 				TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
-				AController* DamageCauserController = nullptr;
-				if (GetOwner()) {
-					DamageCauserController = GetOwner()->GetInstigatorController();
-				}
-
-				playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), DamageCauserController, this);
+				//AController *DamageCauserController = GetOwner()->GetInstigatorController();
+				playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), nullptr, this);
 				//If status is enabled broadcast it
 				if (Status != "None") {
-					UE_LOG(LogTemp, Warning, TEXT("Adding combat status"));
-
 					playerCharacter->AddCombatStatus(Status);
 				}
 
@@ -148,6 +146,8 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 					//MessageStatus.Broadcast(Status);
 				}
 
+				//Destroys this game actor
+
 			}
 			else if (!IsLethal){
 				//Add ball ammo then destroy the character
@@ -156,33 +156,11 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 			}
 		}
 	}
-}
 
-void ABallActor::ApplyForce(float force_) {
-	//Apply am opposite force if the parameter is negative
-	FVector velocityVec = SphereComp->GetPhysicsLinearVelocity();
-	if (velocityVec.Size() <= 0) {
-		SphereComp->AddForce(GetActorForwardVector() * 3000.0f * force_);
-	}
-	SphereComp->AddForce(GetActorForwardVector() * 3000.0f * force_);
-}
 
-void ABallActor::ApplyImpulse(FVector impulse_) {
-	SphereComp->AddImpulse(impulse_, FName("None"), true);
-}
 
-void ABallActor::setValue(UStaticMesh* sphereMesh_, UMaterial* sphereMaterial_,
-	float damageToDeal_, FName combatStatus_, TEnumAsByte<EBallType> ballType_, bool isLethal_) {
 
-	if (sphereMesh_) {
-		SphereMesh->SetStaticMesh(sphereMesh_);
-		SphereMesh->SetMaterial(0, sphereMaterial_);
-	}
-	IsLethal = isLethal_;
-	DamageToDeal = damageToDeal_;
-	Status = combatStatus_;
-	ballType = ballType_;
 
-	UE_LOG(LogTemp, Warning, TEXT("Combat status: %s"), *Status.ToString());
+	
 
 }
