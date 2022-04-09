@@ -131,8 +131,8 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 				TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
 				AController* DamageCauserController = nullptr;
 
-				if (GetOwner()) {
-					DamageCauserController = GetOwner()->GetInstigatorController();
+				if (GetInstigator()) {
+					DamageCauserController = GetInstigator()->GetController();
 				}
 
 				playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), DamageCauserController, this);

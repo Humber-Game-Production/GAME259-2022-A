@@ -301,10 +301,6 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 
 		}
 	}
-	else {
-		FString stringMessage = FString::Printf(TEXT("Event Instigator is null"));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, stringMessage);
-	}
 
 	if (checkDamage) {
 		if (CurrentHealth > 0.0f) {
@@ -314,7 +310,6 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 			UE_LOG(LogTemp, Warning, TEXT("Taking Damage"));
 		}
 	}
-
 	return damageApplied;
 }
 
@@ -370,6 +365,7 @@ void AMain_Character::ServerAttack_Implementation()
 					if (ballInfo) {
 						FActorSpawnParameters ActorSpawnParams;
 						ActorSpawnParams.Owner = this;
+						ActorSpawnParams.Instigator = this;
 						ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 						FVector spawnLocation = FVector(0.0f, 0.0f, 0.0f);
 
