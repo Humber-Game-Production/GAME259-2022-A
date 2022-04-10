@@ -22,7 +22,7 @@ protected:
 	bool sendRequest;
 	bool triggered; //ability is triggered
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -40,6 +40,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void setSendRequest(bool sendRequest_) { sendRequest = sendRequest_; }
 
+
 	UFUNCTION()
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+		void EndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+
 };

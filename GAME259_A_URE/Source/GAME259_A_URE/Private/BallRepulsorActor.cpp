@@ -8,13 +8,14 @@
 // Sets default values
 ABallRepulsorActor::ABallRepulsorActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	BallRepulsorCollision = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
+	RootComponent = BallRepulsorCollision;
 	BallRepulsorCollision->InitSphereRadius(150.0f);
 	BallRepulsorCollision->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
-	RootComponent = BallRepulsorCollision;
-	//BallRepulsorCollison->bHiddenInGame = false;
+	BallRepulsorCollision->bHiddenInGame = false;
+
 	sendRequest = false;
 	triggered = false;
 }
@@ -24,6 +25,7 @@ void ABallRepulsorActor::BeginPlay()
 {
 	Super::BeginPlay();
 	BallRepulsorCollision->OnComponentBeginOverlap.AddDynamic(this, &ABallRepulsorActor::BeginOverlap);
+	BallRepulsorCollision->OnComponentEndOverlap.AddDynamic(this, &ABallRepulsorActor::EndOverlap);
 }
 
 // Called every frame
@@ -33,7 +35,7 @@ void ABallRepulsorActor::Tick(float DeltaTime)
 
 }
 
-void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 
+void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 
 	//Check if interacting with ball actor
@@ -44,12 +46,12 @@ void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 
 		if (ballActor->GetOwner() != GetOwner()) {
 			//UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Ability Overlapping"));
-			//UE_LOG(LogTemp, Warning, TEXT("SengRequest: %s"), (sendRequest ? TEXT("true") : TEXT("false")));
+			UE_LOG(LogTemp, Warning, TEXT("SengRequest: %s"), (sendRequest ? TEXT("true") : TEXT("false")));
 
 			if (sendRequest) {
 				//Set a negative force then set the booleans
 				UE_LOG(LogTemp, Warning, TEXT("Requesting to activate ability"));
-				//ballActor->ApplyForce(-1.0f); //need test
+				ballActor->ApplyImpulse(ballActor->GetActorForwardVector() * -1.0f);
 				triggered = true;
 				sendRequest = false;
 			}
@@ -57,5 +59,9 @@ void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 
 	}
 
+}
+
+void ABallRepulsorActor::EndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
+	triggered = false;
 }
 

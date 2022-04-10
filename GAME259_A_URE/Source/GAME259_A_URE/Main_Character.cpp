@@ -127,7 +127,7 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AMain_Character::OnResetVR);
-	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::ServerAttack);
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 
 
 	//Combat Abilities binding
@@ -288,11 +288,8 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 
 		if (EventInstigator == GetController()) {
 			checkDamage = false;
-			UE_LOG(LogTemp, Warning, TEXT("Take Damage->EventInstigator is self"));
 		}
 		else {
-
-
 			ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
 			ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
 			if (playerState->team == damageCauserPlayerState->team) {
@@ -316,33 +313,8 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 void AMain_Character::Attack()
 {
 	ServerAttack();
-}
 
-void AMain_Character::ManualAddBall()
-{
-	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
-	AmmoBallSlot[0]->ManualAddNum();
-	//AmmoBallSlot[0]->AddNum(1);
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Added Manually") );
-}
-
-void AMain_Character::ManualMinusBall()
-{
-	AmmoBallSlot[0]->ManualMinusNum();
-	//AmmoBallSlot[0]->MinusNum(1);
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Removed Manually") );
-}
-
-bool AMain_Character::ServerAttack_Validate()
-{
-	return true;
-}
-
-void AMain_Character::ServerAttack_Implementation()
-{
-
-	if (HasAuthority()) {
-
+	//if (HasAuthority()) {
 		UCombatAmmoContainerComponent* ammoContainer = GetAmmoContainer(currentBall);
 		if (ammoContainer) {
 			if (ammoContainer->ballNum > 0) {
@@ -389,8 +361,9 @@ void AMain_Character::ServerAttack_Implementation()
 
 						if (ballActor) {
 							ballActor->setValue(ballMesh_, ballMaterial_, damageToDeal_, statusName_, ballType_, true);
-							ballActor->ApplyImpulse(rotator.Vector() * impulse);
+							ballActor->ApplyImpulse(FollowCamera->GetForwardVector() * impulse);
 							ammoContainer->MinusNum(1);
+
 						}
 						else {
 							UE_LOG(LogTemp, Warning, TEXT("BallActor not found"));
@@ -406,14 +379,40 @@ void AMain_Character::ServerAttack_Implementation()
 				UE_LOG(LogTemp, Warning, TEXT("No ammo"));
 			}
 		}
-	}
+	//}
+}
+
+void AMain_Character::ManualAddBall()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
+	AmmoBallSlot[0]->ManualAddNum();
+	//AmmoBallSlot[0]->AddNum(1);
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Added Manually") );
+}
+
+void AMain_Character::ManualMinusBall()
+{
+	AmmoBallSlot[0]->ManualMinusNum();
+	//AmmoBallSlot[0]->MinusNum(1);
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Removed Manually") );
+}
+
+bool AMain_Character::ServerAttack_Validate()
+{
+	return true;
+}
+
+void AMain_Character::ServerAttack_Implementation()
+{
+
+
 }
 
 void AMain_Character::Die()
 {
 	//if (HasAuthority())
 	//{
-	//BallRepulsorAbility->OnDestroy();
+	BallRepulsorAbility->OnDestroy();
 	CombatStatusComp->RemoveCombatStatusList();
 	//Currently used to handle dropping flag
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
@@ -427,7 +426,6 @@ void AMain_Character::Die()
 	}
 	//Start our destroy timer to remove actor
 	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
-
 	//}
 }
 
@@ -523,7 +521,7 @@ FString AMain_Character::GetNameOfActor(){
 
 
 void AMain_Character::ActivateBallRepulsor() {
-	UE_LOG(LogTemp, Warning, TEXT("ActivateBallRepulsor"));
+
 	BallRepulsorAbility->ActivateAbility();
 }
 

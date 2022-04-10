@@ -10,11 +10,12 @@ UBallRepulsorComponent::UBallRepulsorComponent(){
 	abilityName = "BallRepulsor";
 	cooldown = 10.0f;
 	cd_countdown = 0.0f;
+
 }
 
 void UBallRepulsorComponent::BeginPlay() {
 	Super::BeginPlay();
-
+	AddCollisionComp();
 }
 
 void UBallRepulsorComponent::AddCollisionComp() {
@@ -30,15 +31,15 @@ void UBallRepulsorComponent::AddCollisionComp() {
 
 bool UBallRepulsorComponent::TriggerAbilityEffect() {
 
-	//if (collisionActor) {
-	//	collisionActor->setSendRequest(true);
-	//	if (collisionActor->getTriggered()) {
-	//		return true;
-	//	}
-	//	else {
-	//		//collisionActor->setSendRequest(false);
-	//	}
-	//}
+	if (collisionActor) {
+		collisionActor->setSendRequest(true);
+		if (collisionActor->getTriggered()) {
+			return true;
+		}
+		else {
+			//collisionActor->setSendRequest(false);
+		}
+	}
 
 	return false;
 }

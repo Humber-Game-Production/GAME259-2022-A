@@ -18,7 +18,7 @@ public:
 
 	UBallRepulsorComponent();
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class ABallRepulsorActor* collisionActor;
 
 	UFUNCTION(BlueprintCallable)
