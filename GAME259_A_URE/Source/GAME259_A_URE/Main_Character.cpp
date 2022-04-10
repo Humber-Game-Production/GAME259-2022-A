@@ -387,7 +387,7 @@ void AMain_Character::MultiDie_Implementation()
 
 void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 {
-	TakeDamage(100.0f, FDamageEvent(), GetController(), this);
+	TakeDamage(100.0f, FDamageEvent(), nullptr, this);
 }
 
 void AMain_Character::AddCombatStatus(FName statusName_) {
