@@ -2,6 +2,8 @@
 
 
 #include "BallRepulsorComponent.h"
+#include "Components/SphereComponent.h"
+#include "BallRepulsorActor.h"
 
 UBallRepulsorComponent::UBallRepulsorComponent(){
 
@@ -10,8 +12,38 @@ UBallRepulsorComponent::UBallRepulsorComponent(){
 	cd_countdown = 0.0f;
 }
 
-void UBallRepulsorComponent::TriggerAbilityEffect(){
+void UBallRepulsorComponent::BeginPlay() {
+	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("Triggering Ability Effect: %s"), *abilityName.ToString());
+}
 
+void UBallRepulsorComponent::AddCollisionComp() {
+	FActorSpawnParameters ActorSpawnParams;
+	ActorSpawnParams.Owner = this->GetOwner();
+	FVector spawnLocation = GetOwner()->GetActorLocation();
+	FRotator rotation = GetOwner()->GetActorRotation();
+	collisionActor = GetWorld()->SpawnActor<ABallRepulsorActor>(
+		ABallRepulsorActor::StaticClass(),
+		spawnLocation, rotation, ActorSpawnParams);
+	collisionActor->AttachToActor(GetOwner(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
+}
+
+bool UBallRepulsorComponent::TriggerAbilityEffect() {
+
+	//if (collisionActor) {
+	//	collisionActor->setSendRequest(true);
+	//	if (collisionActor->getTriggered()) {
+	//		return true;
+	//	}
+	//	else {
+	//		//collisionActor->setSendRequest(false);
+	//	}
+	//}
+
+	return false;
+}
+
+
+void UBallRepulsorComponent::OnDestroy() {
+	collisionActor->Destroy();
 }

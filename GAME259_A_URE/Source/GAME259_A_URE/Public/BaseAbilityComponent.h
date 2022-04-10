@@ -36,7 +36,7 @@ protected:
 
 private:
 
-	virtual void TriggerAbilityEffect();
+	virtual bool TriggerAbilityEffect();
 
 	void CooldownCountdown();
 
@@ -50,5 +50,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void ActivateAbility();
+
+
 
 };

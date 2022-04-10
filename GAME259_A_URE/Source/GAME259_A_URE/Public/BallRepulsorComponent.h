@@ -18,8 +18,20 @@ public:
 
 	UBallRepulsorComponent();
 	
-	UFUNCTION(BlueprintCallable)
-		void TriggerAbilityEffect() override;
+	UPROPERTY(EditAnywhere)
+		class ABallRepulsorActor* collisionActor;
 
+	UFUNCTION(BlueprintCallable)
+		bool TriggerAbilityEffect() override;
+
+	UFUNCTION(BlueprintCallable)
+		void AddCollisionComp();
+
+	UFUNCTION(BlueprintCallable)
+		void OnDestroy();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
 };
