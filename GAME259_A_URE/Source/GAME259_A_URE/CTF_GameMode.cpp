@@ -20,8 +20,8 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 	DefaultPawnClass = AMain_Character::StaticClass();
 
-	matchTimeLimit = 200.0f;
-	warmupTimeLimit = 20.0f;
+	matchTimeLimit = 100.0f;
+	warmupTimeLimit = 10.0f;
 	maxScore = 3;
 	maxRounds = 3;
 	maxPlayers = 2;
@@ -60,18 +60,28 @@ void ACTF_GameMode::HandleMatchIsWaitingToStart() {
  
 void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 {
-	//if players.Num >= max players max NewPlayer forced spectator potentially
-
 	Super::PostLogin(NewPlayer);
 
 	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(NewPlayer))
 	{
+		//if players.Num >= max players, NewPlayer forced spectator 
+		if (Players.Num() >= maxPlayers) {
+			PlayerController->StartSpectatingOnly();
+			if (ACTF_PlayerState* PlayerState = Cast<ACTF_PlayerState>(NewPlayer->PlayerState)) {
+				PlayerState->SetIsSpectator(true);
+			}
+			return;
+		}
 		Players.Add(PlayerController);
 	}
-	if (Players.Num() < maxPlayers) {
-		return;
-	}
+}
+
+void ACTF_GameMode::PlayerJoinedTeam() 
+{
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+		if (GS->numTeamAPlayers + GS->numTeamBPlayers < maxPlayers) {
+			return;
+		}
 		if (GS->MatchStartCountdown.IsValid()) {
 			return;
 		}
@@ -90,7 +100,14 @@ void ACTF_GameMode::HandleMatchHasStarted() {
 		GS->timeRemaining = matchTimeLimit;
 		for (AMain_PlayerController* PC : Players) {
 			if (AMain_Character* Character = Cast<AMain_Character>(PC->GetPawn())) {
-				Character->TakeDamage(100.0f, FDamageEvent(), PC, this);
+				if (Character->GetCurrentHealth() > 0) {
+					Character->DeathEvent();
+					Character->Destroy();
+				}
+				else {
+					GetWorld()->GetTimerManager().ClearTimer(PC->RespawnHandle);
+				}
+				Spawn(PC);
 			}
 		}
 	}
@@ -123,9 +140,8 @@ void ACTF_GameMode::Respawn(AController* Controller)
 		if (HasAuthority())
 		{
 			FTimerDelegate RespawnDele;
-			FTimerHandle RespawnHandle;
 			RespawnDele.BindUFunction(this, FName("Spawn"), PlayerController);
-			GetWorld()->GetTimerManager().SetTimer(RespawnHandle, RespawnDele, 3.0f, false);
+			GetWorld()->GetTimerManager().SetTimer(PlayerController->RespawnHandle, RespawnDele, 3.0f, false);
 		}
 	}
 }
@@ -139,8 +155,6 @@ APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(TeamSelected owningTeam_)
 			int32 Slot = FMath::RandRange(0, TeamASpawnPoints.Num() - 1);
 			if (TeamASpawnPoints[Slot])
 			{
-				FString spawnBlockedMessage = FString::Printf(TEXT("Spawn Blocked"));
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, spawnBlockedMessage);
 				if (!TeamASpawnPoints[Slot]->obstructed) {
 					return TeamASpawnPoints[Slot];
 				}
@@ -155,8 +169,6 @@ APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(TeamSelected owningTeam_)
 			int32 Slot = FMath::RandRange(0, TeamBSpawnPoints.Num() - 1);
 			if (TeamBSpawnPoints[Slot])
 			{
-				FString spawnBlockedMessage = FString::Printf(TEXT("Spawn Blocked"));
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, spawnBlockedMessage);
 				if (!TeamBSpawnPoints[Slot]->obstructed) {
 					return TeamBSpawnPoints[Slot];
 				}
@@ -171,8 +183,6 @@ APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(TeamSelected owningTeam_)
 			int32 Slot = FMath::RandRange(0, SpawnPoints.Num() - 1);
 			if (SpawnPoints[Slot])
 			{
-				FString spawnBlockedMessage = FString::Printf(TEXT("Spawn Blocked"));
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, spawnBlockedMessage);
 				if (!SpawnPoints[Slot]->obstructed) {
 					return SpawnPoints[Slot];
 				}
