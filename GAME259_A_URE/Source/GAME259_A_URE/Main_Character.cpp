@@ -318,16 +318,6 @@ void AMain_Character::Attack()
 		UCombatAmmoContainerComponent* ammoContainer = GetAmmoContainer(currentBall);
 		if (ammoContainer) {
 			if (ammoContainer->ballNum > 0) {
-				//Line Tracing
-				FVector start = ballSpawnLocation->GetComponentLocation();
-				FRotator rotator = ballSpawnLocation->GetComponentRotation();
-				FVector end = start + (rotator.Vector() * 2000.0f);
-				FHitResult hit;
-				FCollisionQueryParams collisionParams;
-
-				GetWorld()->LineTraceSingleByChannel(hit, start, end, ECC_Visibility, collisionParams);
-				DrawDebugLine(GetWorld(), start, end, FColor::Orange, false, 2.0f);
-
 				//Check if datatable exist
 				FName rowName_ = FName(UEnum::GetValueAsString(currentBall.GetValue())); //conver enum to FName
 
@@ -341,6 +331,15 @@ void AMain_Character::Attack()
 						ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 						FVector spawnLocation = FVector(0.0f, 0.0f, 0.0f);
 
+						//Line Tracing
+						FVector start = ballSpawnLocation->GetComponentLocation();
+						FRotator rotator = FollowCamera->GetComponentRotation();
+						FVector end = start + (rotator.Vector() * 2000.0f);
+						FHitResult hit;
+						FCollisionQueryParams collisionParams;
+
+						GetWorld()->LineTraceSingleByChannel(hit, start, end, ECC_Visibility, collisionParams);
+						DrawDebugLine(GetWorld(), start, end, FColor::Orange, false, 2.0f);
 						if (ballSpawnLocation) {
 
 							spawnLocation = ballSpawnLocation->GetComponentLocation() + rotator.Vector() * ballSpawnOffset;
@@ -360,6 +359,7 @@ void AMain_Character::Attack()
 						TEnumAsByte<EBallType> ballType_ = ballInfo->ballType;
 
 						if (ballActor) {
+
 							ballActor->setValue(ballMesh_, ballMaterial_, damageToDeal_, statusName_, ballType_, true);
 							ballActor->ApplyImpulse(FollowCamera->GetForwardVector() * impulse);
 							ammoContainer->MinusNum(1);
@@ -412,6 +412,8 @@ void AMain_Character::Die()
 {
 	//if (HasAuthority())
 	//{
+	FString deathMessage = FString::Printf(TEXT("Die Function."));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
 	BallRepulsorAbility->OnDestroy();
 	CombatStatusComp->RemoveCombatStatusList();
 	//Currently used to handle dropping flag
@@ -501,14 +503,14 @@ void AMain_Character::ReceiveAbilityCooldown(FName abilityName_, float cooldown_
 
 	//UE_LOG(LogTemp, Warning, TEXT("Character Cooldown: %f"), cooldown_percentage_);
 
-	if (abilityName_ == "BallRepulsor") {
-		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
-		AbilityCooldownUpdate.Broadcast(1, cooldown_percentage_);
-	}
-	else if (abilityName_ == "Grenade") {
-		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
-		AbilityCooldownUpdate.Broadcast(3, cooldown_percentage_);
-	}
+	//if (abilityName_ == "BallRepulsor") {
+	//	UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
+	//	AbilityCooldownUpdate.Broadcast(1, cooldown_percentage_);
+	//}
+	//else if (abilityName_ == "Grenade") {
+	//	UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
+	//	AbilityCooldownUpdate.Broadcast(3, cooldown_percentage_);
+	//}
 
 }
 
@@ -522,12 +524,19 @@ FString AMain_Character::GetNameOfActor(){
 
 void AMain_Character::ActivateBallRepulsor() {
 
-	BallRepulsorAbility->ActivateAbility();
+	if (BallRepulsorAbility->ActivateAbility()) {
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
+		AbilityCooldownUpdate.Broadcast(1, BallRepulsorAbility->getCooldown());
+	}
 }
 
 void AMain_Character::ActivateGrenade() {
-	UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
-	GrenadeAbility->ActivateAbility();
+
+	if (GrenadeAbility->ActivateAbility()) {
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
+		AbilityCooldownUpdate.Broadcast(2, GrenadeAbility->getCooldown());
+	}
+
 }
 
 void AMain_Character::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {

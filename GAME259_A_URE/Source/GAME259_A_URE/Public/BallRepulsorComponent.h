@@ -21,11 +21,17 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class ABallRepulsorActor* collisionActor;
 
+	UPROPERTY(VisibleDefaultsOnly, Category = "Timer")
+		FTimerHandle AbilityTimeHandle;
+
 	UFUNCTION(BlueprintCallable)
 		bool TriggerAbilityEffect() override;
 
 	UFUNCTION(BlueprintCallable)
 		void AddCollisionComp();
+
+	UFUNCTION(BlueprintCallable)
+		void EndAbility();
 
 	UFUNCTION(BlueprintCallable)
 		void OnDestroy();

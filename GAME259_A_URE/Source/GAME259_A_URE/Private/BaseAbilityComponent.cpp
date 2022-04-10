@@ -54,7 +54,7 @@ void UBaseAbilityComponent::CooldownCountdown() {
 	}
 }
 
-void UBaseAbilityComponent::ActivateAbility() {
+bool UBaseAbilityComponent::ActivateAbility() {
 
 	if (cd_countdown == 0.0f) {
 		UE_LOG(LogTemp, Warning, TEXT("ActivateBallRepulsor"));
@@ -65,13 +65,14 @@ void UBaseAbilityComponent::ActivateAbility() {
 			AbilityCooldownUpdate.Broadcast(abilityName, 0.0f);
 			GetOwner()->GetWorldTimerManager().SetTimer(TimeHandle, this,
 				&UBaseAbilityComponent::CooldownCountdown, 1.0f, true);
+			return true;
 		}
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Ability %s in cooldown"), *abilityName.ToString());
 
 	}
-
+	return false;
 
 }
 

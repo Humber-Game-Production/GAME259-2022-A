@@ -12,7 +12,7 @@ ABallRepulsorActor::ABallRepulsorActor()
 	PrimaryActorTick.bCanEverTick = true;
 	BallRepulsorCollision = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
 	RootComponent = BallRepulsorCollision;
-	BallRepulsorCollision->InitSphereRadius(150.0f);
+	BallRepulsorCollision->InitSphereRadius(200.0f);
 	BallRepulsorCollision->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
 	BallRepulsorCollision->bHiddenInGame = false;
 
@@ -42,18 +42,18 @@ void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) &&
 		OtherActor->IsA(ABallActor::StaticClass())) {
 		ABallActor* ballActor = (ABallActor*)OtherActor;
-		//Check that it is not a ball owned by the player
 
+		//Check that it is not a ball owned by the player
 		if (ballActor->GetOwner() != GetOwner()) {
 			//UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Ability Overlapping"));
-			UE_LOG(LogTemp, Warning, TEXT("SengRequest: %s"), (sendRequest ? TEXT("true") : TEXT("false")));
-
+			//UE_LOG(LogTemp, Warning, TEXT("SengRequest: %s"), (sendRequest ? TEXT("true") : TEXT("false")));
 			if (sendRequest) {
 				//Set a negative force then set the booleans
-				UE_LOG(LogTemp, Warning, TEXT("Requesting to activate ability"));
-				ballActor->ApplyImpulse(ballActor->GetActorForwardVector() * -1.0f);
-				triggered = true;
-				sendRequest = false;
+				UE_LOG(LogTemp, Warning, TEXT("Ability Activating"));
+				FVector ballVector = ballActor->GetActorForwardVector();
+				ballActor->ApplyImpulse(ballVector * -5000.0f); // change back to -1.0f after testing
+				//triggered = true;
+				//sendRequest = false;
 			}
 		}
 
