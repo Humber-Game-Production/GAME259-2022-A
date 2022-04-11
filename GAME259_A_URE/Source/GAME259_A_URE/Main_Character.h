@@ -157,6 +157,39 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
 		float impulse;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseDef;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseFire;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseIce;
+	
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseDefOrig;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseFireOrig;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseIceOrig;
+
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float attackDelay;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		bool delayAttack;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Debug")
+		bool debug;
+	
+	//The timer handler for the delay timer
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		FTimerHandle DelayHandle;;
+	
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -208,6 +241,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Health")
 		float TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	//Enables whether  to lower the power of impulse
+	UPROPERTY(EditAnywhere, Category = "Debug")
+		bool lowerPower;
+	
 	//Add Combat Status
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
 		void AddCombatStatus(FName statusName_);
@@ -242,6 +279,22 @@ public:
 	UFUNCTION(BlueprintCallable)
 		FString GetNameOfActor();
 
+	//Function used to spawn the ball in front of the player
+	UFUNCTION(BlueprintCallable)
+		void SpawnBall(FVector location, FRotator rotation, float throwPower); 
+
+	//Function to set whether to lower the impulse
+	UFUNCTION(BlueprintCallable)
+		void LowPower();
+
+	//Function to set whether to use maximum impulse
+	UFUNCTION(BlueprintCallable)
+		void FullPower();
+
+	//Function used to set the attack delay
+	UFUNCTION(BlueprintCallable)
+		void DelayAttack();
+	
 	//Overlap function for destroying the actor and broadcasting delegates
 	UFUNCTION()
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
