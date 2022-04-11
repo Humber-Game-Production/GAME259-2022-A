@@ -408,6 +408,8 @@ void AMain_Character::Attack()
 			GetWorldTimerManager().SetTimer(DelayHandle, this, &AMain_Character::DelayAttack, attackDelay);
 			//Take away one ball
 			GetAmmoContainer(currentBall)->MinusNum(1);
+			UCombatAmmoContainerComponent* ammoContainer = GetAmmoContainer(currentBall);
+			AmmoUpdate.Broadcast(AmmoBallSlot.Find(ammoContainer), ammoContainer->ballNum);
 		}
 		
 	}
@@ -439,9 +441,9 @@ void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throw
 	if (BallTable)
 	{
 		FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
-		FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName, TEXT("test"), true);
+		FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName, TEXT("BallInfo"), true);
 
-		//Checks if the a ball from the datatable exists
+		//Checks if the ball from the datatable exists
 		if (ballInfo)
 		{
 			//Ball actor used as a base to spawn the ball
@@ -460,6 +462,10 @@ void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throw
 				UE_LOG(LogTemp, Warning, TEXT("BallActor not found"));
 			}
 		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Ball Info Not Found"));
+		}
 	}
 	else
 	{
@@ -472,7 +478,7 @@ void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throw
 		FHitResult hit;
 		FCollisionQueryParams collisionParams;
 		GetWorld()->LineTraceSingleByChannel(hit, ballSpawnLocation->GetComponentLocation(), ballSpawnLocation->GetComponentLocation() + (ballSpawnLocation->GetComponentRotation().Vector() * 2000.0f), ECC_Visibility, collisionParams);
-		DrawDebugLine(GetWorld(), ballSpawnLocation->GetComponentLocation(), ballSpawnLocation->GetComponentLocation() + (ballSpawnLocation->GetComponentRotation().Vector() * 2000.0f), FColor::Orange, false, 2.0f);
+		DrawDebugLine(GetWorld(), ballSpawnLocation->GetComponentLocation(), ballSpawnLocation->GetComponentLocation() + (FollowCamera->GetComponentRotation().Vector() * 2000.0f), FColor::Orange, false, 2.0f);
 		
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Spawn Called") );
 	}
@@ -542,30 +548,11 @@ void AMain_Character::ServerAttack_Implementation()
 	
 }
 
-void AMain_Character::ManualMinusBall()
-{
-	AmmoBallSlot[0]->ManualMinusNum();
-	//AmmoBallSlot[0]->MinusNum(1);
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Removed Manually") );
-}
-
-bool AMain_Character::ServerAttack_Validate()
-{
-	return true;
-}
-
-void AMain_Character::ServerAttack_Implementation()
-{
-
-
-}
 
 void AMain_Character::Die()
 {
 	//if (HasAuthority())
 	//{
-	FString deathMessage = FString::Printf(TEXT("Die Function."));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
 	BallRepulsorAbility->OnDestroy();
 	CombatStatusComp->RemoveCombatStatusList();
 	//Currently used to handle dropping flag
