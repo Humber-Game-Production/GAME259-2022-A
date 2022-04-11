@@ -57,7 +57,7 @@ void UBaseAbilityComponent::CooldownCountdown() {
 bool UBaseAbilityComponent::ActivateAbility() {
 
 	if (cd_countdown == 0.0f) {
-		UE_LOG(LogTemp, Warning, TEXT("ActivateBallRepulsor"));
+		
 		//TriggerEffect here
 		if (TriggerAbilityEffect()) {
 			cd_countdown = cooldown;

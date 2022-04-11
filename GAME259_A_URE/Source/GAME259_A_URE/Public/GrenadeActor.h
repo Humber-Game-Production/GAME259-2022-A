@@ -52,6 +52,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Input")
 		FName Status;
 	
+	UFUNCTION(BlueprintCallable)
+		void ApplyImpulse(FVector impulse_);
+
 	//Overlap function for destroying the actor and broadcasting delegates
 	UFUNCTION()
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

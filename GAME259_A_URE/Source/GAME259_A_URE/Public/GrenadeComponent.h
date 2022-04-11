@@ -19,4 +19,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 		bool TriggerAbilityEffect() override;
+
+	UFUNCTION(BlueprintCallable)
+		bool SpawnGrenadeActor();
 };

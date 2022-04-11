@@ -37,10 +37,10 @@ AGrenadeActor::AGrenadeActor()
 	SphereMaterial = CreateDefaultSubobject<UMaterial>(TEXT("SphereMaterial"));
 
 	//Amount of time to add
-	DamageToDeal = 10;
+	DamageToDeal = 101;
 
 	//The type of status to apply
-	Status = "FireDebuff";
+	Status = "None";
 }
 
 void AGrenadeActor::BeginPlay()
@@ -50,6 +50,11 @@ void AGrenadeActor::BeginPlay()
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AGrenadeActor::BeginOverlap);
 	//SphereMesh->SetMaterial(0, SphereMaterial);
 
+}
+
+void AGrenadeActor::ApplyImpulse(FVector impulse_)
+{
+	SphereComp->AddImpulse(impulse_, FName("None"), true);
 }
 
 void AGrenadeActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -66,6 +71,7 @@ void AGrenadeActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
 			//AController *DamageCauserController = GetOwner()->GetInstigatorController();
 			playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), nullptr, this);
+			this->Destroy();
 		}
 	}
 }

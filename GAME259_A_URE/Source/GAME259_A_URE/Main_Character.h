@@ -242,6 +242,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 		FString GetNameOfActor();
 
+	UFUNCTION(BlueprintCallable)
+		UDataTable* GetBallDataTable() {
+		return BallTable;
+	}
+
 	//Overlap function for destroying the actor and broadcasting delegates
 	UFUNCTION()
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
