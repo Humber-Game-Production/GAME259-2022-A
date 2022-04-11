@@ -29,7 +29,7 @@ AGrenadeActor::AGrenadeActor()
 	//Simulates physics
 	SphereComp->SetSimulatePhysics(true);
 	//Moves the mesh down
-	SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
+	//SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
 	//Scales the mesh to 70% of its size
 	SphereMesh->SetWorldScale3D(FVector(0.7f));
 

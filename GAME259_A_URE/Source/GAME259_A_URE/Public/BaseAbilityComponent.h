@@ -25,10 +25,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	//Declare variables
-	UPROPERTY(VisibleDefaultsOnly)
+	UPROPERTY(EditAnywhere)
 		FName abilityName;
 
-	UPROPERTY(VisibleDefaultsOnly)
+	UPROPERTY(EditAnywhere)
 		float cooldown;
 
 	UPROPERTY(VisibleDefaultsOnly)
