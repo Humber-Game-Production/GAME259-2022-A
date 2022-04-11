@@ -63,7 +63,7 @@ void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 				UTexture2D* icon = combatStatusInfo->icon;
 				FVector spawnLocation = GetOwner()->GetActorLocation();
 				FRotator rotation = GetOwner()->GetActorRotation();
-				//Spawn actor according to the status type, and add it to the list
+				//Spawn actor according to the status type, and add it to the lists
 				switch (combatStatusInfo->statusClass) {
 				case DamageOverTime:
 				{
