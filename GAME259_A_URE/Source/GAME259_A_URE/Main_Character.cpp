@@ -711,5 +711,3 @@ void AMain_Character::SetToBallType2() {
 	currentBall = CombatAmmoContainerComp2->ballInContainer;
 	AmmoUpdate.Broadcast(2, CombatAmmoContainerComp2->ballNum);
 }
-
-
