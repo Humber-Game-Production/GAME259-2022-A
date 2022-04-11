@@ -82,22 +82,54 @@ AMain_Character::AMain_Character()
 	CombatAmmoContainerComp0 = CreateDefaultSubobject<UCombatAmmoContainerComponent>(TEXT("AmmoContainer0"));
 	CombatAmmoContainerComp1 = CreateDefaultSubobject<UCombatAmmoContainerComponent>(TEXT("AmmoContainer1"));
 	CombatAmmoContainerComp2 = CreateDefaultSubobject<UCombatAmmoContainerComponent>(TEXT("AmmoContainer2"));
-	
+
+	//Container used to store the default balls
 	CombatAmmoContainerComp0->ballInContainer = BallDefault;
 	CombatAmmoContainerComp0->ballNum = 5;
 	CombatAmmoContainerComp0->maxBallNum = 5;
 
+	//Container used to store the fire balls
 	CombatAmmoContainerComp1->ballInContainer = BallFire;
 	CombatAmmoContainerComp1->ballNum = 0;
 	CombatAmmoContainerComp1->maxBallNum = 3;
 
+	//Container used to store the ice balls
 	CombatAmmoContainerComp2->ballInContainer = BallIce;
 	CombatAmmoContainerComp2->ballNum = 0;
 	CombatAmmoContainerComp2->maxBallNum = 4;
-	
+
+	//Enables whether  to lower the power of impulse
+	lowerPower = false;
+
+	//Disables shooting if true, used for delaying the attack
+	delayAttack = false;
+
+	//Enables character debugger
+	debug = false;
+
+	//How much time to delay the next attack after each throw
+	attackDelay = 2;
+
+	//Stores the currently equipped ball
 	currentBall = BallDefault;
+
+	// The amount to offset the ball spawner by
 	ballSpawnOffset = 100.0f;
+
+	//The initial impulse
 	impulse = 10000.0f;
+
+	//Impulse of the default ball
+	impulseDef = 10000.0f;
+	//Impulse of the fire ball
+	impulseFire = 10000.0f;
+	//Impulse of the ice ball
+	impulseIce = 10000.0f;
+
+	//Stores the initial impulse of each ball type
+	impulseDefOrig = impulseDef;
+	impulseFireOrig = impulseFire;
+	impulseIceOrig = impulseIce;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -127,9 +159,13 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AMain_Character::OnResetVR);
+	//PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::ServerAttack);
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 
-
+	//Controls the ball's power (impulse)
+	PlayerInputComponent->BindAction("PowerDown", IE_Pressed, this, &AMain_Character::LowPower);
+	PlayerInputComponent->BindAction("PowerUp", IE_Pressed, this, &AMain_Character::FullPower);
+	
 	//Combat Abilities binding
 	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor);
 	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
@@ -312,74 +348,165 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 
 void AMain_Character::Attack()
 {
-	ServerAttack();
-
-	//if (HasAuthority()) {
-		UCombatAmmoContainerComponent* ammoContainer = GetAmmoContainer(currentBall);
-		if (ammoContainer) {
-			if (ammoContainer->ballNum > 0) {
-				//Check if datatable exist
-				FName rowName_ = FName(UEnum::GetValueAsString(currentBall.GetValue())); //conver enum to FName
-
-				if (BallTable) {
-					FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName_, TEXT("test"), true);
-
-					if (ballInfo) {
-						FActorSpawnParameters ActorSpawnParams;
-						ActorSpawnParams.Owner = this;
-						ActorSpawnParams.Instigator = this;
-						ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-						FVector spawnLocation = FVector(0.0f, 0.0f, 0.0f);
-
-						//Line Tracing
-						FVector start = ballSpawnLocation->GetComponentLocation();
-						FRotator rotator = FollowCamera->GetComponentRotation();
-						FVector end = start + (rotator.Vector() * 2000.0f);
-						FHitResult hit;
-						FCollisionQueryParams collisionParams;
-
-						GetWorld()->LineTraceSingleByChannel(hit, start, end, ECC_Visibility, collisionParams);
-						DrawDebugLine(GetWorld(), start, end, FColor::Orange, false, 2.0f);
-						if (ballSpawnLocation) {
-
-							spawnLocation = ballSpawnLocation->GetComponentLocation() + rotator.Vector() * ballSpawnOffset;
-							//UE_LOG(LogTemp, Warning, TEXT("Ball Spawn Location: %f, %f, %f"), spawnLocation.X, spawnLocation.Y, spawnLocation.Z);
-						}
-						FRotator rotation = ballSpawnLocation->GetComponentRotation();
-
-						ABallActor* ballActor = GetWorld()->SpawnActor<ABallActor>(
-							ABallActor::StaticClass(),
-							spawnLocation, rotation, ActorSpawnParams);
-
-						//Pass values to the ball
-						UStaticMesh* ballMesh_ = ballInfo->ballMesh;
-						UMaterial* ballMaterial_ = ballInfo->ballMaterial;
-						float damageToDeal_ = ballInfo->damageToDeal;
-						FName statusName_ = ballInfo->statusName;
-						TEnumAsByte<EBallType> ballType_ = ballInfo->ballType;
-
-						if (ballActor) {
-
-							ballActor->setValue(ballMesh_, ballMaterial_, damageToDeal_, statusName_, ballType_, true);
-							ballActor->ApplyImpulse(FollowCamera->GetForwardVector() * impulse);
-							ammoContainer->MinusNum(1);
-
-						}
-						else {
-							UE_LOG(LogTemp, Warning, TEXT("BallActor not found"));
-
-						}
-					}
-				}
-				else {
-					UE_LOG(LogTemp, Warning, TEXT("Ball Table Not Found"));
-				}
+	//If the ball has ammo, fire
+	if (GetAmmoContainer(currentBall)->ballNum > 0)
+	{
+		//Checks for the default ball
+		if (currentBall == CombatAmmoContainerComp0->ballInContainer)
+		{
+			if (lowerPower == true)
+			{
+				//Lowers the impulse of the default ball
+				impulseDef = impulseDef * 0.25f;
 			}
-			else {
-				UE_LOG(LogTemp, Warning, TEXT("No ammo"));
+			else
+			{
+				impulseDef = impulseDefOrig;
+			}
+
+			impulse = impulseDef;
+		}
+		//Checks for the fire ball
+		if (currentBall == CombatAmmoContainerComp1->ballInContainer)
+		{
+			if (lowerPower == true)
+			{
+				//Lowers the impulse of the fire ball
+				impulseFire = impulseFire * 0.25f;
+			}
+			else
+			{
+				impulseFire = impulseFireOrig;
+			}
+
+			impulse = impulseFire;
+		}
+		//Checks for the ice ball
+		if (currentBall == CombatAmmoContainerComp2->ballInContainer)
+		{
+			if (lowerPower == true)
+			{
+				//Lowers the impulse of the ice ball
+				impulseIce = impulseIce * 0.25f;
+			}
+			else
+			{
+				impulseIce = impulseIceOrig;
+			}
+
+			impulse = impulseIce;
+		}
+
+		//if the player has not attacked recently 
+		if (delayAttack == false)
+		{
+			//Call the ball spawner
+			SpawnBall(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse);
+			//Delay the next attack
+			delayAttack = true;
+			//Start the delay timer
+			GetWorldTimerManager().SetTimer(DelayHandle, this, &AMain_Character::DelayAttack, attackDelay);
+			//Take away one ball
+			GetAmmoContainer(currentBall)->MinusNum(1);
+		}
+		
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No ammo"));
+	}
+
+	if (debug == true)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Current Actor Location: X:%f | Y:%f"), this->GetActorLocation().X, this->GetActorLocation().Y));
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT(">Attack Pressed") );
+		//Displays the amount time before the player can attack again
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("Time until next attack: %f"), GetWorldTimerManager().GetTimerRemaining(DelayHandle)));;	
+	}
+
+	//ServerAttack();
+}
+
+//Function used to spawn the ball in front of the player
+void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throwPower)
+{
+	FActorSpawnParameters ballSpawnInfo;
+	ballSpawnInfo.Owner = this;
+	ballSpawnInfo.Instigator = this;
+	ballSpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	//Checks if the ball datatable exists
+	if (BallTable)
+	{
+		FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
+		FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName, TEXT("test"), true);
+
+		//Checks if the a ball from the datatable exists
+		if (ballInfo)
+		{
+			//Ball actor used as a base to spawn the ball
+			ABallActor* ballActorBase = GetWorld()->SpawnActor<ABallActor>(ABallActor::StaticClass(), location, rotation, ballSpawnInfo);
+
+			//Checks if the ball actor being used as a base to spawn the ball exists
+			if (ballActorBase)
+			{
+				//Sets the values of the thrown ball
+				ballActorBase->setValue(ballInfo->ballMesh, ballInfo->ballMaterial, ballInfo->damageToDeal, ballInfo->statusName, ballInfo->ballType, true);
+				//Throws the ball
+				ballActorBase->ApplyImpulse(FollowCamera->GetComponentRotation().Vector() * throwPower);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("BallActor not found"));
 			}
 		}
-	//}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Ball Table Not Found"));
+	}
+	
+	if (debug == true)
+	{
+		//Line Tracing
+		FHitResult hit;
+		FCollisionQueryParams collisionParams;
+		GetWorld()->LineTraceSingleByChannel(hit, ballSpawnLocation->GetComponentLocation(), ballSpawnLocation->GetComponentLocation() + (ballSpawnLocation->GetComponentRotation().Vector() * 2000.0f), ECC_Visibility, collisionParams);
+		DrawDebugLine(GetWorld(), ballSpawnLocation->GetComponentLocation(), ballSpawnLocation->GetComponentLocation() + (ballSpawnLocation->GetComponentRotation().Vector() * 2000.0f), FColor::Orange, false, 2.0f);
+		
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Spawn Called") );
+	}
+	
+}
+
+//Function to set whether to lower the impulse
+void AMain_Character::LowPower()
+{
+	lowerPower = true;
+	if (debug == true)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Power Halfed") );
+	}
+	
+}
+
+//Function to set whether to use maximum impulse
+void AMain_Character::FullPower()
+{
+	lowerPower = false;
+	if (debug == true)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Power Full") );
+	}
+	
+}
+
+//Function used to set the attack delay
+void AMain_Character::DelayAttack()
+{
+	delayAttack = false;
+	//Clears the delay timer
+	GetWorldTimerManager().ClearTimer(DelayHandle);
 }
 
 void AMain_Character::ManualAddBall()
@@ -387,7 +514,32 @@ void AMain_Character::ManualAddBall()
 	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
 	AmmoBallSlot[0]->ManualAddNum();
 	//AmmoBallSlot[0]->AddNum(1);
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Added Manually") );
+	if (debug == true)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Added Manually") );
+	}
+	
+}
+
+void AMain_Character::ManualMinusBall()
+{
+	AmmoBallSlot[0]->ManualMinusNum();
+	//AmmoBallSlot[0]->MinusNum(1);
+	if (debug == true)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Removed Manually") );
+	}
+	
+}
+
+bool AMain_Character::ServerAttack_Validate()
+{
+	return true;
+}
+
+void AMain_Character::ServerAttack_Implementation()
+{
+	
 }
 
 void AMain_Character::ManualMinusBall()

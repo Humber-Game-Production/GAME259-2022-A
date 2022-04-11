@@ -58,7 +58,7 @@ ABallActor::ABallActor()
 	//Lethal setup
 	IsLethal = true;
 
-	lethalVelocity = 0.0f;
+	lethalVelocity = 500.0f;
 
 	ballType = BallDefault;
 }
@@ -79,13 +79,13 @@ void ABallActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	//If the ball reaches a certain velocity, the ball becomes lethal
-	//float velocity = SphereMesh->GetPhysicsLinearVelocity().Size();
-	//if (velocity > lethalVelocity) {
-	//	IsLethal = true;
-	//}
-	//else {
-	//	IsLethal = false;
-	//}
+	float velocity = SphereComp->GetPhysicsLinearVelocity().Size();
+	if (velocity > lethalVelocity) {
+		IsLethal = true;
+	}
+	else {
+		IsLethal = false;
+	}
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
 
 	if (Debug == true)
@@ -96,7 +96,7 @@ void ABallActor::Tick(float DeltaTime)
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, TEXT("Status Applyed: " + Status.ToString()));
 		}
 		//Displays the Velocity of the actor
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Current Actor Velocity: %f"), SphereMesh->GetPhysicsLinearVelocity().Size()));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Current Actor Velocity: %f"), SphereComp->GetPhysicsLinearVelocity().Size()));
 	}
 	
 }
