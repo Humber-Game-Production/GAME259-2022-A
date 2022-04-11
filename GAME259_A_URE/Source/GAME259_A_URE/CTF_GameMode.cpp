@@ -20,8 +20,8 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 	DefaultPawnClass = AMain_Character::StaticClass();
 
-	matchTimeLimit = 10.0f;
-	warmupTimeLimit = 2.0f;
+	matchTimeLimit = 100.0f;
+	warmupTimeLimit = 10.0f;
 	maxScore = 3;
 	maxRounds = 3;
 	maxPlayers = 2;
@@ -55,36 +55,33 @@ void ACTF_GameMode::HandleMatchIsWaitingToStart() {
 			}
 		}
 	}
-
-	for (AMain_PlayerController* PC : Players) {
-		Spawn(PC);
-	}
 	MatchWaitingToStart();
 }
  
 void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 {
-	//if players.Num >= max players max NewPlayer forced spectator potentially
-
 	Super::PostLogin(NewPlayer);
 
 	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(NewPlayer))
 	{
+		//if players.Num >= max players, NewPlayer forced spectator 
+		if (Players.Num() >= maxPlayers) {
+			PlayerController->StartSpectatingOnly();
+			if (ACTF_PlayerState* PlayerState = Cast<ACTF_PlayerState>(NewPlayer->PlayerState)) {
+				PlayerState->SetIsSpectator(true);
+			}
+			return;
+		}
 		Players.Add(PlayerController);
-		if (Players.Num() % 2 == 0) {
-			PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::TEAM_A;
-		}
-		else {
-			PlayerController->GetPlayerState<ACTF_PlayerState>()->team = TeamSelected::TEAM_B;
-		}
-		if (GetMatchState() != MatchState::EnteringMap) {
-			Spawn(PlayerController);
-		}
 	}
-	if (Players.Num() < maxPlayers) {
-		return;
-	}
+}
+
+void ACTF_GameMode::PlayerJoinedTeam() 
+{
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+		if (GS->numTeamAPlayers + GS->numTeamBPlayers < maxPlayers) {
+			return;
+		}
 		if (GS->MatchStartCountdown.IsValid()) {
 			return;
 		}
@@ -103,7 +100,14 @@ void ACTF_GameMode::HandleMatchHasStarted() {
 		GS->timeRemaining = matchTimeLimit;
 		for (AMain_PlayerController* PC : Players) {
 			if (AMain_Character* Character = Cast<AMain_Character>(PC->GetPawn())) {
-				Character->TakeDamage(100.0f, FDamageEvent(), PC, this);
+				if (Character->GetCurrentHealth() > 0) {
+					Character->DeathEvent();
+					Character->Destroy();
+				}
+				else {
+					GetWorld()->GetTimerManager().ClearTimer(PC->RespawnHandle);
+				}
+				Spawn(PC);
 			}
 		}
 	}
@@ -125,7 +129,7 @@ void ACTF_GameMode::HandleMatchHasEnded()
 		GS->MatchTimer.Invalidate();
 		FTimerDelegate RespawnDele;
 		RespawnDele.BindUFunction(this, FName("RestartGame"));
-		GetWorldTimerManager().SetTimer(GS->EndOfMatchTimer, RespawnDele, 0.1f, false);
+		GetWorldTimerManager().SetTimer(GS->EndOfMatchTimer, RespawnDele, 20.0f, false);
 	}
 }
 
@@ -136,9 +140,8 @@ void ACTF_GameMode::Respawn(AController* Controller)
 		if (HasAuthority())
 		{
 			FTimerDelegate RespawnDele;
-			FTimerHandle RespawnHandle;
 			RespawnDele.BindUFunction(this, FName("Spawn"), PlayerController);
-			GetWorld()->GetTimerManager().SetTimer(RespawnHandle, RespawnDele, 3.0f, false);
+			GetWorld()->GetTimerManager().SetTimer(PlayerController->RespawnHandle, RespawnDele, 3.0f, false);
 		}
 	}
 }
@@ -147,36 +150,45 @@ APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(TeamSelected owningTeam_)
 {
 	//Gets the total teamA spawn points
 	if (owningTeam_ == TeamSelected::TEAM_A) {
-		for (int32 i = 0 < TeamASpawnPoints.Num(); ++i;)
+		for (int i = 0; i < 5; ++i)
 		{
 			int32 Slot = FMath::RandRange(0, TeamASpawnPoints.Num() - 1);
 			if (TeamASpawnPoints[Slot])
 			{
-				return TeamASpawnPoints[Slot];
+				if (!TeamASpawnPoints[Slot]->obstructed) {
+					return TeamASpawnPoints[Slot];
+				}
 			}
 		}
+		return nullptr;
 	}
 	//Gets the total teamB spawn points
 	if (owningTeam_ == TeamSelected::TEAM_B) {
-		for (int32 i = 0 < TeamBSpawnPoints.Num(); ++i;)
+		for (int i = 0; i < 5; ++i)
 		{
 			int32 Slot = FMath::RandRange(0, TeamBSpawnPoints.Num() - 1);
 			if (TeamBSpawnPoints[Slot])
 			{
-				return TeamBSpawnPoints[Slot];
+				if (!TeamBSpawnPoints[Slot]->obstructed) {
+					return TeamBSpawnPoints[Slot];
+				}
 			}
 		}
+		return nullptr;
 	}
 
 	if (owningTeam_ == TeamSelected::NONE) {
-		for (int32 i = 0 < SpawnPoints.Num(); ++i;)
+		for (int i = 0; i < 5; ++i)
 		{
 			int32 Slot = FMath::RandRange(0, SpawnPoints.Num() - 1);
 			if (SpawnPoints[Slot])
 			{
-				return SpawnPoints[Slot];
+				if (!SpawnPoints[Slot]->obstructed) {
+					return SpawnPoints[Slot];
+				}
 			}
 		}
+		return nullptr;
 	}
 
 	return nullptr;
@@ -199,6 +211,12 @@ void ACTF_GameMode::Spawn(AController* Controller)
 					PlayerController->Possess(Pawn);
 				}
 			}
+			else {
+				FTimerDelegate RespawnDele;
+				FTimerHandle RespawnHandle;
+				RespawnDele.BindUFunction(this, FName("Spawn"), PlayerController);
+				GetWorld()->GetTimerManager().SetTimer(RespawnHandle, RespawnDele, 1.0f, false);
+			}
 		}
 		//Team B Spawn
 		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->team == TeamSelected::TEAM_B)
@@ -213,6 +231,12 @@ void ACTF_GameMode::Spawn(AController* Controller)
 					PlayerController->Possess(Pawn);
 				}
 			}
+			else {
+				FTimerDelegate RespawnDele;
+				FTimerHandle RespawnHandle;
+				RespawnDele.BindUFunction(this, FName("Spawn"), PlayerController);
+				GetWorld()->GetTimerManager().SetTimer(RespawnHandle, RespawnDele, 1.0f, false);
+			}
 		}
 
 		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->team == TeamSelected::NONE)
@@ -226,6 +250,12 @@ void ACTF_GameMode::Spawn(AController* Controller)
 				{
 					PlayerController->Possess(Pawn);
 				}
+			}
+			else {
+				FTimerDelegate RespawnDele;
+				FTimerHandle RespawnHandle;
+				RespawnDele.BindUFunction(this, FName("Spawn"), PlayerController);
+				GetWorld()->GetTimerManager().SetTimer(RespawnHandle, RespawnDele, 1.0f, false);
 			}
 		}
 	}

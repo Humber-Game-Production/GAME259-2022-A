@@ -17,6 +17,9 @@ public:
 	// Sets default values for this actor's properties
 	APlayerSpawnPoint();
 
+	UPROPERTY(BlueprintReadWrite)
+	bool obstructed;
+
 	UPROPERTY(EditAnywhere)
 	TeamSelected owningTeam;
 
