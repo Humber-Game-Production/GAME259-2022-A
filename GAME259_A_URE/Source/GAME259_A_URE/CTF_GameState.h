@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameState.h"
+#include "Net/UnrealNetwork.h"
 #include "CTF_GameMode.h"
 #include "Main_Character.h"
-#include "Net/UnrealNetwork.h"
 #include "CTF_GameState.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMatchTimeRemaining, int, timeRemaining_);
