@@ -8,6 +8,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SphereComponent.h"
 #include "Components/InputComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -15,9 +16,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Public/CombatStatusComponent.h"
 #include "Public/CombatAmmoContainerComponent.h"
-#include "Public/BallActor.h"
 #include "Public/GrenadeComponent.h"
 #include "Public/BallRepulsorComponent.h"
+#include "CTF_PlayerState.h"
+#include "DrawDebugHelpers.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -34,7 +36,7 @@ AMain_Character::AMain_Character()
 
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
+	bUseControllerRotationYaw = true;
 	bUseControllerRotationRoll = false;
 
 	// Configure character movement
@@ -42,6 +44,7 @@ AMain_Character::AMain_Character()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
+	//GetCharacterMovement()->bUseControllerDesiredRotation = true;
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -57,6 +60,11 @@ AMain_Character::AMain_Character()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
+	//Component to determine the ball spawn location
+	ballSpawnLocation = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ballSpawnLocation"));
+	ballSpawnLocation->SetupAttachment(RootComponent);
+	ballSpawnLocation->bHiddenInGame = true;
+
 	//Initialize the player's Health
 	MaxHealth = 100.0f;
 	CurrentHealth = MaxHealth;
@@ -66,6 +74,7 @@ AMain_Character::AMain_Character()
 	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
 	GrenadeAbility = CreateDefaultSubobject<UGrenadeComponent>(TEXT("GrenadeAbility"));
 	BallRepulsorAbility = CreateDefaultSubobject<UBallRepulsorComponent>(TEXT("BallRepulsorAbility"));
+
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 	
@@ -86,7 +95,9 @@ AMain_Character::AMain_Character()
 	CombatAmmoContainerComp2->ballNum = 0;
 	CombatAmmoContainerComp2->maxBallNum = 4;
 	
-
+	currentBall = BallDefault;
+	ballSpawnOffset = 100.0f;
+	impulse = 10000.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -124,9 +135,9 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
 
 
-
-	PlayerInputComponent->BindAction("AddBall", IE_Pressed, this, &AMain_Character::ManualAddBall);
-	PlayerInputComponent->BindAction("RemoveBall", IE_Pressed, this, &AMain_Character::ManualMinusBall);
+	PlayerInputComponent->BindAction("Inventory1", IE_Pressed, this, &AMain_Character::SetToBallType0);
+	PlayerInputComponent->BindAction("Inventory2", IE_Pressed, this, &AMain_Character::SetToBallType1);
+	PlayerInputComponent->BindAction("Inventory3", IE_Pressed, this, &AMain_Character::SetToBallType2);
 
 }
 
@@ -156,13 +167,13 @@ void  AMain_Character::BeginPlay()
 {
 	Super::BeginPlay();
 	AmmoBallSlot.Empty();
-	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
 	AmmoBallSlot.Add(CombatAmmoContainerComp0);
 	AmmoBallSlot.Add(CombatAmmoContainerComp1);
 	AmmoBallSlot.Add(CombatAmmoContainerComp2);
 
 	GrenadeAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
 	BallRepulsorAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
+
 }
 
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
@@ -181,6 +192,7 @@ void AMain_Character::LookUpAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+
 }
 
 void AMain_Character::MoveForward(float Value)
@@ -229,10 +241,6 @@ void AMain_Character::OnHealthUpdate()
 	{
 		if (CurrentHealth <= 0)
 		{
-			//Currently used to handle dropping flag
-			if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
-				GS->PlayerDied(this);
-			}
 
 			//Display dying message when health reaches 0
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
@@ -273,20 +281,105 @@ void AMain_Character::SetCurrentHealth(float healthValue)
 float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	float damageApplied = 0.0f;
+	bool checkDamage = true;
 
-	if (CurrentHealth > 0.0f) {
+	//Check if damageinstigator exists
+	if (EventInstigator != nullptr) {
 
-		damageApplied = CurrentHealth - DamageTaken;
-		// Changes the CurrentHealth variable
-		SetCurrentHealth(damageApplied);
+		if (EventInstigator == GetController()) {
+			checkDamage = false;
+		}
+		else {
+			ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
+			ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
+			if (playerState->team == damageCauserPlayerState->team) {
+				checkDamage = false;
+			}
+
+		}
 	}
 
+	if (checkDamage) {
+		if (CurrentHealth > 0.0f) {
+			damageApplied = CurrentHealth - DamageTaken;
+			// Changes the CurrentHealth variable
+			SetCurrentHealth(damageApplied);
+			UE_LOG(LogTemp, Warning, TEXT("Taking Damage"));
+		}
+	}
 	return damageApplied;
 }
 
 void AMain_Character::Attack()
 {
 	ServerAttack();
+
+	//if (HasAuthority()) {
+		UCombatAmmoContainerComponent* ammoContainer = GetAmmoContainer(currentBall);
+		if (ammoContainer) {
+			if (ammoContainer->ballNum > 0) {
+				//Check if datatable exist
+				FName rowName_ = FName(UEnum::GetValueAsString(currentBall.GetValue())); //conver enum to FName
+
+				if (BallTable) {
+					FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName_, TEXT("test"), true);
+
+					if (ballInfo) {
+						FActorSpawnParameters ActorSpawnParams;
+						ActorSpawnParams.Owner = this;
+						ActorSpawnParams.Instigator = this;
+						ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+						FVector spawnLocation = FVector(0.0f, 0.0f, 0.0f);
+
+						//Line Tracing
+						FVector start = ballSpawnLocation->GetComponentLocation();
+						FRotator rotator = FollowCamera->GetComponentRotation();
+						FVector end = start + (rotator.Vector() * 2000.0f);
+						FHitResult hit;
+						FCollisionQueryParams collisionParams;
+
+						GetWorld()->LineTraceSingleByChannel(hit, start, end, ECC_Visibility, collisionParams);
+						DrawDebugLine(GetWorld(), start, end, FColor::Orange, false, 2.0f);
+						if (ballSpawnLocation) {
+
+							spawnLocation = ballSpawnLocation->GetComponentLocation() + rotator.Vector() * ballSpawnOffset;
+							//UE_LOG(LogTemp, Warning, TEXT("Ball Spawn Location: %f, %f, %f"), spawnLocation.X, spawnLocation.Y, spawnLocation.Z);
+						}
+						FRotator rotation = ballSpawnLocation->GetComponentRotation();
+
+						ABallActor* ballActor = GetWorld()->SpawnActor<ABallActor>(
+							ABallActor::StaticClass(),
+							spawnLocation, rotation, ActorSpawnParams);
+
+						//Pass values to the ball
+						UStaticMesh* ballMesh_ = ballInfo->ballMesh;
+						UMaterial* ballMaterial_ = ballInfo->ballMaterial;
+						float damageToDeal_ = ballInfo->damageToDeal;
+						FName statusName_ = ballInfo->statusName;
+						TEnumAsByte<EBallType> ballType_ = ballInfo->ballType;
+
+						if (ballActor) {
+
+							ballActor->setValue(ballMesh_, ballMaterial_, damageToDeal_, statusName_, ballType_, true);
+							ballActor->ApplyImpulse(FollowCamera->GetForwardVector() * impulse);
+							ammoContainer->MinusNum(1);
+
+						}
+						else {
+							UE_LOG(LogTemp, Warning, TEXT("BallActor not found"));
+
+						}
+					}
+				}
+				else {
+					UE_LOG(LogTemp, Warning, TEXT("Ball Table Not Found"));
+				}
+			}
+			else {
+				UE_LOG(LogTemp, Warning, TEXT("No ammo"));
+			}
+		}
+	//}
 }
 
 void AMain_Character::ManualAddBall()
@@ -304,26 +397,6 @@ void AMain_Character::ManualMinusBall()
 	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Removed Manually") );
 }
 
-/*
-float AMain_Character::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
-{
-	//Fix this Role < ROLE_Authority || PlayerStatsComp->GetHealth() < -0.0f
-	if (GetLocalRole() < ROLE_Authority || PlayerStatsComp->GetHealth() <= 0.0f)
-	{
-		return 0.0f;
-	}
-	const float ActualDamage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-	if (ActualDamage > 0.0f)
-	{
-		PlayerStatsComp->LowerHealth(ActualDamage);
-		if (PlayerStatsComp->GetHealth() <= 0.0f)
-		{
-			Die();
-		}
-	}
-	return ActualDamage;
-}
-*/
 bool AMain_Character::ServerAttack_Validate()
 {
 	return true;
@@ -332,27 +405,21 @@ bool AMain_Character::ServerAttack_Validate()
 void AMain_Character::ServerAttack_Implementation()
 {
 
-	TakeDamage(100.0f, FDamageEvent(), GetController(), this);
 
-	/*FVector Start = GetMesh()->GetBoneLocation(FName("head"));
-	FVector End = Start + FollowCamera->GetForwardVector() * 1500.0f;
-	FHitResult HitResult = LineTraceComp->LineTraceSingle(Start, End, true);
-	if (AActor* Actor = HitResult.GetActor())
-	{
-		if (AMain_Character* Player = Cast<AMain_Character>(Actor))
-		{
-			float TestDamage = 20.0f;
-			TakeDamage(TestDamage, FDamageEvent(), GetController(), this);
-		}
-	}*/
 }
 
 void AMain_Character::Die()
 {
 	//if (HasAuthority())
 	//{
-
+	FString deathMessage = FString::Printf(TEXT("Die Function."));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+	BallRepulsorAbility->OnDestroy();
 	CombatStatusComp->RemoveCombatStatusList();
+	//Currently used to handle dropping flag
+	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+		GS->PlayerDied(this);
+	}
 	MultiDie();
 	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
 	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
@@ -361,7 +428,6 @@ void AMain_Character::Die()
 	}
 	//Start our destroy timer to remove actor
 	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
-
 	//}
 }
 
@@ -372,6 +438,7 @@ void AMain_Character::CallDestroy()
 		Destroy();
 	}
 }
+
 bool AMain_Character::MultiDie_Validate()
 {
 	return true;
@@ -388,7 +455,7 @@ void AMain_Character::MultiDie_Implementation()
 
 void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 {
-	Die();
+	TakeDamage(100.0f, FDamageEvent(), nullptr, this);
 }
 
 void AMain_Character::AddCombatStatus(FName statusName_) {
@@ -424,24 +491,26 @@ void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) 
 			break;
 	}
 	//Add ammo to the AmmoBallSlot and broadcast the delegate
-	if (AmmoBallSlot[index]) AmmoBallSlot[index]->AddNum(ballNum);
-	AmmoUpdate.Broadcast(index, ballNum);
-
+	if (AmmoBallSlot[index]) {
+		AmmoBallSlot[index]->AddNum(ballNum);
+		AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballNum);
+		currentBall = ballType;
+	}
 
 }
 
 void AMain_Character::ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_) {
 
-	UE_LOG(LogTemp, Warning, TEXT("Character Cooldown: %f"), cooldown_percentage_);
+	//UE_LOG(LogTemp, Warning, TEXT("Character Cooldown: %f"), cooldown_percentage_);
 
-	if (abilityName_ == "BallRepulsor") {
-		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
-		AbilityCooldownUpdate.Broadcast(1, cooldown_percentage_);
-	}
-	else if (abilityName_ == "Grenade") {
-		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
-		AbilityCooldownUpdate.Broadcast(3, cooldown_percentage_);
-	}
+	//if (abilityName_ == "BallRepulsor") {
+	//	UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
+	//	AbilityCooldownUpdate.Broadcast(1, cooldown_percentage_);
+	//}
+	//else if (abilityName_ == "Grenade") {
+	//	UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
+	//	AbilityCooldownUpdate.Broadcast(3, cooldown_percentage_);
+	//}
 
 }
 
@@ -454,11 +523,54 @@ FString AMain_Character::GetNameOfActor(){
 
 
 void AMain_Character::ActivateBallRepulsor() {
-	UE_LOG(LogTemp, Warning, TEXT("ActivateBallRepulsor"));
-	BallRepulsorAbility->ActivateAbility();
+
+	if (BallRepulsorAbility->ActivateAbility()) {
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
+		AbilityCooldownUpdate.Broadcast(1, BallRepulsorAbility->getCooldown());
+	}
 }
 
 void AMain_Character::ActivateGrenade() {
-	UE_LOG(LogTemp, Warning, TEXT("ActivateGrenade"));
-	GrenadeAbility->ActivateAbility();
+
+	if (GrenadeAbility->ActivateAbility()) {
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
+		AbilityCooldownUpdate.Broadcast(2, GrenadeAbility->getCooldown());
+	}
+
 }
+
+void AMain_Character::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+
+	UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Overlapping"));
+
+
+}
+
+
+UCombatAmmoContainerComponent* AMain_Character::GetAmmoContainer(TEnumAsByte<EBallType> ballType_)
+{
+	for (UCombatAmmoContainerComponent* container : AmmoBallSlot) {
+		if (container->ballInContainer == ballType_) {
+			return container;
+		}
+	}
+
+	return nullptr;
+}
+
+void AMain_Character::SetToBallType0() {
+	currentBall = CombatAmmoContainerComp0->ballInContainer;
+	AmmoUpdate.Broadcast(0, CombatAmmoContainerComp0->ballNum);
+}
+
+void AMain_Character::SetToBallType1() {
+	currentBall = CombatAmmoContainerComp1->ballInContainer;
+	AmmoUpdate.Broadcast(1, CombatAmmoContainerComp1->ballNum);
+}
+
+void AMain_Character::SetToBallType2() {
+	currentBall = CombatAmmoContainerComp2->ballInContainer;
+	AmmoUpdate.Broadcast(2, CombatAmmoContainerComp2->ballNum);
+}
+
+

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "CTF_GameMode.h"
+#include "Net/UnrealNetwork.h"
 #include "GameFramework/PlayerState.h"
 #include "CTF_PlayerState.generated.h"
 
@@ -19,8 +20,11 @@ class GAME259_A_URE_API ACTF_PlayerState : public APlayerState
 
 public:
 	ACTF_PlayerState();
-	UPROPERTY(BlueprintReadWrite)
+
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps)const override;
+
+	UPROPERTY(BlueprintReadWrite, Replicated)
 	TeamSelected team;
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Replicated)
 	bool isCarryingFlag;
 };

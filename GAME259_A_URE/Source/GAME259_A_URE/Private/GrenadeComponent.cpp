@@ -2,6 +2,10 @@
 
 
 #include "GrenadeComponent.h"
+#include "../Main_Character.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Camera/CameraComponent.h"
 
 UGrenadeComponent::UGrenadeComponent() {
 
@@ -10,8 +14,11 @@ UGrenadeComponent::UGrenadeComponent() {
 	cd_countdown = 0.0f;
 }
 
-void UGrenadeComponent::TriggerAbilityEffect(){
+bool UGrenadeComponent::TriggerAbilityEffect(){
 
 	UE_LOG(LogTemp, Warning, TEXT("Triggering Ability Effect: %s"), *abilityName.ToString());
-
+	AMain_Character* player = (AMain_Character*)GetOwner();
+	player->GetCharacterMovement()->AddImpulse(player->GetFollowCamera()->GetComponentRotation().Vector() * 4000.0f, true);
+	
+	return true;
 }
