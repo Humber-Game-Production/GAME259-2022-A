@@ -229,11 +229,6 @@ void AMain_Character::OnHealthUpdate()
 	{
 		if (CurrentHealth <= 0)
 		{
-			//Currently used to handle dropping flag
-			if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
-				GS->PlayerDied(this);
-			}
-
 			//Display dying message when health reaches 0
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
@@ -353,6 +348,10 @@ void AMain_Character::Die()
 	//{
 
 	CombatStatusComp->RemoveCombatStatusList();
+	//Currently used to handle dropping flag
+	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+		GS->PlayerDied(this);
+	}
 	MultiDie();
 	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
 	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
@@ -388,7 +387,7 @@ void AMain_Character::MultiDie_Implementation()
 
 void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 {
-	Die();
+	TakeDamage(100.0f, FDamageEvent(), nullptr, this);
 }
 
 void AMain_Character::AddCombatStatus(FName statusName_) {

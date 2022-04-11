@@ -12,3 +12,11 @@ ACTF_PlayerState::ACTF_PlayerState() {
 	isCarryingFlag = false;
 }
 
+void ACTF_PlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ACTF_PlayerState, team);
+	DOREPLIFETIME(ACTF_PlayerState, isCarryingFlag);
+}
+
