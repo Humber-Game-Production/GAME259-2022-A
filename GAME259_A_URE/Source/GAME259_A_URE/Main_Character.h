@@ -279,6 +279,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 		FString GetNameOfActor();
 
+	UFUNCTION(BlueprintCallable)
+		UDataTable* GetBallDataTable() {
+		return BallTable;
+	}
+
 	//Function used to spawn the ball in front of the player
 	UFUNCTION(BlueprintCallable)
 		void SpawnBall(FVector location, FRotator rotation, float throwPower); 
