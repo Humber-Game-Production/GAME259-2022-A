@@ -18,5 +18,8 @@ public:
 	UGrenadeComponent();
 	
 	UFUNCTION(BlueprintCallable)
-		void TriggerAbilityEffect() override;
+		bool TriggerAbilityEffect() override;
+
+	UFUNCTION(BlueprintCallable)
+		bool SpawnGrenadeActor();
 };
