@@ -17,9 +17,12 @@ class GAME259_A_URE_API UBallRepulsorComponent : public UBaseAbilityComponent
 public:
 
 	UBallRepulsorComponent();
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+
+	UPROPERTY(VisibleDefaultsOnly)
 		class ABallRepulsorActor* collisionActor;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "Timer")
+		FTimerHandle CollisionTimeHandle;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "Timer")
 		FTimerHandle AbilityTimeHandle;
@@ -27,7 +30,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		bool TriggerAbilityEffect() override;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void AddCollisionComp();
 
 	UFUNCTION(BlueprintCallable)

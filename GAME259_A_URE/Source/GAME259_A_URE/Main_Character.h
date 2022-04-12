@@ -15,6 +15,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoUpdate, int, index, int, ballN
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityCooldownUpdate, int, index, float, cd_percentage);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelayAttackUpdate);
+
 //Setup current weapon delegate with index
 
 UCLASS(config = Game)
@@ -75,6 +77,7 @@ protected:
 		void ServerAttack();
 	bool ServerAttack_Validate();
 	void ServerAttack_Implementation();
+
 
 	void Die();
 
@@ -191,11 +194,11 @@ protected:
 		FTimerHandle DelayHandle;;
 	
 public:
+
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-
 
 	UPROPERTY(EditAnywhere, Category = "Data Table")
 		UDataTable* BallTable;
@@ -207,8 +210,10 @@ public:
 		FAmmoUpdate AmmoUpdate;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-		FAbilityCooldownUpdate AbilityCooldownUpdate;
+		FDelayAttackUpdate DelayAttackUpdate;
 
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+		FAbilityCooldownUpdate AbilityCooldownUpdate;
 
 	//Collection of ball slots
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -232,6 +237,9 @@ public:
 	// Event that will be triggered in the blueprint when player dies
 	UFUNCTION(BlueprintImplementableEvent)
 		void DeathEvent();
+
+	UFUNCTION(BlueprintCallable)
+		void On_Destroy();
 
 	/** Event for taking damage. Overridden from APawn.
 	*   DamageEvent describes the type of damage.
