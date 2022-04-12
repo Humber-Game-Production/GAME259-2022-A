@@ -401,8 +401,9 @@ void AMain_Character::Attack()
 		//if the player has not attacked recently 
 		if (delayAttack == false)
 		{
+			FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
 			//Call the ball spawner
-			SpawnBall_Server(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse);
+			SpawnBall_Server(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse, rowName);
 			//Delay the next attack
 			delayAttack = true;
 			//Start the delay timer
@@ -431,17 +432,16 @@ void AMain_Character::Attack()
 }
 
 //Function used to spawn the ball in front of the player
-void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRotator rotation, float throwPower)
+void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRotator rotation, float throwPower, FName rowName)
 {
 	FActorSpawnParameters ballSpawnInfo;
 	ballSpawnInfo.Owner = this;
 	ballSpawnInfo.Instigator = this;
 	ballSpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
 	//Checks if the ball datatable exists
 	if (BallTable)
 	{
-		FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
+		
 		FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName, TEXT("BallInfo"), true);
 
 		//Checks if the ball from the datatable exists
@@ -486,9 +486,9 @@ void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRota
 	
 }
 
-void AMain_Character::SpawnBall_Server_Implementation(FVector location, FRotator rotation, float throwPower)
+void AMain_Character::SpawnBall_Server_Implementation(FVector location, FRotator rotation, float throwPower, FName rowName)
 {
-	SpawnBall_Multicast(location, rotation, throwPower);
+	SpawnBall_Multicast(location, rotation, throwPower, rowName);
 }
 
 //Function to set whether to lower the impulse

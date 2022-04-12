@@ -286,10 +286,10 @@ public:
 
 	//Function used to spawn the ball in front of the player
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
-		void SpawnBall_Multicast(FVector location, FRotator rotation, float throwPower);
+		void SpawnBall_Multicast(FVector location, FRotator rotation, float throwPower, FName rowName);
 
 	UFUNCTION(BlueprintCallable, Server, Reliable)
-	void SpawnBall_Server(FVector location, FRotator rotation, float throwPower);
+	void SpawnBall_Server(FVector location, FRotator rotation, float throwPower, FName rowName);
 
 	//Function to set whether to lower the impulse
 	UFUNCTION(BlueprintCallable)
