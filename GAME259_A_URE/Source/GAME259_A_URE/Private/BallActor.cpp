@@ -11,9 +11,11 @@ ABallActor::ABallActor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
-	bAlwaysRelevant = true;
-	bNetLoadOnClient = true;
-	bReplicates = true;
+	
+
+	//bAlwaysRelevant = true;
+	//bNetLoadOnClient = true;
+	//bReplicates = true;
 	
 	//Setsup the sphere component
 	
@@ -25,19 +27,19 @@ ABallActor::ABallActor()
 	//Sets the default collision profile to "Projectile" profile
 	//SphereComp->SetCollisionProfileName(TEXT("Projectile"));
 	SphereComp->SetCollisionProfileName(TEXT("BallCollision"));
-	SphereComp->SetIsReplicated(true);
+	//SphereComp->SetIsReplicated(true);
 	//Simulates physics
-	//SphereComp->SetSimulatePhysics(true);
-
+	SphereComp->SetSimulatePhysics(true);
+	
 	//Sets the mesh's model in code (not the best practice)
 	SphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
 	SphereMesh->SetupAttachment(RootComponent);
-
-	SphereMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Component"));
-	SphereMovement->UpdatedComponent = SphereComp;
-	SphereMovement->bRotationFollowsVelocity = true;
-	SphereMovement->bShouldBounce = true;
-	SphereMovement->SetIsReplicated(true);
+	bStaticMeshReplicateMovement = true;
+	//SetReplicates(true);
+	//SphereMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Component"));
+	//SphereMovement->UpdatedComponent = SphereComp;
+	//SphereMovement->bRotationFollowsVelocity = true;
+	//SphereMovement->bShouldBounce = true;
 	//Moves the mesh down
 	SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
 	//Scales the mesh to 70% of its size
@@ -174,7 +176,7 @@ void ABallActor::ApplyForce(float force_) {
 }
 
 void ABallActor::ApplyImpulse(FVector impulse_) {
-	//SphereComp->AddImpulse(impulse_, FName("None"), true);
+	SphereComp->AddImpulse(impulse_, FName("None"), true);
 	//SphereMovement->AddForce(impulse_ * 100.0f);
 }
 

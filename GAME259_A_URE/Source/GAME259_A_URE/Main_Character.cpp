@@ -489,7 +489,59 @@ void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRota
 
 void AMain_Character::SpawnBall_Server_Implementation(FVector location, FRotator rotation, float throwPower, FName rowName)
 {
-	SpawnBall_Multicast(location, rotation, throwPower, rowName);
+	//SpawnBall_Multicast(location, rotation, throwPower, rowName);
+	if (HasAuthority()) {
+		FActorSpawnParameters ballSpawnInfo;
+		ballSpawnInfo.Owner = this;
+		ballSpawnInfo.Instigator = this;
+		ballSpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		//Checks if the ball datatable exists
+		if (BallTable)
+		{
+
+			FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName, TEXT("BallInfo"), true);
+
+			//Checks if the ball from the datatable exists
+			if (ballInfo)
+			{
+				//Ball actor used as a base to spawn the ball
+				ABallActor* ballActorBase = GetWorld()->SpawnActor<ABallActor>(ABallActor::StaticClass(), location, rotation, ballSpawnInfo);
+
+				//Checks if the ball actor being used as a base to spawn the ball exists
+				if (ballActorBase)
+				{
+					//Sets the values of the thrown ball
+					ballActorBase->setValue(ballInfo->ballMesh, ballInfo->ballMaterial, ballInfo->damageToDeal, ballInfo->statusName, ballInfo->ballType, true);
+					//Throws the ball
+					ballActorBase->ApplyImpulse(FollowCamera->GetComponentRotation().Vector() * throwPower);
+				}
+				else
+				{
+					UE_LOG(LogTemp, Warning, TEXT("BallActor not found"));
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Ball Info Not Found"));
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Ball Table Not Found"));
+		}
+
+		if (debug == true)
+		{
+			//Line Tracing
+			FHitResult hit;
+			FCollisionQueryParams collisionParams;
+			GetWorld()->LineTraceSingleByChannel(hit, ballSpawnLocation->GetComponentLocation(), ballSpawnLocation->GetComponentLocation() + (ballSpawnLocation->GetComponentRotation().Vector() * 2000.0f), ECC_Visibility, collisionParams);
+			DrawDebugLine(GetWorld(), ballSpawnLocation->GetComponentLocation(), ballSpawnLocation->GetComponentLocation() + (FollowCamera->GetComponentRotation().Vector() * 2000.0f), FColor::Orange, false, 2.0f);
+
+			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Spawn Called"));
+		}
+	}
+
 }
 
 //Function to set whether to lower the impulse

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Engine/StaticMeshActor.h"
 #include "Engine/DataTable.h"
 #include "Components/SphereComponent.h"
 #include "BallActor.generated.h"
@@ -46,7 +46,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageDamage, float, FDamage);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageStatus, FString, FStatus);
 
 UCLASS()
-class GAME259_A_URE_API ABallActor : public AActor
+class GAME259_A_URE_API ABallActor : public AStaticMeshActor
 {
 	GENERATED_BODY()
 	
@@ -98,8 +98,8 @@ public:
 	
 
 	//Stores the mesh component
-	UPROPERTY(VisibleAnywhere, Category = "Movement")
-	class UProjectileMovementComponent* SphereMovement;
+	//UPROPERTY(VisibleAnywhere, Category = "Movement")
+	//class UProjectileMovementComponent* SphereMovement;
 
 	//Stores the mesh component
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")
