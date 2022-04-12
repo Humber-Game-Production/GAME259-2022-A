@@ -684,7 +684,7 @@ void AMain_Character::ActivateGrenade() {
 
 	if (GrenadeAbility->ActivateAbility()) {
 		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
-		AbilityCooldownUpdate.Broadcast(2, GrenadeAbility->getCooldown());
+		AbilityCooldownUpdate.Broadcast(3, GrenadeAbility->getCooldown());
 	}
 
 }
