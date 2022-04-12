@@ -15,6 +15,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoUpdate, int, index, int, ballN
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityCooldownUpdate, int, index, float, cd_percentage);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelayAttackUpdate);
+
 //Setup current weapon delegate with index
 
 UCLASS(config = Game)
@@ -307,6 +309,11 @@ public:
 	UFUNCTION()
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FDelayAttackUpdate DelayAttackUpdate;
+
+	UFUNCTION(BlueprintCallable)
+			void On_Destroy();
 
 private:
 
