@@ -197,7 +197,7 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 
-	UPROPERTY(EditAnywhere, Category = "Data Table")
+	UPROPERTY(EditAnywhere, Category = "Data Table", Replicated)
 		UDataTable* BallTable;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
@@ -285,8 +285,11 @@ public:
 	}
 
 	//Function used to spawn the ball in front of the player
-	UFUNCTION(BlueprintCallable)
-		void SpawnBall(FVector location, FRotator rotation, float throwPower); 
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+		void SpawnBall_Multicast(FVector location, FRotator rotation, float throwPower);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void SpawnBall_Server(FVector location, FRotator rotation, float throwPower);
 
 	//Function to set whether to lower the impulse
 	UFUNCTION(BlueprintCallable)
