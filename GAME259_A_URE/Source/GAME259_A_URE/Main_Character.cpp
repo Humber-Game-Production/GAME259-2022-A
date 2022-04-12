@@ -412,6 +412,7 @@ void AMain_Character::Attack()
 			GetAmmoContainer(currentBall)->MinusNum(1);
 			UCombatAmmoContainerComponent* ammoContainer = GetAmmoContainer(currentBall);
 			AmmoUpdate.Broadcast(AmmoBallSlot.Find(ammoContainer), ammoContainer->ballNum);
+			DelayAttackUpdate.Broadcast();
 		}
 		
 	}
@@ -554,13 +555,16 @@ void AMain_Character::ServerAttack_Implementation()
 	
 }
 
+void AMain_Character::On_Destroy() {
+	BallRepulsorAbility->OnDestroy();
+	CombatStatusComp->RemoveCombatStatusList();
+}
 
 void AMain_Character::Die()
 {
 	//if (HasAuthority())
 	//{
-	BallRepulsorAbility->OnDestroy();
-	CombatStatusComp->RemoveCombatStatusList();
+	On_Destroy();
 	//Currently used to handle dropping flag
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
 		GS->PlayerDied(this);
@@ -583,6 +587,7 @@ void AMain_Character::CallDestroy()
 		Destroy();
 	}
 }
+
 
 bool AMain_Character::MultiDie_Validate()
 {
