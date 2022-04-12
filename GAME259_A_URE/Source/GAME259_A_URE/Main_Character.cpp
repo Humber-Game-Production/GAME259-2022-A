@@ -215,6 +215,7 @@ void  AMain_Character::BeginPlay()
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AMain_Character, CurrentHealth);
+	DOREPLIFETIME(AMain_Character, BallTable);
 }
 
 
@@ -401,7 +402,7 @@ void AMain_Character::Attack()
 		if (delayAttack == false)
 		{
 			//Call the ball spawner
-			SpawnBall(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse);
+			SpawnBall_Server(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse);
 			//Delay the next attack
 			delayAttack = true;
 			//Start the delay timer
@@ -430,7 +431,7 @@ void AMain_Character::Attack()
 }
 
 //Function used to spawn the ball in front of the player
-void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throwPower)
+void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRotator rotation, float throwPower)
 {
 	FActorSpawnParameters ballSpawnInfo;
 	ballSpawnInfo.Owner = this;
@@ -483,6 +484,11 @@ void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throw
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Spawn Called") );
 	}
 	
+}
+
+void AMain_Character::SpawnBall_Server_Implementation(FVector location, FRotator rotation, float throwPower)
+{
+	SpawnBall_Multicast(location, rotation, throwPower);
 }
 
 //Function to set whether to lower the impulse
