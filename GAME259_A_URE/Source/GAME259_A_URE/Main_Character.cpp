@@ -400,8 +400,10 @@ void AMain_Character::Attack()
 		//if the player has not attacked recently 
 		if (delayAttack == false)
 		{
+			FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
+
 			//Call the ball spawner
-			SpawnBall(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse);
+			SpawnBall(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse, rowName);
 			//Delay the next attack
 			delayAttack = true;
 			//Start the delay timer
@@ -431,7 +433,7 @@ void AMain_Character::Attack()
 }
 
 //Function used to spawn the ball in front of the player
-void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throwPower)
+void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throwPower, FName rowName_)
 {
 	FActorSpawnParameters ballSpawnInfo;
 	ballSpawnInfo.Owner = this;
@@ -441,8 +443,7 @@ void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throw
 	//Checks if the ball datatable exists
 	if (BallTable)
 	{
-		FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
-		FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName, TEXT("BallInfo"), true);
+		FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName_, TEXT("BallInfo"), true);
 
 		//Checks if the ball from the datatable exists
 		if (ballInfo)

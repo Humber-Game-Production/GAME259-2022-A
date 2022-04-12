@@ -27,12 +27,17 @@ ABallActor::ABallActor()
 	SphereComp->SetCollisionProfileName(TEXT("BallCollision"));
 	SphereComp->SetIsReplicated(true);
 	//Simulates physics
-	SphereComp->SetSimulatePhysics(true);
-	SphereComp->SetMassScale("None", 20.0f);
+	//SphereComp->SetSimulatePhysics(true);
+
 	//Sets the mesh's model in code (not the best practice)
 	SphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
 	SphereMesh->SetupAttachment(RootComponent);
 
+	SphereMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Component"));
+	SphereMovement->UpdatedComponent = SphereComp;
+	SphereMovement->bRotationFollowsVelocity = true;
+	SphereMovement->bShouldBounce = true;
+	SphereMovement->SetIsReplicated(true);
 	//Moves the mesh down
 	SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
 	//Scales the mesh to 70% of its size
@@ -169,7 +174,8 @@ void ABallActor::ApplyForce(float force_) {
 }
 
 void ABallActor::ApplyImpulse(FVector impulse_) {
-	SphereComp->AddImpulse(impulse_, FName("None"), true);
+	//SphereComp->AddImpulse(impulse_, FName("None"), true);
+	//SphereMovement->AddForce(impulse_ * 100.0f);
 }
 
 void ABallActor::setValue(UStaticMesh* sphereMesh_, UMaterial* sphereMaterial_,
@@ -183,7 +189,6 @@ void ABallActor::setValue(UStaticMesh* sphereMesh_, UMaterial* sphereMaterial_,
 	DamageToDeal = damageToDeal_;
 	Status = combatStatus_;
 	ballType = ballType_;
-
 	UE_LOG(LogTemp, Warning, TEXT("Combat status: %s"), *Status.ToString());
 
 }

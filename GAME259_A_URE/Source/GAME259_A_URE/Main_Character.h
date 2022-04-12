@@ -294,7 +294,7 @@ public:
 
 	//Function used to spawn the ball in front of the player
 	UFUNCTION(BlueprintCallable)
-		void SpawnBall(FVector location, FRotator rotation, float throwPower); 
+		void SpawnBall(FVector location, FRotator rotation, float throwPower, FName rowName_);
 
 	//Function to set whether to lower the impulse
 	UFUNCTION(BlueprintCallable)

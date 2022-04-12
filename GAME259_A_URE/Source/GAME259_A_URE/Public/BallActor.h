@@ -96,6 +96,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Timer")
 	FTimerHandle TimeHandle;;
 	
+
+	//Stores the mesh component
+	UPROPERTY(VisibleAnywhere, Category = "Movement")
+	class UProjectileMovementComponent* SphereMovement;
+
 	//Stores the mesh component
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")
 	UStaticMeshComponent* SphereMesh;
