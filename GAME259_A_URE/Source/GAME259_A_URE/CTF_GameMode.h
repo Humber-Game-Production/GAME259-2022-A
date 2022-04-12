@@ -52,6 +52,7 @@ protected:
 
     class APlayerSpawnPoint* GetSpawnPoint(TeamSelected owningTeam_);
 
+
 public:
     UFUNCTION()
     void Respawn(AController* Controller);

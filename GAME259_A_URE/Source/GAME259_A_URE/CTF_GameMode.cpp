@@ -68,7 +68,7 @@ void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 		if (Players.Num() >= maxPlayers) {
 			PlayerController->StartSpectatingOnly();
 			if (ACTF_PlayerState* PlayerState = Cast<ACTF_PlayerState>(NewPlayer->PlayerState)) {
-				PlayerState->bIsSpectator = true;
+				PlayerState->SetIsSpectator(true);
 			}
 			return;
 		}
@@ -100,7 +100,14 @@ void ACTF_GameMode::HandleMatchHasStarted() {
 		GS->timeRemaining = matchTimeLimit;
 		for (AMain_PlayerController* PC : Players) {
 			if (AMain_Character* Character = Cast<AMain_Character>(PC->GetPawn())) {
-				Character->TakeDamage(100.0f, FDamageEvent(), PC, this);
+				if (Character->GetCurrentHealth() > 0) {
+					Character->DeathEvent();
+					Character->Destroy();
+				}
+				else {
+					GetWorld()->GetTimerManager().ClearTimer(PC->RespawnHandle);
+				}
+				Spawn(PC);
 			}
 		}
 	}
@@ -133,9 +140,8 @@ void ACTF_GameMode::Respawn(AController* Controller)
 		if (HasAuthority())
 		{
 			FTimerDelegate RespawnDele;
-			FTimerHandle RespawnHandle;
 			RespawnDele.BindUFunction(this, FName("Spawn"), PlayerController);
-			GetWorld()->GetTimerManager().SetTimer(RespawnHandle, RespawnDele, 3.0f, false);
+			GetWorld()->GetTimerManager().SetTimer(PlayerController->RespawnHandle, RespawnDele, 3.0f, false);
 		}
 	}
 }
