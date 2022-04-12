@@ -215,6 +215,7 @@ void  AMain_Character::BeginPlay()
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AMain_Character, CurrentHealth);
+	DOREPLIFETIME(AMain_Character, BallTable);
 }
 
 
@@ -401,9 +402,8 @@ void AMain_Character::Attack()
 		if (delayAttack == false)
 		{
 			FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
-
 			//Call the ball spawner
-			SpawnBall(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse, rowName);
+			SpawnBall_Server(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse, rowName);
 			//Delay the next attack
 			delayAttack = true;
 			//Start the delay timer
@@ -433,17 +433,17 @@ void AMain_Character::Attack()
 }
 
 //Function used to spawn the ball in front of the player
-void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throwPower, FName rowName_)
+void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRotator rotation, float throwPower, FName rowName)
 {
 	FActorSpawnParameters ballSpawnInfo;
 	ballSpawnInfo.Owner = this;
 	ballSpawnInfo.Instigator = this;
 	ballSpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
 	//Checks if the ball datatable exists
 	if (BallTable)
 	{
-		FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName_, TEXT("BallInfo"), true);
+		
+		FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName, TEXT("BallInfo"), true);
 
 		//Checks if the ball from the datatable exists
 		if (ballInfo)
@@ -485,6 +485,11 @@ void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throw
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Spawn Called") );
 	}
 	
+}
+
+void AMain_Character::SpawnBall_Server_Implementation(FVector location, FRotator rotation, float throwPower, FName rowName)
+{
+	SpawnBall_Multicast(location, rotation, throwPower, rowName);
 }
 
 //Function to set whether to lower the impulse
@@ -717,3 +722,4 @@ void AMain_Character::SetToBallType2() {
 	currentBall = CombatAmmoContainerComp2->ballInContainer;
 	AmmoUpdate.Broadcast(2, CombatAmmoContainerComp2->ballNum);
 }
+

@@ -78,7 +78,6 @@ protected:
 	bool ServerAttack_Validate();
 	void ServerAttack_Implementation();
 
-
 	void Die();
 
 	UFUNCTION(NetMulticast, Reliable, WithValidation)
@@ -194,13 +193,13 @@ protected:
 		FTimerHandle DelayHandle;;
 	
 public:
-
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-	UPROPERTY(EditAnywhere, Category = "Data Table")
+
+	UPROPERTY(EditAnywhere, Category = "Data Table", Replicated)
 		UDataTable* BallTable;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
@@ -210,10 +209,8 @@ public:
 		FAmmoUpdate AmmoUpdate;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-		FDelayAttackUpdate DelayAttackUpdate;
-
-	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FAbilityCooldownUpdate AbilityCooldownUpdate;
+
 
 	//Collection of ball slots
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -237,9 +234,6 @@ public:
 	// Event that will be triggered in the blueprint when player dies
 	UFUNCTION(BlueprintImplementableEvent)
 		void DeathEvent();
-
-	UFUNCTION(BlueprintCallable)
-		void On_Destroy();
 
 	/** Event for taking damage. Overridden from APawn.
 	*   DamageEvent describes the type of damage.
@@ -293,8 +287,11 @@ public:
 	}
 
 	//Function used to spawn the ball in front of the player
-	UFUNCTION(BlueprintCallable)
-		void SpawnBall(FVector location, FRotator rotation, float throwPower, FName rowName_);
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+		void SpawnBall_Multicast(FVector location, FRotator rotation, float throwPower, FName rowName);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void SpawnBall_Server(FVector location, FRotator rotation, float throwPower, FName rowName);
 
 	//Function to set whether to lower the impulse
 	UFUNCTION(BlueprintCallable)
@@ -312,6 +309,11 @@ public:
 	UFUNCTION()
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FDelayAttackUpdate DelayAttackUpdate;
+
+	UFUNCTION(BlueprintCallable)
+			void On_Destroy();
 
 private:
 

@@ -20,7 +20,7 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 	DefaultPawnClass = AMain_Character::StaticClass();
 
-	matchTimeLimit = 100.0f;
+	matchTimeLimit = 1000.0f;
 	warmupTimeLimit = 10.0f;
 	maxScore = 3;
 	maxRounds = 3;
