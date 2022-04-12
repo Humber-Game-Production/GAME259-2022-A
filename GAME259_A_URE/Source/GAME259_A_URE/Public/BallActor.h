@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/StaticMeshActor.h"
+#include "GameFramework/Actor.h"
 #include "Engine/DataTable.h"
 #include "Components/SphereComponent.h"
 #include "BallActor.generated.h"
@@ -46,7 +47,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageDamage, float, FDamage);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageStatus, FString, FStatus);
 
 UCLASS()
-class GAME259_A_URE_API ABallActor : public AStaticMeshActor
+class GAME259_A_URE_API ABallActor : public AActor
 {
 	GENERATED_BODY()
 	
@@ -98,16 +99,12 @@ public:
 	
 
 	//Stores the mesh component
-	//UPROPERTY(VisibleAnywhere, Category = "Movement")
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	//class UProjectileMovementComponent* SphereMovement;
 
 	//Stores the mesh component
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")
 	UStaticMeshComponent* SphereMesh;
-
-	//Stores the material
-	UPROPERTY(EditAnywhere, Category = "Material")
-	UMaterial* SphereMaterial;
 
 	//Stores the sphere component
 	UPROPERTY(VisibleDefaultsOnly, Category = "Sphere")
@@ -137,7 +134,11 @@ public:
 
 	//Overlap function for destroying the actor and broadcasting delegates
 	UFUNCTION()
-	void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,  bool bFromSweep, const FHitResult &SweepResult );
+		void OnBlock(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	
+	UFUNCTION()
+		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 };
 
 
