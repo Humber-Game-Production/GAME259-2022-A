@@ -20,7 +20,7 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 	DefaultPawnClass = AMain_Character::StaticClass();
 
-	matchTimeLimit = 100.0f;
+	matchTimeLimit = 1000.0f;
 	warmupTimeLimit = 10.0f;
 	maxScore = 3;
 	maxRounds = 3;
@@ -102,6 +102,7 @@ void ACTF_GameMode::HandleMatchHasStarted() {
 			if (AMain_Character* Character = Cast<AMain_Character>(PC->GetPawn())) {
 				if (Character->GetCurrentHealth() > 0) {
 					Character->DeathEvent();
+					Character->On_Destroy();
 					Character->Destroy();
 				}
 				else {

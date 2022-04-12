@@ -215,6 +215,7 @@ void  AMain_Character::BeginPlay()
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AMain_Character, CurrentHealth);
+	DOREPLIFETIME(AMain_Character, BallTable);
 }
 
 
@@ -400,8 +401,9 @@ void AMain_Character::Attack()
 		//if the player has not attacked recently 
 		if (delayAttack == false)
 		{
+			FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
 			//Call the ball spawner
-			SpawnBall(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse);
+			SpawnBall_Server(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse, rowName);
 			//Delay the next attack
 			delayAttack = true;
 			//Start the delay timer
@@ -410,6 +412,7 @@ void AMain_Character::Attack()
 			GetAmmoContainer(currentBall)->MinusNum(1);
 			UCombatAmmoContainerComponent* ammoContainer = GetAmmoContainer(currentBall);
 			AmmoUpdate.Broadcast(AmmoBallSlot.Find(ammoContainer), ammoContainer->ballNum);
+			DelayAttackUpdate.Broadcast();
 		}
 		
 	}
@@ -430,17 +433,16 @@ void AMain_Character::Attack()
 }
 
 //Function used to spawn the ball in front of the player
-void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throwPower)
+void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRotator rotation, float throwPower, FName rowName)
 {
 	FActorSpawnParameters ballSpawnInfo;
 	ballSpawnInfo.Owner = this;
 	ballSpawnInfo.Instigator = this;
 	ballSpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
 	//Checks if the ball datatable exists
 	if (BallTable)
 	{
-		FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
+		
 		FBallRow* ballInfo = BallTable->FindRow<FBallRow>(rowName, TEXT("BallInfo"), true);
 
 		//Checks if the ball from the datatable exists
@@ -483,6 +485,11 @@ void AMain_Character::SpawnBall(FVector location, FRotator rotation, float throw
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Spawn Called") );
 	}
 	
+}
+
+void AMain_Character::SpawnBall_Server_Implementation(FVector location, FRotator rotation, float throwPower, FName rowName)
+{
+	SpawnBall_Multicast(location, rotation, throwPower, rowName);
 }
 
 //Function to set whether to lower the impulse
@@ -548,13 +555,16 @@ void AMain_Character::ServerAttack_Implementation()
 	
 }
 
+void AMain_Character::On_Destroy() {
+	BallRepulsorAbility->OnDestroy();
+	CombatStatusComp->RemoveCombatStatusList();
+}
 
 void AMain_Character::Die()
 {
 	//if (HasAuthority())
 	//{
-	BallRepulsorAbility->OnDestroy();
-	CombatStatusComp->RemoveCombatStatusList();
+	On_Destroy();
 	//Currently used to handle dropping flag
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
 		GS->PlayerDied(this);
@@ -577,6 +587,7 @@ void AMain_Character::CallDestroy()
 		Destroy();
 	}
 }
+
 
 bool AMain_Character::MultiDie_Validate()
 {
@@ -673,7 +684,7 @@ void AMain_Character::ActivateGrenade() {
 
 	if (GrenadeAbility->ActivateAbility()) {
 		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
-		AbilityCooldownUpdate.Broadcast(2, GrenadeAbility->getCooldown());
+		AbilityCooldownUpdate.Broadcast(3, GrenadeAbility->getCooldown());
 	}
 
 }
@@ -711,3 +722,4 @@ void AMain_Character::SetToBallType2() {
 	currentBall = CombatAmmoContainerComp2->ballInContainer;
 	AmmoUpdate.Broadcast(2, CombatAmmoContainerComp2->ballNum);
 }
+

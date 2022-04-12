@@ -15,6 +15,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoUpdate, int, index, int, ballN
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityCooldownUpdate, int, index, float, cd_percentage);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelayAttackUpdate);
+
 //Setup current weapon delegate with index
 
 UCLASS(config = Game)
@@ -197,7 +199,7 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 
-	UPROPERTY(EditAnywhere, Category = "Data Table")
+	UPROPERTY(EditAnywhere, Category = "Data Table", Replicated)
 		UDataTable* BallTable;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
@@ -285,8 +287,11 @@ public:
 	}
 
 	//Function used to spawn the ball in front of the player
-	UFUNCTION(BlueprintCallable)
-		void SpawnBall(FVector location, FRotator rotation, float throwPower); 
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+		void SpawnBall_Multicast(FVector location, FRotator rotation, float throwPower, FName rowName);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void SpawnBall_Server(FVector location, FRotator rotation, float throwPower, FName rowName);
 
 	//Function to set whether to lower the impulse
 	UFUNCTION(BlueprintCallable)
@@ -304,6 +309,11 @@ public:
 	UFUNCTION()
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FDelayAttackUpdate DelayAttackUpdate;
+
+	UFUNCTION(BlueprintCallable)
+			void On_Destroy();
 
 private:
 
