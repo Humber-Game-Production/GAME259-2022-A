@@ -349,15 +349,7 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 
 void AMain_Character::Attack()
 {
-
-AttackAttack_Implementation();
-
-	//ServerAttack();
-}
-
-void AMain_Character::AttackAttack_Implementation()
-{
-		//If the ball has ammo, fire
+	//If the ball has ammo, fire
 	if (GetAmmoContainer(currentBall)->ballNum > 0)
 	{
 		//Checks for the default ball
@@ -442,7 +434,6 @@ void AMain_Character::AttackAttack_Implementation()
 			DelayAttackUpdate.Broadcast();
 		}
 		
-		
 	}
 	else
 	{
@@ -456,11 +447,8 @@ void AMain_Character::AttackAttack_Implementation()
 		//Displays the amount time before the player can attack again
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("Time until next attack: %f"), GetWorldTimerManager().GetTimerRemaining(DelayHandle)));;	
 	}
-}
 
-bool AMain_Character::AttackAttack_Validate()
-{
-	return true;
+	//ServerAttack();
 }
 
 //Function used to spawn the ball in front of the player
@@ -789,3 +777,4 @@ void AMain_Character::SetToBallType2() {
 	currentBall = CombatAmmoContainerComp2->ballInContainer;
 	AmmoUpdate.Broadcast(2, CombatAmmoContainerComp2->ballNum);
 }
+
