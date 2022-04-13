@@ -10,37 +10,40 @@ ABallActor::ABallActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
-	bAlwaysRelevant = true;
+
+	//bAlwaysRelevant = true;
 	bNetLoadOnClient = true;
 	bReplicates = true;
-
-	SetReplicates(true);
-	SetReplicateMovement(true);
-	//Setsup the sphere component
+	//bStaticMeshReplicateMovement = true;
 	
+	//Setsup the sphere component
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
 	//Institutes the sphere component to the root component
 	RootComponent = SphereComp;
 	//With a radius of 40
 	SphereComp->InitSphereRadius(40.0f);
-	//Sets the default collision profile to "Projectile" profile
-	//SphereComp->SetCollisionProfileName(TEXT("Projectile"));
-	SphereComp->SetCollisionProfileName(TEXT("BallCollision"));
-	SphereComp->SetIsReplicated(true);
+	//SphereComp->BodyInstance.SetCollisionProfileName(TEXT("BallCollision"));
+	SphereComp->SetCollisionProfileName(TEXT("BallCollisionOverlap"));
+	SphereComp->bHiddenInGame = false;
+	//SphereComp->SetIsReplicated(true);
 	//Simulates physics
 	SphereComp->SetSimulatePhysics(true);
-	SphereComp->SetMassScale("None", 20.0f);
+
 	//Sets the mesh's model in code (not the best practice)
 	SphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
 	SphereMesh->SetupAttachment(RootComponent);
 
+	//SphereMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Component"));
+	//SphereMovement->UpdatedComponent = SphereComp;
+	//SphereMovement->InitialSpeed = 3000.0f;
+	//SphereMovement->bRotationFollowsVelocity = true;
+	//SphereMovement->bShouldBounce = true;
 	//Moves the mesh down
+
 	SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
 	//Scales the mesh to 70% of its size
 	SphereMesh->SetWorldScale3D(FVector(0.7f)); 
 
-	SphereMaterial = CreateDefaultSubobject<UMaterial>(TEXT("SphereMaterial"));
 
 	//Amount of time to add
 	DamageToDeal = 5;
@@ -60,9 +63,11 @@ ABallActor::ABallActor()
 	//Lethal setup
 	IsLethal = true;
 
-	lethalVelocity = 500.0f;
+	lethalVelocity = 100.0f;
 
 	ballType = BallDefault;
+
+	SetReplicateMovement(true);
 }
 
 // Called when the game starts or when spawned
@@ -71,8 +76,8 @@ void ABallActor::BeginPlay()
 	Super::BeginPlay();
 	//Sets the timer to countdown at start
 	GetWorldTimerManager().SetTimer(TimeHandle, this, &ABallActor::DestroyTimerUp, DestroyTimer);
+	//SphereComp->OnComponentHit.AddDynamic(this, &ABallActor::OnBlock);
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ABallActor::BeginOverlap);
-
 }
 
 // Called every frame
@@ -88,18 +93,16 @@ void ABallActor::Tick(float DeltaTime)
 	else {
 		IsLethal = false;
 	}
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
-
-	if (Debug == true)
-	{
-		if (HasStatus == true)
-		{
-			//Displays the type of status on the actor
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, TEXT("Status Applyed: " + Status.ToString()));
-		}
-		//Displays the Velocity of the actor
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Current Actor Velocity: %f"), SphereComp->GetPhysicsLinearVelocity().Size()));
-	}
+	//if (Debug == true)
+	//{
+	//	if (HasStatus == true)
+	//	{
+	//		//Displays the type of status on the actor
+	//		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, TEXT("Status Applyed: " + Status.ToString()));
+	//	}
+	//	//Displays the Velocity of the actor
+	//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Current Actor Velocity: %f"), SphereComp->GetPhysicsLinearVelocity().Size()));
+	//}
 	
 }
 
@@ -117,7 +120,7 @@ void ABallActor::DestroyTimerUp()
 }
 
 //An overlap function
-void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult )
+void ABallActor::OnBlock(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
 		//Check if the ball is overlapping with the character
@@ -127,7 +130,6 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 
 			if (IsLethal)
 			{
-				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
 				//Broadcasts the time to add message with the amount of time needed
 				MessageDamage.Broadcast(DamageToDeal);
 				TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
@@ -161,8 +163,52 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 	}
 }
 
+
+void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Overlap Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
+
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
+		//Check if the ball is overlapping with the character
+		if (OtherActor->IsA(AMain_Character::StaticClass())) {
+
+			AMain_Character* playerCharacter = (AMain_Character*)OtherActor;
+
+			if (IsLethal)
+			{
+				//Broadcasts the time to add message with the amount of time needed
+				MessageDamage.Broadcast(DamageToDeal);
+				TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
+				AController* DamageCauserController = nullptr;
+
+				if (GetInstigator()) {
+					DamageCauserController = GetInstigator()->GetController();
+				}
+
+				playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), DamageCauserController, this);
+				//If status is enabled broadcast it
+				if (Status != "None") {
+					UE_LOG(LogTemp, Warning, TEXT("Adding combat status"));
+
+					playerCharacter->AddCombatStatus(Status);
+				}
+
+				if (HasStatus == true)
+				{
+					//Broadcasts the the status effect
+					//MessageStatus.Broadcast(Status);
+				}
+
+			}
+			else if (!IsLethal) {
+				//Add ball ammo then destroy the character
+				playerCharacter->AddBallAmmo(ballType, 1);
+				this->Destroy();
+			}
+		}
+	}
+}
 void ABallActor::ApplyForce(float force_) {
-	
 	//Apply am opposite force if the parameter is negative
 	FVector velocityVec = SphereComp->GetPhysicsLinearVelocity();
 	if (velocityVec.Size() <= 0) {
@@ -173,6 +219,9 @@ void ABallActor::ApplyForce(float force_) {
 
 void ABallActor::ApplyImpulse(FVector impulse_) {
 	SphereComp->AddImpulse(impulse_, FName("None"), true);
+	//SphereMovement->AddForce(impulse_ * 100.0f);
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("Impulse %f %f %f"), impulse_.X, impulse_.Y, impulse_.Z));;
+
 }
 
 void ABallActor::setValue(UStaticMesh* sphereMesh_, UMaterial* sphereMaterial_,
@@ -182,11 +231,11 @@ void ABallActor::setValue(UStaticMesh* sphereMesh_, UMaterial* sphereMaterial_,
 		SphereMesh->SetStaticMesh(sphereMesh_);
 		SphereMesh->SetMaterial(0, sphereMaterial_);
 	}
-	IsLethal = isLethal_;
+	//IsLethal = isLethal_;
 	DamageToDeal = damageToDeal_;
 	Status = combatStatus_;
 	ballType = ballType_;
-
 	UE_LOG(LogTemp, Warning, TEXT("Combat status: %s"), *Status.ToString());
 
 }
+

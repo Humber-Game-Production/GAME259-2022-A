@@ -16,8 +16,8 @@ UBallRepulsorComponent::UBallRepulsorComponent(){
 
 void UBallRepulsorComponent::BeginPlay() {
 	Super::BeginPlay();
-	GetOwner()->GetWorldTimerManager().SetTimer(CollisionTimeHandle, this,
-		&UBallRepulsorComponent::AddCollisionComp, 2.0f, true);
+	//GetOwner()->GetWorldTimerManager().SetTimer(CollisionTimeHandle, this,
+	//	&UBallRepulsorComponent::AddCollisionComp, 2.0f, true);
 }
 
 void UBallRepulsorComponent::AddCollisionComp_Implementation() {

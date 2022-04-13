@@ -68,9 +68,6 @@ protected:
 		class UBallRepulsorComponent* BallRepulsorAbility;
 	
 	void Attack();
-	
-	UFUNCTION(Server, Reliable, WithValidation)
-	void AttackAttack();
 
 	//for testing
 	void ManualAddBall();
@@ -291,10 +288,18 @@ public:
 
 	//Function used to spawn the ball in front of the player
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
-		void SpawnBall_Multicast(FVector location, FRotator rotation, float throwPower, FName rowName);
+		void SpawnBall_Multicast(FVector location, FRotator rotation, FVector impulse_, FName rowName);
 
 	UFUNCTION(BlueprintCallable, Server, Reliable)
-	void SpawnBall_Server(FVector location, FRotator rotation, float throwPower, FName rowName);
+	void SpawnBall_Server(FVector location, FRotator rotation, FVector impulse_, FName rowName);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+		void SpawnBallBP_Server(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_);
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+		void SpawnBallBP_NetMulticast(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_);
+
+
 	//Function to set whether to lower the impulse
 	UFUNCTION(BlueprintCallable)
 		void LowPower();
@@ -313,6 +318,15 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FDelayAttackUpdate DelayAttackUpdate;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABallActor> BallDefaultClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABallActor> BallIceClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABallActor> BallFireClass;
 
 	UFUNCTION(BlueprintCallable)
 			void On_Destroy();
