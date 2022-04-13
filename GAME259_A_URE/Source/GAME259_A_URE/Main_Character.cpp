@@ -555,6 +555,7 @@ void AMain_Character::LowPower()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Power Halfed") );
 	}
+	PowerUpdate.Broadcast(1);
 	
 }
 
@@ -566,7 +567,7 @@ void AMain_Character::FullPower()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Power Full") );
 	}
-	
+	PowerUpdate.Broadcast(0);
 }
 
 //Function used to set the attack delay

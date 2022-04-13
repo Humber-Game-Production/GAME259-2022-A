@@ -13,6 +13,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoUpdate, int, index, int, ballNum);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPowerUpdate, int, powerLevel);
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityCooldownUpdate, int, index, float, cd_percentage);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelayAttackUpdate);
@@ -318,6 +320,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FDelayAttackUpdate DelayAttackUpdate;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+		FPowerUpdate PowerUpdate;
 
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class ABallActor> BallDefaultClass;
