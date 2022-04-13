@@ -17,13 +17,17 @@ public:
 
     virtual void PostLogin(APlayerController* NewPlayer) override;
 
+    UPROPERTY(EditDefaultsOnly)
 	float matchTimeLimit;
+    UPROPERTY(EditDefaultsOnly)
     float warmupTimeLimit;
+    UPROPERTY(EditDefaultsOnly)
 	int maxScore;
-	int maxRounds;
-    UPROPERTY(BlueprintReadOnly)
-	int maxPlayers;
-	float respawnDelay;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	int maxPlayers;     
+
+    //int maxRounds;    //not used at this point
+	//float respawnDelay;   //currently not used, would require coordination with UI respawn widget to have dynamic respawnDelay
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TSubclassOf<AActor> flagActor;
@@ -33,13 +37,20 @@ public:
     AActor* teamBFlag;
 
 protected:
+    //Called when entering WaitingToStart Match State
     virtual void HandleMatchIsWaitingToStart() override;
+    //Used in BP_CTF_GameMode to find each teams flag (flag class is entirely blueprint)
     UFUNCTION(BlueprintImplementableEvent)
     void MatchWaitingToStart();
+    //Called after team select in BP_Main_PlayerController to handle when match start process can begin
     UFUNCTION(BLueprintCallable)
     void PlayerJoinedTeam();
+    //Called when entering InProgress Match State
     virtual void HandleMatchHasStarted() override;
+    //Called when entering WaitingPostMatch Match State
     virtual void HandleMatchHasEnded() override;
+    //Called when entering LeavingMap Match State
+    virtual void HandleLeavingMap() override;
 
     // Called when the game starts
     virtual void BeginPlay() override;
@@ -49,7 +60,9 @@ protected:
     TArray<class APlayerSpawnPoint*> TeamBSpawnPoints;
 
     TArray<class AMain_PlayerController*> Players;
+    TArray<class AMain_PlayerController*> Spectators;
 
+    //Find a spawn point for the player to spawn at
     class APlayerSpawnPoint* GetSpawnPoint(TeamSelected owningTeam_);
 
 
@@ -58,7 +71,7 @@ public:
     void Respawn(AController* Controller);
 
     UFUNCTION(BlueprintCallable)
-        void Spawn(AController* Controller);
+    void Spawn(AController* Controller);
 
 protected:
 
