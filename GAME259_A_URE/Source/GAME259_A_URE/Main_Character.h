@@ -68,6 +68,9 @@ protected:
 		class UBallRepulsorComponent* BallRepulsorAbility;
 	
 	void Attack();
+	
+	UFUNCTION(Server, Reliable, WithValidation)
+	void AttackAttack();
 
 	//for testing
 	void ManualAddBall();
@@ -292,7 +295,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Server, Reliable)
 	void SpawnBall_Server(FVector location, FRotator rotation, float throwPower, FName rowName);
-
 	//Function to set whether to lower the impulse
 	UFUNCTION(BlueprintCallable)
 		void LowPower();

@@ -14,7 +14,9 @@ ABallActor::ABallActor()
 	bAlwaysRelevant = true;
 	bNetLoadOnClient = true;
 	bReplicates = true;
-	
+
+	SetReplicates(true);
+	SetReplicateMovement(true);
 	//Setsup the sphere component
 	
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
@@ -160,6 +162,7 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 }
 
 void ABallActor::ApplyForce(float force_) {
+	
 	//Apply am opposite force if the parameter is negative
 	FVector velocityVec = SphereComp->GetPhysicsLinearVelocity();
 	if (velocityVec.Size() <= 0) {
