@@ -382,8 +382,10 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 		else {
 			ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
 			ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
-			if (playerState->team == damageCauserPlayerState->team) {
-				checkDamage = false;
+			if (playerState && damageCauserPlayerState) {
+				if (playerState->team == damageCauserPlayerState->team) {
+					checkDamage = false;
+				}
 			}
 
 		}
