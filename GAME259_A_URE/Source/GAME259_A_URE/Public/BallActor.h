@@ -94,7 +94,7 @@ public:
 	bool Debug;
 	
 	//The timer handler for the game's time
-	UPROPERTY(EditAnywhere, Category = "Timer")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Timer")
 	FTimerHandle TimeHandle;;
 	
 
