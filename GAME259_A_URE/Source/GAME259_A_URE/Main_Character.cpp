@@ -401,9 +401,28 @@ void AMain_Character::Attack()
 		//if the player has not attacked recently 
 		if (delayAttack == false)
 		{
-			FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
-			//Call the ball spawner
-			SpawnBall_Server(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, ballSpawnLocation->GetComponentRotation(), impulse, rowName);
+			TSubclassOf<class ABallActor> BallActorClass = nullptr;
+			switch (currentBall) {
+				case BallDefault:
+					BallActorClass = BallDefaultClass;
+					break;
+				case BallFire:
+					BallActorClass = BallFireClass;
+					break;
+
+				case BallIce:
+					BallActorClass = BallIceClass;
+					break;
+				default:
+					break;
+			}
+			SpawnBallBP_Server(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, FollowCamera->GetComponentRotation(),
+				FollowCamera->GetForwardVector() * impulse, BallActorClass);
+			//FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
+			////Call the ball spawner
+			//SpawnBall_Server(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, FollowCamera->GetComponentRotation(), 
+			//	FollowCamera->GetForwardVector() * impulse, rowName);
+
 			//Delay the next attack
 			delayAttack = true;
 			//Start the delay timer
@@ -433,7 +452,7 @@ void AMain_Character::Attack()
 }
 
 //Function used to spawn the ball in front of the player
-void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRotator rotation, float throwPower, FName rowName)
+void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRotator rotation, FVector impulse_, FName rowName)
 {
 	FActorSpawnParameters ballSpawnInfo;
 	ballSpawnInfo.Owner = this;
@@ -457,7 +476,7 @@ void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRota
 				//Sets the values of the thrown ball
 				ballActorBase->setValue(ballInfo->ballMesh, ballInfo->ballMaterial, ballInfo->damageToDeal, ballInfo->statusName, ballInfo->ballType, true);
 				//Throws the ball
-				ballActorBase->ApplyImpulse(FollowCamera->GetComponentRotation().Vector() * throwPower);
+				ballActorBase->ApplyImpulse(impulse_);
 			}
 			else
 			{
@@ -474,22 +493,58 @@ void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRota
 		UE_LOG(LogTemp, Warning, TEXT("Ball Table Not Found"));
 	}
 	
-	if (debug == true)
-	{
-		//Line Tracing
-		FHitResult hit;
-		FCollisionQueryParams collisionParams;
-		GetWorld()->LineTraceSingleByChannel(hit, ballSpawnLocation->GetComponentLocation(), ballSpawnLocation->GetComponentLocation() + (ballSpawnLocation->GetComponentRotation().Vector() * 2000.0f), ECC_Visibility, collisionParams);
-		DrawDebugLine(GetWorld(), ballSpawnLocation->GetComponentLocation(), ballSpawnLocation->GetComponentLocation() + (FollowCamera->GetComponentRotation().Vector() * 2000.0f), FColor::Orange, false, 2.0f);
-		
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Spawn Called") );
-	}
-	
 }
 
-void AMain_Character::SpawnBall_Server_Implementation(FVector location, FRotator rotation, float throwPower, FName rowName)
+void AMain_Character::SpawnBall_Server_Implementation(FVector location, FRotator rotation, FVector impulse_, FName rowName)
 {
-	SpawnBall_Multicast(location, rotation, throwPower, rowName);
+	SpawnBall_Multicast(location, rotation, impulse_, rowName);
+	//if (HasAuthority()) {
+		//FActorSpawnParameters ballSpawnInfo;
+		//ballSpawnInfo.Owner = this;
+		//ballSpawnInfo.Instigator = this;
+		//ballSpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		////ABallActor* ballActorBase = GetWorld()->SpawnActor<ABallActor>(ABall, location, rotation, ballSpawnInfo);
+		//ABallActor* ballActorBase = nullptr;
+
+		////Checks if the ball actor being used as a base to spawn the ball exists
+		//if (ballActorBase)
+		//{
+		//	//Sets the values of the thrown ball
+		//	//Throws the ball
+		//	ballActorBase->ApplyImpulse(impulse_);
+		//}
+		//else
+		//{
+		//	UE_LOG(LogTemp, Warning, TEXT("BallActor not found"));
+		//}
+
+	//}
+
+}
+
+void AMain_Character::SpawnBallBP_NetMulticast_Implementation(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_) {
+	FActorSpawnParameters ballSpawnInfo;
+	ballSpawnInfo.Owner = this;
+	ballSpawnInfo.Instigator = this;
+	ballSpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	ABallActor* ballActorBase = GetWorld()->SpawnActor<ABallActor>(ballActorClass_, location, rotation, ballSpawnInfo);
+	//Checks if the ball actor being used as a base to spawn the ball exists
+	if (ballActorBase)
+	{
+		//Throws the ball
+		ballActorBase->ApplyImpulse(impulse_);
+		ballActorBase->IsLethal = true;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("BallActor not found"));
+	}
+}
+
+void AMain_Character::SpawnBallBP_Server_Implementation(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_){
+	SpawnBallBP_NetMulticast_Implementation(location, rotation, impulse_, ballActorClass_);
+
 }
 
 //Function to set whether to lower the impulse
