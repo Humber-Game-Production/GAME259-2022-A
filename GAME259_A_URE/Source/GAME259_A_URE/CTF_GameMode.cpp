@@ -102,6 +102,7 @@ void ACTF_GameMode::HandleMatchHasStarted() {
 			if (AMain_Character* Character = Cast<AMain_Character>(PC->GetPawn())) {
 				if (Character->GetCurrentHealth() > 0) {
 					Character->DeathEvent();
+					Character->On_Destroy();
 					Character->Destroy();
 				}
 				else {
