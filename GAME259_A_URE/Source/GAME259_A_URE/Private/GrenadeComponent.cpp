@@ -14,14 +14,20 @@
 UGrenadeComponent::UGrenadeComponent() {
 
 	abilityName = "Grenade";
-	cooldown = 6.0f;
+	cooldown = 1.0f;
 	cd_countdown = 0.0f;
 }
 
 bool UGrenadeComponent::TriggerAbilityEffect(){
 
 	UE_LOG(LogTemp, Warning, TEXT("Triggering Ability Effect: %s"), *abilityName.ToString());
-	SpawnGrenadeActor();
+	//SpawnGrenadeActor();
+	AMain_Character* player = (AMain_Character*)GetOwner();
+	if(GetOwner()->HasAuthority())
+	{
+		player->GetCharacterMovement()->AddImpulse(player->GetFollowCamera()->GetComponentRotation().Vector()* 4000.0f, true);
+
+	}
 	return true;
 }
 

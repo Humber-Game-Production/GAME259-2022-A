@@ -3,6 +3,7 @@
 
 #include "BallRepulsorActor.h"
 #include "BallActor.h"
+#include "../Main_Character.h"
 #include "Components/CapsuleComponent.h"
 
 // Sets default values
@@ -16,6 +17,10 @@ ABallRepulsorActor::ABallRepulsorActor()
 	BallRepulsorCollision->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
 	BallRepulsorCollision->bHiddenInGame = false;
 
+	bAlwaysRelevant = true;
+	bNetLoadOnClient = true;
+	bNetUseOwnerRelevancy = true;
+	bReplicates = true;
 	sendRequest = false;
 	triggered = false;
 }
@@ -35,8 +40,10 @@ void ABallRepulsorActor::Tick(float DeltaTime)
 
 }
 
+
 void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+
 
 	//Check if interacting with ball actor
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) &&
@@ -47,14 +54,17 @@ void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 		if (ballActor->GetOwner() != GetOwner()) {
 			//UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Ability Overlapping"));
 			//UE_LOG(LogTemp, Warning, TEXT("SengRequest: %s"), (sendRequest ? TEXT("true") : TEXT("false")));
-			if (sendRequest) {
-				//Set a negative force then set the booleans
-				UE_LOG(LogTemp, Warning, TEXT("Ability Activating"));
-				FVector ballVector = ballActor->GetActorForwardVector();
-				ballActor->ApplyImpulse(ballVector * -5000.0f); // change back to -1.0f after testing
-				//triggered = true;
-				//sendRequest = false;
+			if (GetOwner()->HasAuthority()) {
+				if (sendRequest) {
+					//Set a negative force then set the booleans
+					UE_LOG(LogTemp, Warning, TEXT("Ability Activating"));
+					FVector ballVector = ballActor->GetActorForwardVector();
+					ballActor->ApplyImpulse(ballVector * -5000.0f); // change back to -1.0f after testing
+					//triggered = true;
+					//sendRequest = false;
+				}
 			}
+
 		}
 
 	}
@@ -63,5 +73,11 @@ void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 
 void ABallRepulsorActor::EndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
 	triggered = false;
+}
+
+void ABallRepulsorActor::On_Destroy() {
+	FString deathMessage = FString::Printf(TEXT("You have been killed."));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+	Destroy();
 }
 
