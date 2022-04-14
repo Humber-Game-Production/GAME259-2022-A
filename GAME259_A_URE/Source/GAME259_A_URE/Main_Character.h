@@ -86,8 +86,12 @@ protected:
 	void MultiDie_Implementation();
 
 	//Combat abilities function
-	UFUNCTION(BlueprintCallable)
-		void ActivateBallRepulsor();
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void ActivateBallRepulsor_Server();
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+	void ActivateBallRepulsor_Multicast();
+	
 	UFUNCTION(BlueprintCallable)
 		void ActivateGrenade();
 

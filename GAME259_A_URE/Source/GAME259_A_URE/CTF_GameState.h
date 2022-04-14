@@ -42,18 +42,20 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int teamBScore;
 
-	UPROPERTY(BlueprintReadOnly)
+	//Not currently implemented
+	/*UPROPERTY(BlueprintReadOnly)
 	int teamARoundsWon;
 	UPROPERTY(BlueprintReadOnly)
-	int teamBRoundsWon;
+	int teamBRoundsWon;*/
 
 	UPROPERTY(BlueprintReadWrite)
 	FlagState teamAFlagState;
 	UPROPERTY(BlueprintReadWrite)
 	FlagState teamBFlagState;
 
-	UPROPERTY(BlueprintReadOnly)
-	bool isOvertime;
+	//Not currently implemeted
+	/*UPROPERTY(BlueprintReadOnly)
+	bool isOvertime;*/
 	
 	FTimerHandle MatchStartCountdown;
 	FTimerHandle MatchTimer;

@@ -20,6 +20,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 		bool TriggerAbilityEffect() override;
 
+	UFUNCTION(Server, Reliable)
+		void TriggerAbilityEffect_Server();
+
+	UFUNCTION(NetMulticast, Reliable)
+		void TriggerAbilityEffect_Multicast();
+
 	UFUNCTION(BlueprintCallable)
 		bool SpawnGrenadeActor();
 };
