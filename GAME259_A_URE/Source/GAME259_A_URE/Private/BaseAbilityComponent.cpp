@@ -48,8 +48,6 @@ void UBaseAbilityComponent::CooldownCountdown() {
 	}
 	//Clear timer when the countdown is over
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("Clearing Timer"));
-
 		GetOwner()->GetWorldTimerManager().ClearTimer(TimeHandle);
 	}
 }

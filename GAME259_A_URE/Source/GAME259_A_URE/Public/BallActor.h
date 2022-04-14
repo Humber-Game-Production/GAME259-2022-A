@@ -78,8 +78,8 @@ public:
 	//Determines if the actor has a status effect or not
 	UPROPERTY(EditAnywhere, Category = "Input")
 	bool HasStatus;
-
-	UPROPERTY(EditAnywhere, Category = "Input")
+	
+	UPROPERTY(EditAnywhere, Category = "Input") ///////////////////////////////////////////
 	float lethalVelocity;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -108,8 +108,8 @@ public:
 
 	//Stores the sphere component
 	UPROPERTY(VisibleDefaultsOnly, Category = "Sphere")
-	USphereComponent* SphereComp;
-
+	USphereComponent* SphereComp; ////////////////////////////////////////////////////////////////////////////////////////////
+	
 	//Dispatcher for the amount of damage to deal
 	UPROPERTY(BlueprintAssignable, Category = "Dispatcher")
 	FMessageDamage MessageDamage;
@@ -118,10 +118,10 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Dispatcher")
 	FMessageStatus MessageStatus;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable) /////////////////////////////////////////////////////
 	void ApplyForce(float force_);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable) ///////////////////////////////////////////////////////
 	void ApplyImpulse (FVector impulse_);
 
 	UFUNCTION(BlueprintCallable)
@@ -139,6 +139,7 @@ public:
 	UFUNCTION()
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	
 };
 
 

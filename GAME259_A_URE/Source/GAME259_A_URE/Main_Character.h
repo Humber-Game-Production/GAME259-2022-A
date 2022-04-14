@@ -132,7 +132,6 @@ protected:
 
 	virtual void BeginPlay() override;
 
-
 	/** The player's maximum health. This is the highest that their health can be, and the value that their health starts at when spawned.*/
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
 		float MaxHealth;
@@ -253,7 +252,7 @@ public:
 	
 	//Add Combat Status
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
-		void AddCombatStatus(FName statusName_);
+		void AddCombatStatus(FName statusName_, AController* EventInstigator);
 
 	//Add Ball Ammo
 	UFUNCTION(BlueprintCallable, Category = "Ammo")

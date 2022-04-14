@@ -4,6 +4,7 @@
 #include "Main_PlayerController.h"
 #include "CTF_GameMode.h"
 #include "CTF_GameState.h"
+#include "DrawDebugHelpers.h"
 #include "PlayerStats.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -15,11 +16,11 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Public/CombatStatusComponent.h"
+#include "Public/CombatStatusActor.h"
 #include "Public/CombatAmmoContainerComponent.h"
 #include "Public/GrenadeComponent.h"
 #include "Public/BallRepulsorComponent.h"
 #include "CTF_PlayerState.h"
-#include "DrawDebugHelpers.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -167,9 +168,8 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("PowerUp", IE_Pressed, this, &AMain_Character::FullPower);
 	
 	//Combat Abilities binding
-	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor_Server);
+	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor);
 	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
-
 
 	PlayerInputComponent->BindAction("Inventory1", IE_Pressed, this, &AMain_Character::SetToBallType0);
 	PlayerInputComponent->BindAction("Inventory2", IE_Pressed, this, &AMain_Character::SetToBallType1);
@@ -263,6 +263,35 @@ void AMain_Character::MoveRight(float Value)
 
 //////////////////////////////////////////////////////////////////////////
 
+//void AMain_Character::OnHealthUpdate(AController* EventInstigator, AActor* DamageCauser)
+//{
+//	//Display message to show current health
+//	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+//	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+//
+//	if (IsLocallyControlled())
+//	{
+//		// Updates Health Bar
+//		HealthUpdate.Broadcast(); // Added
+//	}
+//	if (HasAuthority())
+//	{
+//		if (CurrentHealth <= 0)
+//		{
+//
+//			//Display dying message when health reaches 0
+//			FString deathMessage = FString::Printf(TEXT("You have been killed."));
+//			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+//
+//			Die();
+//
+//			// Calls Death Event to Remove HUD
+//			DeathEvent();
+//			
+//		}
+//	}
+//}
+
 void AMain_Character::OnHealthUpdate()
 {
 	//Display message to show current health
@@ -278,16 +307,12 @@ void AMain_Character::OnHealthUpdate()
 	{
 		if (CurrentHealth <= 0)
 		{
-
-			//Display dying message when health reaches 0
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
-
 			Die();
-
 			// Calls Death Event to Remove HUD
 			DeathEvent();
-			
+
 		}
 	}
 }
@@ -297,7 +322,7 @@ void AMain_Character::OnRep_CurrentHealth() // Added replication to CurrentHealt
 	OnHealthUpdate();
 }
 
-void AMain_Character::SetCurrentHealth(float healthValue)
+void AMain_Character::SetCurrentHealth(float healthValue, AController* EventInstigator, AActor* DamageCauser)
 {
 	//Prevent current health to go above max health
 	if (HasAuthority())
@@ -305,12 +330,47 @@ void AMain_Character::SetCurrentHealth(float healthValue)
 		CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
 
 		//bReplicates = true;
-
 		// Old Code
 		//HealthUpdate.Broadcast(CurrentHealth);
 		//Cast<AMain_PlayerController>(GetController())->HealthUpdateEvent();
 
 		OnHealthUpdate();
+		if (CurrentHealth <= 0)
+		{
+			//Display dying message when health reaches 0
+			FString killerName = "";
+
+			//If the controller exists for this player
+			if (GetController()) {
+				//If some controller is responsible for the damage
+				if (EventInstigator) {
+					ACTF_PlayerState* playerState = EventInstigator->GetPlayerState<ACTF_PlayerState>();
+					killerName = playerState->GetPlayerName();
+				}
+				else {
+					//Check which actor causes the damage if there's no controller responsible for the damage
+					if (DamageCauser) {
+						//If it is killed by self, it is a falling damage
+						if (DamageCauser == this) {
+							killerName = "Falling Damage";
+						}
+						//If it is killed by something else, it should be a combat status
+						else {
+							killerName = DamageCauser->GetFName().ToString();
+							ACombatStatusActor* combatStatus = (ACombatStatusActor*)DamageCauser;
+							if (combatStatus) {
+								killerName = combatStatus->getName().ToString();
+							}
+						}
+					}
+					else {
+						killerName = "Unknown";
+					}
+				}
+				KillerUpdate.Broadcast(killerName);
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("You have been killed by " + killerName));
+			}
+		}
 	}
 }
 
@@ -320,19 +380,24 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 	float damageApplied = 0.0f;
 	bool checkDamage = true;
 
-	//Check if damageinstigator exists
-	if (EventInstigator != nullptr) {
-
-		if (EventInstigator == GetController()) {
-			checkDamage = false;
-		}
-		else {
-			ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
-			ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
-			if (playerState->team == damageCauserPlayerState->team) {
+	//If the player has a controller, check damage
+	if (GetController()) {
+		//Check if damageinstigator exists
+		if (EventInstigator != nullptr) {
+			//If the damage is dealt by self, ignore it
+			if (EventInstigator == GetController()) {
 				checkDamage = false;
 			}
-
+			else {
+				//Check player's team
+				ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
+				ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
+				if (playerState && damageCauserPlayerState) {
+					if (playerState->team == damageCauserPlayerState->team) {
+						checkDamage = false;
+					}
+				}
+			}
 		}
 	}
 
@@ -340,8 +405,7 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 		if (CurrentHealth > 0.0f) {
 			damageApplied = CurrentHealth - DamageTaken;
 			// Changes the CurrentHealth variable
-			SetCurrentHealth(damageApplied);
-			UE_LOG(LogTemp, Warning, TEXT("Taking Damage"));
+			SetCurrentHealth(damageApplied, EventInstigator, DamageCauser);
 		}
 	}
 	return damageApplied;
@@ -555,6 +619,7 @@ void AMain_Character::LowPower()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Power Halfed") );
 	}
+	PowerUpdate.Broadcast(1);
 	
 }
 
@@ -566,7 +631,7 @@ void AMain_Character::FullPower()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Power Full") );
 	}
-	
+	PowerUpdate.Broadcast(0);
 }
 
 //Function used to set the attack delay
@@ -663,10 +728,25 @@ void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 	TakeDamage(100.0f, FDamageEvent(), nullptr, this);
 }
 
-void AMain_Character::AddCombatStatus(FName statusName_) {
+void AMain_Character::AddCombatStatus(FName statusName_, AController* EventInstigator) {
 
 	if (HasAuthority()) {
-		CombatStatusComp->AddCombatStatus(statusName_);
+		if (GetController()) {
+			//Check if damageinstigator exists
+			if (EventInstigator != nullptr) {
+				ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
+				ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
+				if (playerState && damageCauserPlayerState) {
+					if (playerState->team != damageCauserPlayerState->team) {
+						CombatStatusComp->AddCombatStatus(statusName_);
+					}
+				}
+			}
+			else {
+				CombatStatusComp->AddCombatStatus(statusName_);
+			}
+		}
+
 	}
 }
 
@@ -727,17 +807,11 @@ FString AMain_Character::GetNameOfActor(){
 
 
 
-void AMain_Character::ActivateBallRepulsor_Server_Implementation() {
-	ActivateBallRepulsor_Multicast();
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, GetName());
-}
+void AMain_Character::ActivateBallRepulsor() {
 
-void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
-{
 	if (BallRepulsorAbility->ActivateAbility()) {
 		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
 		AbilityCooldownUpdate.Broadcast(1, BallRepulsorAbility->getCooldown());
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, GetName());
 	}
 }
 
@@ -752,7 +826,6 @@ void AMain_Character::ActivateGrenade() {
 
 void AMain_Character::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 
-	UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Overlapping"));
 
 
 }
