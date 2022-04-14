@@ -2,8 +2,31 @@
 
 
 #include "BallActor.h"
+#include "DrawDebugHelpers.h"
+#include "Net/UnrealNetwork.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "../Main_Character.h"
+
+// https://docs.unrealengine.com/5.0/en-US/API/Runtime/Engine/Engine/ENetRole/
+// https://docs.unrealengine.com/5.0/en-US/actor-role-and-remoterole-in-unreal-engine/
+FString GetEnumText(ENetRole BallRole)
+{
+switch (BallRole)
+	{
+	case ROLE_None:
+		return "ROLE_None";
+	case ROLE_SimulatedProxy:
+		return "ROLE_SimulatedProxy";
+	case ROLE_AutonomousProxy:
+		return "ROLE_AutonomousProxy";
+	case ROLE_Authority:
+		return "ROLE_Authority";
+	case ROLE_MAX:
+		return "WTF is ROLE_Max";
+	default:
+		return "hello";
+	}
+}
 
 // Sets default values
 ABallActor::ABallActor()
@@ -11,9 +34,13 @@ ABallActor::ABallActor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//bAlwaysRelevant = true;
-	bNetLoadOnClient = true;
+	//NetPriority = 3;
+	//NetUpdateFrequency = 1000;
+	
+	//AlwaysRelevant = true;
+	bNetLoadOnClient = true; 
 	bReplicates = true;
+
 	//bStaticMeshReplicateMovement = true;
 	
 	//Setsup the sphere component
@@ -85,6 +112,8 @@ void ABallActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//Checks for NetRole
+	DrawDebugString(GetWorld(), FVector(0,0,100), GetEnumText(GetLocalRole()), this, FColor::Black, DeltaTime);
 	//If the ball reaches a certain velocity, the ball becomes lethal
 	float velocity = SphereComp->GetPhysicsLinearVelocity().Size();
 	if (velocity > lethalVelocity) {
@@ -221,4 +250,7 @@ void ABallActor::setValue(UStaticMesh* sphereMesh_, UMaterial* sphereMaterial_,
 	ballType = ballType_;
 
 }
+
+
+
 

@@ -23,13 +23,15 @@ ACTF_GameMode::ACTF_GameMode()
 	matchTimeLimit = 1000.0f;
 	warmupTimeLimit = 10.0f;
 	maxScore = 3;
-	maxRounds = 3;
 	maxPlayers = 2;
-	respawnDelay = 5.0f;
 
+	//maxRounds = 3;    //not used at this point
+	//respawnDelay = 5.0f;   //currently not used, would require coordination with UI respawn widget to have dynamic respawnDelay
+
+	//Enables WaitingToStart Match State
 	bDelayedStart = true;
-	bUseSeamlessTravel = true;
 
+	bUseSeamlessTravel = true;
 }
 
 void ACTF_GameMode::HandleMatchIsWaitingToStart() {
@@ -40,6 +42,7 @@ void ACTF_GameMode::HandleMatchIsWaitingToStart() {
 
 	UClass* SpawnPointClass = APlayerSpawnPoint::StaticClass();
 
+	//Get all the spawn points and organize them based on team
 	for (TActorIterator<AActor> Actor(GetWorld(), SpawnPointClass); Actor; ++Actor)
 	{
 		if (APlayerSpawnPoint* PlayerSpawnPoint = Cast<APlayerSpawnPoint>(*Actor)) {
@@ -69,6 +72,8 @@ void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 			PlayerController->StartSpectatingOnly();
 			if (ACTF_PlayerState* PlayerState = Cast<ACTF_PlayerState>(NewPlayer->PlayerState)) {
 				PlayerState->SetIsSpectator(true);
+				PlayerState->isSpectator_CTF = true;
+				Spectators.Add(PlayerController);
 			}
 			return;
 		}
@@ -95,16 +100,20 @@ void ACTF_GameMode::HandleMatchHasStarted() {
 	ACTF_GameMode::Super::HandleMatchHasStarted();
 
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+		//Start match timer and set up 1 second match tick
 		GetWorldTimerManager().SetTimer(GS->MatchTimer, GS, &ACTF_GameState::MatchTick, 1.0f, true, 0.0f);
 		GS->matchStartTime = GS->GetServerWorldTimeSeconds();
 		GS->timeRemaining = matchTimeLimit;
+		//Spawn all the players as match start
 		for (AMain_PlayerController* PC : Players) {
 			if (AMain_Character* Character = Cast<AMain_Character>(PC->GetPawn())) {
+				//Player is not dead when match starts
 				if (Character->GetCurrentHealth() > 0) {
 					Character->DeathEvent();
 					Character->On_Destroy();
 					Character->Destroy();
 				}
+				//Player is dead when match starts
 				else {
 					GetWorld()->GetTimerManager().ClearTimer(PC->RespawnHandle);
 				}
@@ -126,11 +135,10 @@ void ACTF_GameMode::HandleMatchHasEnded()
 	Super::HandleMatchHasEnded();
 
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+		//Clean up match timer
 		GetWorld()->GetTimerManager().ClearTimer(GS->MatchTimer);
 		GS->MatchTimer.Invalidate();
-		FTimerDelegate RespawnDele;
-		RespawnDele.BindUFunction(this, FName("RestartGame"));
-		GetWorldTimerManager().SetTimer(GS->EndOfMatchTimer, RespawnDele, 20.0f, false);
+		
 	}
 }
 
@@ -138,12 +146,9 @@ void ACTF_GameMode::Respawn(AController* Controller)
 {
 	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(Controller))
 	{
-		if (HasAuthority())
-		{
-			FTimerDelegate RespawnDele;
-			RespawnDele.BindUFunction(this, FName("Spawn"), PlayerController);
-			GetWorld()->GetTimerManager().SetTimer(PlayerController->RespawnHandle, RespawnDele, 3.0f, false);
-		}
+		FTimerDelegate RespawnDele;
+		RespawnDele.BindUFunction(this, FName("Spawn"), PlayerController);
+		GetWorld()->GetTimerManager().SetTimer(PlayerController->RespawnHandle, RespawnDele, 3.0f, false);
 	}
 }
 
@@ -151,11 +156,14 @@ APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(TeamSelected owningTeam_)
 {
 	//Gets the total teamA spawn points
 	if (owningTeam_ == TeamSelected::TEAM_A) {
+		//Attempt to find an unobstructed spawn 5 times, if it fails return nullptr
 		for (int i = 0; i < 5; ++i)
 		{
+			//Choose a random teamA spawn point
 			int32 Slot = FMath::RandRange(0, TeamASpawnPoints.Num() - 1);
 			if (TeamASpawnPoints[Slot])
 			{
+				//Check if spawn point obstructed
 				if (!TeamASpawnPoints[Slot]->obstructed) {
 					return TeamASpawnPoints[Slot];
 				}
@@ -165,11 +173,14 @@ APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(TeamSelected owningTeam_)
 	}
 	//Gets the total teamB spawn points
 	if (owningTeam_ == TeamSelected::TEAM_B) {
+		//Attempt to find an unobstructed spawn 5 times, if it fails return nullptr
 		for (int i = 0; i < 5; ++i)
 		{
+			//Choose a random teamB spawn point
 			int32 Slot = FMath::RandRange(0, TeamBSpawnPoints.Num() - 1);
 			if (TeamBSpawnPoints[Slot])
 			{
+				//Check if spawn point obstructed
 				if (!TeamBSpawnPoints[Slot]->obstructed) {
 					return TeamBSpawnPoints[Slot];
 				}
@@ -177,13 +188,17 @@ APlayerSpawnPoint* ACTF_GameMode::GetSpawnPoint(TeamSelected owningTeam_)
 		}
 		return nullptr;
 	}
-
+	//Not currently used for any gameplay reasons
+	//Gets the total spawn spoints with team set to none
 	if (owningTeam_ == TeamSelected::NONE) {
+		//Attempt to find an unobstructed spawn 5 times, if it fails return nullptr
 		for (int i = 0; i < 5; ++i)
 		{
+			//Choose a random team none spawn point
 			int32 Slot = FMath::RandRange(0, SpawnPoints.Num() - 1);
 			if (SpawnPoints[Slot])
 			{
+				//Check if spawn point obstructed
 				if (!SpawnPoints[Slot]->obstructed) {
 					return SpawnPoints[Slot];
 				}
@@ -202,16 +217,18 @@ void ACTF_GameMode::Spawn(AController* Controller)
 		//Team A Spawn
 		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->team == TeamSelected::TEAM_A)
 		{
+			//Check if an unobstructed spawn point was found
 			if (APlayerSpawnPoint* SpawnPoint = GetSpawnPoint(TeamSelected::TEAM_A))
 			{
 				FVector LocationOffset = FVector(0.0f, 0.0f, 0.0f);
 				FVector Location = SpawnPoint->GetActorLocation() + LocationOffset;
 				FRotator Rotation = SpawnPoint->GetActorRotation();
-				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, FRotator::ZeroRotator))
+				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, Rotation))
 				{
 					PlayerController->Possess(Pawn);
 				}
 			}
+			//Create timer to try again in 1 second
 			else {
 				FTimerDelegate RespawnDele;
 				FTimerHandle RespawnHandle;
@@ -222,16 +239,19 @@ void ACTF_GameMode::Spawn(AController* Controller)
 		//Team B Spawn
 		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->team == TeamSelected::TEAM_B)
 		{
+			//Check if an unobstructed spawn point was found
 			if (APlayerSpawnPoint* SpawnPoint = GetSpawnPoint(TeamSelected::TEAM_B))
 			{
 				FVector LocationOffset = FVector(0.0f, 0.0f, 0.0f);
 				FVector Location = SpawnPoint->GetActorLocation() + LocationOffset;
 				FRotator Rotation = SpawnPoint->GetActorRotation();
-				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, FRotator::ZeroRotator))
+				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, Rotation))
 				{
+					PlayerController->ClientSetRotation(Rotation);
 					PlayerController->Possess(Pawn);
 				}
 			}
+			//Create timer to try again in 1 second
 			else {
 				FTimerDelegate RespawnDele;
 				FTimerHandle RespawnHandle;
@@ -242,16 +262,18 @@ void ACTF_GameMode::Spawn(AController* Controller)
 
 		if (PlayerController->GetPlayerState<ACTF_PlayerState>()->team == TeamSelected::NONE)
 		{
+			//Check if an unobstructed spawn point was found
 			if (APlayerSpawnPoint* SpawnPoint = GetSpawnPoint(TeamSelected::NONE))
 			{
 				FVector LocationOffset = FVector(0.0f, 0.0f, 0.0f);
 				FVector Location = SpawnPoint->GetActorLocation() + LocationOffset;
 				FRotator Rotation = SpawnPoint->GetActorRotation();
-				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, FRotator::ZeroRotator))
+				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, Rotation))
 				{
 					PlayerController->Possess(Pawn);
 				}
 			}
+			//Create timer to try again in 1 second
 			else {
 				FTimerDelegate RespawnDele;
 				FTimerHandle RespawnHandle;

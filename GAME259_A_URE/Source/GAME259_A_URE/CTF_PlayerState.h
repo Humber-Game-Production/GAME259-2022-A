@@ -27,4 +27,6 @@ public:
 	TeamSelected team;
 	UPROPERTY(BlueprintReadWrite, Replicated)
 	bool isCarryingFlag;
+	UPROPERTY(BlueprintReadOnly, Replicated)
+	bool isSpectator_CTF;
 };

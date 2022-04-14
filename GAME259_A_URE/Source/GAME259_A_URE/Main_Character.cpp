@@ -4,6 +4,7 @@
 #include "Main_PlayerController.h"
 #include "CTF_GameMode.h"
 #include "CTF_GameState.h"
+#include "DrawDebugHelpers.h"
 #include "PlayerStats.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -20,7 +21,6 @@
 #include "Public/GrenadeComponent.h"
 #include "Public/BallRepulsorComponent.h"
 #include "CTF_PlayerState.h"
-#include "DrawDebugHelpers.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -262,6 +262,35 @@ void AMain_Character::MoveRight(float Value)
 }
 
 //////////////////////////////////////////////////////////////////////////
+
+//void AMain_Character::OnHealthUpdate(AController* EventInstigator, AActor* DamageCauser)
+//{
+//	//Display message to show current health
+//	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+//	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+//
+//	if (IsLocallyControlled())
+//	{
+//		// Updates Health Bar
+//		HealthUpdate.Broadcast(); // Added
+//	}
+//	if (HasAuthority())
+//	{
+//		if (CurrentHealth <= 0)
+//		{
+//
+//			//Display dying message when health reaches 0
+//			FString deathMessage = FString::Printf(TEXT("You have been killed."));
+//			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+//
+//			Die();
+//
+//			// Calls Death Event to Remove HUD
+//			DeathEvent();
+//			
+//		}
+//	}
+//}
 
 void AMain_Character::OnHealthUpdate()
 {
