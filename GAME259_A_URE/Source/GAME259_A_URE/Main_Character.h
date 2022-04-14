@@ -142,7 +142,7 @@ protected:
 		float CurrentHealth;
 
 	/** Update Health */
-	void OnHealthUpdate(AController* EventInstigator, AActor* DamageCauser);
+	//void OnHealthUpdate(AController* EventInstigator, AActor* DamageCauser);
 
 	void OnHealthUpdate();
 	/*Setup for velocity
