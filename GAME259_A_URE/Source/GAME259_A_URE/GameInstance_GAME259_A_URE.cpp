@@ -39,10 +39,9 @@ void UGameInstance_GAME259_A_URE::OnCreateSessionComplete(FName SessionName, boo
 	{
 		//UWorld* World = GetWorld();
 
-		//GetWorld()->ServerTravel("/Game/Levels/IceMaze?listen");
-		GetWorld()->ServerTravel("/Game/LobbySystem/Levels/Networking_GameTestMap?listen");
+		GetWorld()->ServerTravel("/Game/Levels/IceMaze?listen");
+		//GetWorld()->ServerTravel("/Game/LobbySystem/Levels/Networking_GameTestMap?listen");
 		//GetWorld()->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap?listen");
-
 	}
 }
 
