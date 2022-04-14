@@ -15,6 +15,7 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Public/CombatStatusComponent.h"
+#include "Public/CombatStatusActor.h"
 #include "Public/CombatAmmoContainerComponent.h"
 #include "Public/GrenadeComponent.h"
 #include "Public/BallRepulsorComponent.h"
@@ -167,9 +168,8 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("PowerUp", IE_Pressed, this, &AMain_Character::FullPower);
 	
 	//Combat Abilities binding
-	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor_Server);
+	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor);
 	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
-
 
 	PlayerInputComponent->BindAction("Inventory1", IE_Pressed, this, &AMain_Character::SetToBallType0);
 	PlayerInputComponent->BindAction("Inventory2", IE_Pressed, this, &AMain_Character::SetToBallType1);
@@ -263,6 +263,35 @@ void AMain_Character::MoveRight(float Value)
 
 //////////////////////////////////////////////////////////////////////////
 
+//void AMain_Character::OnHealthUpdate(AController* EventInstigator, AActor* DamageCauser)
+//{
+//	//Display message to show current health
+//	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+//	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+//
+//	if (IsLocallyControlled())
+//	{
+//		// Updates Health Bar
+//		HealthUpdate.Broadcast(); // Added
+//	}
+//	if (HasAuthority())
+//	{
+//		if (CurrentHealth <= 0)
+//		{
+//
+//			//Display dying message when health reaches 0
+//			FString deathMessage = FString::Printf(TEXT("You have been killed."));
+//			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+//
+//			Die();
+//
+//			// Calls Death Event to Remove HUD
+//			DeathEvent();
+//			
+//		}
+//	}
+//}
+
 void AMain_Character::OnHealthUpdate()
 {
 	//Display message to show current health
@@ -278,16 +307,12 @@ void AMain_Character::OnHealthUpdate()
 	{
 		if (CurrentHealth <= 0)
 		{
-
-			//Display dying message when health reaches 0
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
-
 			Die();
-
 			// Calls Death Event to Remove HUD
 			DeathEvent();
-			
+
 		}
 	}
 }
@@ -297,7 +322,7 @@ void AMain_Character::OnRep_CurrentHealth() // Added replication to CurrentHealt
 	OnHealthUpdate();
 }
 
-void AMain_Character::SetCurrentHealth(float healthValue)
+void AMain_Character::SetCurrentHealth(float healthValue, AController* EventInstigator, AActor* DamageCauser)
 {
 	//Prevent current health to go above max health
 	if (HasAuthority())
@@ -305,12 +330,40 @@ void AMain_Character::SetCurrentHealth(float healthValue)
 		CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
 
 		//bReplicates = true;
-
 		// Old Code
 		//HealthUpdate.Broadcast(CurrentHealth);
 		//Cast<AMain_PlayerController>(GetController())->HealthUpdateEvent();
 
 		OnHealthUpdate();
+		if (CurrentHealth <= 0)
+		{
+			//Display dying message when health reaches 0
+			FString killerName = "";
+
+			if (EventInstigator) {
+				ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
+				killerName = playerState->GetPlayerName();
+			}
+			else {
+				if (DamageCauser) {
+					if (DamageCauser == this) {
+						killerName = "Falling Damage";
+					}
+					else {
+						killerName = DamageCauser->GetFName().ToString();
+						ACombatStatusActor* combatStatus = (ACombatStatusActor*) DamageCauser;
+						if (combatStatus) {
+							killerName = combatStatus->getName().ToString();
+						}
+					}
+				}
+				else {
+					killerName = "Unknown";
+				}
+			}
+			KillerUpdate.Broadcast(killerName);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("You have been killed by " + killerName));
+		}
 	}
 }
 
@@ -328,11 +381,14 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 		}
 		else {
 			ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
-			ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
-			if (playerState->team == damageCauserPlayerState->team) {
-				checkDamage = false;
+			if (this->GetOwner()) {
+				ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
+				if (playerState && damageCauserPlayerState) {
+					if (playerState->team == damageCauserPlayerState->team) {
+						checkDamage = false;
+					}
+				}
 			}
-
 		}
 	}
 
@@ -340,7 +396,7 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 		if (CurrentHealth > 0.0f) {
 			damageApplied = CurrentHealth - DamageTaken;
 			// Changes the CurrentHealth variable
-			SetCurrentHealth(damageApplied);
+			SetCurrentHealth(damageApplied, EventInstigator, DamageCauser);
 			UE_LOG(LogTemp, Warning, TEXT("Taking Damage"));
 		}
 	}
@@ -555,6 +611,7 @@ void AMain_Character::LowPower()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Power Halfed") );
 	}
+	PowerUpdate.Broadcast(1);
 	
 }
 
@@ -566,7 +623,7 @@ void AMain_Character::FullPower()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Power Full") );
 	}
-	
+	PowerUpdate.Broadcast(0);
 }
 
 //Function used to set the attack delay
@@ -727,17 +784,11 @@ FString AMain_Character::GetNameOfActor(){
 
 
 
-void AMain_Character::ActivateBallRepulsor_Server_Implementation() {
-	ActivateBallRepulsor_Multicast();
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, GetName());
-}
+void AMain_Character::ActivateBallRepulsor() {
 
-void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
-{
 	if (BallRepulsorAbility->ActivateAbility()) {
 		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
 		AbilityCooldownUpdate.Broadcast(1, BallRepulsorAbility->getCooldown());
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, GetName());
 	}
 }
 
