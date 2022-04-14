@@ -2,8 +2,30 @@
 
 
 #include "BallActor.h"
+#include "DrawDebugHelpers.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "../Main_Character.h"
+
+// https://docs.unrealengine.com/5.0/en-US/API/Runtime/Engine/Engine/ENetRole/
+// https://docs.unrealengine.com/5.0/en-US/actor-role-and-remoterole-in-unreal-engine/
+/*FString GetEnumText(ENetRole BallRole)
+{
+	switch (BallRole)
+	{
+	case ROLE_None:
+		return "None";
+	case ROLE_SimulatedProxy:
+		return "Simpsons";
+	case ROLE_AutonomousProxy:
+		return "Autonomous";
+	case ROLE_Authority:
+		return "Authority";
+	case ROLE_MAX:
+		return "WTF is ROLE_Max";
+	default:
+		return "hello";
+	}
+}*/
 
 // Sets default values
 ABallActor::ABallActor()
@@ -88,6 +110,8 @@ void ABallActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//Checks for NetRole
+	//DrawDebugString(GetWorld(), FVector(0,0,100), GetEnumText(GetLocalRole()), this, FColor::Black, DeltaTime);
 	//If the ball reaches a certain velocity, the ball becomes lethal
 	float velocity = SphereComp->GetPhysicsLinearVelocity().Size();
 	if (velocity > lethalVelocity) {
@@ -241,4 +265,7 @@ void ABallActor::setValue(UStaticMesh* sphereMesh_, UMaterial* sphereMaterial_,
 	UE_LOG(LogTemp, Warning, TEXT("Combat status: %s"), *Status.ToString());
 
 }
+
+
+
 
