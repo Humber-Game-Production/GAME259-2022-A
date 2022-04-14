@@ -44,13 +44,10 @@ void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 		//Check if row name exist
 		if (combatStatusInfo) {
 
-			UE_LOG(LogTemp, Warning, TEXT("Database Row found"));
 			ACombatStatusActor* statusActor = existCombatStatus(rowName_);
 			//if the status already exist in the list, refresh time
 			if (statusActor) {
 				statusActor->refreshTime();
-				UE_LOG(LogTemp, Warning, TEXT("Refresh time"));
-
 			}
 			else {
 				//Create all the variables that will be used to create the actor
@@ -67,7 +64,7 @@ void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 				switch (combatStatusInfo->statusClass) {
 				case DamageOverTime:
 				{
-					UE_LOG(LogTemp, Warning, TEXT("DamageOverTime Type"));
+					//UE_LOG(LogTemp, Warning, TEXT("DamageOverTime Type"));
 					statusActor = GetWorld()->SpawnActor<ADamageOverTimeActor>(
 						ADamageOverTimeActor::StaticClass(),
 						spawnLocation, rotation, ActorSpawnParams);
@@ -76,7 +73,7 @@ void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 
 				case ReduceSpeed:
 				{
-					UE_LOG(LogTemp, Warning, TEXT("ReduceSpeed Type"));
+					//UE_LOG(LogTemp, Warning, TEXT("ReduceSpeed Type"));
 					statusActor = GetWorld()->SpawnActor<AReduceSpeedActor>(
 						AReduceSpeedActor::StaticClass(),
 						spawnLocation, rotation, ActorSpawnParams);
@@ -110,7 +107,6 @@ void UCombatStatusComponent::RemoveCombatStatus(ACombatStatusActor* statusActor)
 
 void UCombatStatusComponent::RemoveCombatStatusList() {
 	for (ACombatStatusActor* status : combatStatusList) {
-		UE_LOG(LogTemp, Warning, TEXT("Removing status list"));
 		status->Destroy();
 	}
 	combatStatusList.Empty();

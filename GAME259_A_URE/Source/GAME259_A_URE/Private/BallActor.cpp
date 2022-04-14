@@ -122,43 +122,36 @@ void ABallActor::DestroyTimerUp()
 //An overlap function
 void ABallActor::OnBlock(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Overlap Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
+
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
 		//Check if the ball is overlapping with the character
 		if (OtherActor->IsA(AMain_Character::StaticClass())) {
 
 			AMain_Character* playerCharacter = (AMain_Character*)OtherActor;
+			AController* DamageCauserController = nullptr;
+			if (GetInstigator()) {
+				DamageCauserController = GetInstigator()->GetController();
+			}
 
 			if (IsLethal)
 			{
 				//Broadcasts the time to add message with the amount of time needed
 				MessageDamage.Broadcast(DamageToDeal);
 				TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
-				AController* DamageCauserController = nullptr;
-
-				if (GetInstigator()) {
-					DamageCauserController = GetInstigator()->GetController();
-				}
 
 				playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), DamageCauserController, this);
-				//If status is enabled broadcast it
+				//Add Combat Status
 				if (Status != "None") {
-					UE_LOG(LogTemp, Warning, TEXT("Adding combat status"));
 
-					playerCharacter->AddCombatStatus(Status);
+					playerCharacter->AddCombatStatus(Status, DamageCauserController);
 				}
-
-				if (HasStatus == true)
-				{
-					//Broadcasts the the status effect
-					//MessageStatus.Broadcast(Status);
-				}
-
 			}
-			else if (!IsLethal){
+			else if (!IsLethal) {
 				//Add ball ammo then destroy the character
 				playerCharacter->AddBallAmmo(ballType, 1);
-				this->Destroy();	
 			}
+			this->Destroy();
 		}
 	}
 }
@@ -173,38 +166,29 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 		if (OtherActor->IsA(AMain_Character::StaticClass())) {
 
 			AMain_Character* playerCharacter = (AMain_Character*)OtherActor;
+			AController* DamageCauserController = nullptr;
+			if (GetInstigator()) {
+				DamageCauserController = GetInstigator()->GetController();
+			}
 
 			if (IsLethal)
 			{
 				//Broadcasts the time to add message with the amount of time needed
 				MessageDamage.Broadcast(DamageToDeal);
 				TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
-				AController* DamageCauserController = nullptr;
-
-				if (GetInstigator()) {
-					DamageCauserController = GetInstigator()->GetController();
-				}
 
 				playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), DamageCauserController, this);
-				//If status is enabled broadcast it
+				//Add Combat Status
 				if (Status != "None") {
-					UE_LOG(LogTemp, Warning, TEXT("Adding combat status"));
 
-					playerCharacter->AddCombatStatus(Status);
+					playerCharacter->AddCombatStatus(Status, DamageCauserController);
 				}
-
-				if (HasStatus == true)
-				{
-					//Broadcasts the the status effect
-					//MessageStatus.Broadcast(Status);
-				}
-
 			}
 			else if (!IsLethal) {
 				//Add ball ammo then destroy the character
 				playerCharacter->AddBallAmmo(ballType, 1);
-				this->Destroy();
 			}
+			this->Destroy();
 		}
 	}
 }
@@ -235,7 +219,6 @@ void ABallActor::setValue(UStaticMesh* sphereMesh_, UMaterial* sphereMaterial_,
 	DamageToDeal = damageToDeal_;
 	Status = combatStatus_;
 	ballType = ballType_;
-	UE_LOG(LogTemp, Warning, TEXT("Combat status: %s"), *Status.ToString());
 
 }
 

@@ -254,7 +254,7 @@ public:
 	
 	//Add Combat Status
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
-		void AddCombatStatus(FName statusName_);
+		void AddCombatStatus(FName statusName_, AController* EventInstigator);
 
 	//Add Ball Ammo
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
