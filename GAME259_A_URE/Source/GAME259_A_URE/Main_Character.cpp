@@ -26,27 +26,6 @@
 // AThirdPersonMPCharacter
 // AMain_Character
 
-// https://docs.unrealengine.com/5.0/en-US/API/Runtime/Engine/Engine/ENetRole/
-// https://docs.unrealengine.com/5.0/en-US/actor-role-and-remoterole-in-unreal-engine/
-FString GetEnumText(ENetRole CharRole)
-{
-	switch (CharRole)
-	{
-	case ROLE_None:
-		return "None";
-	case ROLE_SimulatedProxy:
-		return "Simpsons";
-	case ROLE_AutonomousProxy:
-		return "Autonomous";
-	case ROLE_Authority:
-		return "Authority";
-	case ROLE_MAX:
-		return "WTF is ROLE_Max";
-	default:
-		return "hello";
-	}
-}
-
 AMain_Character::AMain_Character()
 {
 	// Set size for collision capsule
@@ -230,15 +209,6 @@ void  AMain_Character::BeginPlay()
 
 	GrenadeAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
 	BallRepulsorAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
-
-}
-
-void AMain_Character::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-
-	// Checks for Net Role
-	DrawDebugString(GetWorld(), FVector(0,0,100), GetEnumText(GetLocalRole()), this, FColor::Black, DeltaSeconds);
 
 }
 
