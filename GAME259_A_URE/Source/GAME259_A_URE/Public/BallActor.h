@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/StaticMeshActor.h"
 #include "GameFramework/Actor.h"
+#include "Engine/DataTable.h"
 #include "Components/SphereComponent.h"
 #include "BallActor.generated.h"
 
@@ -13,6 +15,29 @@ enum EBallType {
 	BallDefault, //0
 	BallFire, //1
 	BallIce //2
+};
+
+//DataTable Row
+USTRUCT(BlueprintType)
+struct FBallRow : public FTableRowBase {
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FName statusName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<EBallType> ballType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float damageToDeal;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UStaticMesh* ballMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UMaterial* ballMaterial;
+
 };
 
 //Dynamic one parameter delegate used for broadcasting the amount of time to deal
@@ -52,13 +77,13 @@ public:
 
 	//Determines if the actor has a status effect or not
 	UPROPERTY(EditAnywhere, Category = "Input")
-		bool HasStatus;
+	bool HasStatus;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
-		float lethalVelocity;
+	float lethalVelocity;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
-		TEnumAsByte<EBallType> ballType;
+	TEnumAsByte<EBallType> ballType;
 	
 	//Starting time for the destroying the object
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
@@ -72,13 +97,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Timer")
 	FTimerHandle TimeHandle;;
 	
+
+	//Stores the mesh component
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
+	//class UProjectileMovementComponent* SphereMovement;
+
 	//Stores the mesh component
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")
 	UStaticMeshComponent* SphereMesh;
-
-	//Stores the material
-	UPROPERTY(EditAnywhere, Category = "Material")
-	UMaterial* SphereMaterial;
 
 	//Stores the sphere component
 	UPROPERTY(VisibleDefaultsOnly, Category = "Sphere")
@@ -92,6 +118,15 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Dispatcher")
 	FMessageStatus MessageStatus;
 
+	UFUNCTION(BlueprintCallable)
+	void ApplyForce(float force_);
+
+	UFUNCTION(BlueprintCallable)
+	void ApplyImpulse (FVector impulse_);
+
+	UFUNCTION(BlueprintCallable)
+	void setValue(UStaticMesh* sphereMesh_, UMaterial* sphereMaterial_, 
+			float damageToDeal_, FName combatStatus_, TEnumAsByte<EBallType> ballType_, bool isLethal_);
 
 	//Function used by the timer to determine what happens when the destroy timer is up
 	UFUNCTION()
@@ -99,5 +134,11 @@ public:
 
 	//Overlap function for destroying the actor and broadcasting delegates
 	UFUNCTION()
-	void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,  bool bFromSweep, const FHitResult &SweepResult );
+		void OnBlock(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	
+	UFUNCTION()
+		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 };
+
+

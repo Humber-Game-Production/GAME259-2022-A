@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Engine/DataTable.h"
+#include "Public/BallActor.h"
 #include "Main_PlayerController.h"
 #include "Main_Character.generated.h"
 
@@ -12,6 +14,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoUpdate, int, index, int, ballNum);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityCooldownUpdate, int, index, float, cd_percentage);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelayAttackUpdate);
 
 //Setup current weapon delegate with index
 
@@ -69,7 +73,7 @@ protected:
 	void ManualAddBall();
 	void ManualMinusBall();
 	
-	UFUNCTION(Server, Reliable, WithValidation)
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
 		void ServerAttack();
 	bool ServerAttack_Validate();
 	void ServerAttack_Implementation();
@@ -82,8 +86,12 @@ protected:
 	void MultiDie_Implementation();
 
 	//Combat abilities function
-	UFUNCTION(BlueprintCallable)
-		void ActivateBallRepulsor();
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void ActivateBallRepulsor_Server();
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+	void ActivateBallRepulsor_Multicast();
+	
 	UFUNCTION(BlueprintCallable)
 		void ActivateGrenade();
 
@@ -143,11 +151,60 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Player Stats")
 		float velPercentage;
 
+	UPROPERTY(EditAnywhere, Category = "Current Weapon")
+		TEnumAsByte<EBallType> currentBall;
+
+	UPROPERTY(EditAnywhere, Category = "Ball Spawn")
+		float ballSpawnOffset;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UStaticMeshComponent* ballSpawnLocation;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulse;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseDef;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseFire;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseIce;
+	
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseDefOrig;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseFireOrig;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float impulseIceOrig;
+
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		float attackDelay;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		bool delayAttack;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Debug")
+		bool debug;
+	
+	//The timer handler for the delay timer
+	UPROPERTY(EditDefaultsOnly, Category = "Ball Spawn")
+		FTimerHandle DelayHandle;;
+	
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+
+	UPROPERTY(EditAnywhere, Category = "Data Table", Replicated)
+		UDataTable* BallTable;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FCharacterHealthUpdate HealthUpdate;
@@ -157,6 +214,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FAbilityCooldownUpdate AbilityCooldownUpdate;
+
 
 	//Collection of ball slots
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -189,6 +247,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Health")
 		float TakeDamage(float DamageTaken, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	//Enables whether  to lower the power of impulse
+	UPROPERTY(EditAnywhere, Category = "Debug")
+		bool lowerPower;
+	
 	//Add Combat Status
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
 		void AddCombatStatus(FName statusName_);
@@ -206,7 +268,72 @@ public:
 		void resetVelocity() { velPercentage = 1.0f; }
 
 	UFUNCTION(BlueprintCallable)
+		UCombatAmmoContainerComponent* GetAmmoContainer(TEnumAsByte<EBallType> ballType_);
+
+	UFUNCTION(BlueprintCallable)
+		void SetCurrentBall(TEnumAsByte<EBallType> newBall_) { currentBall = newBall_; }
+
+	UFUNCTION(BlueprintCallable)
+		void SetToBallType0(); 
+
+	UFUNCTION(BlueprintCallable)
+		void SetToBallType1();
+
+	UFUNCTION(BlueprintCallable)
+		void SetToBallType2();
+
+	UFUNCTION(BlueprintCallable)
 		FString GetNameOfActor();
+
+	UFUNCTION(BlueprintCallable)
+		UDataTable* GetBallDataTable() {
+		return BallTable;
+	}
+
+	//Function used to spawn the ball in front of the player
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+		void SpawnBall_Multicast(FVector location, FRotator rotation, FVector impulse_, FName rowName);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void SpawnBall_Server(FVector location, FRotator rotation, FVector impulse_, FName rowName);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+		void SpawnBallBP_Server(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_);
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+		void SpawnBallBP_NetMulticast(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_);
+
+
+	//Function to set whether to lower the impulse
+	UFUNCTION(BlueprintCallable)
+		void LowPower();
+
+	//Function to set whether to use maximum impulse
+	UFUNCTION(BlueprintCallable)
+		void FullPower();
+
+	//Function used to set the attack delay
+	UFUNCTION(BlueprintCallable)
+		void DelayAttack();
+	
+	//Overlap function for destroying the actor and broadcasting delegates
+	UFUNCTION()
+		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FDelayAttackUpdate DelayAttackUpdate;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABallActor> BallDefaultClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABallActor> BallIceClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABallActor> BallFireClass;
+
+	UFUNCTION(BlueprintCallable)
+			void On_Destroy();
 
 private:
 
