@@ -263,6 +263,36 @@ void AMain_Character::MoveRight(float Value)
 
 //////////////////////////////////////////////////////////////////////////
 
+void AMain_Character::OnHealthUpdate(AController* EventInstigator, AActor* DamageCauser)
+{
+	//Display message to show current health
+	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+
+	if (IsLocallyControlled())
+	{
+		// Updates Health Bar
+		HealthUpdate.Broadcast(); // Added
+	}
+	if (HasAuthority())
+	{
+		if (CurrentHealth <= 0)
+		{
+
+			//Display dying message when health reaches 0
+			FString deathMessage = FString::Printf(TEXT("You have been killed."));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+			FString killerName = "";
+			KillerUpdate.Broadcast(killerName);
+			Die();
+
+			// Calls Death Event to Remove HUD
+			DeathEvent();
+			
+		}
+	}
+}
+
 void AMain_Character::OnHealthUpdate()
 {
 	//Display message to show current health
@@ -287,7 +317,7 @@ void AMain_Character::OnHealthUpdate()
 
 			// Calls Death Event to Remove HUD
 			DeathEvent();
-			
+
 		}
 	}
 }
@@ -297,7 +327,7 @@ void AMain_Character::OnRep_CurrentHealth() // Added replication to CurrentHealt
 	OnHealthUpdate();
 }
 
-void AMain_Character::SetCurrentHealth(float healthValue)
+void AMain_Character::SetCurrentHealth(float healthValue, AController* EventInstigator, AActor* DamageCauser)
 {
 	//Prevent current health to go above max health
 	if (HasAuthority())
@@ -305,12 +335,11 @@ void AMain_Character::SetCurrentHealth(float healthValue)
 		CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
 
 		//bReplicates = true;
-
 		// Old Code
 		//HealthUpdate.Broadcast(CurrentHealth);
 		//Cast<AMain_PlayerController>(GetController())->HealthUpdateEvent();
 
-		OnHealthUpdate();
+		OnHealthUpdate(EventInstigator, DamageCauser);
 	}
 }
 
@@ -340,7 +369,7 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 		if (CurrentHealth > 0.0f) {
 			damageApplied = CurrentHealth - DamageTaken;
 			// Changes the CurrentHealth variable
-			SetCurrentHealth(damageApplied);
+			SetCurrentHealth(damageApplied, EventInstigator, DamageCauser);
 			UE_LOG(LogTemp, Warning, TEXT("Taking Damage"));
 		}
 	}
