@@ -49,8 +49,6 @@ protected:
     virtual void HandleMatchHasStarted() override;
     //Called when entering WaitingPostMatch Match State
     virtual void HandleMatchHasEnded() override;
-    //Called when entering LeavingMap Match State
-    virtual void HandleLeavingMap() override;
 
     // Called when the game starts
     virtual void BeginPlay() override;
