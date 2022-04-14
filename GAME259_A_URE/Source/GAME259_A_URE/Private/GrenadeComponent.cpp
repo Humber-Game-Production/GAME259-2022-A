@@ -19,25 +19,16 @@ UGrenadeComponent::UGrenadeComponent() {
 }
 
 bool UGrenadeComponent::TriggerAbilityEffect(){
-	TriggerAbilityEffect_Server();
-	return true;
-}
 
-void UGrenadeComponent::TriggerAbilityEffect_Server_Implementation()
-{
-	TriggerAbilityEffect_Multicast();
-}
-
-void UGrenadeComponent::TriggerAbilityEffect_Multicast_Implementation()
-{
 	UE_LOG(LogTemp, Warning, TEXT("Triggering Ability Effect: %s"), *abilityName.ToString());
 	//SpawnGrenadeActor();
 	AMain_Character* player = (AMain_Character*)GetOwner();
 	if(GetOwner()->HasAuthority())
 	{
-		player->GetCharacterMovement()->AddImpulse(player->GetFollowCamera()->GetComponentRotation().Vector()* 700.0f, true);
+		player->GetCharacterMovement()->AddImpulse(player->GetFollowCamera()->GetComponentRotation().Vector()* 4000.0f, true);
 
 	}
+	return true;
 }
 
 bool UGrenadeComponent::SpawnGrenadeActor()
