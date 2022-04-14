@@ -56,6 +56,9 @@ ABallActor::ABallActor()
 	//Simulates physics
 	SphereComp->SetSimulatePhysics(true);
 
+	//Continuos Collision Detection
+	SphereComp->SetUseCCD(true);
+	
 	//Sets the mesh's model in code (not the best practice)
 	SphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
 	SphereMesh->SetupAttachment(RootComponent);
