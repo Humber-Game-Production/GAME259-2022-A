@@ -400,7 +400,10 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 			}
 		}
 	}
-
+	else {
+		checkDamage = false;
+	}
+	
 	if (checkDamage) {
 		if (CurrentHealth > 0.0f) {
 			damageApplied = CurrentHealth - DamageTaken;
@@ -694,6 +697,10 @@ void AMain_Character::Die()
 	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
 	{
 		GameMode->Respawn(GetController());
+	}
+	if (GetController()) {
+		APlayerController* playerController = GetController<APlayerController>();
+		DisableInput(playerController);
 	}
 	//Start our destroy timer to remove actor
 	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);

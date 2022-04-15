@@ -63,6 +63,8 @@ protected:
     //Find a spawn point for the player to spawn at
     class APlayerSpawnPoint* GetSpawnPoint(TeamSelected owningTeam_);
 
+    virtual void Logout(AController* Exiting) override;
+
 
 public:
     UFUNCTION()
