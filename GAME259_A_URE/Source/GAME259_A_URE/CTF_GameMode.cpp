@@ -142,6 +142,12 @@ void ACTF_GameMode::HandleMatchHasEnded()
 	}
 }
 
+void ACTF_GameMode::Logout(AController* Exiting)
+{
+	Super::Logout(Exiting);
+	
+}
+
 void ACTF_GameMode::Respawn(AController* Controller)
 {
 	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(Controller))
