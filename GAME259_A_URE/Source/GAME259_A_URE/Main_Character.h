@@ -13,6 +13,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterHealthUpdate);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoUpdate, int, index, int, ballNum);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPowerUpdate, int, powerLevel);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FKillerUpdate, FString, killerName);
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityCooldownUpdate, int, index, float, cd_percentage);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelayAttackUpdate);
@@ -86,8 +90,13 @@ protected:
 	void MultiDie_Implementation();
 
 	//Combat abilities function
-	UFUNCTION(BlueprintCallable)
-		void ActivateBallRepulsor();
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void ActivateBallRepulsor_Server();
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+	void ActivateBallRepulsor_Multicast();
+
+	
 	UFUNCTION(BlueprintCallable)
 		void ActivateGrenade();
 
@@ -128,7 +137,6 @@ protected:
 
 	virtual void BeginPlay() override;
 
-
 	/** The player's maximum health. This is the highest that their health can be, and the value that their health starts at when spawned.*/
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
 		float MaxHealth;
@@ -138,8 +146,9 @@ protected:
 		float CurrentHealth;
 
 	/** Update Health */
-	void OnHealthUpdate();
+	//void OnHealthUpdate(AController* EventInstigator, AActor* DamageCauser);
 
+	void OnHealthUpdate();
 	/*Setup for velocity
 	  This is a percentage that effects velocity. 
 	  Ex. When it is 1.0f, it means that the velocity is at 100% usage.
@@ -229,7 +238,7 @@ public:
 
 	/** Setter for Current Health. Clamps the value between 0 and MaxHealth and calls OnHealthUpdate. Should only be called on the server.*/
 	UFUNCTION(BlueprintCallable, Category = "Health")
-		void SetCurrentHealth(float healthValue);
+		void SetCurrentHealth(float healthValue, AController* EventInstigator, AActor* DamageCauser);
 
 	// Event that will be triggered in the blueprint when player dies
 	UFUNCTION(BlueprintImplementableEvent)
@@ -249,7 +258,7 @@ public:
 	
 	//Add Combat Status
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
-		void AddCombatStatus(FName statusName_);
+		void AddCombatStatus(FName statusName_, AController* EventInstigator);
 
 	//Add Ball Ammo
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
@@ -291,7 +300,7 @@ public:
 		void SpawnBall_Multicast(FVector location, FRotator rotation, FVector impulse_, FName rowName);
 
 	UFUNCTION(BlueprintCallable, Server, Reliable)
-	void SpawnBall_Server(FVector location, FRotator rotation, FVector impulse_, FName rowName);
+		void SpawnBall_Server(FVector location, FRotator rotation, FVector impulse_, FName rowName);
 
 	UFUNCTION(BlueprintCallable, Server, Reliable)
 		void SpawnBallBP_Server(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_);
@@ -317,7 +326,13 @@ public:
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	FDelayAttackUpdate DelayAttackUpdate;
+		FDelayAttackUpdate DelayAttackUpdate;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+		FPowerUpdate PowerUpdate;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+		FKillerUpdate KillerUpdate;
 
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class ABallActor> BallDefaultClass;
