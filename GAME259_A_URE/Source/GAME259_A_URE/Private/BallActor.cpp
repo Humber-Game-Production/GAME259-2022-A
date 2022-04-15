@@ -11,6 +11,9 @@ ABallActor::ABallActor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	//NetPriority = 3;
+	//NetUpdateFrequency = 1000;
+	//
 	//bAlwaysRelevant = true;
 	bNetLoadOnClient = true;
 	bReplicates = true;
