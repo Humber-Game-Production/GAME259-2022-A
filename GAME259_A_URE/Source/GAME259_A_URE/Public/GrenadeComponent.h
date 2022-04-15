@@ -22,4 +22,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		bool SpawnGrenadeActor();
+
+	UFUNCTION(Server, Reliable)
+		void Strafe_Server();
+
+	UFUNCTION(NetMulticast, Reliable)
+		void Strafe_Multicast();
 };
