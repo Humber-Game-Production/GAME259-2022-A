@@ -22,13 +22,24 @@ bool UGrenadeComponent::TriggerAbilityEffect(){
 
 	UE_LOG(LogTemp, Warning, TEXT("Triggering Ability Effect: %s"), *abilityName.ToString());
 	//SpawnGrenadeActor();
+	Strafe_Server();
+	
+	return true;
+}
+
+void UGrenadeComponent::Strafe_Server_Implementation()
+{
+	Strafe_Multicast();
+}
+
+void UGrenadeComponent::Strafe_Multicast_Implementation()
+{
 	AMain_Character* player = (AMain_Character*)GetOwner();
 	if(GetOwner()->HasAuthority())
 	{
-		player->GetCharacterMovement()->AddImpulse(player->GetFollowCamera()->GetComponentRotation().Vector()* 4000.0f, true);
+		player->GetCharacterMovement()->AddImpulse(player->GetFollowCamera()->GetComponentRotation().Vector()* 700.0f, true);
 
 	}
-	return true;
 }
 
 bool UGrenadeComponent::SpawnGrenadeActor()
@@ -62,3 +73,5 @@ bool UGrenadeComponent::SpawnGrenadeActor()
 	
 	return true;
 }
+
+
