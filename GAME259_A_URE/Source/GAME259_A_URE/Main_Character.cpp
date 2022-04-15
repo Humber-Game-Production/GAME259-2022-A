@@ -131,6 +131,8 @@ AMain_Character::AMain_Character()
 	impulseDefOrig = impulseDef;
 	impulseFireOrig = impulseFire;
 	impulseIceOrig = impulseIce;
+
+	powerOn = true;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -164,9 +166,12 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 
 	//Controls the ball's power (impulse)
-	PlayerInputComponent->BindAction("PowerDown", IE_Pressed, this, &AMain_Character::LowPower);
-	PlayerInputComponent->BindAction("PowerUp", IE_Pressed, this, &AMain_Character::FullPower);
-	
+	//PlayerInputComponent->BindAction("PowerDown", IE_Pressed, this, &AMain_Character::LowPower);
+	//PlayerInputComponent->BindAction("PowerUp", IE_Pressed, this, &AMain_Character::FullPower);
+
+	PlayerInputComponent->BindAction("PowerDown", IE_Pressed, this, &AMain_Character::BallIndexIncrease);
+	PlayerInputComponent->BindAction("PowerUp", IE_Pressed, this, &AMain_Character::BallIndexDecrease);
+
 	//Combat Abilities binding
 	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor_Server);
 	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
@@ -209,7 +214,6 @@ void  AMain_Character::BeginPlay()
 
 	GrenadeAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
 	BallRepulsorAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
-
 }
 
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
@@ -419,51 +423,55 @@ void AMain_Character::Attack()
 	//If the ball has ammo, fire
 	if (GetAmmoContainer(currentBall)->ballNum > 0)
 	{
-		//Checks for the default ball
-		if (currentBall == CombatAmmoContainerComp0->ballInContainer)
-		{
-			if (lowerPower == true)
+		//Check if the option to adjust power is on
+		if (powerOn) {
+			//Checks for the default ball
+			if (currentBall == CombatAmmoContainerComp0->ballInContainer)
 			{
-				//Lowers the impulse of the default ball
-				impulseDef = impulseDef * 0.25f;
-			}
-			else
-			{
-				impulseDef = impulseDefOrig;
-			}
+				if (lowerPower == true)
+				{
+					//Lowers the impulse of the default ball
+					impulseDef = impulseDef * 0.25f;
+				}
+				else
+				{
+					impulseDef = impulseDefOrig;
+				}
 
-			impulse = impulseDef;
-		}
-		//Checks for the fire ball
-		if (currentBall == CombatAmmoContainerComp1->ballInContainer)
-		{
-			if (lowerPower == true)
-			{
-				//Lowers the impulse of the fire ball
-				impulseFire = impulseFire * 0.25f;
+				impulse = impulseDef;
 			}
-			else
+			//Checks for the fire ball
+			if (currentBall == CombatAmmoContainerComp1->ballInContainer)
 			{
-				impulseFire = impulseFireOrig;
-			}
+				if (lowerPower == true)
+				{
+					//Lowers the impulse of the fire ball
+					impulseFire = impulseFire * 0.25f;
+				}
+				else
+				{
+					impulseFire = impulseFireOrig;
+				}
 
-			impulse = impulseFire;
-		}
-		//Checks for the ice ball
-		if (currentBall == CombatAmmoContainerComp2->ballInContainer)
-		{
-			if (lowerPower == true)
-			{
-				//Lowers the impulse of the ice ball
-				impulseIce = impulseIce * 0.25f;
+				impulse = impulseFire;
 			}
-			else
+			//Checks for the ice ball
+			if (currentBall == CombatAmmoContainerComp2->ballInContainer)
 			{
-				impulseIce = impulseIceOrig;
-			}
+				if (lowerPower == true)
+				{
+					//Lowers the impulse of the ice ball
+					impulseIce = impulseIce * 0.25f;
+				}
+				else
+				{
+					impulseIce = impulseIceOrig;
+				}
 
-			impulse = impulseIce;
+				impulse = impulseIce;
+			}
 		}
+
 
 		//if the player has not attacked recently 
 		if (delayAttack == false)
@@ -565,28 +573,6 @@ void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRota
 void AMain_Character::SpawnBall_Server_Implementation(FVector location, FRotator rotation, FVector impulse_, FName rowName)
 {
 	SpawnBall_Multicast(location, rotation, impulse_, rowName);
-	//if (HasAuthority()) {
-		//FActorSpawnParameters ballSpawnInfo;
-		//ballSpawnInfo.Owner = this;
-		//ballSpawnInfo.Instigator = this;
-		//ballSpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		////ABallActor* ballActorBase = GetWorld()->SpawnActor<ABallActor>(ABall, location, rotation, ballSpawnInfo);
-		//ABallActor* ballActorBase = nullptr;
-
-		////Checks if the ball actor being used as a base to spawn the ball exists
-		//if (ballActorBase)
-		//{
-		//	//Sets the values of the thrown ball
-		//	//Throws the ball
-		//	ballActorBase->ApplyImpulse(impulse_);
-		//}
-		//else
-		//{
-		//	UE_LOG(LogTemp, Warning, TEXT("BallActor not found"));
-		//}
-
-	//}
-
 }
 
 void AMain_Character::SpawnBallBP_NetMulticast_Implementation(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_) {
@@ -611,7 +597,6 @@ void AMain_Character::SpawnBallBP_NetMulticast_Implementation(FVector location, 
 
 void AMain_Character::SpawnBallBP_Server_Implementation(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_){
 	SpawnBallBP_NetMulticast_Implementation(location, rotation, impulse_, ballActorClass_);
-
 }
 
 //Function to set whether to lower the impulse
@@ -723,7 +708,6 @@ bool AMain_Character::MultiDie_Validate()
 
 void AMain_Character::MultiDie_Implementation()
 {
-
 	GetCapsuleComponent()->DestroyComponent();
 	this->GetCharacterMovement();
 	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
@@ -753,7 +737,6 @@ void AMain_Character::AddCombatStatus(FName statusName_, AController* EventInsti
 				CombatStatusComp->AddCombatStatus(statusName_);
 			}
 		}
-
 	}
 }
 
@@ -765,17 +748,14 @@ void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) 
 	switch (ballType){
 
 		case BallDefault:
-
 			index = AmmoBallSlot.Find(CombatAmmoContainerComp0);
 			break;
 
 		case BallFire:
-
 			index = AmmoBallSlot.Find(CombatAmmoContainerComp1);
 			break;
 
 		case BallIce:
-
 			index = AmmoBallSlot.Find(CombatAmmoContainerComp2);
 			break;
 
@@ -788,7 +768,6 @@ void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) 
 		AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballNum);
 		currentBall = ballType;
 	}
-
 }
 
 void AMain_Character::ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_) {
@@ -868,5 +847,25 @@ void AMain_Character::SetToBallType1() {
 void AMain_Character::SetToBallType2() {
 	currentBall = CombatAmmoContainerComp2->ballInContainer;
 	AmmoUpdate.Broadcast(2, CombatAmmoContainerComp2->ballNum);
+}
+
+void AMain_Character::BallIndexIncrease() {
+	int index = AmmoBallSlot.Find(GetAmmoContainer(currentBall));
+	index++;
+	if (index >= AmmoBallSlot.Num()) {
+		index = 0;
+	}
+	currentBall = AmmoBallSlot[index]->ballInContainer;
+	AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballInContainer);
+}
+
+void AMain_Character::BallIndexDecrease() {
+	int index = AmmoBallSlot.Find(GetAmmoContainer(currentBall));
+	index--;
+	if (index < 0) {
+		index = AmmoBallSlot.Num() - 1;
+	}
+	currentBall = AmmoBallSlot[index]->ballInContainer;
+	AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballInContainer);
 }
 

@@ -27,17 +27,35 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = "Timer")
 		FTimerHandle AbilityTimeHandle;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Timer")
+		float durationTime;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABallRepulsorActor> BallRepulsorClass;
+
+
+
 	UFUNCTION(BlueprintCallable)
 		bool TriggerAbilityEffect() override;
 
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
-		void AddCollisionComp();
+		void AddCollisionComp_Multicast();
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+		void AddCollisionComp_Server();
 
 	UFUNCTION(BlueprintCallable)
 		void EndAbility();
 
 	UFUNCTION(BlueprintCallable)
 		void OnDestroy();
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+		void OnDestroy_Multicast(ABallRepulsorActor* collisionActor_);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+		void OnDestroy_Server(ABallRepulsorActor* collisionActor_);
+
 
 protected:
 	// Called when the game starts or when spawned

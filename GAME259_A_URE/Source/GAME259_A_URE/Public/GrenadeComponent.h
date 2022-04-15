@@ -17,6 +17,9 @@ class GAME259_A_URE_API UGrenadeComponent : public UBaseAbilityComponent
 public:
 	UGrenadeComponent();
 	
+	UPROPERTY(EditAnywhere, Category = "Direction")
+		bool forwardVector;
+
 	UFUNCTION(BlueprintCallable)
 		bool TriggerAbilityEffect() override;
 
