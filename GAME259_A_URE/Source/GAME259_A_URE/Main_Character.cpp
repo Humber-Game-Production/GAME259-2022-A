@@ -168,7 +168,7 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("PowerUp", IE_Pressed, this, &AMain_Character::FullPower);
 	
 	//Combat Abilities binding
-	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor);
+	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor_Server);
 	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
 
 	PlayerInputComponent->BindAction("Inventory1", IE_Pressed, this, &AMain_Character::SetToBallType0);
@@ -807,11 +807,17 @@ FString AMain_Character::GetNameOfActor(){
 
 
 
-void AMain_Character::ActivateBallRepulsor() {
+void AMain_Character::ActivateBallRepulsor_Server_Implementation() {
+	ActivateBallRepulsor_Multicast();
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, GetName());
+}
 
+void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
+{
 	if (BallRepulsorAbility->ActivateAbility()) {
 		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
 		AbilityCooldownUpdate.Broadcast(1, BallRepulsorAbility->getCooldown());
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, GetName());
 	}
 }
 
