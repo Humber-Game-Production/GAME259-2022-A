@@ -174,7 +174,7 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 	//Combat Abilities binding
 	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor_Server);
-	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
+	PlayerInputComponent->BindAction("Strafe", IE_Pressed, this, &AMain_Character::ActivateGrenade);
 
 	PlayerInputComponent->BindAction("Inventory1", IE_Pressed, this, &AMain_Character::SetToBallType0);
 	PlayerInputComponent->BindAction("Inventory2", IE_Pressed, this, &AMain_Character::SetToBallType1);
