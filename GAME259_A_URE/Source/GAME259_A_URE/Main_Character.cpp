@@ -698,6 +698,10 @@ void AMain_Character::Die()
 	{
 		GameMode->Respawn(GetController());
 	}
+	if (GetController()) {
+		APlayerController* playerController = GetController<APlayerController>();
+		DisableInput(playerController);
+	}
 	//Start our destroy timer to remove actor
 	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
 	//}
