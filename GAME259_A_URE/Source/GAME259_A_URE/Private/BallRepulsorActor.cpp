@@ -50,22 +50,28 @@ void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 		OtherActor->IsA(ABallActor::StaticClass())) {
 		ABallActor* ballActor = (ABallActor*)OtherActor;
 
+		
 		//Check that it is not a ball owned by the player
-		if (ballActor->GetOwner() != GetOwner()) {
-			//UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Ability Overlapping"));
-			//UE_LOG(LogTemp, Warning, TEXT("SengRequest: %s"), (sendRequest ? TEXT("true") : TEXT("false")));
-			if (GetOwner()->HasAuthority()) {
-				if (sendRequest) {
-					//Set a negative force then set the booleans
-					UE_LOG(LogTemp, Warning, TEXT("Ability Activating"));
-					FVector ballVector = ballActor->GetActorForwardVector();
-					ballActor->ApplyImpulse(ballVector * -5000.0f); // change back to -1.0f after testing
-					//triggered = true;
-					//sendRequest = false;
-				}
-			}
 
+		if(GetOwner()) {
+			if (ballActor->GetOwner() != GetOwner()) {
+				//UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Ability Overlapping"));
+				//UE_LOG(LogTemp, Warning, TEXT("SengRequest: %s"), (sendRequest ? TEXT("true") : TEXT("false")));
+				if (GetOwner()->HasAuthority()) {
+					if (sendRequest) {
+						//Set a negative force then set the booleans
+						UE_LOG(LogTemp, Warning, TEXT("Ability Activating"));
+						FVector ballVector = ballActor->GetActorForwardVector();
+						ballActor->ApplyImpulse(ballVector * -5000.0f); // change back to -1.0f after testing
+						//triggered = true;
+						//sendRequest = false;
+					}
+				}
+
+			}
 		}
+		
+		
 
 	}
 

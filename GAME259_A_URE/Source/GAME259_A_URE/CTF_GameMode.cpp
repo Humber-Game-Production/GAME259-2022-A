@@ -23,7 +23,7 @@ ACTF_GameMode::ACTF_GameMode()
 	matchTimeLimit = 1000.0f;
 	warmupTimeLimit = 10.0f;
 	maxScore = 3;
-	maxPlayers = 2;
+	maxPlayers = 4;
 
 	//maxRounds = 3;    //not used at this point
 	//respawnDelay = 5.0f;   //currently not used, would require coordination with UI respawn widget to have dynamic respawnDelay
@@ -140,6 +140,14 @@ void ACTF_GameMode::HandleMatchHasEnded()
 		GS->MatchTimer.Invalidate();
 		
 	}
+}
+
+void ACTF_GameMode::Logout(AController* Exiting)
+{
+	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(Exiting)) {
+		Players.Remove(PlayerController);
+	}
+	Super::Logout(Exiting);
 }
 
 void ACTF_GameMode::Respawn(AController* Controller)

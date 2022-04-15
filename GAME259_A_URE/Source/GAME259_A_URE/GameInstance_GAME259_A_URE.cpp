@@ -41,7 +41,6 @@ void UGameInstance_GAME259_A_URE::OnCreateSessionComplete(FName SessionName, boo
 
 		GetWorld()->ServerTravel("/Game/Levels/IceMaze?listen");
 		//GetWorld()->ServerTravel("/Game/LobbySystem/Levels/Networking_GameTestMap?listen");
-		//GetWorld()->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap?listen");
 	}
 }
 
@@ -124,7 +123,7 @@ void UGameInstance_GAME259_A_URE::CreateServer(FString ServerName)
 	}
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
-	SessionSettings.NumPublicConnections = 40;
+	SessionSettings.NumPublicConnections = 9;
 	SessionSettings.bUseLobbiesIfAvailable = true;
 
 	// Set Server Names
