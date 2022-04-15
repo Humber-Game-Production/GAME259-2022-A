@@ -4,7 +4,6 @@
 #include "Main_PlayerController.h"
 #include "CTF_GameMode.h"
 #include "CTF_GameState.h"
-#include "DrawDebugHelpers.h"
 #include "PlayerStats.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -21,6 +20,7 @@
 #include "Public/GrenadeComponent.h"
 #include "Public/BallRepulsorComponent.h"
 #include "CTF_PlayerState.h"
+#include "DrawDebugHelpers.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
