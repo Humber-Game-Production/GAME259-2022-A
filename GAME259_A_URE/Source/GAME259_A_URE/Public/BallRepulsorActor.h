@@ -20,7 +20,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	bool sendRequest;
-	bool triggered; //ability is triggered
+
 
 public:
 	// Called every frame
@@ -30,10 +30,23 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = "Collison")
 		class USphereComponent* BallRepulsorCollision;
 
+	//Stores the sphere component
+	UPROPERTY(VisibleDefaultsOnly, Category = "Mesh")
+		class UStaticMeshComponent* BallRepulsorMesh;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "Timer")
+		FTimerHandle TimeHandle;
+
+	UPROPERTY(EditAnywhere, Category = "Timer")
+		float durationTime;
+
 	UFUNCTION(BlueprintCallable)
-		bool getTriggered() { return triggered; }
+		void Activate();
+
 	UFUNCTION(BlueprintCallable)
-		void setTriggered(bool triggered_) { triggered = triggered_; }
+		float getDuration() { return durationTime; }
+	UFUNCTION(BlueprintCallable)
+		void setDuration(bool durationTime_) { durationTime = durationTime_; }
 
 	UFUNCTION(BlueprintCallable)
 		bool getSendRequest() { return sendRequest; }
@@ -41,12 +54,9 @@ public:
 		void setSendRequest(bool sendRequest_) { sendRequest = sendRequest_; }
 
 	UFUNCTION(BlueprintCallable)
-		void On_Destroy();
+		void OnDestroy();
 
 	UFUNCTION()
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	UFUNCTION()
-		void EndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
 
 };
