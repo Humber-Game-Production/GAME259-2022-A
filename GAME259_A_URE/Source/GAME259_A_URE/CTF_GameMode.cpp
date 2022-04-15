@@ -23,7 +23,7 @@ ACTF_GameMode::ACTF_GameMode()
 	matchTimeLimit = 1000.0f;
 	warmupTimeLimit = 10.0f;
 	maxScore = 3;
-	maxPlayers = 2;
+	maxPlayers = 4;
 
 	//maxRounds = 3;    //not used at this point
 	//respawnDelay = 5.0f;   //currently not used, would require coordination with UI respawn widget to have dynamic respawnDelay
