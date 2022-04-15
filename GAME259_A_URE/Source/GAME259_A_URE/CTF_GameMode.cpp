@@ -20,6 +20,7 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 	DefaultPawnClass = AMain_Character::StaticClass();
 
+	//These defaults may be changed in CTF_GameMode
 	matchTimeLimit = 1000.0f;
 	warmupTimeLimit = 10.0f;
 	maxScore = 3;
@@ -145,9 +146,32 @@ void ACTF_GameMode::HandleMatchHasEnded()
 void ACTF_GameMode::Logout(AController* Exiting)
 {
 	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(Exiting)) {
-		Players.Remove(PlayerController);
+		if (Players.Contains(Exiting)) {
+			if (ACTF_PlayerState* PS = Cast<ACTF_PlayerState>(PlayerController->PlayerState)) {
+				if (PS->team == TeamSelected::TEAM_A) {
+					if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+						GS->numTeamAPlayers -= 1;
+						GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("Reduce team players"));
+						GS->PlayerDied(PlayerController);
+						GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("Player died call"));
+					}
+				}
+				else if (PS->team == TeamSelected::TEAM_B) {
+					if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+						GS->numTeamBPlayers -= 1;
+						GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("Reduce team players"));
+						GS->PlayerDied(PlayerController);
+						GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("Player died call"));
+					}
+				}
+			}
+			Players.Remove(PlayerController);
+		}
+		else if (Spectators.Contains(Exiting)) {
+			Spectators.Remove(PlayerController);
+		}
+		Super::Logout(Exiting);
 	}
-	Super::Logout(Exiting);
 }
 
 void ACTF_GameMode::Respawn(AController* Controller)
