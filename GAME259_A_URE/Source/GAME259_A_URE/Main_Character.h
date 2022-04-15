@@ -250,6 +250,10 @@ public:
 	//Enables whether  to lower the power of impulse
 	UPROPERTY(EditAnywhere, Category = "Debug")
 		bool lowerPower;
+
+	//Enables whether  to lower the power of impulse
+	UPROPERTY(EditAnywhere, Category = "Debug")
+		bool powerOn;
 	
 	//Add Combat Status
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
@@ -281,6 +285,13 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void SetToBallType2();
+
+	UFUNCTION(BlueprintCallable)
+		void BallIndexIncrease();
+
+	UFUNCTION(BlueprintCallable)
+		void BallIndexDecrease();
+
 
 	UFUNCTION(BlueprintCallable)
 		FString GetNameOfActor();

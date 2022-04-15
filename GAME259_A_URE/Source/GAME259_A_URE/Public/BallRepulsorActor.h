@@ -40,6 +40,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Timer")
 		float durationTime;
 
+	UPROPERTY(VisibleDefaultsOnly, Category = "BallRepuslse")
+		FVector rotationOffset;
+
 	UFUNCTION(BlueprintCallable)
 		void Activate();
 

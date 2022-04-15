@@ -205,22 +205,26 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 				//Broadcasts the time to add message with the amount of time needed
 				MessageDamage.Broadcast(DamageToDeal);
 				TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
-
 				playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), DamageCauserController, this);
 				//Add Combat Status
 				if (Status != "None") {
-
 					playerCharacter->AddCombatStatus(Status, DamageCauserController);
+				}
+				if (playerCharacter->GetController()) {
+					if (DamageCauserController != playerCharacter->GetController()) {
+						this->Destroy();
+					}
 				}
 			}
 			else if (!IsLethal) {
 				//Add ball ammo then destroy the character
 				playerCharacter->AddBallAmmo(ballType, 1);
+				this->Destroy();
 			}
-			this->Destroy();
 		}
 	}
 }
+
 void ABallActor::ApplyForce(float force_) {
 	//Apply am opposite force if the parameter is negative
 	FVector velocityVec = SphereComp->GetPhysicsLinearVelocity();

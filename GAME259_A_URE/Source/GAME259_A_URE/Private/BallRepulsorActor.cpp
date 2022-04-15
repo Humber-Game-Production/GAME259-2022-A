@@ -25,7 +25,8 @@ ABallRepulsorActor::ABallRepulsorActor()
 	bNetLoadOnClient = true;
 	bNetUseOwnerRelevancy = true;
 	bReplicates = true;
-	durationTime = 3.0f;
+	durationTime = 20.0f;
+	rotationOffset = FVector(0.0f, 0.0f, 0.0f);
 
 }
 
@@ -33,6 +34,7 @@ ABallRepulsorActor::ABallRepulsorActor()
 void ABallRepulsorActor::BeginPlay()
 {
 	Super::BeginPlay();
+	BallRepulsorCollision->OnComponentBeginOverlap.AddDynamic(this, &ABallRepulsorActor::BeginOverlap);
 	Activate();
 }
 
@@ -55,11 +57,11 @@ void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 		if (GetOwner()) {
 			if (ballActor->GetOwner() != GetOwner()) {
 				if (GetOwner()->HasAuthority()) {
-					if (sendRequest) {
-						//Set a negative force then set the booleans
-						UE_LOG(LogTemp, Warning, TEXT("Ability Activating"));
-						FVector ballVector = ballActor->GetActorForwardVector();
-						ballActor->ApplyImpulse(ballVector * -5000.0f); // change back to -1.0f after testing
+					//Set a negative force then set the booleans
+					UE_LOG(LogTemp, Warning, TEXT("Ability Activating"));
+					FVector ballVector = ballActor->GetActorRotation().Vector().RotateAngleAxis(-45.0f, FVector(0.0f, 1.0f, 0.0f));
+					if (ballActor->IsLethal) {
+						ballActor->ApplyImpulse(ballVector * -8000.0f); // change back to -1.0f after testing
 					}
 				}
 			}

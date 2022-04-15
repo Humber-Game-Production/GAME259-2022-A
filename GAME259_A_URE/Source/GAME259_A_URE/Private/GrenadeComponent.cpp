@@ -16,6 +16,7 @@ UGrenadeComponent::UGrenadeComponent() {
 	abilityName = "Grenade";
 	cooldown = 1.0f;
 	cd_countdown = 0.0f;
+	forwardVector = true;
 }
 
 bool UGrenadeComponent::TriggerAbilityEffect(){
@@ -35,8 +36,16 @@ void UGrenadeComponent::TriggerAbilityEffect_Multicast_Implementation()
 	AMain_Character* player = (AMain_Character*)GetOwner();
 	if(GetOwner()->HasAuthority())
 	{
-		player->GetCharacterMovement()->AddImpulse(player->GetFollowCamera()->GetComponentRotation().Vector()* 700.0f, true);
-
+		if (forwardVector) {
+			player->GetCharacterMovement()->AddImpulse(player->GetActorForwardVector() * 700.0f, true);
+		}
+		else {
+			FVector direction = player->GetFollowCamera()->GetComponentRotation().Vector();
+			float movement_x = direction.X * 700.0f;
+			float movement_y = direction.Y * 700.0f;
+			float movement_z = direction.Z * 250.0f;
+			player->GetCharacterMovement()->AddImpulse(FVector(movement_x, movement_y, movement_z), true);
+		}
 	}
 }
 
