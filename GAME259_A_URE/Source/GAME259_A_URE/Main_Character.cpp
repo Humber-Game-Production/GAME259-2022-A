@@ -400,7 +400,10 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 			}
 		}
 	}
-
+	else {
+		checkDamage = false;
+	}
+	
 	if (checkDamage) {
 		if (CurrentHealth > 0.0f) {
 			damageApplied = CurrentHealth - DamageTaken;
