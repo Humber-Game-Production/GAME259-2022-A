@@ -22,7 +22,7 @@ bool UGrenadeComponent::TriggerAbilityEffect(){
 
 	UE_LOG(LogTemp, Warning, TEXT("Triggering Ability Effect: %s"), *abilityName.ToString());
 	//SpawnGrenadeActor();
-	Strafe_Server_Implementation();
+	Strafe_Server();
 	
 	return true;
 }
