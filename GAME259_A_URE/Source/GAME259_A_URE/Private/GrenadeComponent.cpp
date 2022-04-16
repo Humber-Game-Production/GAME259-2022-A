@@ -33,6 +33,11 @@ void UGrenadeComponent::Strafe_Server_Implementation()
 	Strafe_Multicast();
 }
 
+bool UGrenadeComponent::Strafe_Server_Validate()
+{
+	return true;
+}
+
 void UGrenadeComponent::Strafe_Multicast_Implementation()
 {
 	AMain_Character* player = (AMain_Character*)GetOwner();
@@ -82,5 +87,7 @@ bool UGrenadeComponent::SpawnGrenadeActor()
 	
 	return true;
 }
+
+
 
 

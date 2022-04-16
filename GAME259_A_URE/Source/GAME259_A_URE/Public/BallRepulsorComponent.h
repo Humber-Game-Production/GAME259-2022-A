@@ -41,7 +41,7 @@ public:
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void AddCollisionComp_Multicast();
 
-	UFUNCTION(BlueprintCallable, Server, Reliable)
+	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation)
 		void AddCollisionComp_Server();
 
 	UFUNCTION(BlueprintCallable)

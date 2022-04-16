@@ -216,6 +216,36 @@ void  AMain_Character::BeginPlay()
 	BallRepulsorAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
 }
 
+// https://docs.unrealengine.com/5.0/en-US/API/Runtime/Engine/Engine/ENetRole/
+// https://docs.unrealengine.com/5.0/en-US/actor-role-and-remoterole-in-unreal-engine/
+FString GetEnumText(ENetRole BallRole)
+{
+	switch (BallRole)
+	{
+	case ROLE_None:
+		return "ROLE_None";
+	case ROLE_SimulatedProxy:
+		return "ROLE_SimulatedProxy";
+	case ROLE_AutonomousProxy:
+		return "ROLE_AutonomousProxy";
+	case ROLE_Authority:
+		return "ROLE_Authority";
+	case ROLE_MAX:
+		return "WTF is ROLE_Max";
+	default:
+		return "hello";
+	}
+}
+
+void AMain_Character::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	// Checks for NetRole
+	DrawDebugString(GetWorld(), FVector(0,0,100), GetEnumText(GetLocalRole()), this, FColor::Black, DeltaSeconds);
+
+}
+
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AMain_Character, CurrentHealth);

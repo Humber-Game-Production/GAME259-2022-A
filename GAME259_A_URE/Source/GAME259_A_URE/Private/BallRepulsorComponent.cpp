@@ -42,6 +42,11 @@ void UBallRepulsorComponent::AddCollisionComp_Server_Implementation() {
 	AddCollisionComp_Multicast();
 }
 
+bool UBallRepulsorComponent::AddCollisionComp_Server_Validate()
+{
+	return true;
+}
+
 void UBallRepulsorComponent::EndAbility(){
 	//collisionActor->setSendRequest(false);
 	//GetOwner()->GetWorldTimerManager().ClearTimer(AbilityTimeHandle);

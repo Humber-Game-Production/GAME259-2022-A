@@ -26,7 +26,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		bool SpawnGrenadeActor();
 
-	UFUNCTION(Server, Reliable)
+	UFUNCTION(Server, Reliable, WithValidation)
 		void Strafe_Server();
 
 	UFUNCTION(NetMulticast, Reliable)
