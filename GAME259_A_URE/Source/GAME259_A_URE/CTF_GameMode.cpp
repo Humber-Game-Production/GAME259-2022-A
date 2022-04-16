@@ -2,6 +2,7 @@
 
 #include "CTF_GameMode.h"
 #include "Main_Character.h"
+#include "GameFramework/SpectatorPawn.h"
 #include "Main_PlayerController.h"
 #include "CTF_PlayerState.h"
 #include "CTF_GameState.h"
@@ -70,15 +71,20 @@ void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 	{
 		//if players.Num >= max players, NewPlayer forced spectator 
 		if (Players.Num() >= maxPlayers) {
-			PlayerController->StartSpectatingOnly();
 			if (ACTF_PlayerState* PlayerState = Cast<ACTF_PlayerState>(NewPlayer->PlayerState)) {
 				PlayerState->SetIsSpectator(true);
 				PlayerState->isSpectator_CTF = true;
+				if (!GetMatchState().IsEqual("WaitingToStart")) {
+					PlayerController->GetPawn()->Destroy();
+				}
+				Spawn(PlayerController);
 				Spectators.Add(PlayerController);
 			}
 			return;
 		}
-		Players.Add(PlayerController);
+		else {
+			Players.Add(PlayerController);
+		}
 	}
 }
 
@@ -300,7 +306,7 @@ void ACTF_GameMode::Spawn(AController* Controller)
 				FVector LocationOffset = FVector(0.0f, 0.0f, 0.0f);
 				FVector Location = SpawnPoint->GetActorLocation() + LocationOffset;
 				FRotator Rotation = SpawnPoint->GetActorRotation();
-				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, Rotation))
+				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(SpectatorClass, Location, Rotation))
 				{
 					PlayerController->Possess(Pawn);
 				}
