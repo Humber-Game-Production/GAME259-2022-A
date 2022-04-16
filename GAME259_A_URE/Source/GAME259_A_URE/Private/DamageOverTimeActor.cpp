@@ -6,16 +6,13 @@
 
 ADamageOverTimeActor::ADamageOverTimeActor(){}
 
-
-
-
 void ADamageOverTimeActor::ApplyEffect(){
 
 	//UE_LOG(LogTemp, Warning, TEXT("This is a DOT actor."));
 	AMain_Character* player = (AMain_Character*)this->GetOwner();
 	//Let player take damage
 	if (player) {
-		player->TakeDamage(effectAmount, FDamageEvent(), nullptr, this);
+		player->TakeDamage(effectAmount, FOvertimeDamageEvent(), nullptr, this);
 	}
 	remainTime--;
 	//Remove combatstatus and destroy it when remain time is over
