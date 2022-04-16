@@ -218,7 +218,7 @@ void  AMain_Character::BeginPlay()
 
 // https://docs.unrealengine.com/5.0/en-US/API/Runtime/Engine/Engine/ENetRole/
 // https://docs.unrealengine.com/5.0/en-US/actor-role-and-remoterole-in-unreal-engine/
-FString GetEnumText(ENetRole BallRole)
+/*FString GetEnumText(ENetRole BallRole)
 {
 	switch (BallRole)
 	{
@@ -235,14 +235,14 @@ FString GetEnumText(ENetRole BallRole)
 	default:
 		return "hello";
 	}
-}
+}*/
 
 void AMain_Character::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
 	// Checks for NetRole
-	DrawDebugString(GetWorld(), FVector(0,0,100), GetEnumText(GetLocalRole()), this, FColor::Black, DeltaSeconds);
+	//DrawDebugString(GetWorld(), FVector(0,0,100), GetEnumText(GetLocalRole()), this, FColor::Black, DeltaSeconds);
 
 }
 

@@ -232,9 +232,9 @@ void ABallActor::ApplyForce(float force_) {
 	//Apply am opposite force if the parameter is negative
 	FVector velocityVec = SphereComp->GetPhysicsLinearVelocity();
 	if (velocityVec.Size() <= 0) {
-		SphereComp->AddForce(GetActorForwardVector() * 3000.0f * force_);
+		SphereComp->AddForce(GetActorForwardVector() * 1500.0f * force_);
 	}
-	SphereComp->AddForce(GetActorForwardVector() * 3000.0f * force_);
+	SphereComp->AddForce(GetActorForwardVector() * 1500.0f * force_);
 }
 
 void ABallActor::ApplyImpulse(FVector impulse_) {
