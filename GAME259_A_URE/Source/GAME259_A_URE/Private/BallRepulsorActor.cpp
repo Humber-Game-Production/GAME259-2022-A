@@ -16,7 +16,6 @@ ABallRepulsorActor::ABallRepulsorActor()
 	RootComponent = BallRepulsorCollision;
 	BallRepulsorCollision->InitSphereRadius(200.0f);
 	BallRepulsorCollision->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
-	BallRepulsorCollision->bHiddenInGame = false;
 
 	BallRepulsorMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	BallRepulsorMesh->SetupAttachment(RootComponent);

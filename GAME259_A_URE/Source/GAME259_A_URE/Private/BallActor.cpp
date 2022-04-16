@@ -51,7 +51,6 @@ ABallActor::ABallActor()
 	SphereComp->InitSphereRadius(40.0f);
 	//SphereComp->BodyInstance.SetCollisionProfileName(TEXT("BallCollision"));
 	SphereComp->SetCollisionProfileName(TEXT("BallCollisionOverlap"));
-	SphereComp->bHiddenInGame = false;
 	//SphereComp->SetIsReplicated(true);
 	//Simulates physics
 	SphereComp->SetSimulatePhysics(true);
@@ -91,7 +90,7 @@ ABallActor::ABallActor()
 	Status = "None";
 
 	//Lethal setup
-	IsLethal = true;
+	IsLethal = false;
 
 	lethalVelocity = 100.0f;
 
