@@ -28,18 +28,15 @@ bool UGrenadeComponent::TriggerAbilityEffect(){
 	return true;
 }
 
-void UGrenadeComponent::Strafe_Server_Implementation()
-{
+void UGrenadeComponent::Strafe_Server_Implementation(){
 	Strafe_Multicast();
 }
 
-bool UGrenadeComponent::Strafe_Server_Validate()
-{
+bool UGrenadeComponent::Strafe_Server_Validate(){
 	return true;
 }
 
-void UGrenadeComponent::Strafe_Multicast_Implementation()
-{
+void UGrenadeComponent::Strafe_Multicast_Implementation(){
 	AMain_Character* player = (AMain_Character*)GetOwner();
 	if(GetOwner()->HasAuthority())
 	{
@@ -56,20 +53,23 @@ void UGrenadeComponent::Strafe_Multicast_Implementation()
 	}
 }
 
-bool UGrenadeComponent::SpawnGrenadeActor()
-{
+bool UGrenadeComponent::SpawnGrenadeActor(){
+
 	AMain_Character* Player = (AMain_Character*)GetOwner();
 	if (GetOwner()) {
+
 		UDataTable* datatable = Player->GetBallDataTable();
+
 		if (datatable) {
+
 			FBallRow* GrenadeInfo = datatable->FindRow<FBallRow>(FName("Grenade"), TEXT("Grenade"));
 			if (GrenadeInfo) {
+
 				FActorSpawnParameters ActorSpawnParams;
 				ActorSpawnParams.Owner = GetOwner();
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 				FVector spawnLocation = GetOwner()->GetActorLocation() + FVector(100.0f, 100.0f, 0.0f);
 				FRotator rotation = GetOwner()->GetActorRotation();
-
 				AGrenadeActor* GrenadeActor = GetWorld()->SpawnActor<AGrenadeActor>(
 					AGrenadeActor::StaticClass(),
 					spawnLocation, rotation, ActorSpawnParams);
@@ -83,8 +83,6 @@ bool UGrenadeComponent::SpawnGrenadeActor()
 		}
 	}
 
-	
-	
 	return true;
 }
 

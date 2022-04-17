@@ -25,6 +25,10 @@ public:
 	UPROPERTY(EditAnywhere)
 		TArray<ACombatStatusActor*> combatStatusList;
 
+private:
+
+	ACombatStatusActor* existCombatStatus(FName statusName_);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -32,7 +36,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void AddCombatStatus(FName rowName_);
@@ -43,14 +46,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void RemoveCombatStatusList();
 
-
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FCombatStatusAdd OnCombStatusAdd;
-
-private:
-
-	ACombatStatusActor* existCombatStatus(FName statusName_);
-
 };
 
 //TODO: Enum Class Status Type

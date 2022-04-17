@@ -8,8 +8,8 @@
 #include "Components/CapsuleComponent.h"
 
 // Sets default values
-ABallRepulsorActor::ABallRepulsorActor()
-{
+ABallRepulsorActor::ABallRepulsorActor(){
+
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	BallRepulsorCollision = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
@@ -26,20 +26,17 @@ ABallRepulsorActor::ABallRepulsorActor()
 	bReplicates = true;
 	durationTime = 20.0f;
 	rotationOffset = FVector(0.0f, 0.0f, 0.0f);
-
 }
 
 // Called when the game starts or when spawned
-void ABallRepulsorActor::BeginPlay()
-{
+void ABallRepulsorActor::BeginPlay(){
 	Super::BeginPlay();
 	BallRepulsorCollision->OnComponentBeginOverlap.AddDynamic(this, &ABallRepulsorActor::BeginOverlap);
 	Activate();
 }
 
 // Called every frame
-void ABallRepulsorActor::Tick(float DeltaTime)
-{
+void ABallRepulsorActor::Tick(float DeltaTime){
 	Super::Tick(DeltaTime);
 }
 
@@ -57,7 +54,6 @@ void ABallRepulsorActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 			if (ballActor->GetOwner() != GetOwner()) {
 				if (GetOwner()->HasAuthority()) {
 					//Set a negative force then set the booleans
-					UE_LOG(LogTemp, Warning, TEXT("Ability Activating"));
 					FVector ballVector = ballActor->GetActorRotation().Vector().RotateAngleAxis(-45.0f, FVector(0.0f, 1.0f, 0.0f));
 					if (ballActor->IsLethal) {
 						ballActor->ApplyImpulse(ballVector * -8000.0f); // change back to -1.0f after testing
@@ -74,7 +70,7 @@ void ABallRepulsorActor::Activate(){
 		&ABallRepulsorActor::OnDestroy, durationTime, true);
 }
 
-void ABallRepulsorActor::OnDestroy() {
+void ABallRepulsorActor::OnDestroy(){
 	Destroy();
 }
 

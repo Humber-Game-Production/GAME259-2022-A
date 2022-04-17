@@ -22,8 +22,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityCooldownUpdate, int, index,
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelayAttackUpdate);
 
 //Setup current weapon delegate with index
-class USoundBase
-	;
+class USoundBase;
+
 UCLASS(config = Game)
 class AMain_Character : public ACharacter
 {
@@ -48,11 +48,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
-	//virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
-
 protected:
-
-	class UPlayerStatsComponent* PlayerStatsComp;
 
 	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
 
@@ -67,7 +63,7 @@ protected:
 		class UCombatAmmoContainerComponent* CombatAmmoContainerComp2;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		class UGrenadeComponent* GrenadeAbility;
+		class UStrafeComponent* StrafeAbility;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UBallRepulsorComponent* BallRepulsorAbility;
@@ -75,21 +71,20 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UAudioComponent* FireAudio;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		class UAudioComponent* TakeDamageAudio;
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* WalkingSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* TakeDamageSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* ShootingSound;
 
 	void Attack();
 
 	//for testing
 	void ManualAddBall();
 	void ManualMinusBall();
-	
-	UFUNCTION(NetMulticast, Reliable, WithValidation)
-		void ServerAttack();
-	bool ServerAttack_Validate();
-	void ServerAttack_Implementation();
 
 	void Die();
 
@@ -107,7 +102,7 @@ protected:
 
 	
 	UFUNCTION(BlueprintCallable)
-		void ActivateGrenade();
+		void ActivateStrafe();
 
 	FTimerHandle DestroyHandle;
 
@@ -317,18 +312,11 @@ public:
 	}
 
 	//Function used to spawn the ball in front of the player
-	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
-		void SpawnBall_Multicast(FVector location, FRotator rotation, FVector impulse_, FName rowName);
-
-	UFUNCTION(BlueprintCallable, Server, Reliable)
-		void SpawnBall_Server(FVector location, FRotator rotation, FVector impulse_, FName rowName);
-
 	UFUNCTION(BlueprintCallable, Server, Reliable)
 		void SpawnBallBP_Server(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_);
 
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void SpawnBallBP_NetMulticast(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_);
-
 
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void PlaySound_Multicast(USoundBase* sound_, FVector location_);
@@ -367,13 +355,7 @@ public:
 		TSubclassOf<class ABallActor> BallFireClass;
 
 	UFUNCTION(BlueprintCallable)
-			void On_Destroy();
-
-private:
-
-	UFUNCTION()
-	void ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_);
-
+		void On_Destroy();
 };
 
 USTRUCT()

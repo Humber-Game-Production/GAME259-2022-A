@@ -16,7 +16,6 @@ class GAME259_A_URE_API AReduceSpeedActor : public ACombatStatusActor
 
 public:
 	AReduceSpeedActor();
-	AReduceSpeedActor(float durationTime_, float effectAmount_);
 	
 protected:
 	void ApplyEffect() override;
