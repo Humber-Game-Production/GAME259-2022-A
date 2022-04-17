@@ -78,7 +78,14 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UAudioComponent* TakeDamageAudio;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* WalkingSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* TakeDamageSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* ShootingSound;
 
 	void Attack();
 
@@ -335,6 +342,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Server, Reliable)
 		void PlaySound_Server(USoundBase* sound_, FVector location_);
+
+
 
 	//Function to set whether to lower the impulse
 	UFUNCTION(BlueprintCallable)

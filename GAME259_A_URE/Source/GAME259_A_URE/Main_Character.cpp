@@ -82,6 +82,9 @@ AMain_Character::AMain_Character()
 	//Audio Components
 	FireAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("FireAudio"));
 	TakeDamageAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("TakeDamageAudio"));
+	WalkingSound = CreateDefaultSubobject<USoundBase>(TEXT("WalkingAudio"));
+	TakeDamageSound = CreateDefaultSubobject<USoundBase>(TEXT("TakeDamageAudio"));
+	ShootingSound = CreateDefaultSubobject<USoundBase>(TEXT("ShootingAudio"));
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -286,6 +289,7 @@ void AMain_Character::MoveForward(float Value)
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value * velPercentage); // custom defined velocity should be in effect
+		PlaySound_Server(WalkingSound, GetActorLocation());
 	}
 }
 
@@ -301,6 +305,7 @@ void AMain_Character::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value * velPercentage);
+		PlaySound_Server(WalkingSound, GetActorLocation());
 	}
 }
 
@@ -552,7 +557,7 @@ void AMain_Character::Attack()
 			UCombatAmmoContainerComponent* ammoContainer = GetAmmoContainer(currentBall);
 			AmmoUpdate.Broadcast(AmmoBallSlot.Find(ammoContainer), ammoContainer->ballNum);
 			DelayAttackUpdate.Broadcast();
-			FireAudio->Play();
+			PlaySound_Server(FireAudio->Sound, GetActorLocation());
 		}
 		
 	}
