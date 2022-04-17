@@ -67,7 +67,7 @@ protected:
 		class UCombatAmmoContainerComponent* CombatAmmoContainerComp2;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		class UGrenadeComponent* GrenadeAbility;
+		class UStrafeComponent* StrafeAbility;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UBallRepulsorComponent* BallRepulsorAbility;
@@ -114,7 +114,7 @@ protected:
 
 	
 	UFUNCTION(BlueprintCallable)
-		void ActivateGrenade();
+		void ActivateStrafe();
 
 	FTimerHandle DestroyHandle;
 

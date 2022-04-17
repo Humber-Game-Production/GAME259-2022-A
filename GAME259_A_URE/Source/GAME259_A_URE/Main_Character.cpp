@@ -21,7 +21,7 @@
 #include "Public/CombatStatusComponent.h"
 #include "Public/CombatStatusActor.h"
 #include "Public/CombatAmmoContainerComponent.h"
-#include "Public/GrenadeComponent.h"
+#include "Public/StrafeComponent.h"
 #include "Public/BallRepulsorComponent.h"
 #include "Public/BallRepulsorComponent.h"
 #include "CTF_PlayerState.h"
@@ -77,7 +77,7 @@ AMain_Character::AMain_Character()
 	bReplicates = true;
 	PlayerStatsComp = CreateDefaultSubobject<UPlayerStatsComponent>("PlayerStats");
 	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
-	GrenadeAbility = CreateDefaultSubobject<UGrenadeComponent>(TEXT("GrenadeAbility"));
+	StrafeAbility = CreateDefaultSubobject<UStrafeComponent>(TEXT("StrafeAbility"));
 	BallRepulsorAbility = CreateDefaultSubobject<UBallRepulsorComponent>(TEXT("BallRepulsorAbility"));
 	//Audio Components
 	FireAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("FireAudio"));
@@ -184,7 +184,7 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 
 	//Combat Abilities binding
 	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor_Server);
-	PlayerInputComponent->BindAction("Strafe", IE_Pressed, this, &AMain_Character::ActivateGrenade);
+	PlayerInputComponent->BindAction("Strafe", IE_Pressed, this, &AMain_Character::ActivateStrafe);
 
 	PlayerInputComponent->BindAction("Inventory1", IE_Pressed, this, &AMain_Character::SetToBallType0);
 	PlayerInputComponent->BindAction("Inventory2", IE_Pressed, this, &AMain_Character::SetToBallType1);
@@ -222,7 +222,7 @@ void  AMain_Character::BeginPlay()
 	AmmoBallSlot.Add(CombatAmmoContainerComp1);
 	AmmoBallSlot.Add(CombatAmmoContainerComp2);
 
-	GrenadeAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
+	StrafeAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
 	BallRepulsorAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
 	TakeDamageAudio->Stop();
 	FireAudio->Stop();
@@ -285,7 +285,7 @@ void AMain_Character::MoveForward(float Value)
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
+		
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value * velPercentage); // custom defined velocity should be in effect
@@ -308,35 +308,6 @@ void AMain_Character::MoveRight(float Value)
 }
 
 //////////////////////////////////////////////////////////////////////////
-
-//void AMain_Character::OnHealthUpdate(AController* EventInstigator, AActor* DamageCauser)
-//{
-//	//Display message to show current health
-//	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
-//	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
-//
-//	if (IsLocallyControlled())
-//	{
-//		// Updates Health Bar
-//		HealthUpdate.Broadcast(); // Added
-//	}
-//	if (HasAuthority())
-//	{
-//		if (CurrentHealth <= 0)
-//		{
-//
-//			//Display dying message when health reaches 0
-//			FString deathMessage = FString::Printf(TEXT("You have been killed."));
-//			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
-//
-//			Die();
-//
-//			// Calls Death Event to Remove HUD
-//			DeathEvent();
-//			
-//		}
-//	}
-//}
 
 void AMain_Character::OnHealthUpdate()
 {
@@ -374,11 +345,6 @@ void AMain_Character::SetCurrentHealth(float healthValue, AController* EventInst
 	if (HasAuthority())
 	{
 		CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
-
-		//bReplicates = true;
-		// Old Code
-		//HealthUpdate.Broadcast(CurrentHealth);
-		//Cast<AMain_PlayerController>(GetController())->HealthUpdateEvent();
 
 		OnHealthUpdate();
 		if (CurrentHealth <= 0)
@@ -520,7 +486,6 @@ void AMain_Character::Attack()
 			}
 		}
 
-
 		//if the player has not attacked recently 
 		if (delayAttack == false)
 		{
@@ -541,10 +506,6 @@ void AMain_Character::Attack()
 			}
 			SpawnBallBP_Server(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, FollowCamera->GetComponentRotation(),
 				FollowCamera->GetForwardVector() * impulse, BallActorClass);
-			//FName rowName = FName(UEnum::GetValueAsString(currentBall.GetValue()));
-			////Call the ball spawner
-			//SpawnBall_Server(ballSpawnLocation->GetComponentLocation() + ballSpawnLocation->GetComponentRotation().Vector() * ballSpawnOffset, FollowCamera->GetComponentRotation(), 
-			//	FollowCamera->GetForwardVector() * impulse, rowName);
 
 			//Delay the next attack
 			delayAttack = true;
@@ -572,7 +533,6 @@ void AMain_Character::Attack()
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("Time until next attack: %f"), GetWorldTimerManager().GetTimerRemaining(DelayHandle)));;	
 	}
 
-	//ServerAttack();
 }
 
 //Function used to spawn the ball in front of the player
@@ -698,7 +658,6 @@ void AMain_Character::ManualAddBall()
 {
 	UE_LOG(LogTemp, Warning, TEXT("AmmoListSize: %d"), AmmoBallSlot.Num());
 	AmmoBallSlot[0]->ManualAddNum();
-	//AmmoBallSlot[0]->AddNum(1);
 	if (debug == true)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Added Manually") );
@@ -734,8 +693,6 @@ void AMain_Character::On_Destroy() {
 
 void AMain_Character::Die()
 {
-	//if (HasAuthority())
-	//{
 	On_Destroy();
 	//Currently used to handle dropping flag
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
@@ -753,7 +710,6 @@ void AMain_Character::Die()
 	}
 	//Start our destroy timer to remove actor
 	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
-	//}
 }
 
 void AMain_Character::CallDestroy()
@@ -837,17 +793,6 @@ void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) 
 
 void AMain_Character::ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_) {
 
-	//UE_LOG(LogTemp, Warning, TEXT("Character Cooldown: %f"), cooldown_percentage_);
-
-	//if (abilityName_ == "BallRepulsor") {
-	//	UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
-	//	AbilityCooldownUpdate.Broadcast(1, cooldown_percentage_);
-	//}
-	//else if (abilityName_ == "Grenade") {
-	//	UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
-	//	AbilityCooldownUpdate.Broadcast(3, cooldown_percentage_);
-	//}
-
 }
 
 
@@ -872,11 +817,11 @@ void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
 	}
 }
 
-void AMain_Character::ActivateGrenade() {
+void AMain_Character::ActivateStrafe() {
 
-	if (GrenadeAbility->ActivateAbility()) {
-		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Grenade"));
-		AbilityCooldownUpdate.Broadcast(3, GrenadeAbility->getCooldown());
+	if (StrafeAbility->ActivateAbility()) {
+		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Strafe"));
+		AbilityCooldownUpdate.Broadcast(3, StrafeAbility->getCooldown());
 	}
 
 }
