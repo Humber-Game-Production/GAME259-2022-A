@@ -451,8 +451,8 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 			SetCurrentHealth(damageApplied, EventInstigator, DamageCauser);
 			FDamageEvent damageEvent = DamageEvent;
 			if ((FOvertimeDamageEvent*)&damageEvent == nullptr) {
-				TakeDamageAudio->Play();
 			}
+			TakeDamageAudio->Play();
 
 		}
 	}
