@@ -772,6 +772,7 @@ bool AMain_Character::MultiDie_Validate()
 
 void AMain_Character::MultiDie_Implementation()
 {
+	GetMovementComponent()->Velocity = FVector(0.0f, 0.0f, 0.0f);
 	GetCapsuleComponent()->DestroyComponent();
 	this->GetCharacterMovement();
 	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
