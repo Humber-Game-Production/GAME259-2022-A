@@ -289,7 +289,6 @@ void AMain_Character::MoveForward(float Value)
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value * velPercentage); // custom defined velocity should be in effect
-		PlaySound_Server(WalkingSound, GetActorLocation());
 	}
 }
 
@@ -305,7 +304,6 @@ void AMain_Character::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value * velPercentage);
-		PlaySound_Server(WalkingSound, GetActorLocation());
 	}
 }
 
