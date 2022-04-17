@@ -604,7 +604,8 @@ void AMain_Character::Die()
 	On_Destroy();
 	//Currently used to handle dropping flag
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
-		GS->PlayerDied(this);
+		AMain_PlayerController* playerController = GetController<AMain_PlayerController>();
+		GS->PlayerDied(playerController);
 	}
 	MultiDie();
 	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
@@ -618,6 +619,7 @@ void AMain_Character::Die()
 	}
 	//Start our destroy timer to remove actor
 	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
+	//}
 }
 
 void AMain_Character::CallDestroy()
