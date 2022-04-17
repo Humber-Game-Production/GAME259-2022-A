@@ -11,7 +11,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMatchTimeRemaining, int, timeRemaining_);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMatchHasEnded, TeamSelected, winningTeam_);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerKilledDelegate, AMain_Character*, playerKilled);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerKilledDelegate, AMain_PlayerController*, playerKilled);
 
 UCLASS()
 class GAME259_A_URE_API ACTF_GameState : public AGameState
@@ -24,7 +24,7 @@ public:
 	void MatchStartCountdownTick();
 	void MatchTick();
 
-	void PlayerDied(AMain_Character* deadPlayer_);
+	void PlayerDied(AMain_PlayerController* deadPlayer_);
 
 	float warmupStartTime;
 	float matchStartTime;

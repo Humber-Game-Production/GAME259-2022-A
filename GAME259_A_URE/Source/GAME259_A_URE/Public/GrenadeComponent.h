@@ -17,15 +17,18 @@ class GAME259_A_URE_API UGrenadeComponent : public UBaseAbilityComponent
 public:
 	UGrenadeComponent();
 	
+	UPROPERTY(EditAnywhere, Category = "Direction")
+		bool forwardVector;
+
 	UFUNCTION(BlueprintCallable)
 		bool TriggerAbilityEffect() override;
 
-	UFUNCTION(Server, Reliable)
-		void TriggerAbilityEffect_Server();
-
-	UFUNCTION(NetMulticast, Reliable)
-		void TriggerAbilityEffect_Multicast();
-
 	UFUNCTION(BlueprintCallable)
 		bool SpawnGrenadeActor();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void Strafe_Server();
+
+	UFUNCTION(NetMulticast, Reliable)
+		void Strafe_Multicast();
 };

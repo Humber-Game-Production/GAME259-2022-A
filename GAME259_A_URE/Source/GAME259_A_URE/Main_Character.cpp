@@ -4,6 +4,7 @@
 #include "Main_PlayerController.h"
 #include "CTF_GameMode.h"
 #include "CTF_GameState.h"
+#include "DrawDebugHelpers.h"
 #include "PlayerStats.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -20,7 +21,6 @@
 #include "Public/GrenadeComponent.h"
 #include "Public/BallRepulsorComponent.h"
 #include "CTF_PlayerState.h"
-#include "DrawDebugHelpers.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -168,7 +168,7 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("PowerUp", IE_Pressed, this, &AMain_Character::FullPower);
 	
 	//Combat Abilities binding
-	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor);
+	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor_Server);
 	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
 
 	PlayerInputComponent->BindAction("Inventory1", IE_Pressed, this, &AMain_Character::SetToBallType0);
@@ -340,29 +340,36 @@ void AMain_Character::SetCurrentHealth(float healthValue, AController* EventInst
 			//Display dying message when health reaches 0
 			FString killerName = "";
 
-			if (EventInstigator) {
-				ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
-				killerName = playerState->GetPlayerName();
-			}
-			else {
-				if (DamageCauser) {
-					if (DamageCauser == this) {
-						killerName = "Falling Damage";
-					}
-					else {
-						killerName = DamageCauser->GetFName().ToString();
-						ACombatStatusActor* combatStatus = (ACombatStatusActor*) DamageCauser;
-						if (combatStatus) {
-							killerName = combatStatus->getName().ToString();
-						}
-					}
+			//If the controller exists for this player
+			if (GetController()) {
+				//If some controller is responsible for the damage
+				if (EventInstigator) {
+					ACTF_PlayerState* playerState = EventInstigator->GetPlayerState<ACTF_PlayerState>();
+					killerName = playerState->GetPlayerName();
 				}
 				else {
-					killerName = "Unknown";
+					//Check which actor causes the damage if there's no controller responsible for the damage
+					if (DamageCauser) {
+						//If it is killed by self, it is a falling damage
+						if (DamageCauser == this) {
+							killerName = "Falling Damage";
+						}
+						//If it is killed by something else, it should be a combat status
+						else {
+							killerName = DamageCauser->GetFName().ToString();
+							ACombatStatusActor* combatStatus = (ACombatStatusActor*)DamageCauser;
+							if (combatStatus) {
+								killerName = combatStatus->getName().ToString();
+							}
+						}
+					}
+					else {
+						killerName = "Unknown";
+					}
 				}
+				KillerUpdate.Broadcast(killerName);
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("You have been killed by " + killerName));
 			}
-			KillerUpdate.Broadcast(killerName);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("You have been killed by " + killerName));
 		}
 	}
 }
@@ -373,15 +380,17 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 	float damageApplied = 0.0f;
 	bool checkDamage = true;
 
-	//Check if damageinstigator exists
-	if (EventInstigator != nullptr) {
-
-		if (EventInstigator == GetController()) {
-			checkDamage = false;
-		}
-		else {
-			ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
-			if (this->GetOwner()) {
+	//If the player has a controller, check damage
+	if (GetController()) {
+		//Check if damageinstigator exists
+		if (EventInstigator != nullptr) {
+			//If the damage is dealt by self, ignore it
+			if (EventInstigator == GetController()) {
+				checkDamage = false;
+			}
+			else {
+				//Check player's team
+				ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
 				ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
 				if (playerState && damageCauserPlayerState) {
 					if (playerState->team == damageCauserPlayerState->team) {
@@ -391,13 +400,15 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 			}
 		}
 	}
-
+	else {
+		checkDamage = false;
+	}
+	
 	if (checkDamage) {
 		if (CurrentHealth > 0.0f) {
 			damageApplied = CurrentHealth - DamageTaken;
 			// Changes the CurrentHealth variable
 			SetCurrentHealth(damageApplied, EventInstigator, DamageCauser);
-			UE_LOG(LogTemp, Warning, TEXT("Taking Damage"));
 		}
 	}
 	return damageApplied;
@@ -679,13 +690,18 @@ void AMain_Character::Die()
 	On_Destroy();
 	//Currently used to handle dropping flag
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
-		GS->PlayerDied(this);
+		AMain_PlayerController* playerController = GetController<AMain_PlayerController>();
+		GS->PlayerDied(playerController);
 	}
 	MultiDie();
 	AGameModeBase* GM = GetWorld()->GetAuthGameMode();
 	if (ACTF_GameMode* GameMode = Cast <ACTF_GameMode>(GM))
 	{
 		GameMode->Respawn(GetController());
+	}
+	if (GetController()) {
+		APlayerController* playerController = GetController<APlayerController>();
+		DisableInput(playerController);
 	}
 	//Start our destroy timer to remove actor
 	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
@@ -720,10 +736,25 @@ void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 	TakeDamage(100.0f, FDamageEvent(), nullptr, this);
 }
 
-void AMain_Character::AddCombatStatus(FName statusName_) {
+void AMain_Character::AddCombatStatus(FName statusName_, AController* EventInstigator) {
 
 	if (HasAuthority()) {
-		CombatStatusComp->AddCombatStatus(statusName_);
+		if (GetController()) {
+			//Check if damageinstigator exists
+			if (EventInstigator != nullptr) {
+				ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
+				ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
+				if (playerState && damageCauserPlayerState) {
+					if (playerState->team != damageCauserPlayerState->team) {
+						CombatStatusComp->AddCombatStatus(statusName_);
+					}
+				}
+			}
+			else {
+				CombatStatusComp->AddCombatStatus(statusName_);
+			}
+		}
+
 	}
 }
 
@@ -784,11 +815,17 @@ FString AMain_Character::GetNameOfActor(){
 
 
 
-void AMain_Character::ActivateBallRepulsor() {
+void AMain_Character::ActivateBallRepulsor_Server_Implementation() {
+	ActivateBallRepulsor_Multicast();
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, GetName());
+}
 
+void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
+{
 	if (BallRepulsorAbility->ActivateAbility()) {
 		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
 		AbilityCooldownUpdate.Broadcast(1, BallRepulsorAbility->getCooldown());
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, GetName());
 	}
 }
 
@@ -803,7 +840,6 @@ void AMain_Character::ActivateGrenade() {
 
 void AMain_Character::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 
-	UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Overlapping"));
 
 
 }

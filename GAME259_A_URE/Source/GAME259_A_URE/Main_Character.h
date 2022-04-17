@@ -90,8 +90,13 @@ protected:
 	void MultiDie_Implementation();
 
 	//Combat abilities function
-	UFUNCTION(BlueprintCallable)
-		void ActivateBallRepulsor();
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void ActivateBallRepulsor_Server();
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+	void ActivateBallRepulsor_Multicast();
+
+	
 	UFUNCTION(BlueprintCallable)
 		void ActivateGrenade();
 
@@ -131,7 +136,6 @@ protected:
 	// End of APawn interface
 
 	virtual void BeginPlay() override;
-
 
 	/** The player's maximum health. This is the highest that their health can be, and the value that their health starts at when spawned.*/
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
@@ -254,7 +258,7 @@ public:
 	
 	//Add Combat Status
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
-		void AddCombatStatus(FName statusName_);
+		void AddCombatStatus(FName statusName_, AController* EventInstigator);
 
 	//Add Ball Ammo
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
