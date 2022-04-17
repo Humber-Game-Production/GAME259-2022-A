@@ -11,6 +11,7 @@
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/InputComponent.h"
+#include "Animation/AnimMontage.h"
 #include "Net/UnrealNetwork.h"
 #include "Sound/SoundBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -495,6 +496,10 @@ void AMain_Character::Attack()
 			AmmoUpdate.Broadcast(AmmoBallSlot.Find(ammoContainer), ammoContainer->ballNum);
 			DelayAttackUpdate.Broadcast();
 			PlaySound_Server(ShootingSound, GetActorLocation());
+
+			if (throwAnim) {
+				PlayAnimMontage(throwAnim);
+			}
 		}
 	}
 	else {
@@ -654,18 +659,20 @@ void AMain_Character::AddCombatStatus(FName statusName_, AController* EventInsti
 
 	if (HasAuthority()) {
 		if (GetController()) {
-			//Check if damageinstigator exists
-			if (EventInstigator != nullptr) {
-				ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
-				ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
-				if (playerState && damageCauserPlayerState) {
-					if (playerState->team != damageCauserPlayerState->team) {
-						CombatStatusComp->AddCombatStatus(statusName_);
+			if (CurrentHealth > 0.0f) {
+				//Check if damageinstigator exists
+				if (EventInstigator != nullptr) {
+					ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
+					ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
+					if (playerState && damageCauserPlayerState) {
+						if (playerState->team != damageCauserPlayerState->team) {
+							CombatStatusComp->AddCombatStatus(statusName_);
+						}
 					}
 				}
-			}
-			else {
-				CombatStatusComp->AddCombatStatus(statusName_);
+				else {
+					CombatStatusComp->AddCombatStatus(statusName_);
+				}
 			}
 		}
 	}
@@ -712,6 +719,9 @@ void AMain_Character::ActivateBallRepulsor_Server_Implementation() {
 void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
 {
 	if (BallRepulsorAbility->ActivateAbility()) {
+		if (BallRepulsorAbility->AbilitySound) {
+			PlaySound_Server(BallRepulsorAbility->AbilitySound, GetActorLocation());
+		}
 		AbilityCooldownUpdate.Broadcast(1, BallRepulsorAbility->getCooldown());
 	}
 }
@@ -719,6 +729,9 @@ void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
 void AMain_Character::ActivateStrafe() {
 
 	if (StrafeAbility->ActivateAbility()) {
+		if (StrafeAbility->AbilitySound) {
+			PlaySound_Server(StrafeAbility->AbilitySound, GetActorLocation());
+		}
 		AbilityCooldownUpdate.Broadcast(3, StrafeAbility->getCooldown());
 	}
 

@@ -93,7 +93,7 @@ void ABallActor::BeginPlay()
 	Super::BeginPlay();
 	//Sets the timer to countdown at start
 	GetWorldTimerManager().SetTimer(TimeHandle, this, &ABallActor::DestroyTimerUp, DestroyTimer);
-	//SphereComp->OnComponentHit.AddDynamic(this, &ABallActor::OnBlock);
+	GetWorldTimerManager().SetTimer(LethalTimeHandle, this, &ABallActor::lethalOff, 2.0f);
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ABallActor::BeginOverlap);
 }
 
@@ -139,49 +139,6 @@ void ABallActor::DestroyTimerUp()
 	this->Destroy();
 }
 
-//An overlap function
-void ABallActor::OnBlock(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-{
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
-		//Check if the ball is overlapping with the character
-		if (OtherActor->IsA(AMain_Character::StaticClass())) {
-
-			AMain_Character* playerCharacter = (AMain_Character*)OtherActor;
-			AController* DamageCauserController = nullptr;
-			if (GetInstigator()){
-				DamageCauserController = GetInstigator()->GetController();
-			}
-
-			if (IsLethal){
-				//Broadcasts the time to add message with the amount of time needed
-				MessageDamage.Broadcast(DamageToDeal);
-				TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
-
-				playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), DamageCauserController, this);
-				//Add Combat Status
-				if (Status != "None"){
-
-					playerCharacter->AddCombatStatus(Status, DamageCauserController);
-				}
-				//Ball bouncing off when hit by teammates
-				if (playerCharacter->GetController()){
-					if (DamageCauserController != playerCharacter->GetController()) {
-						this->Destroy();
-					}
-				}
-			}
-			else if (!IsLethal){
-				if (playerCharacter->GetCurrentHealth() > 0) {
-					//Add ball ammo then destroy the character
-					playerCharacter->AddBallAmmo(ballType, 1);
-					this->Destroy();
-				}
-			}
-		}
-	}
-}
-
-
 void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)){
@@ -202,13 +159,15 @@ void ABallActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 				playerCharacter->TakeDamage(DamageToDeal, FDamageEvent(DamageType), DamageCauserController, this);
 				//Add Combat Status
 				if (Status != "None"){
-					playerCharacter->AddCombatStatus(Status, DamageCauserController);
-				}
-				if (playerCharacter->GetController()){
-					if (DamageCauserController != playerCharacter->GetController()) {
-						this->Destroy();
+					if (playerCharacter) {
+						playerCharacter->AddCombatStatus(Status, DamageCauserController);
 					}
 				}
+				//if (playerCharacter->GetController()){
+				//	if (DamageCauserController != playerCharacter->GetController()) {
+				//		this->Destroy();
+				//	}
+				//}
 			}
 			else if (!IsLethal){
 				//Add ball ammo then destroy the character
@@ -239,11 +198,16 @@ void ABallActor::setValue(UStaticMesh* sphereMesh_, UMaterial* sphereMaterial_,
 		SphereMesh->SetStaticMesh(sphereMesh_);
 		SphereMesh->SetMaterial(0, sphereMaterial_);
 	}
+	IsLethal = isLethal_;
 	DamageToDeal = damageToDeal_;
 	Status = combatStatus_;
 	ballType = ballType_;
 }
 
+void ABallActor::lethalOff() {
+	IsLethal = false;
+	GetWorldTimerManager().ClearTimer(LethalTimeHandle);
+}
 
 
 
