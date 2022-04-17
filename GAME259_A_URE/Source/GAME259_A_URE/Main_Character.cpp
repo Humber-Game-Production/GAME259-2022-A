@@ -6,6 +6,7 @@
 #include "CTF_GameState.h"
 #include "DrawDebugHelpers.h"
 #include "PlayerStats.h"
+#include "Kismet/GameplayStatics.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -13,6 +14,7 @@
 #include "Components/SphereComponent.h"
 #include "Components/InputComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "Sound/SoundBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -452,7 +454,9 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 			FDamageEvent damageEvent = DamageEvent;
 			if ((FOvertimeDamageEvent*)&damageEvent == nullptr) {
 			}
-			TakeDamageAudio->Play();
+			PlaySound_Server(TakeDamageAudio->Sound, GetActorLocation());
+			//UGameplayStatics::PlaySoundAtLocation(GetWorld(), TakeDamageAudio->Sound, GetActorLocation());
+			//TakeDamageAudio->Play();
 
 		}
 	}
@@ -640,6 +644,21 @@ void AMain_Character::SpawnBallBP_NetMulticast_Implementation(FVector location, 
 void AMain_Character::SpawnBallBP_Server_Implementation(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_){
 	SpawnBallBP_NetMulticast_Implementation(location, rotation, impulse_, ballActorClass_);
 }
+
+
+void AMain_Character::PlaySound_Multicast_Implementation(USoundBase* sound_, FVector location_) {
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), sound_, location_);
+}
+
+
+
+void AMain_Character::PlaySound_Server_Implementation(USoundBase* sound_, FVector location_) {
+	PlaySound_Multicast(sound_, location_);
+}
+
+//bool AMain_Character::PlaySound_Server_Validation(USoundBase* sound_) { 
+//	return true; 
+//}
 
 //Function to set whether to lower the impulse
 void AMain_Character::LowPower()

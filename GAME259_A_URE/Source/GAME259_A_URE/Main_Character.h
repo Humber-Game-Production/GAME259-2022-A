@@ -22,7 +22,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityCooldownUpdate, int, index,
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelayAttackUpdate);
 
 //Setup current weapon delegate with index
-
+class USoundBase
+	;
 UCLASS(config = Game)
 class AMain_Character : public ACharacter
 {
@@ -328,6 +329,12 @@ public:
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void SpawnBallBP_NetMulticast(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_);
 
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+		void PlaySound_Multicast(USoundBase* sound_, FVector location_);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+		void PlaySound_Server(USoundBase* sound_, FVector location_);
 
 	//Function to set whether to lower the impulse
 	UFUNCTION(BlueprintCallable)
