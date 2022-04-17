@@ -19,24 +19,22 @@ UStrafeComponent::UStrafeComponent() {
 bool UStrafeComponent::TriggerAbilityEffect() {
 
 	UE_LOG(LogTemp, Warning, TEXT("Triggering Ability Effect: %s"), *abilityName.ToString());
-	//SpawnGrenadeActor();
 	Strafe_Server();
-
 	return true;
 }
 
-void UStrafeComponent::Strafe_Server_Implementation()
-{
+void UStrafeComponent::Strafe_Server_Implementation(){
+
 	Strafe_Multicast();
 }
 
-bool UStrafeComponent::Strafe_Server_Validate()
-{
+bool UStrafeComponent::Strafe_Server_Validate(){
+
 	return true;
 }
 
-void UStrafeComponent::Strafe_Multicast_Implementation()
-{
+void UStrafeComponent::Strafe_Multicast_Implementation(){
+
 	AMain_Character* player = (AMain_Character*)GetOwner();
 	if (GetOwner()->HasAuthority())
 	{

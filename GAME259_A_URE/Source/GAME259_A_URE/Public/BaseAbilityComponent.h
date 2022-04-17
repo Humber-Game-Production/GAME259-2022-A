@@ -35,9 +35,7 @@ protected:
 		float cd_countdown;
 
 private:
-
 	virtual bool TriggerAbilityEffect();
-
 	void CooldownCountdown();
 
 public:	
@@ -53,6 +51,5 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		float getCooldown() { return cooldown; }
-
 
 };

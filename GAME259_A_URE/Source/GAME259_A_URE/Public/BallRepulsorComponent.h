@@ -14,6 +14,10 @@ class GAME259_A_URE_API UBallRepulsorComponent : public UBaseAbilityComponent
 {
 	GENERATED_BODY()
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
 public:
 
 	UBallRepulsorComponent();
@@ -50,15 +54,5 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void OnDestroy();
 
-	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
-		void OnDestroy_Multicast(ABallRepulsorActor* collisionActor_);
-
-	UFUNCTION(BlueprintCallable, Server, Reliable)
-		void OnDestroy_Server(ABallRepulsorActor* collisionActor_);
-
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 };

@@ -20,20 +20,16 @@ AGrenadeActor::AGrenadeActor()
 	//SphereComp->SetCollisionProfileName(TEXT("Projectile"));
 	SphereComp->SetCollisionProfileName(TEXT("BallCollision"));
 	SphereComp->SetIsReplicated(true);
-
 	SphereComp->bHiddenInGame = false;
+	SphereComp->SetSimulatePhysics(true);
 
 	//Sets the mesh's model in code (not the best practice)
 	SphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
 	SphereMesh->SetupAttachment(RootComponent);
 	//Simulates physics
-	SphereComp->SetSimulatePhysics(true);
 	//Moves the mesh down
-	//SphereMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -35.0f));
 	//Scales the mesh to 70% of its size
 	SphereMesh->SetWorldScale3D(FVector(0.7f));
-
-
 	SphereMaterial = CreateDefaultSubobject<UMaterial>(TEXT("SphereMaterial"));
 
 	//Amount of time to add
@@ -64,9 +60,6 @@ void AGrenadeActor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		if (OtherActor->IsA(AMain_Character::StaticClass())) {
 
 			AMain_Character* playerCharacter = (AMain_Character*)OtherActor;
-
-
-			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Lethal: %s"), IsLethal ? TEXT("True") : TEXT("False")));
 			//Broadcasts the time to add message with the amount of time needed
 			TSubclassOf<UDamageType> DamageType = UDamageType::StaticClass();
 			//AController *DamageCauserController = GetOwner()->GetInstigatorController();

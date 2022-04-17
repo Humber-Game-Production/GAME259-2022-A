@@ -37,7 +37,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UMaterial* ballMaterial;
-
 };
 
 //Dynamic one parameter delegate used for broadcasting the amount of time to deal
@@ -96,11 +95,6 @@ public:
 	//The timer handler for the game's time
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Timer")
 	FTimerHandle TimeHandle;;
-	
-
-	//Stores the mesh component
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
-	//class UProjectileMovementComponent* SphereMovement;
 
 	//Stores the mesh component
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")

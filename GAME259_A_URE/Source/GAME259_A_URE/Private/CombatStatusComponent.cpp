@@ -24,7 +24,6 @@ void UCombatStatusComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-
 }
 
 
@@ -32,7 +31,6 @@ void UCombatStatusComponent::BeginPlay()
 void UCombatStatusComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 	// ...
 }
 
@@ -50,7 +48,6 @@ void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 			if (statusActor) {
 				statusActor->refreshTime();
 				UE_LOG(LogTemp, Warning, TEXT("Refresh time"));
-
 			}
 			else {
 				//Create all the variables that will be used to create the actor
@@ -94,8 +91,7 @@ void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 				//Setup the delegates when the combatStatus is destroyed
 				statusActor->OnCombStatusRemove.AddDynamic(this, &UCombatStatusComponent::RemoveCombatStatus);
 			}
-			OnCombStatusAdd.Broadcast(statusActor->getName());
-			
+			OnCombStatusAdd.Broadcast(statusActor->getName());		
 		}
 	}
 	else {

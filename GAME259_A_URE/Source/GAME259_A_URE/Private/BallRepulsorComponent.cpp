@@ -48,27 +48,13 @@ bool UBallRepulsorComponent::AddCollisionComp_Server_Validate()
 }
 
 void UBallRepulsorComponent::EndAbility(){
-	//collisionActor->setSendRequest(false);
-	//GetOwner()->GetWorldTimerManager().ClearTimer(AbilityTimeHandle);
-	//if (this->GetOwner()->HasAuthority()) {
-	//	if (IsValid(this->collisionActor)) {
-	//		collisionActor->Destroy();
-	//	}
-	//}
-	//OnDestroy_Server(collisionActor);
+
 }
 
 
 bool UBallRepulsorComponent::TriggerAbilityEffect() {
 
 	AddCollisionComp_Server();
-	if (collisionActor) {
-		//collisionActor->setSendRequest(true);
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Toggle visibility")));
-		//GetOwner()->GetWorldTimerManager().SetTimer(AbilityTimeHandle, this,
-		//	&UBallRepulsorComponent::EndAbility, durationTime, true);
-	}
-
 	return true;
 }
 
@@ -80,18 +66,4 @@ void UBallRepulsorComponent::OnDestroy() {
 			collisionActor->Destroy();
 		}
 	}
-}
-
-void UBallRepulsorComponent::OnDestroy_Multicast_Implementation(ABallRepulsorActor* collisionActor_) {
-
-	if (this->GetOwner()->HasAuthority()) {
-		if (IsValid(collisionActor_)) {
-			collisionActor_->Destroy();
-		}
-	}
-}
-
-void UBallRepulsorComponent::OnDestroy_Server_Implementation(ABallRepulsorActor* collisionActor_) {
-
-	OnDestroy_Multicast(collisionActor_);
 }

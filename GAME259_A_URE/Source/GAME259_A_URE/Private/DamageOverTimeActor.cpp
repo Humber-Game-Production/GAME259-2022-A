@@ -20,5 +20,4 @@ void ADamageOverTimeActor::ApplyEffect(){
 		OnCombStatusRemove.Broadcast(this);
 		Destroy();
 	}
-	
 }

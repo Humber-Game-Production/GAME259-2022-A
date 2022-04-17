@@ -6,8 +6,7 @@
 
 AReduceSpeedActor::AReduceSpeedActor(){}
 
-
-void AReduceSpeedActor::ApplyEffect() {
+void AReduceSpeedActor::ApplyEffect(){
 
 	AMain_Character* player = (AMain_Character*)this->GetOwner();
 	//Set player velocity
