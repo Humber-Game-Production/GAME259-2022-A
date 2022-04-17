@@ -2,6 +2,7 @@
 
 #include "CTF_GameMode.h"
 #include "Main_Character.h"
+#include "GameFramework/SpectatorPawn.h"
 #include "Main_PlayerController.h"
 #include "CTF_PlayerState.h"
 #include "CTF_GameState.h"
@@ -20,6 +21,7 @@ ACTF_GameMode::ACTF_GameMode()
 	PlayerStateClass = ACTF_PlayerState::StaticClass();
 	DefaultPawnClass = AMain_Character::StaticClass();
 
+	//These defaults may be changed in CTF_GameMode
 	matchTimeLimit = 1000.0f;
 	warmupTimeLimit = 10.0f;
 	maxScore = 3;
@@ -69,15 +71,20 @@ void ACTF_GameMode::PostLogin(APlayerController* NewPlayer)
 	{
 		//if players.Num >= max players, NewPlayer forced spectator 
 		if (Players.Num() >= maxPlayers) {
-			PlayerController->StartSpectatingOnly();
 			if (ACTF_PlayerState* PlayerState = Cast<ACTF_PlayerState>(NewPlayer->PlayerState)) {
 				PlayerState->SetIsSpectator(true);
 				PlayerState->isSpectator_CTF = true;
+				if (!GetMatchState().IsEqual("WaitingToStart")) {
+					PlayerController->GetPawn()->Destroy();
+				}
+				Spawn(PlayerController);
 				Spectators.Add(PlayerController);
 			}
 			return;
 		}
-		Players.Add(PlayerController);
+		else {
+			Players.Add(PlayerController);
+		}
 	}
 }
 
@@ -145,9 +152,32 @@ void ACTF_GameMode::HandleMatchHasEnded()
 void ACTF_GameMode::Logout(AController* Exiting)
 {
 	if (AMain_PlayerController* PlayerController = Cast<AMain_PlayerController>(Exiting)) {
-		Players.Remove(PlayerController);
+		if (Players.Contains(Exiting)) {
+			if (ACTF_PlayerState* PS = Cast<ACTF_PlayerState>(PlayerController->PlayerState)) {
+				if (PS->team == TeamSelected::TEAM_A) {
+					if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+						GS->numTeamAPlayers -= 1;
+						GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("Reduce team players"));
+						GS->PlayerDied(PlayerController);
+						GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("Player died call"));
+					}
+				}
+				else if (PS->team == TeamSelected::TEAM_B) {
+					if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
+						GS->numTeamBPlayers -= 1;
+						GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("Reduce team players"));
+						GS->PlayerDied(PlayerController);
+						GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, TEXT("Player died call"));
+					}
+				}
+			}
+			Players.Remove(PlayerController);
+		}
+		else if (Spectators.Contains(Exiting)) {
+			Spectators.Remove(PlayerController);
+		}
+		Super::Logout(Exiting);
 	}
-	Super::Logout(Exiting);
 }
 
 void ACTF_GameMode::Respawn(AController* Controller)
@@ -276,7 +306,7 @@ void ACTF_GameMode::Spawn(AController* Controller)
 				FVector LocationOffset = FVector(0.0f, 0.0f, 0.0f);
 				FVector Location = SpawnPoint->GetActorLocation() + LocationOffset;
 				FRotator Rotation = SpawnPoint->GetActorRotation();
-				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(DefaultPawnClass, Location, Rotation))
+				if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(SpectatorClass, Location, Rotation))
 				{
 					PlayerController->Possess(Pawn);
 				}
