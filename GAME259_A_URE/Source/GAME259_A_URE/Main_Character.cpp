@@ -9,6 +9,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/InputComponent.h"
 #include "Net/UnrealNetwork.h"
@@ -19,6 +20,7 @@
 #include "Public/CombatStatusActor.h"
 #include "Public/CombatAmmoContainerComponent.h"
 #include "Public/GrenadeComponent.h"
+#include "Public/BallRepulsorComponent.h"
 #include "Public/BallRepulsorComponent.h"
 #include "CTF_PlayerState.h"
 
@@ -75,6 +77,9 @@ AMain_Character::AMain_Character()
 	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
 	GrenadeAbility = CreateDefaultSubobject<UGrenadeComponent>(TEXT("GrenadeAbility"));
 	BallRepulsorAbility = CreateDefaultSubobject<UBallRepulsorComponent>(TEXT("BallRepulsorAbility"));
+	//Audio Components
+	FireAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("FireAudio"));
+	TakeDamageAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("TakeDamageAudio"));
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -214,6 +219,8 @@ void  AMain_Character::BeginPlay()
 
 	GrenadeAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
 	BallRepulsorAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
+	TakeDamageAudio->Stop();
+	FireAudio->Stop();
 }
 
 // https://docs.unrealengine.com/5.0/en-US/API/Runtime/Engine/Engine/ENetRole/
@@ -402,8 +409,7 @@ void AMain_Character::SetCurrentHealth(float healthValue, AController* EventInst
 					}
 				}
 				KillerUpdate.Broadcast(killerName);
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("You have been killed by " + killerName));
-			}
+		}
 		}
 	}
 }
@@ -443,6 +449,11 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 			damageApplied = CurrentHealth - DamageTaken;
 			// Changes the CurrentHealth variable
 			SetCurrentHealth(damageApplied, EventInstigator, DamageCauser);
+			FDamageEvent damageEvent = DamageEvent;
+			if ((FOvertimeDamageEvent*)&damageEvent == nullptr) {
+				TakeDamageAudio->Play();
+			}
+
 		}
 	}
 	return damageApplied;
@@ -537,6 +548,7 @@ void AMain_Character::Attack()
 			UCombatAmmoContainerComponent* ammoContainer = GetAmmoContainer(currentBall);
 			AmmoUpdate.Broadcast(AmmoBallSlot.Find(ammoContainer), ammoContainer->ballNum);
 			DelayAttackUpdate.Broadcast();
+			FireAudio->Play();
 		}
 		
 	}
@@ -846,13 +858,6 @@ void AMain_Character::ActivateGrenade() {
 
 }
 
-void AMain_Character::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-
-
-
-}
-
-
 UCombatAmmoContainerComponent* AMain_Character::GetAmmoContainer(TEnumAsByte<EBallType> ballType_)
 {
 	for (UCombatAmmoContainerComponent* container : AmmoBallSlot) {
@@ -886,7 +891,7 @@ void AMain_Character::BallIndexIncrease() {
 		index = 0;
 	}
 	currentBall = AmmoBallSlot[index]->ballInContainer;
-	AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballInContainer);
+	AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballNum);
 }
 
 void AMain_Character::BallIndexDecrease() {
@@ -896,6 +901,6 @@ void AMain_Character::BallIndexDecrease() {
 		index = AmmoBallSlot.Num() - 1;
 	}
 	currentBall = AmmoBallSlot[index]->ballInContainer;
-	AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballInContainer);
+	AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballNum);
 }
 

@@ -70,7 +70,15 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UBallRepulsorComponent* BallRepulsorAbility;
-	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UAudioComponent* FireAudio;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UAudioComponent* TakeDamageAudio;
+
+
+
 	void Attack();
 
 	//for testing
@@ -222,7 +230,6 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FAbilityCooldownUpdate AbilityCooldownUpdate;
 
-
 	//Collection of ball slots
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TArray<UCombatAmmoContainerComponent*> AmmoBallSlot;
@@ -334,10 +341,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void DelayAttack();
 	
-	//Overlap function for destroying the actor and broadcasting delegates
-	UFUNCTION()
-		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FDelayAttackUpdate DelayAttackUpdate;
 
@@ -363,5 +366,12 @@ private:
 
 	UFUNCTION()
 	void ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_);
+
+};
+
+USTRUCT()
+struct FOvertimeDamageEvent : public FDamageEvent
+{
+	GENERATED_BODY()
 
 };

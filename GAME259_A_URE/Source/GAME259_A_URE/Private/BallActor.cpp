@@ -180,8 +180,10 @@ void ABallActor::OnBlock(UPrimitiveComponent* OverlappedComponent, AActor* Other
 				}
 			}
 			else if (!IsLethal) {
-				//Add ball ammo then destroy the character
-				playerCharacter->AddBallAmmo(ballType, 1);
+				if (playerCharacter->GetCurrentHealth() > 0) {
+					//Add ball ammo then destroy the character
+					playerCharacter->AddBallAmmo(ballType, 1);
+				}
 			}
 			this->Destroy();
 		}
