@@ -14,6 +14,10 @@ class GAME259_A_URE_API UBallRepulsorComponent : public UBaseAbilityComponent
 {
 	GENERATED_BODY()
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
 public:
 
 	UBallRepulsorComponent();
@@ -27,11 +31,22 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = "Timer")
 		FTimerHandle AbilityTimeHandle;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Timer")
+		float durationTime;
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABallRepulsorActor> BallRepulsorClass;
+
+
+
 	UFUNCTION(BlueprintCallable)
 		bool TriggerAbilityEffect() override;
 
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
-		void AddCollisionComp();
+		void AddCollisionComp_Multicast();
+
+	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation)
+		void AddCollisionComp_Server();
 
 	UFUNCTION(BlueprintCallable)
 		void EndAbility();
@@ -39,8 +54,5 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void OnDestroy();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 };

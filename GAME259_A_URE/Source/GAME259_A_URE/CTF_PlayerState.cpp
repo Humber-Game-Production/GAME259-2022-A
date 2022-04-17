@@ -6,10 +6,9 @@
 
 ACTF_PlayerState::ACTF_PlayerState() {
 
-	/*bIsTeamA = true;
-	bReplicates = true;*/
 	team = TeamSelected::NONE;
 	isCarryingFlag = false;
+	isSpectator_CTF = false;
 }
 
 void ACTF_PlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -18,5 +17,6 @@ void ACTF_PlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 	DOREPLIFETIME(ACTF_PlayerState, team);
 	DOREPLIFETIME(ACTF_PlayerState, isCarryingFlag);
+	DOREPLIFETIME(ACTF_PlayerState, isSpectator_CTF);
 }
 
