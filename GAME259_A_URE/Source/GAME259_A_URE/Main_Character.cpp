@@ -4,10 +4,12 @@
 #include "Main_PlayerController.h"
 #include "CTF_GameMode.h"
 #include "CTF_GameState.h"
+#include "DrawDebugHelpers.h"
 #include "PlayerStats.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/InputComponent.h"
 #include "Net/UnrealNetwork.h"
@@ -15,11 +17,12 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Public/CombatStatusComponent.h"
+#include "Public/CombatStatusActor.h"
 #include "Public/CombatAmmoContainerComponent.h"
 #include "Public/GrenadeComponent.h"
 #include "Public/BallRepulsorComponent.h"
+#include "Public/BallRepulsorComponent.h"
 #include "CTF_PlayerState.h"
-#include "DrawDebugHelpers.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
@@ -74,6 +77,9 @@ AMain_Character::AMain_Character()
 	CombatStatusComp = CreateDefaultSubobject<UCombatStatusComponent>(TEXT("CombatStatus"));
 	GrenadeAbility = CreateDefaultSubobject<UGrenadeComponent>(TEXT("GrenadeAbility"));
 	BallRepulsorAbility = CreateDefaultSubobject<UBallRepulsorComponent>(TEXT("BallRepulsorAbility"));
+	//Audio Components
+	FireAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("FireAudio"));
+	TakeDamageAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("TakeDamageAudio"));
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -130,6 +136,8 @@ AMain_Character::AMain_Character()
 	impulseDefOrig = impulseDef;
 	impulseFireOrig = impulseFire;
 	impulseIceOrig = impulseIce;
+
+	powerOn = true;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -163,13 +171,15 @@ void AMain_Character::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain_Character::Attack);
 
 	//Controls the ball's power (impulse)
-	PlayerInputComponent->BindAction("PowerDown", IE_Pressed, this, &AMain_Character::LowPower);
-	PlayerInputComponent->BindAction("PowerUp", IE_Pressed, this, &AMain_Character::FullPower);
-	
-	//Combat Abilities binding
-	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor);
-	PlayerInputComponent->BindAction("Grenade", IE_Pressed, this, &AMain_Character::ActivateGrenade);
+	//PlayerInputComponent->BindAction("PowerDown", IE_Pressed, this, &AMain_Character::LowPower);
+	//PlayerInputComponent->BindAction("PowerUp", IE_Pressed, this, &AMain_Character::FullPower);
 
+	PlayerInputComponent->BindAction("PowerDown", IE_Pressed, this, &AMain_Character::BallIndexIncrease);
+	PlayerInputComponent->BindAction("PowerUp", IE_Pressed, this, &AMain_Character::BallIndexDecrease);
+
+	//Combat Abilities binding
+	PlayerInputComponent->BindAction("BallRepulsor", IE_Pressed, this, &AMain_Character::ActivateBallRepulsor_Server);
+	PlayerInputComponent->BindAction("Strafe", IE_Pressed, this, &AMain_Character::ActivateGrenade);
 
 	PlayerInputComponent->BindAction("Inventory1", IE_Pressed, this, &AMain_Character::SetToBallType0);
 	PlayerInputComponent->BindAction("Inventory2", IE_Pressed, this, &AMain_Character::SetToBallType1);
@@ -209,6 +219,37 @@ void  AMain_Character::BeginPlay()
 
 	GrenadeAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
 	BallRepulsorAbility->AbilityCooldownUpdate.AddDynamic(this, &AMain_Character::ReceiveAbilityCooldown);
+	TakeDamageAudio->Stop();
+	FireAudio->Stop();
+}
+
+// https://docs.unrealengine.com/5.0/en-US/API/Runtime/Engine/Engine/ENetRole/
+// https://docs.unrealengine.com/5.0/en-US/actor-role-and-remoterole-in-unreal-engine/
+/*FString GetEnumText(ENetRole BallRole)
+{
+	switch (BallRole)
+	{
+	case ROLE_None:
+		return "ROLE_None";
+	case ROLE_SimulatedProxy:
+		return "ROLE_SimulatedProxy";
+	case ROLE_AutonomousProxy:
+		return "ROLE_AutonomousProxy";
+	case ROLE_Authority:
+		return "ROLE_Authority";
+	case ROLE_MAX:
+		return "WTF is ROLE_Max";
+	default:
+		return "hello";
+	}
+}*/
+
+void AMain_Character::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	// Checks for NetRole
+	//DrawDebugString(GetWorld(), FVector(0,0,100), GetEnumText(GetLocalRole()), this, FColor::Black, DeltaSeconds);
 
 }
 
@@ -263,6 +304,35 @@ void AMain_Character::MoveRight(float Value)
 
 //////////////////////////////////////////////////////////////////////////
 
+//void AMain_Character::OnHealthUpdate(AController* EventInstigator, AActor* DamageCauser)
+//{
+//	//Display message to show current health
+//	//FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+//	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+//
+//	if (IsLocallyControlled())
+//	{
+//		// Updates Health Bar
+//		HealthUpdate.Broadcast(); // Added
+//	}
+//	if (HasAuthority())
+//	{
+//		if (CurrentHealth <= 0)
+//		{
+//
+//			//Display dying message when health reaches 0
+//			FString deathMessage = FString::Printf(TEXT("You have been killed."));
+//			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+//
+//			Die();
+//
+//			// Calls Death Event to Remove HUD
+//			DeathEvent();
+//			
+//		}
+//	}
+//}
+
 void AMain_Character::OnHealthUpdate()
 {
 	//Display message to show current health
@@ -278,16 +348,12 @@ void AMain_Character::OnHealthUpdate()
 	{
 		if (CurrentHealth <= 0)
 		{
-
-			//Display dying message when health reaches 0
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
-
 			Die();
-
 			// Calls Death Event to Remove HUD
 			DeathEvent();
-			
+
 		}
 	}
 }
@@ -297,7 +363,7 @@ void AMain_Character::OnRep_CurrentHealth() // Added replication to CurrentHealt
 	OnHealthUpdate();
 }
 
-void AMain_Character::SetCurrentHealth(float healthValue)
+void AMain_Character::SetCurrentHealth(float healthValue, AController* EventInstigator, AActor* DamageCauser)
 {
 	//Prevent current health to go above max health
 	if (HasAuthority())
@@ -305,12 +371,46 @@ void AMain_Character::SetCurrentHealth(float healthValue)
 		CurrentHealth = FMath::Clamp(healthValue, 0.f, MaxHealth);
 
 		//bReplicates = true;
-
 		// Old Code
 		//HealthUpdate.Broadcast(CurrentHealth);
 		//Cast<AMain_PlayerController>(GetController())->HealthUpdateEvent();
 
 		OnHealthUpdate();
+		if (CurrentHealth <= 0)
+		{
+			//Display dying message when health reaches 0
+			FString killerName = "";
+
+			//If the controller exists for this player
+			if (GetController()) {
+				//If some controller is responsible for the damage
+				if (EventInstigator) {
+					ACTF_PlayerState* playerState = EventInstigator->GetPlayerState<ACTF_PlayerState>();
+					killerName = playerState->GetPlayerName();
+				}
+				else {
+					//Check which actor causes the damage if there's no controller responsible for the damage
+					if (DamageCauser) {
+						//If it is killed by self, it is a falling damage
+						if (DamageCauser == this) {
+							killerName = "Falling Damage";
+						}
+						//If it is killed by something else, it should be a combat status
+						else {
+							killerName = DamageCauser->GetFName().ToString();
+							ACombatStatusActor* combatStatus = (ACombatStatusActor*)DamageCauser;
+							if (combatStatus) {
+								killerName = combatStatus->getName().ToString();
+							}
+						}
+					}
+					else {
+						killerName = "Unknown";
+					}
+				}
+				KillerUpdate.Broadcast(killerName);
+		}
+		}
 	}
 }
 
@@ -320,28 +420,40 @@ float AMain_Character::TakeDamage(float DamageTaken, struct FDamageEvent const& 
 	float damageApplied = 0.0f;
 	bool checkDamage = true;
 
-	//Check if damageinstigator exists
-	if (EventInstigator != nullptr) {
-
-		if (EventInstigator == GetController()) {
-			checkDamage = false;
-		}
-		else {
-			ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
-			ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
-			if (playerState->team == damageCauserPlayerState->team) {
+	//If the player has a controller, check damage
+	if (GetController()) {
+		//Check if damageinstigator exists
+		if (EventInstigator != nullptr) {
+			//If the damage is dealt by self, ignore it
+			if (EventInstigator == GetController()) {
 				checkDamage = false;
 			}
-
+			else {
+				//Check player's team
+				ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
+				ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
+				if (playerState && damageCauserPlayerState) {
+					if (playerState->team == damageCauserPlayerState->team) {
+						checkDamage = false;
+					}
+				}
+			}
 		}
 	}
-
+	else {
+		checkDamage = false;
+	}
+	
 	if (checkDamage) {
 		if (CurrentHealth > 0.0f) {
 			damageApplied = CurrentHealth - DamageTaken;
 			// Changes the CurrentHealth variable
-			SetCurrentHealth(damageApplied);
-			UE_LOG(LogTemp, Warning, TEXT("Taking Damage"));
+			SetCurrentHealth(damageApplied, EventInstigator, DamageCauser);
+			FDamageEvent damageEvent = DamageEvent;
+			if ((FOvertimeDamageEvent*)&damageEvent == nullptr) {
+			}
+			TakeDamageAudio->Play();
+
 		}
 	}
 	return damageApplied;
@@ -352,51 +464,55 @@ void AMain_Character::Attack()
 	//If the ball has ammo, fire
 	if (GetAmmoContainer(currentBall)->ballNum > 0)
 	{
-		//Checks for the default ball
-		if (currentBall == CombatAmmoContainerComp0->ballInContainer)
-		{
-			if (lowerPower == true)
+		//Check if the option to adjust power is on
+		if (powerOn) {
+			//Checks for the default ball
+			if (currentBall == CombatAmmoContainerComp0->ballInContainer)
 			{
-				//Lowers the impulse of the default ball
-				impulseDef = impulseDef * 0.25f;
-			}
-			else
-			{
-				impulseDef = impulseDefOrig;
-			}
+				if (lowerPower == true)
+				{
+					//Lowers the impulse of the default ball
+					impulseDef = impulseDef * 0.25f;
+				}
+				else
+				{
+					impulseDef = impulseDefOrig;
+				}
 
-			impulse = impulseDef;
-		}
-		//Checks for the fire ball
-		if (currentBall == CombatAmmoContainerComp1->ballInContainer)
-		{
-			if (lowerPower == true)
-			{
-				//Lowers the impulse of the fire ball
-				impulseFire = impulseFire * 0.25f;
+				impulse = impulseDef;
 			}
-			else
+			//Checks for the fire ball
+			if (currentBall == CombatAmmoContainerComp1->ballInContainer)
 			{
-				impulseFire = impulseFireOrig;
-			}
+				if (lowerPower == true)
+				{
+					//Lowers the impulse of the fire ball
+					impulseFire = impulseFire * 0.25f;
+				}
+				else
+				{
+					impulseFire = impulseFireOrig;
+				}
 
-			impulse = impulseFire;
-		}
-		//Checks for the ice ball
-		if (currentBall == CombatAmmoContainerComp2->ballInContainer)
-		{
-			if (lowerPower == true)
-			{
-				//Lowers the impulse of the ice ball
-				impulseIce = impulseIce * 0.25f;
+				impulse = impulseFire;
 			}
-			else
+			//Checks for the ice ball
+			if (currentBall == CombatAmmoContainerComp2->ballInContainer)
 			{
-				impulseIce = impulseIceOrig;
-			}
+				if (lowerPower == true)
+				{
+					//Lowers the impulse of the ice ball
+					impulseIce = impulseIce * 0.25f;
+				}
+				else
+				{
+					impulseIce = impulseIceOrig;
+				}
 
-			impulse = impulseIce;
+				impulse = impulseIce;
+			}
 		}
+
 
 		//if the player has not attacked recently 
 		if (delayAttack == false)
@@ -432,6 +548,7 @@ void AMain_Character::Attack()
 			UCombatAmmoContainerComponent* ammoContainer = GetAmmoContainer(currentBall);
 			AmmoUpdate.Broadcast(AmmoBallSlot.Find(ammoContainer), ammoContainer->ballNum);
 			DelayAttackUpdate.Broadcast();
+			FireAudio->Play();
 		}
 		
 	}
@@ -498,28 +615,6 @@ void AMain_Character::SpawnBall_Multicast_Implementation(FVector location, FRota
 void AMain_Character::SpawnBall_Server_Implementation(FVector location, FRotator rotation, FVector impulse_, FName rowName)
 {
 	SpawnBall_Multicast(location, rotation, impulse_, rowName);
-	//if (HasAuthority()) {
-		//FActorSpawnParameters ballSpawnInfo;
-		//ballSpawnInfo.Owner = this;
-		//ballSpawnInfo.Instigator = this;
-		//ballSpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		////ABallActor* ballActorBase = GetWorld()->SpawnActor<ABallActor>(ABall, location, rotation, ballSpawnInfo);
-		//ABallActor* ballActorBase = nullptr;
-
-		////Checks if the ball actor being used as a base to spawn the ball exists
-		//if (ballActorBase)
-		//{
-		//	//Sets the values of the thrown ball
-		//	//Throws the ball
-		//	ballActorBase->ApplyImpulse(impulse_);
-		//}
-		//else
-		//{
-		//	UE_LOG(LogTemp, Warning, TEXT("BallActor not found"));
-		//}
-
-	//}
-
 }
 
 void AMain_Character::SpawnBallBP_NetMulticast_Implementation(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_) {
@@ -544,7 +639,6 @@ void AMain_Character::SpawnBallBP_NetMulticast_Implementation(FVector location, 
 
 void AMain_Character::SpawnBallBP_Server_Implementation(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_){
 	SpawnBallBP_NetMulticast_Implementation(location, rotation, impulse_, ballActorClass_);
-
 }
 
 //Function to set whether to lower the impulse
@@ -555,6 +649,7 @@ void AMain_Character::LowPower()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Power Halfed") );
 	}
+	PowerUpdate.Broadcast(1);
 	
 }
 
@@ -566,7 +661,7 @@ void AMain_Character::FullPower()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Power Full") );
 	}
-	
+	PowerUpdate.Broadcast(0);
 }
 
 //Function used to set the attack delay
@@ -630,6 +725,10 @@ void AMain_Character::Die()
 	{
 		GameMode->Respawn(GetController());
 	}
+	if (GetController()) {
+		APlayerController* playerController = GetController<APlayerController>();
+		DisableInput(playerController);
+	}
 	//Start our destroy timer to remove actor
 	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &AMain_Character::CallDestroy, 10.0f, false);
 	//}
@@ -651,7 +750,6 @@ bool AMain_Character::MultiDie_Validate()
 
 void AMain_Character::MultiDie_Implementation()
 {
-
 	GetCapsuleComponent()->DestroyComponent();
 	this->GetCharacterMovement();
 	this->GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
@@ -663,10 +761,24 @@ void AMain_Character::FellOutOfWorld(const UDamageType& dmgType)
 	TakeDamage(100.0f, FDamageEvent(), nullptr, this);
 }
 
-void AMain_Character::AddCombatStatus(FName statusName_) {
+void AMain_Character::AddCombatStatus(FName statusName_, AController* EventInstigator) {
 
 	if (HasAuthority()) {
-		CombatStatusComp->AddCombatStatus(statusName_);
+		if (GetController()) {
+			//Check if damageinstigator exists
+			if (EventInstigator != nullptr) {
+				ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
+				ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
+				if (playerState && damageCauserPlayerState) {
+					if (playerState->team != damageCauserPlayerState->team) {
+						CombatStatusComp->AddCombatStatus(statusName_);
+					}
+				}
+			}
+			else {
+				CombatStatusComp->AddCombatStatus(statusName_);
+			}
+		}
 	}
 }
 
@@ -678,17 +790,14 @@ void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) 
 	switch (ballType){
 
 		case BallDefault:
-
 			index = AmmoBallSlot.Find(CombatAmmoContainerComp0);
 			break;
 
 		case BallFire:
-
 			index = AmmoBallSlot.Find(CombatAmmoContainerComp1);
 			break;
 
 		case BallIce:
-
 			index = AmmoBallSlot.Find(CombatAmmoContainerComp2);
 			break;
 
@@ -701,7 +810,6 @@ void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) 
 		AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballNum);
 		currentBall = ballType;
 	}
-
 }
 
 void AMain_Character::ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_) {
@@ -727,11 +835,17 @@ FString AMain_Character::GetNameOfActor(){
 
 
 
-void AMain_Character::ActivateBallRepulsor() {
+void AMain_Character::ActivateBallRepulsor_Server_Implementation() {
+	ActivateBallRepulsor_Multicast();
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, GetName());
+}
 
+void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
+{
 	if (BallRepulsorAbility->ActivateAbility()) {
 		UE_LOG(LogTemp, Warning, TEXT("Broadcasting Ballrepulsor"));
 		AbilityCooldownUpdate.Broadcast(1, BallRepulsorAbility->getCooldown());
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, GetName());
 	}
 }
 
@@ -743,14 +857,6 @@ void AMain_Character::ActivateGrenade() {
 	}
 
 }
-
-void AMain_Character::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-
-	UE_LOG(LogTemp, Warning, TEXT("BallRepulsor Overlapping"));
-
-
-}
-
 
 UCombatAmmoContainerComponent* AMain_Character::GetAmmoContainer(TEnumAsByte<EBallType> ballType_)
 {
@@ -776,5 +882,25 @@ void AMain_Character::SetToBallType1() {
 void AMain_Character::SetToBallType2() {
 	currentBall = CombatAmmoContainerComp2->ballInContainer;
 	AmmoUpdate.Broadcast(2, CombatAmmoContainerComp2->ballNum);
+}
+
+void AMain_Character::BallIndexIncrease() {
+	int index = AmmoBallSlot.Find(GetAmmoContainer(currentBall));
+	index++;
+	if (index >= AmmoBallSlot.Num()) {
+		index = 0;
+	}
+	currentBall = AmmoBallSlot[index]->ballInContainer;
+	AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballNum);
+}
+
+void AMain_Character::BallIndexDecrease() {
+	int index = AmmoBallSlot.Find(GetAmmoContainer(currentBall));
+	index--;
+	if (index < 0) {
+		index = AmmoBallSlot.Num() - 1;
+	}
+	currentBall = AmmoBallSlot[index]->ballInContainer;
+	AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballNum);
 }
 

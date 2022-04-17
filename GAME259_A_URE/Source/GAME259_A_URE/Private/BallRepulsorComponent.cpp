@@ -2,6 +2,7 @@
 
 
 #include "BallRepulsorComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "BallRepulsorActor.h"
@@ -11,16 +12,17 @@ UBallRepulsorComponent::UBallRepulsorComponent(){
 	abilityName = "BallRepulsor";
 	cooldown = 10.0f;
 	cd_countdown = 0.0f;
+	durationTime = 3.0f;
 
 }
 
 void UBallRepulsorComponent::BeginPlay() {
 	Super::BeginPlay();
-	GetOwner()->GetWorldTimerManager().SetTimer(CollisionTimeHandle, this,
-	&UBallRepulsorComponent::AddCollisionComp, 2.0f, true);
+	//GetOwner()->GetWorldTimerManager().SetTimer(CollisionTimeHandle, this,
+	//&UBallRepulsorComponent::AddCollisionComp, 2.0f, true);
 }
 
-void UBallRepulsorComponent::AddCollisionComp_Implementation() {
+void UBallRepulsorComponent::AddCollisionComp_Multicast_Implementation() {
 
 	if (GetOwner()->HasAuthority()) {
 		FActorSpawnParameters ActorSpawnParams;
@@ -28,27 +30,43 @@ void UBallRepulsorComponent::AddCollisionComp_Implementation() {
 		FVector spawnLocation = GetOwner()->GetActorLocation();
 		FRotator rotation = GetOwner()->GetActorRotation();
 		collisionActor = GetWorld()->SpawnActor<ABallRepulsorActor>(
-			ABallRepulsorActor::StaticClass(),
+			BallRepulsorClass,
 			spawnLocation, rotation, ActorSpawnParams);
 		collisionActor->AttachToActor(GetOwner(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true));
-		GetOwner()->GetWorldTimerManager().ClearTimer(CollisionTimeHandle);
 	}
 
 }
 
 
+void UBallRepulsorComponent::AddCollisionComp_Server_Implementation() {
+	AddCollisionComp_Multicast();
+}
+
+bool UBallRepulsorComponent::AddCollisionComp_Server_Validate()
+{
+	return true;
+}
+
 void UBallRepulsorComponent::EndAbility(){
-	collisionActor->setSendRequest(false);
-	GetOwner()->GetWorldTimerManager().ClearTimer(AbilityTimeHandle);
+	//collisionActor->setSendRequest(false);
+	//GetOwner()->GetWorldTimerManager().ClearTimer(AbilityTimeHandle);
+	//if (this->GetOwner()->HasAuthority()) {
+	//	if (IsValid(this->collisionActor)) {
+	//		collisionActor->Destroy();
+	//	}
+	//}
+	//OnDestroy_Server(collisionActor);
 }
 
 
 bool UBallRepulsorComponent::TriggerAbilityEffect() {
 
+	AddCollisionComp_Server();
 	if (collisionActor) {
-		collisionActor->setSendRequest(true);
-		GetOwner()->GetWorldTimerManager().SetTimer(AbilityTimeHandle, this,
-			&UBallRepulsorComponent::EndAbility, 3.0f, true);
+		//collisionActor->setSendRequest(true);
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT("Toggle visibility")));
+		//GetOwner()->GetWorldTimerManager().SetTimer(AbilityTimeHandle, this,
+		//	&UBallRepulsorComponent::EndAbility, durationTime, true);
 	}
 
 	return true;
@@ -62,4 +80,18 @@ void UBallRepulsorComponent::OnDestroy() {
 			collisionActor->Destroy();
 		}
 	}
+}
+
+void UBallRepulsorComponent::OnDestroy_Multicast_Implementation(ABallRepulsorActor* collisionActor_) {
+
+	if (this->GetOwner()->HasAuthority()) {
+		if (IsValid(collisionActor_)) {
+			collisionActor_->Destroy();
+		}
+	}
+}
+
+void UBallRepulsorComponent::OnDestroy_Server_Implementation(ABallRepulsorActor* collisionActor_) {
+
+	OnDestroy_Multicast(collisionActor_);
 }
