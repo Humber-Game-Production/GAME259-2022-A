@@ -7,6 +7,7 @@
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 
+const FName GlobalOngoingSessionName = FName("GlobalOngoingSessionName");
 
 UGameInstance_GAME259_A_URE::UGameInstance_GAME259_A_URE()
 {
@@ -99,11 +100,6 @@ void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* World, UNetDriver* Ne
 
 void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMatchSettingsInfo_)
 {
-	if (GEngine)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Create Server Called"));
-	}
-	
 	FOnlineSessionSettings SessionSettings;
 	SessionSettings.bAllowJoinInProgress = true;
 	SessionSettings.bIsDedicated = false;
@@ -126,7 +122,23 @@ void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMa
 	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
 	// Creates Session/Server
-	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
+	SessionInterface->CreateSession(0, GlobalOngoingSessionName, SessionSettings);
+}
+
+void UGameInstance_GAME259_A_URE::DestroySession(FName SessionName, bool Succeeded)
+{
+	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
+	SessionInterface->DestroySession(GlobalOngoingSessionName);
+	
+}
+
+void UGameInstance_GAME259_A_URE::OnDestroySessionComplete(FName SessionName, bool Succeeded)
+{
+	if (SessionInterface.IsValid())
+	{
+		SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
+		SessionInterface->ClearOnDestroySessionCompleteDelegates(this);
+	}
 }
 
 void UGameInstance_GAME259_A_URE::FindServers()
@@ -177,3 +189,5 @@ void UGameInstance_GAME259_A_URE::JoinServer(int32 ArrayIndex)
 		}
 	}
 }
+
+

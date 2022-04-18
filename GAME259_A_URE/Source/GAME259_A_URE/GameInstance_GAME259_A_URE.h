@@ -90,9 +90,12 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void JoinServer(int32 ArrayIndex);
+	
+	UFUNCTION(BlueprintCallable)
+	void DestroySession(FName SessionName, bool Succeeded);
+	void OnDestroySessionComplete(FName SessionName, bool Succeeded);
 
 private:
 
-	FOnDestroySessionCompleteDelegate DestroySessionCompleteDelegate;
-	FDelegateHandle DestroySessionCompleteDelegateHandle;
+
 };
