@@ -81,6 +81,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Sound")
 		class USoundBase* ShootingSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* DeadSound;
+
 	void Attack();
 
 	//for testing

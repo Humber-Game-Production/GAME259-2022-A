@@ -605,6 +605,7 @@ void AMain_Character::ManualMinusBall()
 void AMain_Character::On_Destroy() {
 	BallRepulsorAbility->OnDestroy();
 	CombatStatusComp->RemoveCombatStatusList();
+	PlaySound_Server(DeadSound, GetActorLocation());
 }
 
 void AMain_Character::PlayAnimation_Multicast_Implementation(UAnimMontage* throwAnim_)
