@@ -6,6 +6,7 @@
 #include "CombatStatusActor.h"
 #include "DamageOverTimeActor.h"
 #include "ReduceSpeedActor.h"
+#include "GAME259_A_URE/Main_Character.h"
 
 
 // Sets default values for this component's properties
@@ -36,7 +37,10 @@ void UCombatStatusComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 {
-	//Check if datatable exist
+	AMain_Character* player = (AMain_Character*)GetOwner();
+	if (player && player->GetCurrentHealth() > 0.0f)
+	{
+			//Check if datatable exist
 	if (CombatStatusTable) {
 		FCombatStatus* combatStatusInfo = CombatStatusTable->FindRow<FCombatStatus>(rowName_, TEXT("test"), true);
 		//Check if row name exist
@@ -97,6 +101,8 @@ void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Database Not Found"));
 	}
+	}
+
 }
 
 void UCombatStatusComponent::RemoveCombatStatus(ACombatStatusActor* statusActor){
