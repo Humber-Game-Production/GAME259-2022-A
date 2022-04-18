@@ -92,8 +92,12 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void JoinServer(int32 ArrayIndex);
 	
-	UFUNCTION(BlueprintCallable)
-	void DestroySession(FName SessionName, bool Succeeded);
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+	void DestroySession_Multicast(FName SessionName, bool Succeeded);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void DestroySession_Server(FName SessionName, bool Succeeded);
+	
 	void OnDestroySessionComplete(FName SessionName, bool Succeeded);
 
 private:
