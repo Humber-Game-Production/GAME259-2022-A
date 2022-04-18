@@ -23,6 +23,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelayAttackUpdate);
 
 //Setup current weapon delegate with index
 class USoundBase;
+class UAnimationMontage;
 
 UCLASS(config = Game)
 class AMain_Character : public ACharacter
@@ -358,6 +359,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void On_Destroy();
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+	void PlayAnimation_Multicast(UAnimMontage* throwAnim_);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation)
+		void PlayAnimation_Server(UAnimMontage* throwAnim_);
 };
 
 USTRUCT()

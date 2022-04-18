@@ -497,8 +497,9 @@ void AMain_Character::Attack()
 			DelayAttackUpdate.Broadcast();
 			PlaySound_Server(ShootingSound, GetActorLocation());
 
+			
 			if (throwAnim) {
-				PlayAnimMontage(throwAnim);
+				PlayAnimation_Server(throwAnim);
 			}
 		}
 	}
@@ -604,6 +605,21 @@ void AMain_Character::ManualMinusBall()
 void AMain_Character::On_Destroy() {
 	BallRepulsorAbility->OnDestroy();
 	CombatStatusComp->RemoveCombatStatusList();
+}
+
+void AMain_Character::PlayAnimation_Multicast_Implementation(UAnimMontage* throwAnim_)
+{
+	PlayAnimMontage(throwAnim_);
+}
+
+void AMain_Character::PlayAnimation_Server_Implementation(UAnimMontage* throwAnim_)
+{
+	PlayAnimation_Multicast(throwAnim_);
+}
+
+bool AMain_Character::PlayAnimation_Server_Validate(UAnimMontage* throwAnim_)
+{
+	return true;
 }
 
 void AMain_Character::Die()
