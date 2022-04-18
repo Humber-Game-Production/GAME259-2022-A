@@ -2,6 +2,7 @@
 
 #include "CTF_GameMode.h"
 #include "Main_Character.h"
+#include "GameInstance_GAME259_A_URE.h"
 #include "GameFramework/SpectatorPawn.h"
 #include "Main_PlayerController.h"
 #include "CTF_PlayerState.h"
@@ -25,11 +26,11 @@ ACTF_GameMode::ACTF_GameMode()
 	matchTimeLimit = 1000.0f;
 	warmupTimeLimit = 10.0f;
 	maxScore = 3;
-	maxPlayers = 4;
+	//maxPlayers = 4;
 
 	//maxRounds = 3;    //not used at this point
 	//respawnDelay = 5.0f;   //currently not used, would require coordination with UI respawn widget to have dynamic respawnDelay
-
+	
 	//Enables WaitingToStart Match State
 	bDelayedStart = true;
 
@@ -60,6 +61,8 @@ void ACTF_GameMode::HandleMatchIsWaitingToStart() {
 			}
 		}
 	}
+	UGameInstance_GAME259_A_URE* GameInstance = Cast<UGameInstance_GAME259_A_URE>(GetWorld()->GetGameInstance());
+	maxPlayers = GameInstance->GameInstanceMaxPlayers;
 	MatchWaitingToStart();
 }
  

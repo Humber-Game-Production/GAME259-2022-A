@@ -22,6 +22,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityCooldownUpdate, int, index,
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelayAttackUpdate);
 
 //Setup current weapon delegate with index
+class USoundBase;
+class UAnimationMontage;
 
 UCLASS(config = Game)
 class AMain_Character : public ACharacter
@@ -47,11 +49,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
 
-	//virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
-
 protected:
-
-	class UPlayerStatsComponent* PlayerStatsComp;
 
 	virtual void FellOutOfWorld(const UDamageType& dmgType) override;
 
@@ -66,21 +64,31 @@ protected:
 		class UCombatAmmoContainerComponent* CombatAmmoContainerComp2;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		class UGrenadeComponent* GrenadeAbility;
+		class UStrafeComponent* StrafeAbility;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UBallRepulsorComponent* BallRepulsorAbility;
-	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		class UAudioComponent* FireAudio;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* WalkingSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* TakeDamageSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* ShootingSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* DeadSound;
+
 	void Attack();
 
 	//for testing
 	void ManualAddBall();
 	void ManualMinusBall();
-	
-	UFUNCTION(NetMulticast, Reliable, WithValidation)
-		void ServerAttack();
-	bool ServerAttack_Validate();
-	void ServerAttack_Implementation();
 
 	void Die();
 
@@ -98,7 +106,7 @@ protected:
 
 	
 	UFUNCTION(BlueprintCallable)
-		void ActivateGrenade();
+		void ActivateStrafe();
 
 	FTimerHandle DestroyHandle;
 
@@ -136,6 +144,8 @@ protected:
 	// End of APawn interface
 
 	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaSeconds) override;
 
 	/** The player's maximum health. This is the highest that their health can be, and the value that their health starts at when spawned.*/
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
@@ -207,6 +217,8 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		class UAnimMontage* throwAnim;
 
 	UPROPERTY(EditAnywhere, Category = "Data Table", Replicated)
 		UDataTable* BallTable;
@@ -219,7 +231,6 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FAbilityCooldownUpdate AbilityCooldownUpdate;
-
 
 	//Collection of ball slots
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -255,6 +266,10 @@ public:
 	//Enables whether  to lower the power of impulse
 	UPROPERTY(EditAnywhere, Category = "Debug")
 		bool lowerPower;
+
+	//Enables whether  to lower the power of impulse
+	UPROPERTY(EditAnywhere, Category = "Debug")
+		bool powerOn;
 	
 	//Add Combat Status
 	UFUNCTION(BlueprintCallable, Category = "CombatStatus")
@@ -288,6 +303,13 @@ public:
 		void SetToBallType2();
 
 	UFUNCTION(BlueprintCallable)
+		void BallIndexIncrease();
+
+	UFUNCTION(BlueprintCallable)
+		void BallIndexDecrease();
+
+
+	UFUNCTION(BlueprintCallable)
 		FString GetNameOfActor();
 
 	UFUNCTION(BlueprintCallable)
@@ -296,18 +318,17 @@ public:
 	}
 
 	//Function used to spawn the ball in front of the player
-	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
-		void SpawnBall_Multicast(FVector location, FRotator rotation, FVector impulse_, FName rowName);
-
-	UFUNCTION(BlueprintCallable, Server, Reliable)
-		void SpawnBall_Server(FVector location, FRotator rotation, FVector impulse_, FName rowName);
-
 	UFUNCTION(BlueprintCallable, Server, Reliable)
 		void SpawnBallBP_Server(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_);
 
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void SpawnBallBP_NetMulticast(FVector location, FRotator rotation, FVector impulse_, TSubclassOf<class ABallActor> ballActorClass_);
 
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+		void PlaySound_Multicast(USoundBase* sound_, FVector location_);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation)
+		void PlaySound_Server(USoundBase* sound_, FVector location_);
 
 	//Function to set whether to lower the impulse
 	UFUNCTION(BlueprintCallable)
@@ -321,10 +342,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void DelayAttack();
 	
-	//Overlap function for destroying the actor and broadcasting delegates
-	UFUNCTION()
-		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FDelayAttackUpdate DelayAttackUpdate;
 
@@ -344,11 +361,18 @@ public:
 		TSubclassOf<class ABallActor> BallFireClass;
 
 	UFUNCTION(BlueprintCallable)
-			void On_Destroy();
+		void On_Destroy();
 
-private:
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+	void PlayAnimation_Multicast(UAnimMontage* throwAnim_);
 
-	UFUNCTION()
-	void ReceiveAbilityCooldown(FName abilityName_, float cooldown_percentage_);
+	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation)
+		void PlayAnimation_Server(UAnimMontage* throwAnim_);
+};
+
+USTRUCT()
+struct FOvertimeDamageEvent : public FDamageEvent
+{
+	GENERATED_BODY()
 
 };

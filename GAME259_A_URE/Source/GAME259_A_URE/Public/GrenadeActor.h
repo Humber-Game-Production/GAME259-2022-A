@@ -18,15 +18,11 @@ public:
 	// Sets default values for this actor's properties
 	AGrenadeActor();
 
-	
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	
-
 
 	//Set whether to enable debug options
 	UPROPERTY(EditAnywhere, Category = "Debug")

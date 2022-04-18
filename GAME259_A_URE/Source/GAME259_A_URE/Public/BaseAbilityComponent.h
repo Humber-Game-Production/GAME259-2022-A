@@ -35,12 +35,12 @@ protected:
 		float cd_countdown;
 
 private:
-
 	virtual bool TriggerAbilityEffect();
-
 	void CooldownCountdown();
 
 public:	
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* AbilitySound;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FAbilityUpdate AbilityCooldownUpdate;
@@ -53,6 +53,5 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		float getCooldown() { return cooldown; }
-
 
 };
