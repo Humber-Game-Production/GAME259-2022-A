@@ -65,7 +65,6 @@ void UGameInstance_GAME259_A_URE::OnFindSessionsComplete(bool Succeeded)
 				Result.Session.SessionSettings.Get(FName("SERVER_NAME_KEY"), ServerName);
 				Info.ServerName = ServerName;
 				Info.MaxPlayers = Result.Session.SessionSettings.NumPublicConnections;
-				Info.CurrentPlayers =Info.MaxPlayers - Result.Session.NumOpenPublicConnections;
 				Info.ServerArrayIndex = ArrayIndex;
 				ServerListDel.Broadcast(Info);
 		}
@@ -90,8 +89,6 @@ void UGameInstance_GAME259_A_URE::OnJoinSessionComplete(FName SessionName, EOnJo
 			PController->ClientTravel(JoinAddress, ETravelType::TRAVEL_Absolute);
 		}
 	}
-	
-
 }
 
 void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString)
@@ -100,8 +97,7 @@ void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* World, UNetDriver* Ne
 	PController->ClientTravel("Game/UI/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute); // May Change this line of code 
 }
 
-
-void UGameInstance_GAME259_A_URE::CreateServer(FString ServerName)
+void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMatchSettingsInfo_)
 {
 	if (GEngine)
 	{
@@ -123,11 +119,11 @@ void UGameInstance_GAME259_A_URE::CreateServer(FString ServerName)
 	}
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
-	SessionSettings.NumPublicConnections = 9;
+	SessionSettings.NumPublicConnections = ServerMatchSettingsInfo_.MaxPlayers + 1;
 	SessionSettings.bUseLobbiesIfAvailable = true;
 
 	// Set Server Names
-	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
 	// Creates Session/Server
 	SessionInterface->CreateSession(0, MySessionName, SessionSettings);

@@ -79,5 +79,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void refreshTime() { remainTime = durationTime; }
 
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+		void OnDestroy_Multicast();
+
+	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation)
+		void OnDestroy_Server();
+
 };
 

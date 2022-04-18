@@ -23,7 +23,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-//May not be needed (Def not needed)
+//May not be needed (Def not needed) <-We actually might need it.
 private:	
 	
 public:	

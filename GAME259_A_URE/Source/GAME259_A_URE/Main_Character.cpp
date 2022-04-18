@@ -11,6 +11,7 @@
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/InputComponent.h"
+#include "Animation/AnimMontage.h"
 #include "Net/UnrealNetwork.h"
 #include "Sound/SoundBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -495,6 +496,11 @@ void AMain_Character::Attack()
 			AmmoUpdate.Broadcast(AmmoBallSlot.Find(ammoContainer), ammoContainer->ballNum);
 			DelayAttackUpdate.Broadcast();
 			PlaySound_Server(ShootingSound, GetActorLocation());
+
+			
+			if (throwAnim) {
+				PlayAnimation_Server(throwAnim);
+			}
 		}
 	}
 	else {
@@ -533,7 +539,7 @@ void AMain_Character::SpawnBallBP_Server_Implementation(FVector location, FRotat
 
 
 void AMain_Character::PlaySound_Multicast_Implementation(USoundBase* sound_, FVector location_){
-	UGameplayStatics::PlaySoundAtLocation(GetWorld(), sound_, location_);
+	UGameplayStatics::SpawnSoundAttached(sound_, GetRootComponent());
 }
 
 
@@ -542,9 +548,11 @@ void AMain_Character::PlaySound_Server_Implementation(USoundBase* sound_, FVecto
 	PlaySound_Multicast(sound_, location_);
 }
 
-//bool AMain_Character::PlaySound_Server_Validation(USoundBase* sound_) { 
-//	return true; 
-//}
+
+bool AMain_Character::PlaySound_Server_Validate(USoundBase* sound_, FVector location_)
+{
+	return true;
+}
 
 //Function to set whether to lower the impulse
 void AMain_Character::LowPower()
@@ -597,6 +605,22 @@ void AMain_Character::ManualMinusBall()
 void AMain_Character::On_Destroy() {
 	BallRepulsorAbility->OnDestroy();
 	CombatStatusComp->RemoveCombatStatusList();
+	PlaySound_Server(DeadSound, GetActorLocation());
+}
+
+void AMain_Character::PlayAnimation_Multicast_Implementation(UAnimMontage* throwAnim_)
+{
+	PlayAnimMontage(throwAnim_);
+}
+
+void AMain_Character::PlayAnimation_Server_Implementation(UAnimMontage* throwAnim_)
+{
+	PlayAnimation_Multicast(throwAnim_);
+}
+
+bool AMain_Character::PlayAnimation_Server_Validate(UAnimMontage* throwAnim_)
+{
+	return true;
 }
 
 void AMain_Character::Die()
@@ -654,18 +678,20 @@ void AMain_Character::AddCombatStatus(FName statusName_, AController* EventInsti
 
 	if (HasAuthority()) {
 		if (GetController()) {
-			//Check if damageinstigator exists
-			if (EventInstigator != nullptr) {
-				ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
-				ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
-				if (playerState && damageCauserPlayerState) {
-					if (playerState->team != damageCauserPlayerState->team) {
-						CombatStatusComp->AddCombatStatus(statusName_);
+			if (CurrentHealth > 0.0f) {
+				//Check if damageinstigator exists
+				if (EventInstigator != nullptr) {
+					ACTF_PlayerState* damageCauserPlayerState = Cast<ACTF_PlayerState>(EventInstigator->PlayerState);
+					ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
+					if (playerState && damageCauserPlayerState) {
+						if (playerState->team != damageCauserPlayerState->team) {
+							CombatStatusComp->AddCombatStatus_Server(statusName_);
+						}
 					}
 				}
-			}
-			else {
-				CombatStatusComp->AddCombatStatus(statusName_);
+				else {
+					CombatStatusComp->AddCombatStatus_Server(statusName_);
+				}
 			}
 		}
 	}
@@ -712,6 +738,9 @@ void AMain_Character::ActivateBallRepulsor_Server_Implementation() {
 void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
 {
 	if (BallRepulsorAbility->ActivateAbility()) {
+		if (BallRepulsorAbility->AbilitySound) {
+			PlaySound_Server(BallRepulsorAbility->AbilitySound, GetActorLocation());
+		}
 		AbilityCooldownUpdate.Broadcast(1, BallRepulsorAbility->getCooldown());
 	}
 }
@@ -719,6 +748,9 @@ void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
 void AMain_Character::ActivateStrafe() {
 
 	if (StrafeAbility->ActivateAbility()) {
+		if (StrafeAbility->AbilitySound) {
+			PlaySound_Server(StrafeAbility->AbilitySound, GetActorLocation());
+		}
 		AbilityCooldownUpdate.Broadcast(3, StrafeAbility->getCooldown());
 	}
 

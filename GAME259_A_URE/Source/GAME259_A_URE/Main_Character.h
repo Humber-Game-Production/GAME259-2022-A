@@ -23,6 +23,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelayAttackUpdate);
 
 //Setup current weapon delegate with index
 class USoundBase;
+class UAnimationMontage;
 
 UCLASS(config = Game)
 class AMain_Character : public ACharacter
@@ -79,6 +80,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Sound")
 		class USoundBase* ShootingSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* DeadSound;
 
 	void Attack();
 
@@ -213,6 +217,8 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		class UAnimMontage* throwAnim;
 
 	UPROPERTY(EditAnywhere, Category = "Data Table", Replicated)
 		UDataTable* BallTable;
@@ -321,7 +327,7 @@ public:
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void PlaySound_Multicast(USoundBase* sound_, FVector location_);
 
-	UFUNCTION(BlueprintCallable, Server, Reliable)
+	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation)
 		void PlaySound_Server(USoundBase* sound_, FVector location_);
 
 	//Function to set whether to lower the impulse
@@ -356,6 +362,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void On_Destroy();
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+	void PlayAnimation_Multicast(UAnimMontage* throwAnim_);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation)
+		void PlayAnimation_Server(UAnimMontage* throwAnim_);
 };
 
 USTRUCT()
