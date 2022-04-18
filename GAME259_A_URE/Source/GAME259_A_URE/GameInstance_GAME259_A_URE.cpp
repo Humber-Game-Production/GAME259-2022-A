@@ -133,12 +133,7 @@ void UGameInstance_GAME259_A_URE::DestroySession(FName SessionName, bool Succeed
 {
 	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
 	SessionInterface->EndSession(GlobalOngoingSessionName);
-	SessionInterface->DestroySession(GlobalOngoingSessionName);
-	if (ACTF_GameMode* GM = Cast<ACTF_GameMode>(GetWorld()->GetAuthGameMode()))
-	{
-		OnlineSession->HandleDisconnect(GetWorld(), GM->GetNetDriver());
-	}
-	
+	SessionInterface->DestroySession(GlobalOngoingSessionName);	
 }
 
 void UGameInstance_GAME259_A_URE::OnDestroySessionComplete(FName SessionName, bool Succeeded)
