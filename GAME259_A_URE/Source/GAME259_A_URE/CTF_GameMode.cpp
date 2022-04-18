@@ -12,6 +12,7 @@
 #include "Math/UnrealMathUtility.h"
 #include "TimerManager.h"
 #include "UObject/ConstructorHelpers.h"
+#include "GameFramework/OnlineSession.h"
 
 
 ACTF_GameMode::ACTF_GameMode()

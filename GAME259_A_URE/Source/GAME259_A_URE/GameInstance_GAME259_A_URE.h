@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "OnlineSubsystem.h"
 #include "Interfaces/OnlineSessionInterface.h"
+#include "CTF_GameMode.h"
 #include "Engine/GameInstance.h"
 #include "GameInstance_GAME259_A_URE.generated.h"
 

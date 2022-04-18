@@ -5,7 +5,9 @@
 #include "OnlineSubsystem.h"
 #include "OnlineSessionSettings.h"
 #include "Engine/World.h"
+#include "GameFramework/OnlineSession.h"
 #include "Kismet/GameplayStatics.h"
+#include "Net/Core/PushModel/PushModel.h"
 
 const FName GlobalOngoingSessionName = FName("GlobalOngoingSessionName");
 
@@ -118,7 +120,7 @@ void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMa
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
 	SessionSettings.NumPublicConnections = ServerMatchSettingsInfo_.MaxPlayers + 1; // + 1 Spectator Count
-	SessionSettings.bUseLobbiesIfAvailable = false;
+	SessionSettings.bUseLobbiesIfAvailable = true;
 
 	// Set Server Names
 	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
@@ -130,7 +132,13 @@ void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMa
 void UGameInstance_GAME259_A_URE::DestroySession(FName SessionName, bool Succeeded)
 {
 	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
+	SessionInterface->EndSession(GlobalOngoingSessionName);
 	SessionInterface->DestroySession(GlobalOngoingSessionName);
+	if (ACTF_GameMode* GM = Cast<ACTF_GameMode>(GetWorld()->GetAuthGameMode()))
+	{
+		//GM->GetNetDriver()
+		//OnlineSession->HandleDisconnect(GetWorld(), GM->GetNetDriver());
+	}
 	
 }
 
