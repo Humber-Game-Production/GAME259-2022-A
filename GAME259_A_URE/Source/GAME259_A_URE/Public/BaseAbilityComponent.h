@@ -39,6 +39,8 @@ private:
 	void CooldownCountdown();
 
 public:	
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+		class USoundBase* AbilitySound;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 		FAbilityUpdate AbilityCooldownUpdate;

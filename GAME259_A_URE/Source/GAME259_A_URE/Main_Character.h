@@ -213,6 +213,8 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		class UAnimMontage* throwAnim;
 
 	UPROPERTY(EditAnywhere, Category = "Data Table", Replicated)
 		UDataTable* BallTable;

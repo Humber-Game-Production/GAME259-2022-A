@@ -11,6 +11,7 @@
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/InputComponent.h"
+#include "Animation/AnimMontage.h"
 #include "Net/UnrealNetwork.h"
 #include "Sound/SoundBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -495,6 +496,10 @@ void AMain_Character::Attack()
 			AmmoUpdate.Broadcast(AmmoBallSlot.Find(ammoContainer), ammoContainer->ballNum);
 			DelayAttackUpdate.Broadcast();
 			PlaySound_Server(ShootingSound, GetActorLocation());
+
+			if (throwAnim) {
+				PlayAnimMontage(throwAnim);
+			}
 		}
 	}
 	else {
@@ -722,6 +727,9 @@ void AMain_Character::ActivateBallRepulsor_Server_Implementation() {
 void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
 {
 	if (BallRepulsorAbility->ActivateAbility()) {
+		if (BallRepulsorAbility->AbilitySound) {
+			PlaySound_Server(BallRepulsorAbility->AbilitySound, GetActorLocation());
+		}
 		AbilityCooldownUpdate.Broadcast(1, BallRepulsorAbility->getCooldown());
 	}
 }
@@ -729,6 +737,9 @@ void AMain_Character::ActivateBallRepulsor_Multicast_Implementation()
 void AMain_Character::ActivateStrafe() {
 
 	if (StrafeAbility->ActivateAbility()) {
+		if (StrafeAbility->AbilitySound) {
+			PlaySound_Server(StrafeAbility->AbilitySound, GetActorLocation());
+		}
 		AbilityCooldownUpdate.Broadcast(3, StrafeAbility->getCooldown());
 	}
 
