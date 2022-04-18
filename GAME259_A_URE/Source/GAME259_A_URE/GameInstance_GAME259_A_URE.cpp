@@ -136,8 +136,7 @@ void UGameInstance_GAME259_A_URE::DestroySession(FName SessionName, bool Succeed
 	SessionInterface->DestroySession(GlobalOngoingSessionName);
 	if (ACTF_GameMode* GM = Cast<ACTF_GameMode>(GetWorld()->GetAuthGameMode()))
 	{
-		//GM->GetNetDriver()
-		//OnlineSession->HandleDisconnect(GetWorld(), GM->GetNetDriver());
+		OnlineSession->HandleDisconnect(GetWorld(), GM->GetNetDriver());
 	}
 	
 }
