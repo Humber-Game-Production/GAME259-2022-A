@@ -67,7 +67,7 @@ ABallActor::ABallActor()
 	DamageToDeal = 5;
 
 	//The time it takes before this actor is destroyed
-	DestroyTimer = 8.0f;
+	DestroyTimer = 5.0f;
 
 	//Set whether to enable debug options
 	Debug = false;
@@ -106,13 +106,13 @@ void ABallActor::Tick(float DeltaTime)
 	//DrawDebugString(GetWorld(), FVector(0,0,100), GetEnumText(GetLocalRole()), this, FColor::Black, DeltaTime);
 
 	//If the ball reaches a certain velocity, the ball becomes lethal
-	float velocity = SphereComp->GetPhysicsLinearVelocity().Size();
-	if (velocity > lethalVelocity) {
-		IsLethal = true;
-	}
-	else {
-		IsLethal = false;
-	}
+	//float velocity = SphereComp->GetPhysicsLinearVelocity().Size();
+	//if (velocity > lethalVelocity) {
+	//	IsLethal = true;
+	//}
+	//else {
+	//	IsLethal = false;
+	//}
 	//if (Debug == true)
 	//{
 	//	if (HasStatus == true)
