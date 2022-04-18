@@ -61,10 +61,10 @@ void UGameInstance_GAME259_A_URE::OnFindSessionsComplete(bool Succeeded)
 				UE_LOG(LogTemp, Warning, TEXT("This text will appear in the console 3 seconds after execution"))
 			}, 3, false);*/
 			++ArrayIndex;
-			if (!Result.IsValid())
-			{
-				continue;
-			}
+			//if (!Result.IsValid()) // if not valid -> continue
+			//{
+			//	continue;
+			//}
 				FServerInfo Info;
 				FString ServerName = "Empty Server Name";
 				Result.Session.SessionSettings.Get(FName("SERVER_NAME_KEY"), ServerName);
