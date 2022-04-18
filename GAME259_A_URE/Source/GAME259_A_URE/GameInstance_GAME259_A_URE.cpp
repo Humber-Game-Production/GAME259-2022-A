@@ -118,7 +118,7 @@ void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMa
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
 	SessionSettings.NumPublicConnections = ServerMatchSettingsInfo_.MaxPlayers + 1; // + 1 Spectator Count
-	SessionSettings.bUseLobbiesIfAvailable = true;
+	SessionSettings.bUseLobbiesIfAvailable = false;
 
 	// Set Server Names
 	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
