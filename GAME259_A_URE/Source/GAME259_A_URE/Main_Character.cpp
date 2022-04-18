@@ -685,12 +685,12 @@ void AMain_Character::AddCombatStatus(FName statusName_, AController* EventInsti
 					ACTF_PlayerState* playerState = Cast<ACTF_PlayerState>(this->GetPlayerState());
 					if (playerState && damageCauserPlayerState) {
 						if (playerState->team != damageCauserPlayerState->team) {
-							CombatStatusComp->AddCombatStatus(statusName_);
+							CombatStatusComp->AddCombatStatus_Server(statusName_);
 						}
 					}
 				}
 				else {
-					CombatStatusComp->AddCombatStatus(statusName_);
+					CombatStatusComp->AddCombatStatus_Server(statusName_);
 				}
 			}
 		}

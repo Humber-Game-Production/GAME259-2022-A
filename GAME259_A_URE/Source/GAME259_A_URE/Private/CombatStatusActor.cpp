@@ -27,8 +27,8 @@ void ACombatStatusActor::Tick(float DeltaTime){
 }
 
 void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float effectAmount_, 
-	UParticleSystem* particleEffect_, FString description_, UTexture2D* icon_) {
-
+	UParticleSystem* particleEffect_, FString description_, UTexture2D* icon_)
+{
 	statusName = statusName_;
 	durationTime = durationTime_;
 	effectAmount = effectAmount_;
@@ -38,6 +38,7 @@ void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float 
 	icon = icon_;
 	remainTime = durationTime;
 	GetWorldTimerManager().SetTimer(TimeHandle, this, &ACombatStatusActor::ApplyEffect, 1.0f, true);
+	
 }
 
 void ACombatStatusActor::ApplyEffect() {}

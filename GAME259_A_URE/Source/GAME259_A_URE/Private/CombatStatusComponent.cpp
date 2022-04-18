@@ -41,7 +41,7 @@ void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 	if (player && player->GetCurrentHealth() > 0.0f)
 	{
 			//Check if datatable exist
-	if (CombatStatusTable) {
+		if (CombatStatusTable) {
 		FCombatStatus* combatStatusInfo = CombatStatusTable->FindRow<FCombatStatus>(rowName_, TEXT("test"), true);
 		//Check if row name exist
 		if (combatStatusInfo) {
@@ -103,6 +103,16 @@ void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 	}
 	}
 
+}
+
+void UCombatStatusComponent::AddCombatStatus_Server_Implementation(FName rowName_)
+{
+	AddCombatStatus(rowName_);
+}
+
+bool UCombatStatusComponent::AddCombatStatus_Server_Validate(FName rowName_)
+{
+	return true;
 }
 
 void UCombatStatusComponent::RemoveCombatStatus(ACombatStatusActor* statusActor){

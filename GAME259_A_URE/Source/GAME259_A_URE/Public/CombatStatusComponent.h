@@ -38,7 +38,10 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
-		void AddCombatStatus(FName rowName_);
+	void AddCombatStatus(FName rowName_);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable,  WithValidation)
+	void AddCombatStatus_Server(FName rowName_);
 
 	UFUNCTION(BlueprintCallable)
 		void RemoveCombatStatus(ACombatStatusActor* statusActor);
