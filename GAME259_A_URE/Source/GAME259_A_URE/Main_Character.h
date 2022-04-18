@@ -323,7 +323,7 @@ public:
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void PlaySound_Multicast(USoundBase* sound_, FVector location_);
 
-	UFUNCTION(BlueprintCallable, Server, Reliable)
+	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation)
 		void PlaySound_Server(USoundBase* sound_, FVector location_);
 
 	//Function to set whether to lower the impulse

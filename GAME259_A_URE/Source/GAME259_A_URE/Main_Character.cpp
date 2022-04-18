@@ -547,9 +547,11 @@ void AMain_Character::PlaySound_Server_Implementation(USoundBase* sound_, FVecto
 	PlaySound_Multicast(sound_, location_);
 }
 
-//bool AMain_Character::PlaySound_Server_Validation(USoundBase* sound_) { 
-//	return true; 
-//}
+
+bool AMain_Character::PlaySound_Server_Validate(USoundBase* sound_, FVector location_)
+{
+	return true;
+}
 
 //Function to set whether to lower the impulse
 void AMain_Character::LowPower()
