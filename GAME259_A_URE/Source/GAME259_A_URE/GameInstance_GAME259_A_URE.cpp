@@ -126,7 +126,7 @@ void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMa
 	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
 	// Creates Session/Server
-	SessionInterface->CreateSession(0, GlobalOngoingSessionName, SessionSettings);
+	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
 }
 
 void UGameInstance_GAME259_A_URE::OnDestroySessionComplete(FName SessionName, bool Succeeded)
@@ -192,8 +192,8 @@ void UGameInstance_GAME259_A_URE::DestroySession_Server_Implementation(FName Ses
 void UGameInstance_GAME259_A_URE::DestroySession_Multicast_Implementation(FName SessionName, bool Succeeded)
 {
 	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
-	SessionInterface->EndSession(GlobalOngoingSessionName);
-	SessionInterface->DestroySession(GlobalOngoingSessionName);
+	SessionInterface->EndSession(MySessionName);
+	SessionInterface->DestroySession(MySessionName);
 }
 
 
