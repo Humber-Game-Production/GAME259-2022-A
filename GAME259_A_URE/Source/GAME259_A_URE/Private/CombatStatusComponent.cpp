@@ -6,6 +6,7 @@
 #include "CombatStatusActor.h"
 #include "DamageOverTimeActor.h"
 #include "ReduceSpeedActor.h"
+#include "GAME259_A_URE/Main_Character.h"
 
 
 // Sets default values for this component's properties
@@ -36,7 +37,10 @@ void UCombatStatusComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 {
-	//Check if datatable exist
+	AMain_Character* player = (AMain_Character*)GetOwner();
+	if (player && player->GetCurrentHealth() > 0.0f)
+	{
+		//Check if datatable exist
 	if (CombatStatusTable) {
 		FCombatStatus* combatStatusInfo = CombatStatusTable->FindRow<FCombatStatus>(rowName_, TEXT("test"), true);
 		//Check if row name exist
@@ -60,6 +64,8 @@ void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 				UTexture2D* icon = combatStatusInfo->icon;
 				FVector spawnLocation = GetOwner()->GetActorLocation();
 				FRotator rotation = GetOwner()->GetActorRotation();
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::Printf(TEXT("My Location is: %s"), *spawnLocation.ToString()));
+
 				//Spawn actor according to the status type, and add it to the lists
 				switch (combatStatusInfo->statusClass) {
 				case DamageOverTime:
@@ -97,6 +103,8 @@ void UCombatStatusComponent::AddCombatStatus_Implementation(FName rowName_)
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Database Not Found"));
 	}
+	}
+	
 }
 
 void UCombatStatusComponent::RemoveCombatStatus(ACombatStatusActor* statusActor){

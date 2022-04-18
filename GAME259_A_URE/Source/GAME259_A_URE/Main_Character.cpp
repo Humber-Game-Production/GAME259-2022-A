@@ -597,11 +597,17 @@ void AMain_Character::ManualMinusBall()
 void AMain_Character::On_Destroy() {
 	BallRepulsorAbility->OnDestroy();
 	CombatStatusComp->RemoveCombatStatusList();
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Removed Manuallgjfdklsjgklfsdjk;gkldjskl;g;jklf;dsjkl;gjfkldsjlkgjlkfjdskl;gjdskl;;jfgdskl;gfjsdy") );
+
 }
 
 void AMain_Character::Die()
 {
 	On_Destroy();
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::Printf(TEXT("My Location is: %s"), *GetActorLocation().ToString()));
+
+	
+
 	//Currently used to handle dropping flag
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
 		AMain_PlayerController* playerController = GetController<AMain_PlayerController>();
@@ -661,11 +667,15 @@ void AMain_Character::AddCombatStatus(FName statusName_, AController* EventInsti
 				if (playerState && damageCauserPlayerState) {
 					if (playerState->team != damageCauserPlayerState->team) {
 						CombatStatusComp->AddCombatStatus(statusName_);
+						GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Yellow, TEXT("gfdskjgkl;dsjlkgflds;") );
+
 					}
 				}
 			}
 			else {
 				CombatStatusComp->AddCombatStatus(statusName_);
+				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Magenta, TEXT(">Ball Removed Manually") );
+
 			}
 		}
 	}
