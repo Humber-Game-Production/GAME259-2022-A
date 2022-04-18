@@ -133,16 +133,13 @@ void UGameInstance_GAME259_A_URE::DestroySession(FName SessionName, bool Succeed
 {
 	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
 	SessionInterface->EndSession(GlobalOngoingSessionName);
-	SessionInterface->DestroySession(GlobalOngoingSessionName);	
+	SessionInterface->DestroySession(GlobalOngoingSessionName);
 }
 
 void UGameInstance_GAME259_A_URE::OnDestroySessionComplete(FName SessionName, bool Succeeded)
 {
-	if (SessionInterface.IsValid())
-	{
-		SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
-		SessionInterface->ClearOnDestroySessionCompleteDelegates(this);
-	}
+	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
+	SessionInterface->ClearOnDestroySessionCompleteDelegates(this);
 }
 
 void UGameInstance_GAME259_A_URE::FindServers()
