@@ -53,11 +53,11 @@ void UGameInstance_GAME259_A_URE::OnFindSessionsComplete(bool Succeeded)
 
 		for (FOnlineSessionSearchResult Result : SessionSearch->SearchResults)
 		{
-			FTimerHandle TimerHandle;
+			/*FTimerHandle TimerHandle;
 			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 			{
 				UE_LOG(LogTemp, Warning, TEXT("This text will appear in the console 3 seconds after execution"))
-			}, 3, false);
+			}, 3, false);*/
 			++ArrayIndex;
 			if (!Result.IsValid())
 			{
