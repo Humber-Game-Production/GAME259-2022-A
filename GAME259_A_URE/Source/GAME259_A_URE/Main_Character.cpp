@@ -539,7 +539,7 @@ void AMain_Character::SpawnBallBP_Server_Implementation(FVector location, FRotat
 
 
 void AMain_Character::PlaySound_Multicast_Implementation(USoundBase* sound_, FVector location_){
-	UGameplayStatics::PlaySoundAtLocation(GetWorld(), sound_, location_);
+	UGameplayStatics::SpawnSoundAttached(sound_, GetRootComponent());
 }
 
 
