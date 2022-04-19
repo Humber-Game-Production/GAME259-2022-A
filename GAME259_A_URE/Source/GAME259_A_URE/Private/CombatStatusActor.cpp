@@ -34,7 +34,7 @@ void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float 
 	durationTime = durationTime_;
 	effectAmount = effectAmount_;
 	ParticleComponent->SetTemplate(particleEffect_);
-	ParticleComponent->SetIsReplicated(false);
+	ParticleComponent->SetIsReplicated(true);
 	description = description_;
 	icon = icon_;
 	remainTime = durationTime;
