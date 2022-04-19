@@ -71,7 +71,9 @@ void UGameInstance_GAME259_A_URE::OnFindSessionsComplete(bool Succeeded)
 				Info.ServerName = ServerName;
 				Info.MaxPlayers = Result.Session.SessionSettings.NumPublicConnections;
 				Info.ServerArrayIndex = ArrayIndex;
-				ServerListDel.Broadcast(Info);
+				if (ServerName != "Empty Server Name") {
+					ServerListDel.Broadcast(Info);
+				}
 		}
 		UE_LOG(LogTemp, Warning, TEXT("SearchResults, Server Count: %d"), SessionSearch->SearchResults.Num());
 	}
