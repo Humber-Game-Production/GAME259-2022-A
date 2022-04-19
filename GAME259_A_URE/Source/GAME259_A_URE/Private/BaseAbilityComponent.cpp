@@ -4,26 +4,21 @@
 #include "BaseAbilityComponent.h"
 
 // Sets default values for this component's properties
-UBaseAbilityComponent::UBaseAbilityComponent()
-{
+UBaseAbilityComponent::UBaseAbilityComponent(){
+
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
 	//Set variables
 	abilityName = "Default";
-
-	// ...
 }
 
 
 // Called when the game starts
-void UBaseAbilityComponent::BeginPlay()
-{
-	Super::BeginPlay();
+void UBaseAbilityComponent::BeginPlay(){
 
-	// ...
-	
+	Super::BeginPlay();
 }
 
 
@@ -32,7 +27,6 @@ void UBaseAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
 }
 
 //Implement this in child class
@@ -56,8 +50,7 @@ void UBaseAbilityComponent::CooldownCountdown() {
 
 bool UBaseAbilityComponent::ActivateAbility() {
 
-	if (cd_countdown == 0.0f) {
-		
+	if (cd_countdown == 0.0f) {	
 		//TriggerEffect here
 		if (TriggerAbilityEffect()) {
 			cd_countdown = cooldown;

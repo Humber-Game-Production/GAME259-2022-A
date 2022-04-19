@@ -44,7 +44,6 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly)
 	UTexture2D* icon;
 
-protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -79,6 +78,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void refreshTime() { remainTime = durationTime; }
+
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+		void OnDestroy_Multicast();
+
+	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation)
+		void OnDestroy_Server();
 
 };
 

@@ -5,8 +5,25 @@
 #include "CoreMinimal.h"
 #include "OnlineSubsystem.h"
 #include "Interfaces/OnlineSessionInterface.h"
+#include "CTF_GameMode.h"
 #include "Engine/GameInstance.h"
 #include "GameInstance_GAME259_A_URE.generated.h"
+
+// Editable Match Settings before creating Listen Server
+USTRUCT(BlueprintType)
+struct FServerMatchSettingsInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(BlueprintReadWrite)
+	FString ServerName;
+	
+	UPROPERTY(BlueprintReadWrite)
+	int32 MaxPlayers;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 MatchTimer;
+};
 
 // Allows for visible servers on scroll box of Lobby UI
 USTRUCT(BlueprintType)
@@ -16,8 +33,6 @@ struct FServerInfo
 public:
 	UPROPERTY(BlueprintReadOnly)
 	FString ServerName;
-	UPROPERTY(BlueprintReadOnly)
-	int32 CurrentPlayers;
 	UPROPERTY(BlueprintReadOnly)
 	int32 MaxPlayers;
 	UPROPERTY(BlueprintReadOnly)
@@ -30,7 +45,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerDel, FServerInfo, ServerListD
 // Checks if "Refresh Server" is active
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerSearchingDel, bool, SearchingForServer);
 
-
 UCLASS()
 class GAME259_A_URE_API UGameInstance_GAME259_A_URE : public UGameInstance
 {
@@ -39,8 +53,12 @@ class GAME259_A_URE_API UGameInstance_GAME259_A_URE : public UGameInstance
 public:
 	UGameInstance_GAME259_A_URE();
 
+	UPROPERTY(BlueprintReadWrite)
+	int32 GameInstanceMaxPlayers;
+
 protected:
 	FName MySessionName;
+
 
 	// Handles matchmaking of players | Sessions
 	IOnlineSessionPtr SessionInterface;
@@ -61,19 +79,28 @@ protected:
 	virtual void OnCreateSessionComplete(FName SessionName, bool Succeeded);
 	virtual void OnFindSessionsComplete(bool Succeeded);
 	virtual void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
-
+	
 	// Returns players to main menu if Network Failure Occurs
 	void OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString);
-
 	
 	UFUNCTION(BlueprintCallable)
-	void CreateServer(FString ServerName);
+	void CreateServer(FServerMatchSettingsInfo ServerMatchSettingsInfo_);
 
 	UFUNCTION(BlueprintCallable)
 	void FindServers();
 
 	UFUNCTION(BlueprintCallable)
 	void JoinServer(int32 ArrayIndex);
-
 	
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+	void DestroySession_Multicast(FName SessionName, bool Succeeded);
+
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void DestroySession_Server(FName SessionName, bool Succeeded);
+	
+	void OnDestroySessionComplete(FName SessionName, bool Succeeded);
+
+private:
+
+
 };

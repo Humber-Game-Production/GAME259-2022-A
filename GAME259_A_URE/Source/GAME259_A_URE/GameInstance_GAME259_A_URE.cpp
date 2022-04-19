@@ -5,8 +5,11 @@
 #include "OnlineSubsystem.h"
 #include "OnlineSessionSettings.h"
 #include "Engine/World.h"
+#include "GameFramework/OnlineSession.h"
 #include "Kismet/GameplayStatics.h"
+#include "Net/Core/PushModel/PushModel.h"
 
+const FName GlobalOngoingSessionName = FName("GlobalOngoingSessionName");
 
 UGameInstance_GAME259_A_URE::UGameInstance_GAME259_A_URE()
 {
@@ -37,10 +40,7 @@ void UGameInstance_GAME259_A_URE::OnCreateSessionComplete(FName SessionName, boo
 	UE_LOG(LogTemp, Warning, TEXT("OnCreateSessionComplete, Succeeded: %d"), Succeeded);
 	if (Succeeded)
 	{
-		//UWorld* World = GetWorld();
-
 		GetWorld()->ServerTravel("/Game/Levels/IceMaze?listen");
-		//GetWorld()->ServerTravel("/Game/LobbySystem/Levels/Networking_GameTestMap?listen");
 	}
 }
 
@@ -55,8 +55,13 @@ void UGameInstance_GAME259_A_URE::OnFindSessionsComplete(bool Succeeded)
 
 		for (FOnlineSessionSearchResult Result : SessionSearch->SearchResults)
 		{
+			/*FTimerHandle TimerHandle;
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+			{
+				UE_LOG(LogTemp, Warning, TEXT("This text will appear in the console 3 seconds after execution"))
+			}, 3, false);*/
 			++ArrayIndex;
-			if (!Result.IsValid())
+			if (!Result.IsValid()) // if not valid -> continue
 			{
 				continue;
 			}
@@ -65,9 +70,10 @@ void UGameInstance_GAME259_A_URE::OnFindSessionsComplete(bool Succeeded)
 				Result.Session.SessionSettings.Get(FName("SERVER_NAME_KEY"), ServerName);
 				Info.ServerName = ServerName;
 				Info.MaxPlayers = Result.Session.SessionSettings.NumPublicConnections;
-				Info.CurrentPlayers =Info.MaxPlayers - Result.Session.NumOpenPublicConnections;
 				Info.ServerArrayIndex = ArrayIndex;
-				ServerListDel.Broadcast(Info);
+				if (ServerName != "Empty Server Name") {
+					ServerListDel.Broadcast(Info);
+				}
 		}
 		UE_LOG(LogTemp, Warning, TEXT("SearchResults, Server Count: %d"), SessionSearch->SearchResults.Num());
 	}
@@ -90,8 +96,6 @@ void UGameInstance_GAME259_A_URE::OnJoinSessionComplete(FName SessionName, EOnJo
 			PController->ClientTravel(JoinAddress, ETravelType::TRAVEL_Absolute);
 		}
 	}
-	
-
 }
 
 void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString)
@@ -100,14 +104,8 @@ void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* World, UNetDriver* Ne
 	PController->ClientTravel("Game/UI/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute); // May Change this line of code 
 }
 
-
-void UGameInstance_GAME259_A_URE::CreateServer(FString ServerName)
+void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMatchSettingsInfo_)
 {
-	if (GEngine)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Create Server Called"));
-	}
-	
 	FOnlineSessionSettings SessionSettings;
 	SessionSettings.bAllowJoinInProgress = true;
 	SessionSettings.bIsDedicated = false;
@@ -123,14 +121,20 @@ void UGameInstance_GAME259_A_URE::CreateServer(FString ServerName)
 	}
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
-	SessionSettings.NumPublicConnections = 9;
+	SessionSettings.NumPublicConnections = ServerMatchSettingsInfo_.MaxPlayers + 1; // + 1 Spectator Count
 	SessionSettings.bUseLobbiesIfAvailable = true;
 
 	// Set Server Names
-	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
 	// Creates Session/Server
 	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
+}
+
+void UGameInstance_GAME259_A_URE::OnDestroySessionComplete(FName SessionName, bool Succeeded)
+{
+	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
+	SessionInterface->ClearOnDestroySessionCompleteDelegates(this);
 }
 
 void UGameInstance_GAME259_A_URE::FindServers()
@@ -180,4 +184,16 @@ void UGameInstance_GAME259_A_URE::JoinServer(int32 ArrayIndex)
 			UE_LOG(LogTemp, Warning, TEXT("Failed to JOIN SERVER at index: %d"), ArrayIndex);
 		}
 	}
+}
+
+void UGameInstance_GAME259_A_URE::DestroySession_Server_Implementation(FName SessionName, bool Succeeded)
+{
+	DestroySession_Multicast(SessionName, Succeeded);
+}
+
+void UGameInstance_GAME259_A_URE::DestroySession_Multicast_Implementation(FName SessionName, bool Succeeded)
+{
+	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
+	SessionInterface->EndSession(MySessionName);
+	SessionInterface->DestroySession(MySessionName);
 }
