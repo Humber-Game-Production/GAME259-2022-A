@@ -246,6 +246,8 @@ void AMain_Character::Tick(float DeltaSeconds)
 
 	// Checks for NetRole
 	//DrawDebugString(GetWorld(), FVector(0,0,100), GetEnumText(GetLocalRole()), this, FColor::Black, DeltaSeconds);
+
+	
 }
 
 void AMain_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
@@ -605,7 +607,7 @@ void AMain_Character::ManualMinusBall()
 
 void AMain_Character::On_Destroy() {
 	BallRepulsorAbility->OnDestroy();
-	CombatStatusComp->RemoveCombatStatusList();
+	CombatStatusComp->RemoveCombatStatusList_Server();
 	PlaySound_Server(DeadSound, GetActorLocation());
 }
 
@@ -626,7 +628,11 @@ bool AMain_Character::PlayAnimation_Server_Validate(UAnimMontage* throwAnim_)
 
 void AMain_Character::Die()
 {
-	On_Destroy();
+	//if (ROLE_Authority)
+	//{
+		On_Destroy();
+
+	//}
 	//Currently used to handle dropping flag
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
 		AMain_PlayerController* playerController = GetController<AMain_PlayerController>();
@@ -803,4 +809,3 @@ void AMain_Character::BallIndexDecrease() {
 	currentBall = AmmoBallSlot[index]->ballInContainer;
 	AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballNum);
 }
-
