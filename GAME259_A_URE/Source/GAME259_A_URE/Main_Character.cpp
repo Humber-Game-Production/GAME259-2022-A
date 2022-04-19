@@ -81,7 +81,8 @@ AMain_Character::AMain_Character()
 	WalkingSound = CreateDefaultSubobject<USoundBase>(TEXT("WalkingAudio"));
 	TakeDamageSound = CreateDefaultSubobject<USoundBase>(TEXT("TakeDamageAudio"));
 	ShootingSound = CreateDefaultSubobject<USoundBase>(TEXT("ShootingAudio"));
-
+	PickupSound = CreateDefaultSubobject<USoundBase>(TEXT("ShootingAudio"));
+	
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 	
@@ -720,6 +721,7 @@ void AMain_Character::AddBallAmmo(TEnumAsByte<EBallType> ballType, int ballNum) 
 	if (AmmoBallSlot[index]) {
 		AmmoBallSlot[index]->AddNum(ballNum);
 		AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballNum);
+		PlaySound_Server(PickupSound, GetActorLocation());
 		currentBall = ballType;
 	}
 }

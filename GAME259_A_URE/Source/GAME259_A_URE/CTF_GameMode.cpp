@@ -12,6 +12,7 @@
 #include "Math/UnrealMathUtility.h"
 #include "TimerManager.h"
 #include "UObject/ConstructorHelpers.h"
+#include "GameFramework/OnlineSession.h"
 
 
 ACTF_GameMode::ACTF_GameMode()
@@ -128,6 +129,7 @@ void ACTF_GameMode::HandleMatchHasStarted() {
 					GetWorld()->GetTimerManager().ClearTimer(PC->RespawnHandle);
 				}
 				Spawn(PC);
+				PC->PlaySound_Client();
 			}
 		}
 	}

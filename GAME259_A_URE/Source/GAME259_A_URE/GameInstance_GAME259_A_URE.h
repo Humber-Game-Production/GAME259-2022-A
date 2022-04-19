@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "OnlineSubsystem.h"
 #include "Interfaces/OnlineSessionInterface.h"
+#include "CTF_GameMode.h"
 #include "Engine/GameInstance.h"
 #include "GameInstance_GAME259_A_URE.generated.h"
 
@@ -44,7 +45,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerDel, FServerInfo, ServerListD
 // Checks if "Refresh Server" is active
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerSearchingDel, bool, SearchingForServer);
 
-
 UCLASS()
 class GAME259_A_URE_API UGameInstance_GAME259_A_URE : public UGameInstance
 {
@@ -79,7 +79,7 @@ protected:
 	virtual void OnCreateSessionComplete(FName SessionName, bool Succeeded);
 	virtual void OnFindSessionsComplete(bool Succeeded);
 	virtual void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
-
+	
 	// Returns players to main menu if Network Failure Occurs
 	void OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString);
 	
@@ -91,7 +91,16 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void JoinServer(int32 ArrayIndex);
+	
+	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+	void DestroySession_Multicast(FName SessionName, bool Succeeded);
 
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void DestroySession_Server(FName SessionName, bool Succeeded);
 	
-	
+	void OnDestroySessionComplete(FName SessionName, bool Succeeded);
+
+private:
+
+
 };
