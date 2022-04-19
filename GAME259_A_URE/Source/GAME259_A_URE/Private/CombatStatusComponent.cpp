@@ -119,12 +119,17 @@ void UCombatStatusComponent::RemoveCombatStatus(ACombatStatusActor* statusActor)
 	combatStatusList.RemoveAt(i);
 }
 
-void UCombatStatusComponent::RemoveCombatStatusList() {
+void UCombatStatusComponent::RemoveCombatStatusList_Multicast_Implementation()
+{
 	for (ACombatStatusActor* status : combatStatusList) {
 		UE_LOG(LogTemp, Warning, TEXT("Removing status list"));
 		status->Destroy();
 	}
 	combatStatusList.Empty();
+}
+
+void UCombatStatusComponent::RemoveCombatStatusList_Server_Implementation() {
+	RemoveCombatStatusList_Multicast();
 }
 
 

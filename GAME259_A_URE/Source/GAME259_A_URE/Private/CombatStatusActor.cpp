@@ -25,6 +25,7 @@ void ACombatStatusActor::BeginPlay(){
 void ACombatStatusActor::Tick(float DeltaTime){
 
 	Super::Tick(DeltaTime);
+	
 }
 
 void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float effectAmount_, 
