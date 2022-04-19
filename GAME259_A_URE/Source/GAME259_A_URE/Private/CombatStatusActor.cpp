@@ -42,8 +42,14 @@ void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float 
 	
 }
 
+void ACombatStatusActor::OnDestroy_Server_Implementation()
+{
+	OnDestroy_Multicast();
+}
+
 void ACombatStatusActor::ApplyEffect() {}
 
 void ACombatStatusActor::OnDestroy_Multicast_Implementation() {
 	Destroy();
 }
+
