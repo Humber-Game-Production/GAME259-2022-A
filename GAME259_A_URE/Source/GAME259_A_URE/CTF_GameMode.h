@@ -73,6 +73,9 @@ public:
     UFUNCTION(BlueprintCallable)
     void Spawn(AController* Controller);
 
+    //UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    //void PlaySound_Multicast(USoundBase* sound_);
+
 protected:
 
    

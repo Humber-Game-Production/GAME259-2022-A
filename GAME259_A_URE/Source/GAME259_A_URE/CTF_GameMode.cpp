@@ -129,6 +129,7 @@ void ACTF_GameMode::HandleMatchHasStarted() {
 					GetWorld()->GetTimerManager().ClearTimer(PC->RespawnHandle);
 				}
 				Spawn(PC);
+				PC->PlaySound_Client();
 			}
 		}
 	}
