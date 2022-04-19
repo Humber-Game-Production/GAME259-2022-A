@@ -12,6 +12,7 @@ ACombatStatusActor::ACombatStatusActor(){
 	PrimaryActorTick.bCanEverTick = true;
 	ParticleComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle Effect"));
 	RootComponent = ParticleComponent;
+	bReplicates = true;
 }
 
 // Called when the game starts or when spawned
@@ -33,7 +34,7 @@ void ACombatStatusActor::setValue(FName statusName_, float durationTime_, float 
 	durationTime = durationTime_;
 	effectAmount = effectAmount_;
 	ParticleComponent->SetTemplate(particleEffect_);
-	ParticleComponent->SetIsReplicated(true);
+	ParticleComponent->SetIsReplicated(false);
 	description = description_;
 	icon = icon_;
 	remainTime = durationTime;
@@ -45,13 +46,4 @@ void ACombatStatusActor::ApplyEffect() {}
 
 void ACombatStatusActor::OnDestroy_Multicast_Implementation() {
 	Destroy();
-}
-void ACombatStatusActor::OnDestroy_Server_Implementation()
-{
-	OnDestroy_Multicast();
-}
-
-bool ACombatStatusActor::OnDestroy_Server_Validate()
-{
-	return true;
 }

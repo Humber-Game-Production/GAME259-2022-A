@@ -81,9 +81,5 @@ public:
 
 	UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
 		void OnDestroy_Multicast();
-
-	UFUNCTION(BlueprintCallable, Server, Reliable, WithValidation)
-		void OnDestroy_Server();
-
 };
 
