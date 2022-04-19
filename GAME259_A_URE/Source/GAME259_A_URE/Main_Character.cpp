@@ -626,7 +626,11 @@ bool AMain_Character::PlayAnimation_Server_Validate(UAnimMontage* throwAnim_)
 
 void AMain_Character::Die()
 {
-	On_Destroy();
+	if (ROLE_Authority)
+	{
+		On_Destroy();
+
+	}
 	//Currently used to handle dropping flag
 	if (ACTF_GameState* GS = Cast<ACTF_GameState>(GetWorld()->GetGameState())) {
 		AMain_PlayerController* playerController = GetController<AMain_PlayerController>();
