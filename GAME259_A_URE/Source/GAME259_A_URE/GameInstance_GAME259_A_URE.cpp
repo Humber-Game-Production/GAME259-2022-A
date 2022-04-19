@@ -131,13 +131,6 @@ void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMa
 	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
 }
 
-void UGameInstance_GAME259_A_URE::DestroySession(FName SessionName, bool Succeeded)
-{
-	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
-	SessionInterface->EndSession(MySessionName);
-	SessionInterface->DestroySession(MySessionName);
-}
-
 void UGameInstance_GAME259_A_URE::OnDestroySessionComplete(FName SessionName, bool Succeeded)
 {
 	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
@@ -193,14 +186,14 @@ void UGameInstance_GAME259_A_URE::JoinServer(int32 ArrayIndex)
 	}
 }
 
-/*void UGameInstance_GAME259_A_URE::DestroySession_Server_Implementation(FName SessionName, bool Succeeded)
+void UGameInstance_GAME259_A_URE::DestroySession_Server_Implementation(FName SessionName, bool Succeeded)
 {
 	DestroySession_Multicast(SessionName, Succeeded);
-}*/
+}
 
-/*void UGameInstance_GAME259_A_URE::DestroySession_Multicast_Implementation(FName SessionName, bool Succeeded)
+void UGameInstance_GAME259_A_URE::DestroySession_Multicast_Implementation(FName SessionName, bool Succeeded)
 {
 	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
 	SessionInterface->EndSession(MySessionName);
 	SessionInterface->DestroySession(MySessionName);
-}*/
+}
