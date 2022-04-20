@@ -67,7 +67,7 @@ ABallActor::ABallActor()
 	DamageToDeal = 5;
 
 	//The time it takes before this actor is destroyed
-	DestroyTimer = 5.0f;
+	DestroyTimer = 3.0f;
 
 	//Set whether to enable debug options
 	Debug = false;
@@ -93,7 +93,7 @@ void ABallActor::BeginPlay()
 	Super::BeginPlay();
 	//Sets the timer to countdown at start
 	GetWorldTimerManager().SetTimer(TimeHandle, this, &ABallActor::DestroyTimerUp, DestroyTimer);
-	GetWorldTimerManager().SetTimer(LethalTimeHandle, this, &ABallActor::lethalOff, 1.0f);
+	GetWorldTimerManager().SetTimer(LethalTimeHandle, this, &ABallActor::lethalOff, 0.5f);
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ABallActor::BeginOverlap);
 }
 
