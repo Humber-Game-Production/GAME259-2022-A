@@ -14,6 +14,16 @@ const FName GlobalOngoingSessionName = FName("GlobalOngoingSessionName");
 UGameInstance_GAME259_A_URE::UGameInstance_GAME259_A_URE()
 {
 	MySessionName = FName("My Session");
+
+	FMapSelection MapSelection;
+	MapSelection.MapName = "Ice Maze";
+	MapSelection.MapReferencePath = "/Game/Levels/IceMaze";
+	MapSelectionArray.Add(MapSelection);
+
+	FMapSelection MapSelection1;
+	MapSelection.MapName = "Ice Maze 1";
+	MapSelection.MapReferencePath = "/Game/Levels/IceMaze1";
+	MapSelectionArray.Add(MapSelection);
 }
 
 void UGameInstance_GAME259_A_URE::Init()
@@ -100,7 +110,7 @@ void UGameInstance_GAME259_A_URE::OnJoinSessionComplete(FName SessionName, EOnJo
 
 void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString)
 {
-	APlayerController* PController = GetPrimaryPlayerController();
+	APlayerController* PController = GetFirstLocalPlayerController();
 	PController->ClientTravel("Game/UI/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute); // May Change this line of code 
 }
 
@@ -129,6 +139,8 @@ void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMa
 	
 	// Creates Session/Server
 	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
+
+	
 }
 
 void UGameInstance_GAME259_A_URE::OnDestroySessionComplete(FName SessionName, bool Succeeded)
@@ -196,4 +208,12 @@ void UGameInstance_GAME259_A_URE::DestroySession_Multicast_Implementation(FName 
 	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
 	SessionInterface->EndSession(MySessionName);
 	SessionInterface->DestroySession(MySessionName);
+}
+
+void UGameInstance_GAME259_A_URE::MapSelectArray()
+{
+	//MapNameDel.Broadcast(FString("hello"));
+	for (FMapSelection MapSelection : MapSelectionArray)
+		MapNameDel.Broadcast(MapSelection.MapName);
+	
 }

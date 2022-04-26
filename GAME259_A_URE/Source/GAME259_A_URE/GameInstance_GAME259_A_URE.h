@@ -9,6 +9,21 @@
 #include "Engine/GameInstance.h"
 #include "GameInstance_GAME259_A_URE.generated.h"
 
+// Editable Map Selection before hosting Listen Server
+USTRUCT(BlueprintType)
+struct FMapSelection
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(BlueprintReadWrite)
+	FString MapReferencePath;
+	
+	UPROPERTY(BlueprintReadWrite)
+	FString MapName;
+	
+	
+};
+
 // Editable Match Settings before creating Listen Server
 USTRUCT(BlueprintType)
 struct FServerMatchSettingsInfo
@@ -45,6 +60,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerDel, FServerInfo, ServerListD
 // Checks if "Refresh Server" is active
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerSearchingDel, bool, SearchingForServer);
 
+// Map Selection
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMapSelectionDel, FString, MapNameDel);
+
+
 UCLASS()
 class GAME259_A_URE_API UGameInstance_GAME259_A_URE : public UGameInstance
 {
@@ -59,19 +78,27 @@ public:
 protected:
 	FName MySessionName;
 
-
 	// Handles matchmaking of players | Sessions
 	IOnlineSessionPtr SessionInterface;
 
 	// Searching/storing sessions
 	TSharedPtr<FOnlineSessionSearch> SessionSearch;
 
+	// Delegates
 	UPROPERTY(BlueprintAssignable)
 	FServerDel ServerListDel;
 
 	UPROPERTY(BlueprintAssignable)
-	FServerSearchingDel SearchingForServer;;
+	FServerSearchingDel SearchingForServer;
 
+	UPROPERTY(BlueprintAssignable)
+	FMapSelectionDel MapNameDel;
+
+	TArray<FMapSelection> MapSelectionArray;
+
+	UFUNCTION(BlueprintCallable)
+	void MapSelectArray();
+	
 	// Gets OnlineSubsystemNULL and/or OnlineSubsystemSteam
 	virtual void Init() override;
 	

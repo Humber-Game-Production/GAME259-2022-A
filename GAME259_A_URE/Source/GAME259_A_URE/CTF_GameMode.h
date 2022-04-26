@@ -57,7 +57,10 @@ protected:
     TArray<class APlayerSpawnPoint*> TeamASpawnPoints;
     TArray<class APlayerSpawnPoint*> TeamBSpawnPoints;
 
+    UPROPERTY(BlueprintReadWrite)
     TArray<class AMain_PlayerController*> Players;
+
+    UPROPERTY(BlueprintReadWrite)
     TArray<class AMain_PlayerController*> Spectators;
 
     //Find a spawn point for the player to spawn at
