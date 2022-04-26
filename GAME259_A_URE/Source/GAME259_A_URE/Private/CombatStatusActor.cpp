@@ -53,4 +53,3 @@ void ACombatStatusActor::ApplyEffect() {}
 void ACombatStatusActor::OnDestroy_Multicast_Implementation() {
 	Destroy();
 }
-

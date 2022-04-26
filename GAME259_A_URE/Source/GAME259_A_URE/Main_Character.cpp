@@ -809,4 +809,3 @@ void AMain_Character::BallIndexDecrease() {
 	currentBall = AmmoBallSlot[index]->ballInContainer;
 	AmmoUpdate.Broadcast(index, AmmoBallSlot[index]->ballNum);
 }
-

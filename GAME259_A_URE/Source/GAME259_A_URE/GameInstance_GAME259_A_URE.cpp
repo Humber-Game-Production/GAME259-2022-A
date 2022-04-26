@@ -100,8 +100,8 @@ void UGameInstance_GAME259_A_URE::OnJoinSessionComplete(FName SessionName, EOnJo
 
 void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString)
 {
-	APlayerController* PController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	PController->ClientTravel("Game/UI/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute); // May Change this line of code 
+	APlayerController* PController = GetFirstLocalPlayerController();
+	PController->ClientTravel("Game/UI/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute); 
 }
 
 void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMatchSettingsInfo_)
@@ -121,7 +121,7 @@ void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMa
 	}
 	SessionSettings.bShouldAdvertise = true;
 	SessionSettings.bUsesPresence = true;
-	SessionSettings.NumPublicConnections = ServerMatchSettingsInfo_.MaxPlayers + 1; // + 1 Spectator Count
+	SessionSettings.NumPublicConnections = ServerMatchSettingsInfo_.MaxPlayers + 2; // + 2 = pectator Count
 	SessionSettings.bUseLobbiesIfAvailable = true;
 
 	// Set Server Names

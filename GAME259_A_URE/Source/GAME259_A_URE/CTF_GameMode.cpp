@@ -152,6 +152,7 @@ void ACTF_GameMode::HandleMatchHasEnded()
 		GS->MatchTimer.Invalidate();
 		
 	}
+	
 }
 
 void ACTF_GameMode::Logout(AController* Exiting)
