@@ -17,11 +17,11 @@ public:
 
     virtual void PostLogin(APlayerController* NewPlayer) override;
 
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float matchTimeLimit;
     UPROPERTY(EditAnywhere)
     float warmupTimeLimit;
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int maxScore;
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int maxPlayers;
