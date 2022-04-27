@@ -9,21 +9,6 @@
 #include "Engine/GameInstance.h"
 #include "GameInstance_GAME259_A_URE.generated.h"
 
-// Editable Map Selection before hosting Listen Server
-USTRUCT(BlueprintType)
-struct FMapSelection
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(BlueprintReadWrite)
-	FString MapReferencePath;
-	
-	UPROPERTY(BlueprintReadWrite)
-	FString MapName;
-	
-	
-};
-
 // Editable Match Settings before creating Listen Server
 USTRUCT(BlueprintType)
 struct FServerMatchSettingsInfo
@@ -38,6 +23,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	int32 MatchTimer;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 MaxScore;
 };
 
 // Allows for visible servers on scroll box of Lobby UI
@@ -48,8 +36,16 @@ struct FServerInfo
 public:
 	UPROPERTY(BlueprintReadOnly)
 	FString ServerName;
+	
 	UPROPERTY(BlueprintReadOnly)
 	int32 MaxPlayers;
+	
+	UPROPERTY(BlueprintReadOnly)
+	int32 MatchTimer;
+
+	UPROPERTY(BlueprintReadOnly)
+	int32 MaxScore;
+	
 	UPROPERTY(BlueprintReadOnly)
 	int32 ServerArrayIndex;
 };
@@ -75,6 +71,12 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int32 GameInstanceMaxPlayers;
 
+	UPROPERTY(BlueprintReadWrite)
+	int32 GameInstanceMatchTimer;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 GameInstanceMaxScore;
+
 protected:
 	FName MySessionName;
 
@@ -90,14 +92,6 @@ protected:
 
 	UPROPERTY(BlueprintAssignable)
 	FServerSearchingDel SearchingForServer;
-
-	UPROPERTY(BlueprintAssignable)
-	FMapSelectionDel MapNameDel;
-
-	TArray<FMapSelection> MapSelectionArray;
-
-	UFUNCTION(BlueprintCallable)
-	void MapSelectArray();
 	
 	// Gets OnlineSubsystemNULL and/or OnlineSubsystemSteam
 	virtual void Init() override;
@@ -109,6 +103,7 @@ protected:
 	
 	// Returns players to main menu if Network Failure Occurs
 	void OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString);
+	void OpenMainMenu();
 	
 	UFUNCTION(BlueprintCallable)
 	void CreateServer(FServerMatchSettingsInfo ServerMatchSettingsInfo_);
