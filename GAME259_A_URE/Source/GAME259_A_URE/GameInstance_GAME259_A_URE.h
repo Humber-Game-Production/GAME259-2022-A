@@ -102,8 +102,7 @@ protected:
 	virtual void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 	
 	// Returns players to main menu if Network Failure Occurs
-	void OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString);
-	void OpenMainMenu();
+	void OnNetworkFailure(UWorld* GetGameWorld, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString);
 	
 	UFUNCTION(BlueprintCallable)
 	void CreateServer(FServerMatchSettingsInfo ServerMatchSettingsInfo_);

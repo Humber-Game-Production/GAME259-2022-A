@@ -31,7 +31,7 @@ void UGameInstance_GAME259_A_URE::Init()
 		}
 	}
 
-	if (GEngine)
+	if (GEngine != nullptr)
 	{
 		GEngine->OnNetworkFailure().AddUObject(this, &UGameInstance_GAME259_A_URE::OnNetworkFailure);
 	}
@@ -39,10 +39,11 @@ void UGameInstance_GAME259_A_URE::Init()
 
 void UGameInstance_GAME259_A_URE::OnCreateSessionComplete(FName SessionName, bool Succeeded)
 {
+	UWorld* GetGameWorld = GetWorld();
 	UE_LOG(LogTemp, Warning, TEXT("OnCreateSessionComplete, Succeeded: %d"), Succeeded);
 	if (Succeeded)
 	{
-		GetWorld()->ServerTravel("/Game/Levels/IceMaze?listen");
+		GetGameWorld->ServerTravel("/Game/Levels/IceMaze?listen");
 	}
 }
 
@@ -68,6 +69,8 @@ void UGameInstance_GAME259_A_URE::OnFindSessionsComplete(bool Succeeded)
 				Info.ServerName = ServerName;
 				Info.MaxPlayers = Result.Session.SessionSettings.NumPublicConnections;
 				Info.ServerArrayIndex = ArrayIndex;
+				Info.MatchTimer = GameInstanceMatchTimer;
+				Info.MaxScore = GameInstanceMaxScore;
 				if (ServerName != "Empty Server Name") {
 					ServerListDel.Broadcast(Info);
 				}
@@ -95,15 +98,12 @@ void UGameInstance_GAME259_A_URE::OnJoinSessionComplete(FName SessionName, EOnJo
 	}
 }
 
-void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString)
+void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* GetGameWorld, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString)
 {
-		OpenMainMenu();
-}
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Purple, TEXT("Hello? NetworkFailure! You There?"));
 
-void UGameInstance_GAME259_A_URE::OpenMainMenu()
-{
 	APlayerController* PController = GetFirstLocalPlayerController();
-	PController->ClientTravel("Game/UI/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute); 
+	PController->ClientTravel("/Game/UI/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute);
 }
 
 void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMatchSettingsInfo_)
@@ -127,7 +127,7 @@ void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMa
 	SessionSettings.bUseLobbiesIfAvailable = true;
 
 	// Set Server Names
-	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName,EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
 	// Creates Session/Server
 	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
