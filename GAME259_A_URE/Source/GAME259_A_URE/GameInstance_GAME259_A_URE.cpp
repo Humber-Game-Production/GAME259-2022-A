@@ -43,7 +43,8 @@ void UGameInstance_GAME259_A_URE::OnCreateSessionComplete(FName SessionName, boo
 	UE_LOG(LogTemp, Warning, TEXT("OnCreateSessionComplete, Succeeded: %d"), Succeeded);
 	if (Succeeded)
 	{
-		GetGameWorld->ServerTravel("/Game/Levels/IceMaze?listen");
+		//GetGameWorld->ServerTravel("/Game/Levels/IceMaze?listen");
+		GetGameWorld->ServerTravel("/Game/Stylized_Egypt/Maps/Stylized_Egypt_Demo?listen");
 	}
 }
 
@@ -69,8 +70,6 @@ void UGameInstance_GAME259_A_URE::OnFindSessionsComplete(bool Succeeded)
 				Info.ServerName = ServerName;
 				Info.MaxPlayers = Result.Session.SessionSettings.NumPublicConnections;
 				Info.ServerArrayIndex = ArrayIndex;
-				Info.MatchTimer = GameInstanceMatchTimer;
-				Info.MaxScore = GameInstanceMaxScore;
 				if (ServerName != "Empty Server Name") {
 					ServerListDel.Broadcast(Info);
 				}
@@ -127,7 +126,7 @@ void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMa
 	SessionSettings.bUseLobbiesIfAvailable = true;
 
 	// Set Server Names
-	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName,EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
 	// Creates Session/Server
 	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
