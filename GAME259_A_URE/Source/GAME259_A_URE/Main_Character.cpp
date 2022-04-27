@@ -116,7 +116,7 @@ AMain_Character::AMain_Character()
 	debug = false;
 
 	//How much time to delay the next attack after each throw
-	attackDelay = 2;
+	attackDelay = 1.5f;
 
 	//Stores the currently equipped ball
 	currentBall = BallDefault;

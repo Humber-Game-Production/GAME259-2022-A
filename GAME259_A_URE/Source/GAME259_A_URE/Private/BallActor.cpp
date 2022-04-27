@@ -93,7 +93,7 @@ void ABallActor::BeginPlay()
 	Super::BeginPlay();
 	//Sets the timer to countdown at start
 	GetWorldTimerManager().SetTimer(TimeHandle, this, &ABallActor::DestroyTimerUp, DestroyTimer);
-	GetWorldTimerManager().SetTimer(LethalTimeHandle, this, &ABallActor::lethalOff, 1.0f);
+	GetWorldTimerManager().SetTimer(LethalTimeHandle, this, &ABallActor::lethalOff, 0.5f);
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ABallActor::BeginOverlap);
 }
 
