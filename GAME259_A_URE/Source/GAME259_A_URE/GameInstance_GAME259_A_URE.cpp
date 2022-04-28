@@ -39,12 +39,12 @@ void UGameInstance_GAME259_A_URE::Init()
 
 void UGameInstance_GAME259_A_URE::OnCreateSessionComplete(FName SessionName, bool Succeeded)
 {
-	UWorld* GetGameWorld = GetWorld();
+
 	UE_LOG(LogTemp, Warning, TEXT("OnCreateSessionComplete, Succeeded: %d"), Succeeded);
 	if (Succeeded)
 	{
-		//GetGameWorld->ServerTravel("/Game/Levels/IceMaze?listen");
-		GetGameWorld->ServerTravel("/Game/Stylized_Egypt/Maps/Stylized_Egypt_Demo?listen");
+		//GetWorld()->ServerTravel("/Game/Levels/IceMaze?listen");
+		GetWorld()->ServerTravel("/Game/Stylized_Egypt/Maps/Stylized_Egypt_Demo?listen");
 	}
 }
 
@@ -101,6 +101,10 @@ void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* GetGameWorld, UNetDri
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Purple, TEXT("Hello? NetworkFailure! You There?"));
 
+	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
+	SessionInterface->EndSession(MySessionName);
+	SessionInterface->DestroySession(MySessionName);
+	
 	APlayerController* PController = GetFirstLocalPlayerController();
 	PController->ClientTravel("/Game/UI/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute);
 }
