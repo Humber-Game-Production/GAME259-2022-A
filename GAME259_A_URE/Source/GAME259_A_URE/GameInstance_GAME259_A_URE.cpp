@@ -43,8 +43,8 @@ void UGameInstance_GAME259_A_URE::OnCreateSessionComplete(FName SessionName, boo
 	UE_LOG(LogTemp, Warning, TEXT("OnCreateSessionComplete, Succeeded: %d"), Succeeded);
 	if (Succeeded)
 	{
-		GetWorld()->ServerTravel("/Game/Levels/IceMaze?listen");
-		//GetWorld()->ServerTravel("/Game/Stylized_Egypt/Maps/Stylized_Egypt_Demo?listen");
+		//GetWorld()->ServerTravel("/Game/Levels/IceMaze?listen");
+		GetWorld()->ServerTravel("/Game/Stylized_Egypt/Maps/Stylized_Egypt_Demo?listen");
 	}
 }
 
