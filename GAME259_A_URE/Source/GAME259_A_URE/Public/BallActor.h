@@ -37,7 +37,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UMaterial* ballMaterial;
-
 };
 
 //Dynamic one parameter delegate used for broadcasting the amount of time to deal
@@ -58,6 +57,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintCallable)
+	void lethalOff();
 
 public:	
 	// Called every frame
@@ -96,11 +98,9 @@ public:
 	//The timer handler for the game's time
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Timer")
 	FTimerHandle TimeHandle;;
-	
 
-	//Stores the mesh component
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
-	//class UProjectileMovementComponent* SphereMovement;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Timer")
+	FTimerHandle LethalTimeHandle;;
 
 	//Stores the mesh component
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")
@@ -132,10 +132,6 @@ public:
 	UFUNCTION()
 	void DestroyTimerUp();
 
-	//Overlap function for destroying the actor and broadcasting delegates
-	UFUNCTION()
-		void OnBlock(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-	
 	UFUNCTION()
 		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 

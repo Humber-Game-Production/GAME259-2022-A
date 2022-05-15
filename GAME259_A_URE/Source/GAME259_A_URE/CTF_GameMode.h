@@ -17,15 +17,15 @@ public:
 
     virtual void PostLogin(APlayerController* NewPlayer) override;
 
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float matchTimeLimit;
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere)
     float warmupTimeLimit;
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int maxScore;
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	int maxPlayers;     
-
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int maxPlayers;
+    
     //int maxRounds;    //not used at this point
 	//float respawnDelay;   //currently not used, would require coordination with UI respawn widget to have dynamic respawnDelay
 
@@ -57,7 +57,10 @@ protected:
     TArray<class APlayerSpawnPoint*> TeamASpawnPoints;
     TArray<class APlayerSpawnPoint*> TeamBSpawnPoints;
 
+    UPROPERTY(BlueprintReadWrite)
     TArray<class AMain_PlayerController*> Players;
+
+    UPROPERTY(BlueprintReadWrite)
     TArray<class AMain_PlayerController*> Spectators;
 
     //Find a spawn point for the player to spawn at
@@ -72,6 +75,9 @@ public:
 
     UFUNCTION(BlueprintCallable)
     void Spawn(AController* Controller);
+
+    //UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    //void PlaySound_Multicast(USoundBase* sound_);
 
 protected:
 
