@@ -23,6 +23,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	int32 MatchTimer;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 MaxScore;
 };
 
 // Allows for visible servers on scroll box of Lobby UI
@@ -33,8 +36,16 @@ struct FServerInfo
 public:
 	UPROPERTY(BlueprintReadOnly)
 	FString ServerName;
+	
 	UPROPERTY(BlueprintReadOnly)
 	int32 MaxPlayers;
+	
+	UPROPERTY(BlueprintReadOnly)
+	int32 MatchTimer;
+
+	UPROPERTY(BlueprintReadOnly)
+	int32 MaxScore;
+	
 	UPROPERTY(BlueprintReadOnly)
 	int32 ServerArrayIndex;
 };
@@ -44,6 +55,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerDel, FServerInfo, ServerListD
 
 // Checks if "Refresh Server" is active
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FServerSearchingDel, bool, SearchingForServer);
+
+// Map Selection
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMapSelectionDel, FString, MapNameDel);
+
 
 UCLASS()
 class GAME259_A_URE_API UGameInstance_GAME259_A_URE : public UGameInstance
@@ -56,9 +71,14 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int32 GameInstanceMaxPlayers;
 
+	UPROPERTY(BlueprintReadWrite)
+	int32 GameInstanceMatchTimer;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 GameInstanceMaxScore;
+
 protected:
 	FName MySessionName;
-
 
 	// Handles matchmaking of players | Sessions
 	IOnlineSessionPtr SessionInterface;
@@ -66,12 +86,13 @@ protected:
 	// Searching/storing sessions
 	TSharedPtr<FOnlineSessionSearch> SessionSearch;
 
+	// Delegates
 	UPROPERTY(BlueprintAssignable)
 	FServerDel ServerListDel;
 
 	UPROPERTY(BlueprintAssignable)
-	FServerSearchingDel SearchingForServer;;
-
+	FServerSearchingDel SearchingForServer;
+	
 	// Gets OnlineSubsystemNULL and/or OnlineSubsystemSteam
 	virtual void Init() override;
 	
@@ -81,7 +102,7 @@ protected:
 	virtual void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 	
 	// Returns players to main menu if Network Failure Occurs
-	void OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString);
+	void OnNetworkFailure(UWorld* GetGameWorld, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString);
 	
 	UFUNCTION(BlueprintCallable)
 	void CreateServer(FServerMatchSettingsInfo ServerMatchSettingsInfo_);

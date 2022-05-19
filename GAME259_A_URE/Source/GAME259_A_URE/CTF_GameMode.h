@@ -17,11 +17,11 @@ public:
 
     virtual void PostLogin(APlayerController* NewPlayer) override;
 
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float matchTimeLimit;
     UPROPERTY(EditAnywhere)
     float warmupTimeLimit;
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int maxScore;
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int maxPlayers;
@@ -57,7 +57,10 @@ protected:
     TArray<class APlayerSpawnPoint*> TeamASpawnPoints;
     TArray<class APlayerSpawnPoint*> TeamBSpawnPoints;
 
+    UPROPERTY(BlueprintReadWrite)
     TArray<class AMain_PlayerController*> Players;
+
+    UPROPERTY(BlueprintReadWrite)
     TArray<class AMain_PlayerController*> Spectators;
 
     //Find a spawn point for the player to spawn at

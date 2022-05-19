@@ -27,7 +27,6 @@ ACTF_GameMode::ACTF_GameMode()
 	matchTimeLimit = 1000.0f;
 	warmupTimeLimit = 10.0f;
 	maxScore = 3;
-	//maxPlayers = 4;
 
 	//maxRounds = 3;    //not used at this point
 	//respawnDelay = 5.0f;   //currently not used, would require coordination with UI respawn widget to have dynamic respawnDelay
@@ -64,6 +63,8 @@ void ACTF_GameMode::HandleMatchIsWaitingToStart() {
 	}
 	UGameInstance_GAME259_A_URE* GameInstance = Cast<UGameInstance_GAME259_A_URE>(GetWorld()->GetGameInstance());
 	maxPlayers = GameInstance->GameInstanceMaxPlayers;
+	matchTimeLimit= GameInstance->GameInstanceMatchTimer;
+	maxScore= GameInstance->GameInstanceMaxScore;
 	MatchWaitingToStart();
 }
  

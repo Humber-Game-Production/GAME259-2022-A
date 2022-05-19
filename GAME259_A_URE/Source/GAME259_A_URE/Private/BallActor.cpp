@@ -67,7 +67,7 @@ ABallActor::ABallActor()
 	DamageToDeal = 5;
 
 	//The time it takes before this actor is destroyed
-	DestroyTimer = 3.0f;
+	DestroyTimer = 5.0f;
 
 	//Set whether to enable debug options
 	Debug = false;

@@ -20,12 +20,17 @@ void UGameInstance_GAME259_A_URE::Init()
 {
 	if (const IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get()) 
 	{
-		SessionInterface = Subsystem->GetSessionInterface();
-		if (SessionInterface.IsValid())
+		if (Subsystem != nullptr)
 		{
-			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this,&UGameInstance_GAME259_A_URE::OnCreateSessionComplete);
-			SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnFindSessionsComplete);
-			SessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnJoinSessionComplete);
+			SessionInterface = Subsystem->GetSessionInterface();
+			if (SessionInterface.IsValid())
+			{
+				SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this,&UGameInstance_GAME259_A_URE::OnCreateSessionComplete);
+				SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnFindSessionsComplete);
+				SessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnJoinSessionComplete);
+				SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
+
+			}
 		}
 	}
 
@@ -37,10 +42,12 @@ void UGameInstance_GAME259_A_URE::Init()
 
 void UGameInstance_GAME259_A_URE::OnCreateSessionComplete(FName SessionName, bool Succeeded)
 {
+
 	UE_LOG(LogTemp, Warning, TEXT("OnCreateSessionComplete, Succeeded: %d"), Succeeded);
 	if (Succeeded)
 	{
-		GetWorld()->ServerTravel("/Game/Levels/IceMaze?listen");
+		//GetWorld()->ServerTravel("/Game/Levels/IceMaze?listen");
+		GetWorld()->ServerTravel("/Game/Stylized_Egypt/Maps/Stylized_Egypt_Demo?listen");
 	}
 }
 
@@ -55,13 +62,8 @@ void UGameInstance_GAME259_A_URE::OnFindSessionsComplete(bool Succeeded)
 
 		for (FOnlineSessionSearchResult Result : SessionSearch->SearchResults)
 		{
-			/*FTimerHandle TimerHandle;
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
-			{
-				UE_LOG(LogTemp, Warning, TEXT("This text will appear in the console 3 seconds after execution"))
-			}, 3, false);*/
 			++ArrayIndex;
-			if (!Result.IsValid()) // if not valid -> continue
+			if (!Result.IsValid()) 
 			{
 				continue;
 			}
@@ -98,37 +100,46 @@ void UGameInstance_GAME259_A_URE::OnJoinSessionComplete(FName SessionName, EOnJo
 	}
 }
 
-void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* World, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString)
+void UGameInstance_GAME259_A_URE::OnNetworkFailure(UWorld* GetGameWorld, UNetDriver* NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString)
 {
-	APlayerController* PController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	PController->ClientTravel("Game/UI/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute); // May Change this line of code 
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Purple, TEXT("Hello? NetworkFailure! You There?"));
+
+	SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGameInstance_GAME259_A_URE::OnDestroySessionComplete);
+	SessionInterface->EndSession(MySessionName);
+	SessionInterface->DestroySession(MySessionName);
+	
+	APlayerController* PController = GetFirstLocalPlayerController();
+	PController->ClientTravel("/Game/UI/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute);
 }
 
 void UGameInstance_GAME259_A_URE::CreateServer(FServerMatchSettingsInfo ServerMatchSettingsInfo_)
 {
-	FOnlineSessionSettings SessionSettings;
-	SessionSettings.bAllowJoinInProgress = true;
-	SessionSettings.bIsDedicated = false;
+	if (SessionInterface.IsValid())
+	{
+		FOnlineSessionSettings SessionSettings;
+		SessionSettings.bAllowJoinInProgress = true;
+		SessionSettings.bIsDedicated = false;
 	
-	// Easy Testing between OnlineSubsystemNULL & OnlineSubsystemSteam | Change system in "defaultEngine.ini"
-	if (IOnlineSubsystem::Get()->GetSubsystemName() != "NULL")
-	{
-		SessionSettings.bIsLANMatch = false;
-	}
-	else
-	{
-		SessionSettings.bIsLANMatch = true; 
-	}
-	SessionSettings.bShouldAdvertise = true;
-	SessionSettings.bUsesPresence = true;
-	SessionSettings.NumPublicConnections = ServerMatchSettingsInfo_.MaxPlayers + 2; // + 2 = pectator Count
-	SessionSettings.bUseLobbiesIfAvailable = true;
+		// Easy Testing between OnlineSubsystemNULL & OnlineSubsystemSteam | Change system in "defaultEngine.ini"
+		if (IOnlineSubsystem::Get()->GetSubsystemName() != "NULL")
+		{
+			SessionSettings.bIsLANMatch = false;
+		}
+		else
+		{
+			SessionSettings.bIsLANMatch = true; 
+		}
+		SessionSettings.bShouldAdvertise = true;
+		SessionSettings.bUsesPresence = true;
+		SessionSettings.NumPublicConnections = ServerMatchSettingsInfo_.MaxPlayers + 2; // + 2 = spectator Count
+		SessionSettings.bUseLobbiesIfAvailable = true;
 
-	// Set Server Names
-	SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+		// Set Server Names
+		SessionSettings.Set(FName("SERVER_NAME_KEY"), ServerMatchSettingsInfo_.ServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
-	// Creates Session/Server
-	SessionInterface->CreateSession(0, MySessionName, SessionSettings);
+		// Creates Session/Server
+		SessionInterface->CreateSession(0, MySessionName, SessionSettings);
+	}
 }
 
 void UGameInstance_GAME259_A_URE::OnDestroySessionComplete(FName SessionName, bool Succeeded)
@@ -147,7 +158,6 @@ void UGameInstance_GAME259_A_URE::FindServers()
 	}
 
 	SessionSearch = MakeShareable(new FOnlineSessionSearch());
-	
 	// Easy Testing between OnlineSubsystemNULL & OnlineSubsystemSteam | Change system in "defaultEngine.ini"
 	if (IOnlineSubsystem::Get()->GetSubsystemName() != "NULL")
 	{
