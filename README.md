@@ -16,7 +16,6 @@ Repo used for the game project of Humber's Game Production 2 (RNA) class.
 | Level      | Joseph Yuen   | Jake Ulbikas - Garen Johnstone - Joseph Yuen - Russell Fenton                | Level      | LevelTest1 \| LevelTest2           |
 | Movement   | Chloe         | Tanner Olsen - Chloe - Paul Rubio - Daniel Menicucci Teixeira - Kyle Gabiane | Movement   | MovementTest1 \| MovementTest2     |
 | Networking | James D       | Vladimir Ianuskin - James D - Stephen M - Jean Alexandre                     | Networking | NetworkingTest1 \| NetworkingTest2 |
-|------------|---------------|------------------------------------------------------------------------------|------------|------------------------------------|
 | Management | N/A           | Sargis Nahapetyan - Trevor Gray - Garen Johnstone                            | N/A        | N/A                                |
 
 ## Issues
